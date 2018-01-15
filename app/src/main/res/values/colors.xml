@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#fc6655</color> <!--Todo: Background-->
+    <color name="colorPrimaryDark">#da5343</color> <!--Todo Top bar #E6E9EC-->
+    <color name="colorAccent">@color/text_color</color> <!--Todo on focus -->
+
+    <color name="grey_color">#CAd4e2</color>
+    <color name="edit_text_color">#768692</color>
+    <color name="text_color">#575f6f</color>
+    <color name="bg_color">#E0E0E0</color>
+    <color name="common_color">#F9F9F9</color><!--#F9F9F9-->
+    <color name="button_color">#5F7D8C</color>
+    <color name="orange_color">#FA8072</color>
+    <color name="ic_launcher_background">#FA8072</color>
+    <color name="light_grey">#a6b0b7</color>
+    <color name="text_hint_color">#C0C0C0</color>
+    <color name="view_color">#727272</color>
+
 </resources>
