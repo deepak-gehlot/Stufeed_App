@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">StufeedApp</string>
+
+    <!--    Login       -->
+    <string name="email_address">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="forget_password">Forgot Password</string>
+    <string name="register_college_info">Are you an institute?</string>
 </resources>
