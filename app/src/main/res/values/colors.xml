@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF5722</color> <!--Todo: Background-->
-    <color name="colorPrimaryDark">#e74f1f</color> <!--Todo Top bar #E6E9EC-->
-    <color name="colorAccent">#FFFFFF</color> <!--Todo on focus -->
+
+    <color name="colorPrimary">#FA9046</color>
+    <color name="colorPrimaryDark">#d47a3b</color>
+    <color name="colorAccent">#FA9046</color>
 
     <color name="white">#FFFFFF</color>
     <color name="grey_color">#CAd4e2</color>

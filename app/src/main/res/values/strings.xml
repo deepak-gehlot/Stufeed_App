@@ -8,4 +8,10 @@
     <string name="register">Register</string>
     <string name="forget_password">Forgot Password</string>
     <string name="register_college_info">Are you an institute?</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_person">You</string>
+    <string name="title_connect">Connect</string>
+    <string name="title_post">Post</string>
+    <string name="title_board">Board</string>
+    <string name="title_feed">Feed</string>
 </resources>
