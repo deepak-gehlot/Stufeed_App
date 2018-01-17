@@ -17,5 +17,6 @@
     <color name="light_grey">#a6b0b7</color>
     <color name="text_hint_color">#C0C0C0</color>
     <color name="view_color">#727272</color>
+    <color name="divider">#bfbfbf</color>
 
 </resources>

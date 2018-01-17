@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text"
                     android:drawablePadding="16dp"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPassword"
                     android:paddingBottom="12dp"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
