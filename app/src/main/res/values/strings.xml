@@ -14,4 +14,16 @@
     <string name="title_post">Post</string>
     <string name="title_board">Board</string>
     <string name="title_feed">Feed</string>
+
+    <!--    Navigation  -->
+    <string name="people_you_follow">People You Follow</string>
+    <string name="saved_post">Saved Post</string>
+    <string name="archive_board">Archive Board</string>
+    <string name="blocked_user">Blocked User</string>
+    <string name="library_board">Library Board</string>
+    <string name="settings">Settings</string>
+    <string name="logout">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

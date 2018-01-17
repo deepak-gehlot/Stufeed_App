@@ -10,7 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.stufeed.android.R;
+import com.stufeed.android.bean.DrawerItem;
 import com.stufeed.android.databinding.ActivityHomeBinding;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -22,7 +25,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
-
         setSupportActionBar(binding.toolBar);
         binding.toolBar.setNavigationIcon(R.drawable.menu_icon);
         binding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -32,6 +34,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
+        setNavigatoinList();
     }
 
     @Override
@@ -49,6 +52,30 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 break;
         }
         return true;
+    }
+
+    private void setNavigatoinList(){
+        ArrayList<DrawerItem> drawerItems = createDrawerList();
+
+    }
+
+    private ArrayList<DrawerItem> createDrawerList() {
+        ArrayList<DrawerItem> drawerItems = new ArrayList<>();
+        DrawerItem drawerItem1 = new DrawerItem(getString(R.string.people_you_follow), 0);
+        DrawerItem drawerItem2 = new DrawerItem(getString(R.string.saved_post), 0);
+        DrawerItem drawerItem3 = new DrawerItem(getString(R.string.archive_board), 0);
+        DrawerItem drawerItem4 = new DrawerItem(getString(R.string.blocked_user), 0);
+        DrawerItem drawerItem5 = new DrawerItem(getString(R.string.library_board), 0);
+        DrawerItem drawerItem6 = new DrawerItem(getString(R.string.settings), 0);
+        DrawerItem drawerItem7 = new DrawerItem(getString(R.string.logout), 0);
+        drawerItems.add(drawerItem1);
+        drawerItems.add(drawerItem2);
+        drawerItems.add(drawerItem3);
+        drawerItems.add(drawerItem4);
+        drawerItems.add(drawerItem5);
+        drawerItems.add(drawerItem6);
+        drawerItems.add(drawerItem7);
+        return drawerItems;
     }
 }
 
