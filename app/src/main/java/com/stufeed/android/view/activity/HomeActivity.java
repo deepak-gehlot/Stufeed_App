@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.View;
 import com.stufeed.android.R;
 import com.stufeed.android.bean.DrawerItem;
 import com.stufeed.android.databinding.ActivityHomeBinding;
+import com.stufeed.android.view.adapter.DrawrAdapter;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
-        setNavigatoinList();
+        setNavigationList();
     }
 
     @Override
@@ -54,11 +56,20 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         return true;
     }
 
-    private void setNavigatoinList(){
+    /**
+     * Set navigation list
+     */
+    private void setNavigationList() {
         ArrayList<DrawerItem> drawerItems = createDrawerList();
-
+        binding.recyclerViewNavigation.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+        binding.recyclerViewNavigation.setAdapter(new DrawrAdapter(HomeActivity.this, drawerItems));
     }
 
+    /**
+     * Create navigation list
+     *
+     * @return ArrayList<DrawerItem>
+     */
     private ArrayList<DrawerItem> createDrawerList() {
         ArrayList<DrawerItem> drawerItems = new ArrayList<>();
         DrawerItem drawerItem1 = new DrawerItem(getString(R.string.people_you_follow), 0);
