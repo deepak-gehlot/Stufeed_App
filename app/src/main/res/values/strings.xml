@@ -28,6 +28,16 @@
     <string name="title">Title&#8230;</string>
     <string name="description">Description&#8230;</string>
 
+    <!--    Verify account  -->
+    <string name="verify_des">Now you can check your <b>Email box</b> for we have sent to you a <b>OTP</b> and enter to verify stufeed account.</string>
+
+
+    <!--    Connect     -->
+    <string name="academy">Academy</string>
+    <string name="faculty">Faculty</string>
+    <string name="student">Student</string>
+    <string name="department">Department</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_post">PostActivity</string>

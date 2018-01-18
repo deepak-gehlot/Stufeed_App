@@ -29,6 +29,8 @@
             android:label="@string/title_activity_post"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity android:name=".view.activity.SelectCollegeActivity" />
+        <activity android:name=".view.activity.VerifyAccountActivity"></activity>
     </application>
 
 </manifest>
