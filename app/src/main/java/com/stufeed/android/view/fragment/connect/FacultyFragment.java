@@ -4,13 +4,17 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.FragmentFacultyBinding;
+import com.stufeed.android.view.adapter.FacultyListAdapter;
 
 public class FacultyFragment extends Fragment {
 
@@ -34,5 +38,16 @@ public class FacultyFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_faculty, container, false);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setRecyclerView();
+    }
+
+    private void setRecyclerView() {
+        binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity()));
     }
 }

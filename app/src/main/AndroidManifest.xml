@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.HomeActivity"
+            android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,18 +19,29 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.RegistrationActivity" />
-        <!--
-            <activity
+
+        <activity
             android:name=".view.activity.HomeActivity"
-            android:label="@string/title_activity_home"></activity>
-        -->
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".view.activity.PostActivity"
             android:label="@string/title_activity_post"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.activity.SelectCollegeActivity" />
-        <activity android:name=".view.activity.VerifyAccountActivity"></activity>
+
+        <activity
+            android:name=".view.activity.SelectCollegeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".view.activity.VerifyAccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
     </application>
 
 </manifest>

@@ -27,6 +27,15 @@ public class ConnectFragment extends Fragment {
 
     private FragmentConnectBinding binding;
 
+    public static ConnectFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        ConnectFragment fragment = new ConnectFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

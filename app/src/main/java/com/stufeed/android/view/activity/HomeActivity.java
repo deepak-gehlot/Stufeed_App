@@ -1,5 +1,6 @@
 package com.stufeed.android.view.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +14,13 @@ import android.view.View;
 import com.stufeed.android.R;
 import com.stufeed.android.bean.DrawerItem;
 import com.stufeed.android.databinding.ActivityHomeBinding;
+import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.DrawrAdapter;
+import com.stufeed.android.view.fragment.BoardFragment;
+import com.stufeed.android.view.fragment.ConnectFragment;
+import com.stufeed.android.view.fragment.FeedFragment;
+import com.stufeed.android.view.fragment.PostFragment;
+import com.stufeed.android.view.fragment.YouFragment;
 
 import java.util.ArrayList;
 
@@ -36,21 +43,33 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
+        Utility.addFragment(this, YouFragment.newInstance(), "YouFragment", binding.frame.getId());
+
         setNavigationList();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_person:
+                Utility.addFragment(this, YouFragment.newInstance(), "YouFragment", binding.frame.getId());
                 break;
             case R.id.navigation_connect:
+                Utility.addFragment(this, ConnectFragment.newInstance(), "ConnectFragment", binding.frame.getId());
                 break;
             case R.id.navigation_post:
-                break;
+                startActivity(new Intent(HomeActivity.this, PostActivity.class));
+                return false;
             case R.id.navigation_board:
+                Utility.addFragment(this, BoardFragment.newInstance(), "BoardFragment", binding.frame.getId());
                 break;
             case R.id.navigation_feed:
+                Utility.addFragment(this, FeedFragment.newInstance(), "FeedFragment", binding.frame.getId());
                 break;
         }
         return true;
@@ -72,13 +91,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
      */
     private ArrayList<DrawerItem> createDrawerList() {
         ArrayList<DrawerItem> drawerItems = new ArrayList<>();
-        DrawerItem drawerItem1 = new DrawerItem(getString(R.string.people_you_follow), 0);
-        DrawerItem drawerItem2 = new DrawerItem(getString(R.string.saved_post), 0);
-        DrawerItem drawerItem3 = new DrawerItem(getString(R.string.archive_board), 0);
-        DrawerItem drawerItem4 = new DrawerItem(getString(R.string.blocked_user), 0);
-        DrawerItem drawerItem5 = new DrawerItem(getString(R.string.library_board), 0);
-        DrawerItem drawerItem6 = new DrawerItem(getString(R.string.settings), 0);
-        DrawerItem drawerItem7 = new DrawerItem(getString(R.string.logout), 0);
+        DrawerItem drawerItem1 = new DrawerItem(getString(R.string.people_you_follow), R.drawable.people_follow_icon);
+        DrawerItem drawerItem2 = new DrawerItem(getString(R.string.saved_post), R.drawable.bookmark_icon);
+        DrawerItem drawerItem3 = new DrawerItem(getString(R.string.archive_board), R.drawable.archive_icon);
+        DrawerItem drawerItem4 = new DrawerItem(getString(R.string.blocked_user), R.drawable.block_icon);
+        DrawerItem drawerItem5 = new DrawerItem(getString(R.string.library_board), R.drawable.block_icon);
+        DrawerItem drawerItem6 = new DrawerItem(getString(R.string.settings), R.drawable.settings_icon);
+        DrawerItem drawerItem7 = new DrawerItem(getString(R.string.logout), R.drawable.logout_icon);
         drawerItems.add(drawerItem1);
         drawerItems.add(drawerItem2);
         drawerItems.add(drawerItem3);

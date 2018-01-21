@@ -24,13 +24,16 @@ public class DrawrAdapter extends RecyclerView.Adapter<DrawrAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowNavigationBinding rowNavigationBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_navigation, parent, false);
+        RowNavigationBinding rowNavigationBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout
+                .row_navigation, parent, false);
         return new ViewHolder(rowNavigationBinding);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.rowNavigationBinding.text.setText(drawerItems.get(position).getText());
+        holder.rowNavigationBinding.text.setCompoundDrawablesWithIntrinsicBounds(drawerItems.get(position).getIcon(),
+                0, 0, 0);
     }
 
     @Override

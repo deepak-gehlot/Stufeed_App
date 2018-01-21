@@ -1,104 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey_color"
-    android:orientation="vertical"
-    tools:context="com.stufeed.android.view.activity.SelectCollegeActivity">
+<layout>
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:title="Select College"
-        app:titleTextColor="@color/white">
+    <data>
 
+        <variable
+            name="activity"
+            type="com.stufeed.android.view.activity.SelectCollegeActivity" />
+    </data>
 
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:text="SKIP >>"
-            android:textColor="@color/white" />
-
-    </android.support.v7.widget.Toolbar>
-
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:cardUseCompatPadding="true">
-
-        <AutoCompleteTextView
-            android:id="@+id/searchCollegeEdt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="Enter Institute Name"
-            android:padding="8dp"
-            android:textColor="@color/text_color" />
-    </android.support.v7.widget.CardView>
-
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:background="@color/grey_color"
         android:orientation="vertical"
-        android:padding="16dp">
+        tools:context="com.stufeed.android.view.activity.SelectCollegeActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:title="Select College"
+            app:titleTextColor="@color/white">
 
 
-        <TextView
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:onClick="@{()->activity.onSkipClick()}"
+                android:text="SKIP >>"
+                android:textColor="@color/white" />
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Enter institute id code to complete your verification."
-            android:textColor="@color/text_color"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:layout_margin="10dp"
+            app:cardUseCompatPadding="true">
 
-        <EditText
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:hint="Optional"
-            android:singleLine="true"
-            android:textStyle="bold" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/button_color"
-            android:text="Verify"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
+            <AutoCompleteTextView
+                android:id="@+id/searchCollegeEdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Enter Institute Name"
+                android:padding="8dp"
+                android:singleLine="true"
+                android:textColor="@color/text_color" />
+        </android.support.v7.widget.CardView>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="OR"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Select your institute and skip"
-            android:textColor="@color/text_color"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="16dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Enter institute id code to complete your verification."
+                android:textColor="@color/text_color"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:hint="Optional"
+                android:singleLine="true"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/button_color"
+                android:text="Verify"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="OR"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="Select your institute and skip"
+                android:textColor="@color/text_color"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</layout>

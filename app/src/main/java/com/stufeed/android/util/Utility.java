@@ -190,7 +190,8 @@ public class Utility {
             fragment1 = fragment;
             fragmentTransaction.addToBackStack(tag);
         }
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_left);
+      //  fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim
+      //          .enter_from_right, R.anim.exit_to_left);
         fragmentTransaction.replace(id, fragment1, tag);
         fragmentTransaction.commit();
     }

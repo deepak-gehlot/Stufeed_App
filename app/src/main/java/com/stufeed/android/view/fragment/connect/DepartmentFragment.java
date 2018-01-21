@@ -34,4 +34,6 @@ public class DepartmentFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_department, container, false);
     }
 
+
+
 }

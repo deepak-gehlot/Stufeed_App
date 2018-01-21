@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.ActivityPostBinding;
@@ -19,11 +20,19 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
+        binding.setActivity(this);
         setSupportActionBar(binding.toolbar);
-
+        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
-
+    /**
+     * Show setting dialog
+     */
     public void showSettingDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(PostActivity.this);
         builder.setCancelable(false);
@@ -45,13 +54,6 @@ public class PostActivity extends AppCompatActivity {
 
                     }
                 }
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
             }
         });
 

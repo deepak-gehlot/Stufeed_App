@@ -1,59 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey_color"
-    android:orientation="vertical"
-    tools:context="com.stufeed.android.view.activity.VerifyAccountActivity">
+<layout>
 
+    <data>
 
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="16dp"
-        android:src="@mipmap/ic_launcher_round"
-        app:civ_border_width="0.05dp" />
+        <variable
+            name="activity"
+            type="com.stufeed.android.view.activity.VerifyAccountActivity" />
+    </data>
 
-
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Hello Friend!"
-        android:textColor="@color/text_color"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:background="@color/grey_color"
+        android:orientation="vertical"
+        tools:context="com.stufeed.android.view.activity.VerifyAccountActivity">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:text="@string/verify_des"
-        android:textColor="@color/text_color"
-        android:textSize="18sp" />
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_launcher_round"
+            app:civ_border_width="0.05dp" />
 
 
-    <EditText
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:hint="Enter OTP"
-        android:singleLine="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/button_color"
-        android:text="Verify"
-        android:textColor="@color/white" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Hello Friend!"
+            android:textColor="@color/text_color"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:text="@string/verify_des"
+            android:textColor="@color/text_color"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:hint="Enter OTP"
+            android:singleLine="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/button_color"
+            android:onClick="@{()->activity.onVerifyClick()}"
+            android:text="Verify"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</layout>
