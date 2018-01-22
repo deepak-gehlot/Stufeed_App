@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">StufeedApp</string>
-
+    <string name="alert">Alert!</string>
+    <string name="wrong">Something went wrong, Try again later.</string>
     <!--    Login       -->
     <string name="email_address">Email</string>
     <string name="password">Password</string>
@@ -19,6 +20,11 @@
     <string name="full_name">Full Name</string>
     <string name="user_name">User Name</string>
     <string name="contact_number">Contact Number</string>
+    <string name="all_required">All field required.</string>
+    <string name="invalid_email">Enter valid email.</string>
+    <string name="invalid_number">Enter valid number.</string>
+
+
     <!--    Navigation  -->
     <string name="people_you_follow">People You Follow</string>
     <string name="saved_post">Saved Post</string>
