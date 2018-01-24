@@ -190,8 +190,8 @@ public class Utility {
             fragment1 = fragment;
             fragmentTransaction.addToBackStack(tag);
         }
-      //  fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim
-      //          .enter_from_right, R.anim.exit_to_left);
+        //  fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim
+        //          .enter_from_right, R.anim.exit_to_left);
         fragmentTransaction.replace(id, fragment1, tag);
         fragmentTransaction.commit();
     }
@@ -199,7 +199,7 @@ public class Utility {
     public static void addChildFragment(Fragment fragment, Fragment fragmentToAdd, String tag, int id) {
         FragmentManager childFragMan = fragment.getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragMan.beginTransaction();
-        childFragTrans.replace(id, fragmentToAdd,tag);
+        childFragTrans.replace(id, fragmentToAdd, tag);
         childFragTrans.addToBackStack(tag);
         childFragTrans.commit();
     }
@@ -349,6 +349,20 @@ aq.id(R.id.image).image(url, options);*/
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setCancelable(false);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    public static void showErrorMsg(Activity activity) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Error!");
+        builder.setMessage(activity.getString(R.string.wrong));
+        builder.setCancelable(true);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -606,7 +620,8 @@ aq.id(R.id.image).image(url, options);*/
         textView.setVisibility(visibility);
     }
 
-    public static void setDialog(Context appContext, String titleStr, String msgStr, String leftStr, String rightStr, final DialogListener dialogListener) {
+    public static void setDialog(Context appContext, String titleStr, String msgStr, String leftStr, String rightStr,
+                                 final DialogListener dialogListener) {
         final Dialog dialog = new Dialog(appContext);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -736,7 +751,8 @@ aq.id(R.id.image).image(url, options);*/
 
     public static void printHashKey(Activity pContext) {
         try {
-            PackageInfo info = pContext.getPackageManager().getPackageInfo("com.bikespot.android", PackageManager.GET_SIGNATURES);
+            PackageInfo info = pContext.getPackageManager().getPackageInfo("com.bikespot.android", PackageManager
+                    .GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
@@ -756,9 +772,11 @@ aq.id(R.id.image).image(url, options);*/
         geocoder = new Geocoder(context, Locale.getDefault());
 
         try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to
+            // returned, by documents it recommended 1 to 5
             if (addresses != null && addresses.size() != 0) {
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than
+                // only, check with max available address lines by getMaxAddressLineIndex()
                 String city = addresses.get(0).getLocality();
                 //     String state = addresses.get(0).getAdminArea();
                 //    String country = addresses.get(0).getCountryName();
@@ -815,7 +833,8 @@ aq.id(R.id.image).image(url, options);*/
             return locationMode != Settings.Secure.LOCATION_MODE_OFF;
 
         } else {
-            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure
+                    .LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
     }

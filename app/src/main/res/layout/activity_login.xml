@@ -6,6 +6,10 @@
         <variable
             name="activity"
             type="com.stufeed.android.view.activity.LoginActivity" />
+
+        <variable
+            name="model"
+            type="com.stufeed.android.view.viewmodel.LoginModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -52,7 +56,8 @@
                         android:paddingBottom="12dp"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="12dp" />
+                        android:paddingTop="12dp"
+                        android:text="@{model.email}" />
                 </android.support.design.widget.TextInputLayout>
 
                 <View
@@ -74,7 +79,8 @@
                         android:paddingBottom="12dp"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="12dp" />
+                        android:paddingTop="12dp"
+                        android:text="@{model.password}" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -95,8 +101,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
-                        android:onClick="@{()->activity.onRegisterBtnClick()}"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{()->activity.onRegisterBtnClick()}"
                         android:text="@string/register"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />
@@ -108,7 +114,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
                         android:foreground="?attr/selectableItemBackgroundBorderless"
-                        android:onClick="@{()->activity.onLoginBtnClick()}"
+                        android:onClick="@{()->activity.onLoginBtnClick(model)}"
                         android:text="@string/login"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />

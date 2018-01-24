@@ -20,4 +20,10 @@ public interface Api {
                                  @Field("password") String password,
                                  @Field("contactno") String contactNumber,
                                  @Field("usertype") int userType);
+
+    @FormUrlEncoded
+    @POST("login")
+    Call<LoginResponse> login(@Field("loginemail") String email,
+                              @Field("loginpassword") String password,
+                              @Field("devicetoken") String deviceToken);
 }
