@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 PreferenceConnector.writeString(LoginActivity.this, PreferenceConnector.USER_DATA, new Gson()
                         .toJson(loginResponse.getUser()));
             } else {
-
+                Utility.showToast(LoginActivity.this, loginResponse.getResponseMessage());
             }
         } else {
             Utility.showErrorMsg(LoginActivity.this);
