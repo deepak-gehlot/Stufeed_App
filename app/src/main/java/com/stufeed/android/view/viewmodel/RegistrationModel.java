@@ -6,8 +6,6 @@ public class RegistrationModel {
 
     @SerializedName("firstname")
     private String fullName;
-    @SerializedName("lastname")
-    private String lastName;
     @SerializedName("email")
     private String email;
     @SerializedName("password")
@@ -23,14 +21,6 @@ public class RegistrationModel {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getEmail() {

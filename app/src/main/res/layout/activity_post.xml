@@ -24,9 +24,9 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                app:navigationIcon="@drawable/back_icon"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                app:navigationIcon="@drawable/back_icon"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
@@ -59,7 +59,7 @@
             android:id="@+id/inputLayoutDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomDivider"
+            android:layout_above="@+id/selectedImgLayout"
             android:layout_below="@+id/inputLayoutTitle"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
@@ -81,6 +81,29 @@
         </android.support.design.widget.TextInputLayout>
 
 
+        <RelativeLayout
+            android:id="@+id/selectedImgLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_above="@+id/bottomDivider"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/selectedImg"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="#19000000"
+                android:padding="5dp"
+                android:src="@drawable/close_icon" />
+        </RelativeLayout>
+
         <View
             android:id="@+id/bottomDivider"
             android:layout_width="match_parent"
@@ -101,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:onClick="@{()->activity.onAttachmentButtonClick()}"
                 android:padding="10dp"
                 android:src="@drawable/attachment_icon"
                 android:tint="@color/button_color" />

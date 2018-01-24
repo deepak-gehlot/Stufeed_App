@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.LoginResponse;
 import com.stufeed.android.databinding.ActivityLoginBinding;
 import com.stufeed.android.util.Extension;
+import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.util.ValidationTemplate;
@@ -84,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
     }
 
     /**
@@ -95,7 +96,9 @@ public class LoginActivity extends AppCompatActivity {
     private void handleLoginResponse(LoginResponse loginResponse) {
         if (loginResponse != null) {
             if (loginResponse.getResponseCode().equals(Api.SUCCESS)) {
-
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                PreferenceConnector.writeString(LoginActivity.this, PreferenceConnector.USER_DATA, new Gson()
+                        .toJson(loginResponse.getUser()));
             } else {
 
             }

@@ -14,8 +14,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("registration")
-    Call<LoginResponse> register(@Field("firstname") String firstName,
-                                 @Field("lastname") String lastName,
+    Call<LoginResponse> register(@Field("fullname") String fullName,
                                  @Field("email") String email,
                                  @Field("password") String password,
                                  @Field("contactno") String contactNumber,

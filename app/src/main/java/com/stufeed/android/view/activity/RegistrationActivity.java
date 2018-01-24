@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.google.gson.Gson;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.LoginResponse;
 import com.stufeed.android.databinding.ActivityRegistrationBinding;
 import com.stufeed.android.util.Extension;
+import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.util.ValidationTemplate;
@@ -90,8 +92,7 @@ public class RegistrationActivity extends AppCompatActivity {
     public void onSubmitClick(RegistrationModel registrationModel) {
         if (validate(registrationModel)) {
             Api api = APIClient.getClient().create(Api.class);
-            Call<LoginResponse> responseCall = api.register(registrationModel.getFullName(), registrationModel
-                    .getFullName(), registrationModel.getEmail
+            Call<LoginResponse> responseCall = api.register(registrationModel.getFullName(), registrationModel.getEmail
                     (), registrationModel.getPassword(), registrationModel.getContactNo(), registrationModel
                     .getUserType());
             ProgressDialog.getInstance().showProgressDialog(RegistrationActivity.this);
@@ -105,15 +106,24 @@ public class RegistrationActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
                     ProgressDialog.getInstance().dismissDialog();
-                    Utility.showMsg(RegistrationActivity.this,
-                            getString(R.string.alert), getString(R.string.wrong));
+                    Utility.showErrorMsg(RegistrationActivity.this);
                 }
             });
         }
-        startActivity(new Intent(RegistrationActivity.this, SelectCollegeActivity.class));
     }
 
     private void handleRegistrationResponse(LoginResponse loginResponse) {
-
+        if (loginResponse != null) {
+            if (loginResponse.getResponseCode().equals(Api.SUCCESS)) {
+                PreferenceConnector.writeString(RegistrationActivity.this, PreferenceConnector.USER_DATA, new Gson()
+                        .toJson(loginResponse.getUser()));
+                startActivity(new Intent(RegistrationActivity.this, SelectCollegeActivity.class));
+                finish();
+            } else {
+                Utility.showToast(RegistrationActivity.this, loginResponse.getResponseMessage());
+            }
+        } else {
+            Utility.showErrorMsg(RegistrationActivity.this);
+        }
     }
 }

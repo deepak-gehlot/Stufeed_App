@@ -52,7 +52,7 @@
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:paddingTop="12dp"
-                    android:text="@={model.firstName}" />
+                    android:text="@={model.fullName}" />
 
             </android.support.design.widget.TextInputLayout>
 
