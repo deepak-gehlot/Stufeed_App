@@ -32,8 +32,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
-        binding.setModel(new LoginModel());
-
+        LoginModel loginModel = new LoginModel();
+        loginModel.setEmail("deepak@gmail.com");
+        loginModel.setPassword("123456");
+        loginModel.setDeviceToken("123456");
+        binding.setModel(loginModel);
     }
 
     /**

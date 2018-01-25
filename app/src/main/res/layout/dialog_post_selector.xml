@@ -27,7 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/camera_icon"
+                android:src="@drawable/gallery_icon"
+                android:text="teste"
                 android:tint="@color/white"
                 app:useCompatPadding="true" />
 
@@ -36,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/camera_icon"
+                android:src="@drawable/file_icon"
                 android:tint="@color/white"
                 app:useCompatPadding="true" />
 
@@ -52,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/camera_icon"
+                android:src="@drawable/video_icon"
                 android:tint="@color/white"
                 app:useCompatPadding="true" />
 
@@ -60,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/camera_icon"
+                android:src="@drawable/poll_icon"
                 android:tint="@color/white"
                 app:useCompatPadding="true" />
 
@@ -68,7 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/camera_icon"
+                android:rotation="180"
+                android:src="@drawable/quiz_icon"
                 android:tint="@color/white"
                 app:useCompatPadding="true" />
 

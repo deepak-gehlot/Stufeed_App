@@ -46,7 +46,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.stufeed.android.R;
+import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.listener.DialogListener;
 
 import java.io.ByteArrayOutputStream;
@@ -112,11 +114,10 @@ public class Utility {
      * @param context Context object
      * @return Return login user detail
      */
-  /*  public static LoginResponse getLoginUserDetail(Context context) {
-        String json = PreferenceConnector.readString(context, PreferenceConnector.USER_DATA, "");
-        LoginResponse loginResponse = new Gson().fromJson(json, LoginResponse.class);
-        return loginResponse;
-    }*/
+    public static UserDetail getLoginUserDetail(Context context) {
+        return new Gson().fromJson(PreferenceConnector.readString(context, PreferenceConnector.USER_DATA, ""),
+                UserDetail.class);
+    }
 
     /* public static boolean isGooglePlayServicesAvailable(Activity activity) {
          GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();

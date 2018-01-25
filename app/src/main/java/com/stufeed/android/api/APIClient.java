@@ -18,7 +18,8 @@ public class APIClient {
             synchronized (APIClient.class) {
                 // Double check
                 if (retrofit == null) {
-                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger
+                            () {
                         @Override
                         public void log(String message) {
                             Timber.tag("OkHttp").e(message);
