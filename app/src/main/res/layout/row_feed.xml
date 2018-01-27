@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+        <variable
+            name="adapter"
+            type="com.stufeed.android.view.adapter.FeedListAdapter" />
+
+        <variable
+            name="model"
+            type="com.stufeed.android.api.response.GetPostResponse.Post" />
+    </data>
+
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -10,19 +21,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
-                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@mipmap/ic_launcher_round" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ProgressBar
+                        style="?android:progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@mipmap/ic_launcher_round" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -36,7 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="User Name"
+                        android:text="@{model.fullName}"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
 
@@ -50,6 +71,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/actionIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -66,15 +88,25 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
                 android:maxLines="3"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:text="@{model.description}"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/dummy_post" />
+                android:layout_height="300dp">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    app:postImageUrl='@{model.filePath+""+model.image}' />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,14 +154,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imgLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:onClick="@{()->adapter.onLikeClick(model)}"
                     android:padding="10dp"
                     android:src="@drawable/favorite_border_icon" />
 

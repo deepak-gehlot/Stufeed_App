@@ -44,7 +44,7 @@ public class YouFragment extends Fragment {
     
     private void setRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FeedListAdapter adapter = new FeedListAdapter(getActivity());
-        binding.recyclerView.setAdapter(adapter);
+        /*FeedListAdapter adapter = new FeedListAdapter(getActivity());
+        binding.recyclerView.setAdapter(adapter);*/
     }
 }

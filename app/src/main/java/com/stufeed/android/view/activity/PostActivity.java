@@ -78,7 +78,6 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
-
     /**
      * Show setting dialog
      */
@@ -131,7 +130,7 @@ public class PostActivity extends AppCompatActivity {
                 .layout.dialog_post_selector, null, false);
         final Dialog dialog = new Dialog(PostActivity.this);
         dialog.setContentView(dialogBinding.getRoot());
-
+        dialog.setTitle("Select");
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

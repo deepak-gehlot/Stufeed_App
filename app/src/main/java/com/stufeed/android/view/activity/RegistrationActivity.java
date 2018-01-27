@@ -41,7 +41,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void setSpinner() {
-        String type[] = {"Student", "Faculty", "Academy"};
+        String type[] = {"Student", "Faculty", "Department"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout
                 .row_spinner, type);
         binding.profileSpinner.setAdapter(spinnerArrayAdapter);
