@@ -27,11 +27,11 @@ import retrofit2.Response;
 
 public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    private FragmentFeedBinding binding;
+
     public FeedFragment() {
         // Required empty public constructor
     }
-
-    private FragmentFeedBinding binding;
 
     public static FeedFragment newInstance() {
         Bundle args = new Bundle();

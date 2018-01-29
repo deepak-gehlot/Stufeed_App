@@ -5,6 +5,8 @@ package com.stufeed.android.util;
  */
 
 public class Constant {
+
+    public static final String FORMAT_DATE_TIME = "yyy-mm-dd HH:mm:ss";
     public static final String URL = "http://151.236.57.83/Tempter_administrator/tempter_webservices/";
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String SUCCESS = "200";

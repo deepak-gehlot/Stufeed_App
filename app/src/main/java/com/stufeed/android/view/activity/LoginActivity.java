@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 PreferenceConnector.writeString(LoginActivity.this, PreferenceConnector.USER_DATA, new Gson()
                         .toJson(loginResponse.getUser()));
+                finish();
             } else {
                 Utility.showToast(LoginActivity.this, loginResponse.getResponseMessage());
             }

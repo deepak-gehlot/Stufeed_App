@@ -5,10 +5,11 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class PreferenceConnector {
-    private static final String PREF_NAME = "stu";
-    private static final int MODE = Context.MODE_PRIVATE;
     public static final String USER_DATA = "user_data";
     public static final String USER_ID = "user_id";
+    public static final String VERIFY = "verify";
+    private static final String PREF_NAME = "stu";
+    private static final int MODE = Context.MODE_PRIVATE;
 
     public static void writeBoolean(Context context, String key, boolean value) {
         getEditor(context).putBoolean(key, value).commit();

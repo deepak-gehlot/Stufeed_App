@@ -13,34 +13,80 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/cameraButton"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/camera_icon"
-                android:tint="@color/white"
-                app:useCompatPadding="true" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/galleryButton"
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/cameraButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/camera_icon"
+                    android:tint="@color/white"
+                    app:useCompatPadding="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="Camera"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/gallery_icon"
-                android:text="teste"
-                android:tint="@color/white"
-                app:useCompatPadding="true" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/documentButton"
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/galleryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/gallery_icon"
+                    android:text="teste"
+                    android:tint="@color/white"
+                    app:useCompatPadding="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="Gallery"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/file_icon"
-                android:tint="@color/white"
-                app:useCompatPadding="true" />
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/documentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/file_icon"
+                    android:tint="@color/white"
+                    app:useCompatPadding="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="Document"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -49,30 +95,53 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <android.support.design.widget.FloatingActionButton
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/video_icon"
-                android:tint="@color/white"
-                app:useCompatPadding="true" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <android.support.design.widget.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:src="@drawable/poll_icon"
-                android:tint="@color/white"
-                app:useCompatPadding="true" />
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/poll_icon"
+                    android:tint="@color/white"
+                    app:useCompatPadding="true" />
 
-            <android.support.design.widget.FloatingActionButton
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="Poll"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:rotation="180"
-                android:src="@drawable/quiz_icon"
-                android:tint="@color/white"
-                app:useCompatPadding="true" />
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rotation="180"
+                    android:src="@drawable/quiz_icon"
+                    android:tint="@color/white"
+                    app:useCompatPadding="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="Quiz"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

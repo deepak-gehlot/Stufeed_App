@@ -3,6 +3,7 @@ package com.stufeed.android.api;
 import com.stufeed.android.api.response.CommentResponse;
 import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
+import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
@@ -10,6 +11,8 @@ import com.stufeed.android.api.response.LoginResponse;
 import com.stufeed.android.api.response.PostResponse;
 import com.stufeed.android.api.response.RePostResponse;
 import com.stufeed.android.api.response.SavePostResponse;
+import com.stufeed.android.api.response.UpdateCollegeResponse;
+import com.stufeed.android.api.response.VerifyResponse;
 
 import java.util.Map;
 
@@ -42,6 +45,18 @@ public interface Api {
     Call<LoginResponse> login(@Field("loginemail") String email,
                               @Field("loginpassword") String password,
                               @Field("devicetoken") String deviceToken);
+
+    @FormUrlEncoded
+    @POST("getallcolleges")
+    Call<GetAllCollegeResponse> getColleges(@Field("sarchtext") String college);
+
+    @FormUrlEncoded
+    @POST("updatecollegeid")
+    Call<UpdateCollegeResponse> setCollegeId(@Field("updatecollegeid") String collegeId);
+
+    @FormUrlEncoded
+    @POST("verifyuseremail")
+    Call<VerifyResponse> verifyEmail(@Field("userid") String userId, @Field("verifycode") String code);
 
     @Multipart
     @POST("post")

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class GetAllCommentResponse {
 
-    private String responseMessage;
-    private String responseCode;
+    private String responseMessage = "";
+    private String responseCode = "";
     @SerializedName("getpost")
-    private ArrayList<Comment> commentArrayList;
+    private ArrayList<Comment> commentArrayList = new ArrayList<>();
 
     public String getResponseMessage() {
         return responseMessage;
@@ -35,7 +35,7 @@ public class GetAllCommentResponse {
         this.commentArrayList = commentArrayList;
     }
 
-    public class Comment {
+    public static class Comment {
         @SerializedName("Userid")
         private String userId;
         @SerializedName("Postid")

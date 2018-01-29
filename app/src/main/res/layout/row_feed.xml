@@ -66,9 +66,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="Yesterday"
                         android:textColor="@color/text_color"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        app:time="@{model.dateTime}" />
                 </LinearLayout>
 
                 <ImageView
@@ -121,7 +121,7 @@
                     android:drawableStart="@drawable/favorite_icon"
                     android:lines="1"
                     android:padding="10dp"
-                    android:text="1"
+                    android:text="@{model.totalLike}"
                     android:textColor="@color/text_color"
                     android:textSize="13sp" />
 
@@ -132,7 +132,7 @@
                     android:drawableStart="@drawable/comment_icon"
                     android:lines="1"
                     android:padding="10dp"
-                    android:text="2"
+                    android:text="@{model.totalComment}"
                     android:textColor="@color/text_color"
                     android:textSize="13sp" />
 
@@ -143,7 +143,7 @@
                     android:drawableStart="@drawable/eye_icon"
                     android:lines="1"
                     android:padding="10dp"
-                    android:text="3"
+                    android:text="0"
                     android:textColor="@color/text_color"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -172,6 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_toEndOf="@+id/imgLike"
+                    android:onClick="@{()->adapter.onCommentBtnClick(model)}"
                     android:padding="10dp"
                     android:src="@drawable/comment_border_icon" />
 
@@ -181,6 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_toEndOf="@+id/imgComment"
+                    android:onClick="@{()->adapter.onRePostBtnClick(model)}"
                     android:padding="10dp"
                     android:src="@drawable/repost_icon" />
 

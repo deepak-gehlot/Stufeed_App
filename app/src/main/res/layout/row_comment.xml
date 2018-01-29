@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,8 +10,7 @@
             type="com.stufeed.android.api.response.GetAllCommentResponse.Comment" />
     </data>
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.CardView
         android:id="@+id/comment_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -81,8 +82,8 @@
                     android:id="@+id/dateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{model.dateTime}"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    app:time="@{model.dateTime}" />
 
                 <ImageView
                     android:layout_width="wrap_content"

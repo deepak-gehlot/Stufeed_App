@@ -14,33 +14,93 @@ public class GetPostResponse {
     @SerializedName("getpost")
     private ArrayList<Post> post;
 
+    public String getResponseMessage() {
+        return responseMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
+
+    public String getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
+    }
+
+    public ArrayList<Post> getPost() {
+        return post;
+    }
+
+    public void setPost(ArrayList<Post> post) {
+        this.post = post;
+    }
+
     public static class Post implements Parcelable {
+        public static final Creator<Post> CREATOR = new Creator<Post>() {
+            @Override
+            public Post createFromParcel(Parcel source) {
+                return new Post(source);
+            }
+
+            @Override
+            public Post[] newArray(int size) {
+                return new Post[size];
+            }
+        };
         @SerializedName("Userid")
-        private String userId;
+        private String userId = "";
         @SerializedName("Postid")
-        private String postId;
+        private String postId = "";
         @SerializedName("Fullname")
-        private String fullName;
+        private String fullName = "";
         @SerializedName("Email")
-        private String email;
+        private String email = "";
         @SerializedName("Title")
-        private String title;
+        private String title = "";
         @SerializedName("Description")
-        private String description;
+        private String description = "";
         @SerializedName("Alowcomment")
-        private String allowComment;
+        private String allowComment = "";
         @SerializedName("Alowrepost")
-        private String allowRePost;
+        private String allowRePost = "";
         @SerializedName("Posttype")
-        private String postType;
+        private String postType = "";
         @SerializedName("Postdatetime")
-        private String dateTime;
+        private String dateTime = "";
         @SerializedName("Filepath")
-        private String filePath;
+        private String filePath = "";
         @SerializedName("Profilepic")
-        private String profilePic;
+        private String profilePic = "";
         @SerializedName("Image")
-        private String image;
+        private String image = "";
+        @SerializedName("Totallike")
+        private String totalLike = "0";
+        @SerializedName("Totalcomment")
+        private String totalComment = "0";
+
+        public Post() {
+        }
+
+        protected Post(Parcel in) {
+            this.userId = in.readString();
+            this.postId = in.readString();
+            this.fullName = in.readString();
+            this.email = in.readString();
+            this.title = in.readString();
+            this.description = in.readString();
+            this.allowComment = in.readString();
+            this.allowRePost = in.readString();
+            this.postType = in.readString();
+            this.dateTime = in.readString();
+            this.filePath = in.readString();
+            this.profilePic = in.readString();
+            this.image = in.readString();
+            this.totalLike = in.readString();
+            this.totalComment = in.readString();
+        }
 
         public String getUserId() {
             return userId;
@@ -146,6 +206,21 @@ public class GetPostResponse {
             this.image = image;
         }
 
+        public String getTotalLike() {
+            return totalLike;
+        }
+
+        public void setTotalLike(String totalLike) {
+            this.totalLike = totalLike;
+        }
+
+        public String getTotalComment() {
+            return totalComment;
+        }
+
+        public void setTotalComment(String totalComment) {
+            this.totalComment = totalComment;
+        }
 
         @Override
         public int describeContents() {
@@ -167,61 +242,8 @@ public class GetPostResponse {
             dest.writeString(this.filePath);
             dest.writeString(this.profilePic);
             dest.writeString(this.image);
+            dest.writeString(this.totalLike);
+            dest.writeString(this.totalComment);
         }
-
-        public Post() {
-        }
-
-        protected Post(Parcel in) {
-            this.userId = in.readString();
-            this.postId = in.readString();
-            this.fullName = in.readString();
-            this.email = in.readString();
-            this.title = in.readString();
-            this.description = in.readString();
-            this.allowComment = in.readString();
-            this.allowRePost = in.readString();
-            this.postType = in.readString();
-            this.dateTime = in.readString();
-            this.filePath = in.readString();
-            this.profilePic = in.readString();
-            this.image = in.readString();
-        }
-
-        public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
-            @Override
-            public Post createFromParcel(Parcel source) {
-                return new Post(source);
-            }
-
-            @Override
-            public Post[] newArray(int size) {
-                return new Post[size];
-            }
-        };
-    }
-
-    public String getResponseMessage() {
-        return responseMessage;
-    }
-
-    public void setResponseMessage(String responseMessage) {
-        this.responseMessage = responseMessage;
-    }
-
-    public String getResponseCode() {
-        return responseCode;
-    }
-
-    public void setResponseCode(String responseCode) {
-        this.responseCode = responseCode;
-    }
-
-    public ArrayList<Post> getPost() {
-        return post;
-    }
-
-    public void setPost(ArrayList<Post> post) {
-        this.post = post;
     }
 }
