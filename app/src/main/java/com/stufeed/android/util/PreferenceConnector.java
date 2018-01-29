@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-@SuppressWarnings("deprecation")
 public class PreferenceConnector {
-    public static final String PREF_NAME = "stu";
-    public static final int MODE = Context.MODE_PRIVATE;
+    private static final String PREF_NAME = "stu";
+    private static final int MODE = Context.MODE_PRIVATE;
     public static final String USER_DATA = "user_data";
     public static final String USER_ID = "user_id";
-    public static final String IS_LOGIN = "IS_LOGIN";
 
     public static void writeBoolean(Context context, String key, boolean value) {
         getEditor(context).putBoolean(key, value).commit();
@@ -55,11 +53,11 @@ public class PreferenceConnector {
 
     }
 
-    public static SharedPreferences getPreferences(Context context) {
+    private static SharedPreferences getPreferences(Context context) {
         return context.getSharedPreferences(PREF_NAME, MODE);
     }
 
-    public static Editor getEditor(Context context) {
+    private static Editor getEditor(Context context) {
         return getPreferences(context).edit();
     }
 

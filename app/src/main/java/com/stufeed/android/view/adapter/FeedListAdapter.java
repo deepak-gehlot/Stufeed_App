@@ -19,6 +19,7 @@ import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.listener.DialogListener;
+import com.stufeed.android.util.TimeUtil;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.CommentPostActivity;
 
@@ -66,6 +67,10 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
+
+        String postDateTime = postArrayList.get(position).getDateTime();
+        String timeAgo = TimeUtil.getTimeAgo(context, postDateTime, "yyy-mm-dd HH:mm:ss");
+        holder.rowBinding.time.setText(timeAgo);
     }
 
     @Override

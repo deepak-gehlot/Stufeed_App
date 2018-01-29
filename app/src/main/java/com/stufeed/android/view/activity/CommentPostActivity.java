@@ -41,6 +41,7 @@ public class CommentPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_comment_post);
         setSupportActionBar(binding.toolbar);
+        getDataFromBundle();
         binding.setActivity(this);
         CommentModel commentModel = new CommentModel();
         commentModel.setComment("");
@@ -53,6 +54,11 @@ public class CommentPostActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getAllCommentList();
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getIntent().getExtras();
+        post = bundle.getParcelable(TAG_POST);
     }
 
     /**

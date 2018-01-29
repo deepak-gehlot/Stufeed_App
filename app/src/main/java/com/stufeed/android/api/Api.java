@@ -51,42 +51,42 @@ public interface Api {
     Call<GetPostResponse> getAllPost();
 
     @FormUrlEncoded
-    @POST
+    @POST("commentpost")
     Call<CommentResponse> postComment(@Field("userid") String userId,
                                       @Field("postid") String postId,
                                       @Field("comment") String comment);
 
     @FormUrlEncoded
-    @POST
-    Call<GetAllCommentResponse> getAllComment(@Field("") String postId);
+    @POST("getcomment")
+    Call<GetAllCommentResponse> getAllComment(@Field("postid") String postId);
 
     @FormUrlEncoded
-    @POST
+    @POST("likepost")
     Call<LikeResponse> likePost(@Field("userid") String userId,
                                 @Field("postid") String postId);
 
     @FormUrlEncoded
-    @POST
+    @POST("postdelete")
     Call<DeletePostResponse> deletePost(@Field("userid") String userId,
                                         @Field("postid") String postId);
 
     @FormUrlEncoded
-    @POST
+    @POST("repost")
     Call<RePostResponse> rePost(@Field("userid") String userId,
                                 @Field("postid") String postId);
 
     @FormUrlEncoded
-    @POST
+    @POST("savepost")
     Call<SavePostResponse> savePost(@Field("userid") String userId,
                                     @Field("postid") String postId);
 
     @FormUrlEncoded
-    @POST
+    @POST("follow")
     Call<FollowResponse> follow(@Field("userid") String userId,
                                 @Field("followuserid") String followedUserId);
 
     @FormUrlEncoded
-    @POST
+    @POST("addpollanswer")
     Call<FollowResponse> follow(@Field("userid") String userId,
                                 @Field("questionid") String followedUserId,
                                 @Field("optionid") String optionId);
