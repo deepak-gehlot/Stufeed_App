@@ -11,11 +11,11 @@ import android.os.Looper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 
 import com.appunite.appunitevideoplayer.PlayerActivity;
 import com.bumptech.glide.Glide;
@@ -26,13 +26,12 @@ import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
-import com.stufeed.android.databinding.RowAudioPlayerBinding;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.CommentPostActivity;
-import com.stufeed.android.view.activity.PostActivity;
+import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
 import java.util.ArrayList;
 
@@ -55,54 +54,51 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case 5:
-                RowAudioPlayerBinding rowAudioPlayerBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R
-                                .layout.row_audio_player,
-                        parent,
-                        false);
-                return new ViewHolder(rowAudioPlayerBinding);
-            default:
-                RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_feed,
-                        parent,
-                        false);
-                return new ViewHolder(rowBinding);
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        int viewType = 0;
-        switch (postArrayList.get(position).getPostType()) {
-            case "5":
-                viewType = 5;
-                break;
-        }
-
-        return viewType;
+        RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_feed,
+                parent,
+                false);
+        return new ViewHolder(rowBinding);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         GetPostResponse.Post post = postArrayList.get(position);
+        holder.rowBinding.setModel(post);
+        holder.rowBinding.setAdapter(this);
         switch (post.getPostType()) {
             case "5":
-                audioRow(holder, post);
+                holder.rowBinding.imageLayout.setVisibility(View.GONE);
+                holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
+                String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
+                holder.rowBinding.audioText.setText(fileName);
                 break;
             default:
+                holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
+                holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
                 imageOrVideoRow(holder, post);
                 break;
         }
-    }
 
-    private void audioRow(final ViewHolder holder, GetPostResponse.Post post) {
-        holder.rowAudioPlayerBinding.setAdapter(this);
+        if (!TextUtils.isEmpty(post.getAllowRePost())) {
+            if (post.getAllowRePost().equals("1")) {
+                holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
+            } else {
+                holder.rowBinding.imgRepost.setVisibility(View.GONE);
+            }
+        } else {
+            holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
+        }
 
+        holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
+                        .rowBinding.actionIcon);
+            }
+        });
     }
 
     private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
-        holder.rowBinding.setModel(post);
-        holder.rowBinding.setAdapter(this);
         ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
         if (arrayList.size() != 0) {
             videoURL = arrayList.get(0);
@@ -147,24 +143,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     .load(post.getFilePath() + post.getImage())
                     .into(holder.rowBinding.image);
         }
-
-        if (!TextUtils.isEmpty(post.getAllowRePost())) {
-            if (post.getAllowRePost().equals("1")) {
-                holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
-            } else {
-                holder.rowBinding.imgRepost.setVisibility(View.GONE);
-            }
-        } else {
-            holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
-        }
-
-        holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
-                        .rowBinding.actionIcon);
-            }
-        });
     }
 
     //http://techslides.com/demos/sample-videos/small.mp4
@@ -348,18 +326,18 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     }
 
+    public void onAudioPlayClick(GetPostResponse.Post post) {
+        // Show DialogFragment
+        PlayerDialogFragment.newInstance(post.getFilePath() + post.getImage())
+                .show(context.getFragmentManager(), "Dialog Fragment");
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private RowFeedBinding rowBinding;
-        private RowAudioPlayerBinding rowAudioPlayerBinding;
 
         private ViewHolder(RowFeedBinding rowBinding) {
             super(rowBinding.getRoot());
             this.rowBinding = rowBinding;
-        }
-
-        private ViewHolder(RowAudioPlayerBinding rowAudioPlayerBinding) {
-            super(rowAudioPlayerBinding.getRoot());
-            this.rowAudioPlayerBinding = rowAudioPlayerBinding;
         }
     }
 }

@@ -52,16 +52,15 @@ import retrofit2.Response;
 
 public class PostActivity extends AppCompatActivity {
 
+    //Audio player variables
+    private final int RECORD_AUDIO = 101;
+    Handler seekHandler = new Handler();
     private ActivityPostBinding binding;
     private String settingStr[] = new String[]{"Allow Comment", "Allow Repost"};
     private boolean settingBool[] = {true, true};
     private AQuery aQuery;
-
-    //Audio player variables
-    private final int RECORD_AUDIO = 101;
     private String audioFilePath = "";
     private MediaPlayer mp;
-    Handler seekHandler = new Handler();
     Runnable run = new Runnable() {
         @Override
         public void run() {
@@ -168,6 +167,8 @@ public class PostActivity extends AppCompatActivity {
         binding.edtDescription.setAutoLinkMask(Linkify.WEB_URLS);
         binding.edtDescription.setMovementMethod(MyMovementMethod.getInstance());
         binding.edtDescription.addTextChangedListener(new TextWatcher() {
+            String videoURL = "";
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -177,8 +178,6 @@ public class PostActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
-            String videoURL = "";
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -397,6 +396,7 @@ public class PostActivity extends AppCompatActivity {
         if (validatePost(postModel)) {
             Api api = APIClient.getClient().create(Api.class);
             MultipartBody.Part part = postModel.prepareFilePart("file", postModel.getFile());
+
             Call<PostResponse> responseCall = api.post(postModel.getPostBody(), part);
             ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
             responseCall.enqueue(new Callback<PostResponse>() {
