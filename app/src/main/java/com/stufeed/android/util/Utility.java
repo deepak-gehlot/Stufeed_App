@@ -866,8 +866,8 @@ aq.id(R.id.image).image(url, options);*/
     /**
      * Returns a list with all links contained in the input
      */
-    public static List<String> extractUrls(String text) {
-        List<String> containedUrls = new ArrayList<>();
+    public static ArrayList<String> extractUrls(String text) {
+        ArrayList<String> containedUrls = new ArrayList<>();
         String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
         Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
         Matcher urlMatcher = pattern.matcher(text);
