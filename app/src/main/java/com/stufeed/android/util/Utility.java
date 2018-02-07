@@ -24,6 +24,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.ExifInterface;
+import android.media.MediaMetadataRetriever;
 import android.net.ParseException;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +39,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -62,6 +64,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -866,8 +869,8 @@ aq.id(R.id.image).image(url, options);*/
     /**
      * Returns a list with all links contained in the input
      */
-    public static List<String> extractUrls(String text) {
-        List<String> containedUrls = new ArrayList<>();
+    public static ArrayList<String> extractUrls(String text) {
+        ArrayList<String> containedUrls = new ArrayList<>();
         String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
         Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
         Matcher urlMatcher = pattern.matcher(text);
@@ -877,5 +880,38 @@ aq.id(R.id.image).image(url, options);*/
                     urlMatcher.end(0)));
         }
         return containedUrls;
+    }
+
+    public static Bitmap retriveVideoFrameFromVideo(String videoPath)
+            throws Throwable {
+        Bitmap bitmap = null;
+         MediaMetadataRetriever mediaMetadataRetriever = null;
+        try {
+            mediaMetadataRetriever = new MediaMetadataRetriever();
+            mediaMetadataRetriever.setDataSource(videoPath,new HashMap<String, String>());
+            bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Throwable(
+                    "Exception in retriveVideoFrameFromVideo(String videoPath)"
+                            + e.getMessage());
+
+        } finally {
+            if (mediaMetadataRetriever != null) {
+                mediaMetadataRetriever.release();
+            }
+        }
+        return bitmap;
+    }
+
+    /**
+     * This is used to check the given URL is valid or not.
+     * @param url
+     * @return true if url is valid, false otherwise.
+     */
+    public static boolean isValidUrl(String url) {
+        Pattern p = Patterns.WEB_URL;
+        Matcher m = p.matcher(url.toLowerCase());
+        return m.matches();
     }
 }

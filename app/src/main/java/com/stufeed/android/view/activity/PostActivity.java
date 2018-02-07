@@ -6,14 +6,22 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.androidquery.AQuery;
+import com.bumptech.glide.Glide;
 import com.github.jksiezni.permissive.PermissionsGrantedListener;
 import com.github.jksiezni.permissive.PermissionsRefusedListener;
 import com.github.jksiezni.permissive.Permissive;
@@ -24,14 +32,17 @@ import com.stufeed.android.api.response.PostResponse;
 import com.stufeed.android.databinding.ActivityPostBinding;
 import com.stufeed.android.databinding.DialogPostSelectorBinding;
 import com.stufeed.android.util.Extension;
+import com.stufeed.android.util.MyMovementMethod;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.util.ValidationTemplate;
 import com.stufeed.android.view.viewmodel.PostModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import okhttp3.MultipartBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -45,6 +56,18 @@ public class PostActivity extends AppCompatActivity {
     private String settingStr[] = new String[]{"Allow Comment", "Allow Repost"};
     private boolean settingBool[] = {true, true};
     private AQuery aQuery;
+
+    //Audio player variables
+    private final int RECORD_AUDIO = 101;
+    private String audioFilePath = "";
+    private MediaPlayer mp;
+    Handler seekHandler = new Handler();
+    Runnable run = new Runnable() {
+        @Override
+        public void run() {
+            seekUpdate();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +85,137 @@ public class PostActivity extends AppCompatActivity {
             }
         });
         aQuery = new AQuery(PostActivity.this);
+
+        addDescriptionTextChangeListener();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+        if (requestCode == RECORD_AUDIO) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    binding.audioCardLayout.setVisibility(View.VISIBLE);
+                    File file = new File(audioFilePath);
+                    String fileName = file.getName();
+                    binding.audioText.setText(fileName);
+                    audioPlayer();
+                    binding.getModel().setType(5);
+                    binding.getModel().setFile(file);
+                    break;
+                case RESULT_CANCELED:
+                    Utility.showToast(PostActivity.this, "Recording canceled.");
+                    break;
+            }
+        } else {
+            EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+                @Override
+                public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                    File file = imageFiles.get(0);
+                    binding.selectedImgLayout.setVisibility(View.VISIBLE);
+                    aQuery.id(binding.selectedImg).image(file, 300);
+                    binding.getModel().setFile(file);
+                }
+            });
+        }
+    }
+
+    /**
+     * Create Audio player
+     */
+    private void audioPlayer() {
+        //set up MediaPlayer
+        mp = new MediaPlayer();
+        try {
+            mp.setDataSource(audioFilePath);
+            mp.prepareAsync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Handle Audio player play pause
+     */
+    public void playPauseAudio() {
+        if (mp != null) {
+            binding.audioSeekBar.setMax(mp.getDuration());
+            if (mp.isPlaying()) {
+                mp.pause();
+                seekHandler.removeCallbacks(run);
+                binding.audioStartStopImg.setImageResource(R.drawable.ic_video_play);
+            } else {
+                mp.start();
+                binding.audioStartStopImg.setImageResource(R.drawable.ic_video_pause);
+                seekUpdate();
+            }
+        }
+    }
+
+    /**
+     * Handle Audio Player seek bar
+     */
+    public void seekUpdate() {
+        binding.audioSeekBar.setProgress(mp.getCurrentPosition());
+        seekHandler.postDelayed(run, 1000);
+    }
+
+    /**
+     * Description EditText text change listener
+     */
+    private void addDescriptionTextChangeListener() {
+        binding.edtDescription.setLinksClickable(true);
+        binding.edtDescription.setAutoLinkMask(Linkify.WEB_URLS);
+        binding.edtDescription.setMovementMethod(MyMovementMethod.getInstance());
+        binding.edtDescription.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                File file = imageFiles.get(0);
-                binding.selectedImgLayout.setVisibility(View.VISIBLE);
-                aQuery.id(binding.selectedImg).image(file, 300);
-                binding.getModel().setFile(file);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            String videoURL = "";
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String content = binding.edtDescription.getText().toString().trim();
+                if (!TextUtils.isEmpty(content)) {
+                    ArrayList<String> arrayList = Utility.extractUrls(content);
+                    if (arrayList.size() != 0) {
+                        videoURL = arrayList.get(0);
+                        if (Utility.isValidUrl(videoURL)) {
+                            Linkify.addLinks(s, Linkify.WEB_URLS);
+                            try {
+                                if (videoURL.contains("www.youtube.com")) {
+                                    String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
+                                    Glide.with(PostActivity.this)
+                                            .load(url)
+                                            .into(binding.videoImg);
+                                } else {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Bitmap bitmap = Utility.retriveVideoFrameFromVideo(videoURL);
+                                                Glide.with(PostActivity.this)
+                                                        .load(bitmap)
+                                                        .into(binding.videoImg);
+                                            } catch (Throwable throwable) {
+                                                throwable.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                }
+                            } catch (Throwable throwable) {
+                                throwable.printStackTrace();
+                            }
+                        }
+                    }
+                }
             }
         });
     }
@@ -143,6 +285,7 @@ public class PostActivity extends AppCompatActivity {
                         openGallery();
                         break;
                     case R.id.documentButton:
+                        recordAudio();
                         break;
                 }
             }
@@ -153,6 +296,35 @@ public class PostActivity extends AppCompatActivity {
         dialogBinding.documentButton.setOnClickListener(onClickListener);
 
         dialog.show();
+    }
+
+    /**
+     * Open Audio recorder
+     */
+    private void recordAudio() {
+        new Permissive.Request(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .whenPermissionsGranted(new PermissionsGrantedListener() {
+                    @Override
+                    public void onPermissionsGranted(String[] permissions) throws SecurityException {
+                        if (permissions.length == 2) {
+                            audioFilePath = Environment.getExternalStorageDirectory() + "/recorded_audio" + System
+                                    .currentTimeMillis() + "" +
+                                    ".wav";
+                            int color = getResources().getColor(R.color.colorPrimaryDark);
+                            AndroidAudioRecorder.with(PostActivity.this)
+                                    // Required
+                                    .setFilePath(audioFilePath)
+                                    .setColor(color)
+                                    .setRequestCode(RECORD_AUDIO)
+                                    .record();
+                        }
+                    }
+                }).whenPermissionsRefused(new PermissionsRefusedListener() {
+            @Override
+            public void onPermissionsRefused(String[] permissions) {
+                Utility.showToast(PostActivity.this, "Need permission to open camera.");
+            }
+        }).execute(PostActivity.this);
     }
 
     /**
@@ -202,9 +374,11 @@ public class PostActivity extends AppCompatActivity {
     private boolean validatePost(PostModel postModel) {
         Extension extension = Extension.getInstance();
         if (TextUtils.isEmpty(postModel.getTitle()) ||
-                TextUtils.isEmpty(postModel.getDescription()) ||
-                (postModel.getFile() == null)) {
+                TextUtils.isEmpty(postModel.getDescription())) {
             Utility.showToast(PostActivity.this, getString(R.string.all_required));
+            return false;
+        } else if (postModel.getType() == 5 && postModel.getFile() == null) {
+            Utility.showToast(PostActivity.this, "Audio file not found.");
             return false;
         } else if (!extension.executeStrategy(PostActivity.this, "", ValidationTemplate.INTERNET)) {
             Utility.setNoInternetPopup(PostActivity.this);

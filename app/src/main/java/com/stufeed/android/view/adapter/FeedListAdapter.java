@@ -4,14 +4,21 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.appunite.appunitevideoplayer.PlayerActivity;
+import com.bumptech.glide.Glide;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -19,11 +26,13 @@ import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
+import com.stufeed.android.databinding.RowAudioPlayerBinding;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.CommentPostActivity;
+import com.stufeed.android.view.activity.PostActivity;
 
 import java.util.ArrayList;
 
@@ -36,6 +45,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     private Activity context;
     private ArrayList<GetPostResponse.Post> postArrayList;
     private String loginUserId;
+    private String videoURL = "";
 
     public FeedListAdapter(Activity context, ArrayList<GetPostResponse.Post> postArrayList) {
         this.context = context;
@@ -45,16 +55,98 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_feed, parent,
-                false);
-        return new ViewHolder(rowBinding);
+        switch (viewType) {
+            case 5:
+                RowAudioPlayerBinding rowAudioPlayerBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R
+                                .layout.row_audio_player,
+                        parent,
+                        false);
+                return new ViewHolder(rowAudioPlayerBinding);
+            default:
+                RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_feed,
+                        parent,
+                        false);
+                return new ViewHolder(rowBinding);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int viewType = 0;
+        switch (postArrayList.get(position).getPostType()) {
+            case "5":
+                viewType = 5;
+                break;
+        }
+
+        return viewType;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         GetPostResponse.Post post = postArrayList.get(position);
+        switch (post.getPostType()) {
+            case "5":
+                audioRow(holder, post);
+                break;
+            default:
+                imageOrVideoRow(holder, post);
+                break;
+        }
+    }
+
+    private void audioRow(final ViewHolder holder, GetPostResponse.Post post) {
+        holder.rowAudioPlayerBinding.setAdapter(this);
+
+    }
+
+    private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
         holder.rowBinding.setModel(post);
         holder.rowBinding.setAdapter(this);
+        ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
+        if (arrayList.size() != 0) {
+            videoURL = arrayList.get(0);
+            if (Utility.isValidUrl(videoURL)) {
+                holder.rowBinding.playBtn.setVisibility(View.VISIBLE);
+                try {
+                    if (videoURL.contains("www.youtube.com")) {
+                        String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
+                        Glide.with(context)
+                                .load(url)
+                                .into(holder.rowBinding.image);
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    final Bitmap bitmap = Utility.retriveVideoFrameFromVideo(videoURL);
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Glide.with(context)
+                                                    .load(bitmap)
+                                                    .into(holder.rowBinding.image);
+                                        }
+                                    });
+                                } catch (Throwable throwable) {
+                                    throwable.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                    holder.rowBinding.playBtn.setVisibility(View.GONE);
+                }
+            } else {
+                holder.rowBinding.playBtn.setVisibility(View.GONE);
+            }
+        } else {
+            holder.rowBinding.playBtn.setVisibility(View.GONE);
+            Glide.with(context)
+                    .load(post.getFilePath() + post.getImage())
+                    .into(holder.rowBinding.image);
+        }
 
         if (!TextUtils.isEmpty(post.getAllowRePost())) {
             if (post.getAllowRePost().equals("1")) {
@@ -75,9 +167,27 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         });
     }
 
+    //http://techslides.com/demos/sample-videos/small.mp4
     @Override
     public int getItemCount() {
         return postArrayList != null ? postArrayList.size() : 0;
+    }
+
+    public void onImageClick(GetPostResponse.Post post) {
+        ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
+        if (arrayList.size() != 0) {
+            String videoURL = arrayList.get(0);
+            if (Utility.isValidUrl(videoURL)) {
+                if (videoURL.contains("www.youtube.com")) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
+                    context.startActivity(browserIntent);
+                } else {
+                    context.startActivity(PlayerActivity.getVideoPlayerIntent(context,
+                            videoURL,
+                            "Video title"));
+                }
+            }
+        }
     }
 
     private void showActionMenu(final GetPostResponse.Post post, int position, View view) {
@@ -240,10 +350,16 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private RowFeedBinding rowBinding;
+        private RowAudioPlayerBinding rowAudioPlayerBinding;
 
         private ViewHolder(RowFeedBinding rowBinding) {
             super(rowBinding.getRoot());
             this.rowBinding = rowBinding;
+        }
+
+        private ViewHolder(RowAudioPlayerBinding rowAudioPlayerBinding) {
+            super(rowAudioPlayerBinding.getRoot());
+            this.rowAudioPlayerBinding = rowAudioPlayerBinding;
         }
     }
 }
