@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.widget.RadioGroup;
 
 import com.appunite.appunitevideoplayer.PlayerActivity;
 import com.bumptech.glide.Glide;
@@ -62,19 +63,56 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        GetPostResponse.Post post = postArrayList.get(position);
+        final GetPostResponse.Post post = postArrayList.get(position);
         holder.rowBinding.setModel(post);
         holder.rowBinding.setAdapter(this);
+        holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
+        holder.rowBinding.pollLayout.setVisibility(View.GONE);
+        holder.rowBinding.imageLayout.setVisibility(View.GONE);
         switch (post.getPostType()) {
             case "5":
-                holder.rowBinding.imageLayout.setVisibility(View.GONE);
                 holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
                 String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
                 holder.rowBinding.audioText.setText(fileName);
                 break;
+            case "4":
+                holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
+                holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
+                holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
+                holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
+                for (int i = 0; i < post.getOptionArrayList().size(); i++) {
+                    String select = post.getOptionArrayList().get(i).getIsSelect();
+                    if (i == 0) {
+                        if (!TextUtils.isEmpty(select) && select.equals("1")) {
+                            holder.rowBinding.option1.setChecked(true);
+                        } else {
+                            holder.rowBinding.option1.setChecked(false);
+                        }
+                    } else if (i == 1) {
+                        if (!TextUtils.isEmpty(select) && select.equals("1")) {
+                            holder.rowBinding.option2.setChecked(true);
+                        } else {
+                            holder.rowBinding.option2.setChecked(false);
+                        }
+                    }
+                }
+                holder.rowBinding.pollRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        switch (checkedId) {
+                            case R.id.option1:
+                                post.getOptionArrayList().get(0).setIsSelect("1");
+                                break;
+                            case R.id.option2:
+                                post.getOptionArrayList().get(1).setIsSelect("1");
+                                break;
+                        }
+                    }
+                });
+
+                break;
             default:
                 holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
-                holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
                 imageOrVideoRow(holder, post);
                 break;
         }

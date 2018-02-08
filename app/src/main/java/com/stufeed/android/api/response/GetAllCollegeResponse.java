@@ -1,5 +1,7 @@
 package com.stufeed.android.api.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -10,6 +12,7 @@ public class GetAllCollegeResponse {
 
     private String responseMessage = "";
     private String responseCode = "";
+    @SerializedName("getpost")
     private ArrayList<College> collegeArrayList = new ArrayList<>();
 
     public String getResponseMessage() {

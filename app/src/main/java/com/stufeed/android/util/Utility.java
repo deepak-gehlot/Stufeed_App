@@ -123,6 +123,10 @@ public class Utility {
                 UserDetail.class);
     }
 
+    public static String getLoginUserId(Context context) {
+        return getLoginUserDetail(context).getUserId();
+    }
+
     /* public static boolean isGooglePlayServicesAvailable(Activity activity) {
          GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
          int status = googleApiAvailability.isGooglePlayServicesAvailable(activity);
@@ -885,10 +889,10 @@ aq.id(R.id.image).image(url, options);*/
     public static Bitmap retriveVideoFrameFromVideo(String videoPath)
             throws Throwable {
         Bitmap bitmap = null;
-         MediaMetadataRetriever mediaMetadataRetriever = null;
+        MediaMetadataRetriever mediaMetadataRetriever = null;
         try {
             mediaMetadataRetriever = new MediaMetadataRetriever();
-            mediaMetadataRetriever.setDataSource(videoPath,new HashMap<String, String>());
+            mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
             bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST);
         } catch (Exception e) {
             e.printStackTrace();
@@ -906,6 +910,7 @@ aq.id(R.id.image).image(url, options);*/
 
     /**
      * This is used to check the given URL is valid or not.
+     *
      * @param url
      * @return true if url is valid, false otherwise.
      */

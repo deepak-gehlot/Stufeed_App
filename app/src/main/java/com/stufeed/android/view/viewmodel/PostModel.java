@@ -23,6 +23,10 @@ public class PostModel extends BaseObservable {
     private int allowRePost = 1;
     private int type = 3;
     private String videoUrl = "";
+    private String pollQuestion = "";
+    private String pollOption1 = "";
+    private String pollOption2 = "";
+    private String pollOption = "";
 
     @Bindable
     public String getUserId() {
@@ -104,6 +108,44 @@ public class PostModel extends BaseObservable {
         notifyPropertyChanged(BR.videoUrl);
     }
 
+    @Bindable
+    public String getPollQuestion() {
+        return pollQuestion;
+    }
+
+    public void setPollQuestion(String pollQuestion) {
+        this.pollQuestion = pollQuestion;
+        notifyPropertyChanged(BR.pollQuestion);
+    }
+
+    @Bindable
+    public String getPollOption() {
+        return pollOption;
+    }
+
+    public void setPollOption(String pollOption) {
+        this.pollOption = pollOption;
+        notifyPropertyChanged(BR.pollOption);
+    }
+
+    @Bindable
+    public String getPollOption1() {
+        return pollOption1;
+    }
+
+    public void setPollOption1(String pollOption1) {
+        this.pollOption1 = pollOption1;
+    }
+
+    @Bindable
+    public String getPollOption2() {
+        return pollOption2;
+    }
+
+    public void setPollOption2(String pollOption2) {
+        this.pollOption2 = pollOption2;
+        notifyPropertyChanged(BR.pollOption2);
+    }
 
     //{"userid":1,"title":"test title","description":"test description","file":"file(image,audio)","alowcomment":0,
     // "alowrepost":0,"type":3,"videourl":""}
@@ -121,6 +163,8 @@ public class PostModel extends BaseObservable {
         )));
         requestBodyMap.put("type", RequestBody.create(mediaTypeText, String.valueOf(getType())));
         requestBodyMap.put("videourl", RequestBody.create(mediaTypeText, getVideoUrl()));
+        requestBodyMap.put("pollquestion", RequestBody.create(mediaTypeText, getPollQuestion()));
+        requestBodyMap.put("polloption", RequestBody.create(mediaTypeText, getPollOption()));
         return requestBodyMap;
     }
 

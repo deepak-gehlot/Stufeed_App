@@ -1,8 +1,6 @@
 package com.stufeed.android.view.fragment.connect;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,16 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
+import com.stufeed.android.api.APIClient;
+import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.databinding.FragmentFacultyBinding;
+import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.FacultyListAdapter;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FacultyFragment extends Fragment {
 
+    private FragmentFacultyBinding binding;
+    private String loginUserId = "", loginUserCollegeId = "";
     public FacultyFragment() {
         // Required empty public constructor
     }
-
-    private FragmentFacultyBinding binding;
 
     public static FacultyFragment newInstance() {
 
@@ -43,11 +51,41 @@ public class FacultyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setRecyclerView();
+        getStudents();
     }
 
-    private void setRecyclerView() {
+
+    private void getStudents() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetCollegeUserResponse> responseCall = api.getCollegeUsers(loginUserId, loginUserCollegeId, "2");
+        responseCall.enqueue(new Callback<GetCollegeUserResponse>() {
+            @Override
+            public void onResponse(Call<GetCollegeUserResponse> call, Response<GetCollegeUserResponse> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                handleStudentResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetCollegeUserResponse> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                handleStudentResponse(null);
+            }
+        });
+    }
+
+    private void handleStudentResponse(GetCollegeUserResponse response) {
+        if (response == null) {
+            Utility.showErrorMsg(getActivity());
+        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            setRecyclerView(response.getUserArrayList());
+        }
+    }
+
+    private void setRecyclerView(ArrayList<GetCollegeUserResponse.User> userArrayList) {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity()));
+        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity(), userArrayList));
     }
 }

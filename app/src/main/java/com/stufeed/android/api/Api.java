@@ -5,6 +5,7 @@ import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
+import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.LoginResponse;
@@ -52,7 +53,8 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("updatecollegeid")
-    Call<UpdateCollegeResponse> setCollegeId(@Field("updatecollegeid") String collegeId);
+    Call<UpdateCollegeResponse> setCollegeId(@Field("userid") String userId,
+                                             @Field("updatecollegeid") String collegeId);
 
     @FormUrlEncoded
     @POST("verifyuseremail")
@@ -61,6 +63,11 @@ public interface Api {
     @Multipart
     @POST("post")
     Call<PostResponse> post(@PartMap Map<String, RequestBody> map, @Part MultipartBody.Part file);
+
+    @Multipart
+    @POST("post")
+    Call<PostResponse> post(@PartMap Map<String, RequestBody> map);
+
 
     @GET("getpost")
     Call<GetPostResponse> getAllPost();
@@ -105,4 +112,11 @@ public interface Api {
     Call<FollowResponse> follow(@Field("userid") String userId,
                                 @Field("questionid") String followedUserId,
                                 @Field("optionid") String optionId);
+
+    @FormUrlEncoded
+    @POST("getallcollegeusers")
+    Call<GetCollegeUserResponse> getCollegeUsers(@Field("userid") String userId,
+                                                 @Field("collegeid") String collegeId,
+                                                 @Field("usertype") String userType);
+
 }

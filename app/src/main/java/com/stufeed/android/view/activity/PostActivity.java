@@ -38,6 +38,8 @@ import com.stufeed.android.util.Utility;
 import com.stufeed.android.util.ValidationTemplate;
 import com.stufeed.android.view.viewmodel.PostModel;
 
+import org.json.JSONArray;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -286,6 +288,10 @@ public class PostActivity extends AppCompatActivity {
                     case R.id.documentButton:
                         recordAudio();
                         break;
+                    case R.id.pollButton:
+                        binding.pollLayout.setVisibility(View.VISIBLE);
+                        binding.getModel().setType(4);
+                        break;
                 }
             }
         };
@@ -293,6 +299,7 @@ public class PostActivity extends AppCompatActivity {
         dialogBinding.cameraButton.setOnClickListener(onClickListener);
         dialogBinding.galleryButton.setOnClickListener(onClickListener);
         dialogBinding.documentButton.setOnClickListener(onClickListener);
+        dialogBinding.pollButton.setOnClickListener(onClickListener);
 
         dialog.show();
     }
@@ -394,6 +401,10 @@ public class PostActivity extends AppCompatActivity {
      */
     public void onPostButtonClick(PostModel postModel) {
         if (validatePost(postModel)) {
+            if (postModel.getType() == 4) {
+                postPoll(postModel);
+                return;
+            }
             Api api = APIClient.getClient().create(Api.class);
             MultipartBody.Part part = postModel.prepareFilePart("file", postModel.getFile());
 
@@ -414,6 +425,39 @@ public class PostActivity extends AppCompatActivity {
             });
         }
     }
+
+    /**
+     * Post Poll method
+     *
+     * @param postModel @PostModel
+     */
+    public void postPoll(PostModel postModel) {
+        if (validatePost(postModel)) {
+            Api api = APIClient.getClient().create(Api.class);
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(postModel.getPollOption1());
+            jsonArray.put(postModel.getPollOption2());
+            postModel.setPollOption(jsonArray.toString());
+
+            Call<PostResponse> responseCall = api.post(postModel.getPostBody());
+            ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
+            responseCall.enqueue(new Callback<PostResponse>() {
+                @Override
+                public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    handlePostResponse(response.body());
+                }
+
+                @Override
+                public void onFailure(Call<PostResponse> call, Throwable t) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    Utility.showErrorMsg(PostActivity.this);
+                }
+            });
+        }
+    }
+
 
     /**
      * Handle post response

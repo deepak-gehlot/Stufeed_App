@@ -117,6 +117,7 @@ public class RegistrationActivity extends AppCompatActivity {
             if (loginResponse.getResponseCode().equals(Api.SUCCESS)) {
                 PreferenceConnector.writeString(RegistrationActivity.this, PreferenceConnector.USER_DATA, new Gson()
                         .toJson(loginResponse.getUser()));
+                PreferenceConnector.writeString(RegistrationActivity.this, PreferenceConnector.VERIFY, "0");
                 startActivity(new Intent(RegistrationActivity.this, SelectCollegeActivity.class));
                 finish();
             } else {

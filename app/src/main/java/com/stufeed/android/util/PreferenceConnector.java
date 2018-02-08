@@ -8,8 +8,8 @@ public class PreferenceConnector {
     public static final String USER_DATA = "user_data";
     public static final String USER_ID = "user_id";
     public static final String VERIFY = "verify";
-    private static final String PREF_NAME = "stu";
     private static final int MODE = Context.MODE_PRIVATE;
+    private static final String PREF_NAME = "stu";
 
     public static void writeBoolean(Context context, String key, boolean value) {
         getEditor(context).putBoolean(key, value).commit();

@@ -80,6 +80,12 @@ public class GetPostResponse {
         private String totalLike = "0";
         @SerializedName("Totalcomment")
         private String totalComment = "0";
+        @SerializedName("Question")
+        private String question;
+        @SerializedName("Questionid")
+        private String questionId;
+        @SerializedName("Options")
+        private ArrayList<Option> optionArrayList;
 
         public Post() {
         }
@@ -100,6 +106,10 @@ public class GetPostResponse {
             this.image = in.readString();
             this.totalLike = in.readString();
             this.totalComment = in.readString();
+            this.question = in.readString();
+            this.questionId = in.readString();
+            this.optionArrayList = new ArrayList<Option>();
+            in.readList(this.optionArrayList, Option.class.getClassLoader());
         }
 
         public String getUserId() {
@@ -222,6 +232,30 @@ public class GetPostResponse {
             this.totalComment = totalComment;
         }
 
+        public String getQuestion() {
+            return question;
+        }
+
+        public void setQuestion(String question) {
+            this.question = question;
+        }
+
+        public String getQuestionId() {
+            return questionId;
+        }
+
+        public void setQuestionId(String questionId) {
+            this.questionId = questionId;
+        }
+
+        public ArrayList<Option> getOptionArrayList() {
+            return optionArrayList;
+        }
+
+        public void setOptionArrayList(ArrayList<Option> optionArrayList) {
+            this.optionArrayList = optionArrayList;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -244,6 +278,61 @@ public class GetPostResponse {
             dest.writeString(this.image);
             dest.writeString(this.totalLike);
             dest.writeString(this.totalComment);
+            dest.writeString(this.question);
+            dest.writeString(this.questionId);
+            dest.writeList(this.optionArrayList);
+        }
+    }
+
+    public class Option {
+        @SerializedName("id")
+        private String id = "";
+        @SerializedName("questionid")
+        private String questionId = "";
+        @SerializedName("optionvalue")
+        private String optionValue = "";
+        @SerializedName("totalvote")
+        private String totalVote = "";
+        private String isSelect = "";
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getQuestionId() {
+            return questionId;
+        }
+
+        public void setQuestionId(String questionId) {
+            this.questionId = questionId;
+        }
+
+        public String getOptionValue() {
+            return optionValue;
+        }
+
+        public void setOptionValue(String optionValue) {
+            this.optionValue = optionValue;
+        }
+
+        public String getTotalVote() {
+            return totalVote;
+        }
+
+        public void setTotalVote(String totalVote) {
+            this.totalVote = totalVote;
+        }
+
+        public String getIsSelect() {
+            return isSelect;
+        }
+
+        public void setIsSelect(String isSelect) {
+            this.isSelect = isSelect;
         }
     }
 }

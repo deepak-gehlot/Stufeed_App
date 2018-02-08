@@ -11,6 +11,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.VerifyResponse;
 import com.stufeed.android.databinding.ActivityVerifyAccountBinding;
+import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 
@@ -40,7 +41,7 @@ public class VerifyAccountActivity extends AppCompatActivity {
 
     private void verify(String code) {
         Api api = APIClient.getClient().create(Api.class);
-        String userId = Utility.getLoginUserDetail(VerifyAccountActivity.this).getUserId();
+        String userId = Utility.getLoginUserId(VerifyAccountActivity.this);
         Call<VerifyResponse> responseCall = api.verifyEmail(userId, code);
         ProgressDialog.getInstance().showProgressDialog(VerifyAccountActivity.this);
         responseCall.enqueue(new Callback<VerifyResponse>() {
@@ -62,7 +63,8 @@ public class VerifyAccountActivity extends AppCompatActivity {
         if (response == null) {
             Utility.showErrorMsg(VerifyAccountActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
-            startActivity(new Intent(VerifyAccountActivity.this, HomeActivity.class));
+            PreferenceConnector.writeString(VerifyAccountActivity.this, PreferenceConnector.VERIFY, "1");
+            startActivity(new Intent(VerifyAccountActivity.this, LoginActivity.class));
             finish();
         } else {
             Utility.showToast(VerifyAccountActivity.this, response.getResponseMessage());

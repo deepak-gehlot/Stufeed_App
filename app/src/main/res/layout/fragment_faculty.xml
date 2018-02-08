@@ -7,6 +7,12 @@
         android:background="@color/bg_color"
         tools:context="com.stufeed.android.view.fragment.connect.FacultyFragment">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

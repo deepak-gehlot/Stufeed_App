@@ -118,6 +118,7 @@ public class SelectCollegeActivity extends AppCompatActivity {
         } else if (getAllCollegeResponse.getResponseCode().equals(Api.SUCCESS)) {
             colleges = getAllCollegeResponse.getCollegeArrayList();
             int size = colleges.size();
+            collegesStrList.clear();
             for (int i = 0; i < size; i++) {
                 collegesStrList.add(colleges.get(i).getCollegeName());
             }
@@ -130,7 +131,8 @@ public class SelectCollegeActivity extends AppCompatActivity {
 
     private void setCollege(String collegeId) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<UpdateCollegeResponse> responseCall = api.setCollegeId(collegeId);
+        String userId = Utility.getLoginUserId(SelectCollegeActivity.this);
+        Call<UpdateCollegeResponse> responseCall = api.setCollegeId(userId, collegeId);
         ProgressDialog.getInstance().showProgressDialog(SelectCollegeActivity.this);
         responseCall.enqueue(new Callback<UpdateCollegeResponse>() {
             @Override
