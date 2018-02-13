@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -51,6 +51,10 @@
         <activity
             android:name=".view.activity.CommentPostActivity"
             android:label="@string/title_activity_comment_post"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.activity.BoardListActivity"
+            android:label="@string/title_activity_board_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

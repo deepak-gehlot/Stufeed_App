@@ -1,12 +1,15 @@
 package com.stufeed.android.api;
 
 import com.stufeed.android.api.response.CommentResponse;
+import com.stufeed.android.api.response.CreateBoardResponse;
 import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
+import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
+import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.LoginResponse;
 import com.stufeed.android.api.response.PostResponse;
@@ -118,5 +121,23 @@ public interface Api {
     Call<GetCollegeUserResponse> getCollegeUsers(@Field("userid") String userId,
                                                  @Field("collegeid") String collegeId,
                                                  @Field("usertype") String userType);
+
+    @FormUrlEncoded
+    @POST("createboard")
+    Call<CreateBoardResponse> createBoard(@Field("userid") String userId,
+                                          @Field("boardname") String title,
+                                          @Field("boarddescription") String description,
+                                          @Field("isprivate") int isPrivate,
+                                          @Field("iscircle") int isCircle);
+
+    @FormUrlEncoded
+    @POST("getalluserboard")
+    Call<GetBoardListResponse> getBoardList(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("joinboard")
+    Call<JoinBoardResponse> joinBoard(@Field("userid") String userId,
+                                      @Field("boardid") String boardId,
+                                      @Field("joinerid") String joinUserId);
 
 }
