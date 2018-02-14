@@ -9,7 +9,7 @@
     <string name="register">Register</string>
     <string name="forget_password">Forgot Password</string>
     <string name="register_college_info">Are you an institute?</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">Stufeed</string>
     <string name="title_person">You</string>
     <string name="title_connect">Connect</string>
     <string name="title_post">Post</string>
@@ -58,4 +58,5 @@
     <string name="title_activity_post">Post</string>
     <string name="title_activity_comment_post">Comment</string>
     <string name="title_activity_board_list">BoardListActivity</string>
+    <string name="title_activity_user_profile">Profile</string>
 </resources>

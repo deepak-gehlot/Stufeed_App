@@ -24,9 +24,11 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.DeletePostResponse;
+import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
+import com.stufeed.android.api.response.SavePostResponse;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
@@ -70,45 +72,50 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         holder.rowBinding.pollLayout.setVisibility(View.GONE);
         holder.rowBinding.imageLayout.setVisibility(View.GONE);
         switch (post.getPostType()) {
-            case "5":
+            case "5":  // for audio
                 holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
                 String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
                 holder.rowBinding.audioText.setText(fileName);
                 break;
-            case "4":
+            case "4":  // for poll
                 holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
                 holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
                 holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
                 holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
                 for (int i = 0; i < post.getOptionArrayList().size(); i++) {
+
+                    if (!TextUtils.isEmpty(post.getSelectedId())) {
+                        String id = post.getOptionArrayList().get(i).getId();
+                        if (post.getSelectedId().equals(id)) {
+                            post.getOptionArrayList().get(i).setIsSelect("1");
+                        }
+                    }
+
                     String select = post.getOptionArrayList().get(i).getIsSelect();
                     if (i == 0) {
                         if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                            holder.rowBinding.option1.setChecked(true);
+                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                    .ic_radio_button_checked, 0, 0, 0);
+                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                    .ic_radio_button_unchecked, 0, 0, 0);
                         } else {
-                            holder.rowBinding.option1.setChecked(false);
+                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                    .ic_radio_button_unchecked, 0, 0, 0);
                         }
+                        holder.rowBinding.totalCount1.setText(post.getOptionArrayList().get(i).getTotalVote());
                     } else if (i == 1) {
                         if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                            holder.rowBinding.option2.setChecked(true);
+                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                    .ic_radio_button_unchecked, 0, 0, 0);
+                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                    .ic_radio_button_checked, 0, 0, 0);
                         } else {
-                            holder.rowBinding.option2.setChecked(false);
+                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                    .ic_radio_button_unchecked, 0, 0, 0);
                         }
+                        holder.rowBinding.totalCount2.setText(post.getOptionArrayList().get(i).getTotalVote());
                     }
                 }
-                holder.rowBinding.pollRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        switch (checkedId) {
-                            case R.id.option1:
-                                post.getOptionArrayList().get(0).setIsSelect("1");
-                                break;
-                            case R.id.option2:
-                                post.getOptionArrayList().get(1).setIsSelect("1");
-                                break;
-                        }
-                    }
-                });
 
                 break;
             default:
@@ -309,6 +316,52 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     }
 
+
+    /**
+     * show save post confirmation dialog
+     *
+     * @param post {@link GetPostResponse.Post}
+     */
+    public void onSavePostBtnClick(final GetPostResponse.Post post) {
+        Utility.setDialog(context, "Message", "Do you want to bookmark this post.", "No", "Yes",
+                new DialogListener() {
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onPositive(DialogInterface dialog) {
+                        dialog.dismiss();
+                        savePost(post);
+                    }
+                });
+    }
+
+    /**
+     * Call service for save post
+     *
+     * @param post
+     */
+    private void savePost(GetPostResponse.Post post) {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<SavePostResponse> responseCall = api.savePost(loginUserId, post.getPostId());
+        ProgressDialog.getInstance().showProgressDialog(context);
+        responseCall.enqueue(new Callback<SavePostResponse>() {
+            @Override
+            public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showToast(context, "Bookmark Post successfully.");
+            }
+
+            @Override
+            public void onFailure(Call<SavePostResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(context);
+            }
+        });
+    }
+
     private void showDeleteConfirmatinDialog(final GetPostResponse.Post post) {
         Utility.setDialog(context, context.getString(R.string.alert), "Are you sure, You want to delete this post?",
                 "No", "Yes", new DialogListener() {
@@ -368,6 +421,76 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         // Show DialogFragment
         PlayerDialogFragment.newInstance(post.getFilePath() + post.getImage())
                 .show(context.getFragmentManager(), "Dialog Fragment");
+    }
+
+    /**
+     * On poll option text view click listener
+     *
+     * @param post
+     * @param option
+     */
+    public void onPollOptionSelect(GetPostResponse.Post post, int option) {
+        String totalVote1 = post.getOptionArrayList().get(0).getTotalVote();
+        String totalVote2 = post.getOptionArrayList().get(1).getTotalVote();
+        switch (option) {
+            case 1:
+                post.getOptionArrayList().get(0).setIsSelect("1");
+                post.getOptionArrayList().get(1).setIsSelect("0");
+                post.setSelectedId(post.getOptionArrayList().get(0).getId());
+
+                if (!TextUtils.isEmpty(totalVote1)) {
+                    totalVote1 = "" + (Integer.parseInt(totalVote1) + 1);
+                } else {
+                    totalVote1 = "0";
+                }
+
+                if (!TextUtils.isEmpty(totalVote2)) {
+                    totalVote2 = "" + (Integer.parseInt(totalVote2) - 1);
+                }
+
+                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(0).getId());
+                break;
+            case 2:
+                post.getOptionArrayList().get(1).setIsSelect("1");
+                post.getOptionArrayList().get(0).setIsSelect("0");
+                post.setSelectedId(post.getOptionArrayList().get(1).getId());
+                if (!TextUtils.isEmpty(totalVote2)) {
+                    totalVote2 = "" + (Integer.parseInt(totalVote2) + 1);
+                } else {
+                    totalVote2 = "0";
+                }
+                if (!TextUtils.isEmpty(totalVote1)) {
+                    totalVote1 = "" + (Integer.parseInt(totalVote1) - 1);
+                }
+                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(1).getId());
+
+                break;
+        }
+        post.getOptionArrayList().get(0).setTotalVote(totalVote1);
+        post.getOptionArrayList().get(1).setTotalVote(totalVote2);
+        notifyItemChanged(postArrayList.indexOf(post));
+    }
+
+    /**
+     * update poll answer on server
+     *
+     * @param questionId
+     * @param optionId
+     */
+    private void addPollAnswer(String questionId, String optionId) {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<FollowResponse> responseCall = api.addPollAnswer(loginUserId, questionId, optionId);
+        responseCall.enqueue(new Callback<FollowResponse>() {
+            @Override
+            public void onResponse(Call<FollowResponse> call, Response<FollowResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<FollowResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

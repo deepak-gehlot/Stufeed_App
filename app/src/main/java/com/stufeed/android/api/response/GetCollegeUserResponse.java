@@ -1,5 +1,8 @@
 package com.stufeed.android.api.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -39,7 +42,7 @@ public class GetCollegeUserResponse {
         this.userArrayList = userArrayList;
     }
 
-    public class User {
+    public static class User implements Parcelable {
         @SerializedName("userid")
         private String userId = "";
         @SerializedName("collegeid")
@@ -48,6 +51,8 @@ public class GetCollegeUserResponse {
         private String fullName = "";
         @SerializedName("profilepic")
         private String profilePic = "";
+        @SerializedName("is_follow")
+        private String isFollow = "";
 
         public String getUserId() {
             return userId;
@@ -80,5 +85,51 @@ public class GetCollegeUserResponse {
         public void setProfilePic(String profilePic) {
             this.profilePic = profilePic;
         }
+
+        public String getIsFollow() {
+            return isFollow;
+        }
+
+        public void setIsFollow(String isFollow) {
+            this.isFollow = isFollow;
+        }
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.userId);
+            dest.writeString(this.collegeId);
+            dest.writeString(this.fullName);
+            dest.writeString(this.profilePic);
+            dest.writeString(this.isFollow);
+        }
+
+        public User() {
+        }
+
+        protected User(Parcel in) {
+            this.userId = in.readString();
+            this.collegeId = in.readString();
+            this.fullName = in.readString();
+            this.profilePic = in.readString();
+            this.isFollow = in.readString();
+        }
+
+        public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+            @Override
+            public User createFromParcel(Parcel source) {
+                return new User(source);
+            }
+
+            @Override
+            public User[] newArray(int size) {
+                return new User[size];
+            }
+        };
     }
 }

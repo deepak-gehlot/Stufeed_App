@@ -71,9 +71,9 @@ public interface Api {
     @POST("post")
     Call<PostResponse> post(@PartMap Map<String, RequestBody> map);
 
-
-    @GET("getpost")
-    Call<GetPostResponse> getAllPost();
+    @FormUrlEncoded
+    @POST("getpost")
+    Call<GetPostResponse> getAllPost(@Field("userid") String userId);
 
     @FormUrlEncoded
     @POST("commentpost")
@@ -112,9 +112,9 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("addpollanswer")
-    Call<FollowResponse> follow(@Field("userid") String userId,
-                                @Field("questionid") String followedUserId,
-                                @Field("optionid") String optionId);
+    Call<FollowResponse> addPollAnswer(@Field("userid") String userId,
+                                       @Field("questionid") String questionId,
+                                       @Field("optionid") String optionId);
 
     @FormUrlEncoded
     @POST("getallcollegeusers")

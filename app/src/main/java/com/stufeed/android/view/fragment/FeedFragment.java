@@ -63,7 +63,8 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.msgTxt.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getAllPost();
+        Call<GetPostResponse> responseCall = api.getAllPost(Utility.getLoginUserId(getActivity()
+        ));
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {

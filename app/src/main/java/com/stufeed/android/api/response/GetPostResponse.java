@@ -39,17 +39,6 @@ public class GetPostResponse {
     }
 
     public static class Post implements Parcelable {
-        public static final Creator<Post> CREATOR = new Creator<Post>() {
-            @Override
-            public Post createFromParcel(Parcel source) {
-                return new Post(source);
-            }
-
-            @Override
-            public Post[] newArray(int size) {
-                return new Post[size];
-            }
-        };
         @SerializedName("Userid")
         private String userId = "";
         @SerializedName("Postid")
@@ -86,30 +75,10 @@ public class GetPostResponse {
         private String questionId;
         @SerializedName("Options")
         private ArrayList<Option> optionArrayList;
+        @SerializedName("optionid ")
+        private String selectedId;
 
         public Post() {
-        }
-
-        protected Post(Parcel in) {
-            this.userId = in.readString();
-            this.postId = in.readString();
-            this.fullName = in.readString();
-            this.email = in.readString();
-            this.title = in.readString();
-            this.description = in.readString();
-            this.allowComment = in.readString();
-            this.allowRePost = in.readString();
-            this.postType = in.readString();
-            this.dateTime = in.readString();
-            this.filePath = in.readString();
-            this.profilePic = in.readString();
-            this.image = in.readString();
-            this.totalLike = in.readString();
-            this.totalComment = in.readString();
-            this.question = in.readString();
-            this.questionId = in.readString();
-            this.optionArrayList = new ArrayList<Option>();
-            in.readList(this.optionArrayList, Option.class.getClassLoader());
         }
 
         public String getUserId() {
@@ -256,6 +225,14 @@ public class GetPostResponse {
             this.optionArrayList = optionArrayList;
         }
 
+        public String getSelectedId() {
+            return selectedId;
+        }
+
+        public void setSelectedId(String selectedId) {
+            this.selectedId = selectedId;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -281,10 +258,46 @@ public class GetPostResponse {
             dest.writeString(this.question);
             dest.writeString(this.questionId);
             dest.writeList(this.optionArrayList);
+            dest.writeString(this.selectedId);
         }
+
+        protected Post(Parcel in) {
+            this.userId = in.readString();
+            this.postId = in.readString();
+            this.fullName = in.readString();
+            this.email = in.readString();
+            this.title = in.readString();
+            this.description = in.readString();
+            this.allowComment = in.readString();
+            this.allowRePost = in.readString();
+            this.postType = in.readString();
+            this.dateTime = in.readString();
+            this.filePath = in.readString();
+            this.profilePic = in.readString();
+            this.image = in.readString();
+            this.totalLike = in.readString();
+            this.totalComment = in.readString();
+            this.question = in.readString();
+            this.questionId = in.readString();
+            this.optionArrayList = new ArrayList<Option>();
+            in.readList(this.optionArrayList, Option.class.getClassLoader());
+            this.selectedId = in.readString();
+        }
+
+        public static final Creator<Post> CREATOR = new Creator<Post>() {
+            @Override
+            public Post createFromParcel(Parcel source) {
+                return new Post(source);
+            }
+
+            @Override
+            public Post[] newArray(int size) {
+                return new Post[size];
+            }
+        };
     }
 
-    public class Option {
+    public static class Option implements Parcelable {
         @SerializedName("id")
         private String id = "";
         @SerializedName("questionid")
@@ -334,5 +347,43 @@ public class GetPostResponse {
         public void setIsSelect(String isSelect) {
             this.isSelect = isSelect;
         }
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.id);
+            dest.writeString(this.questionId);
+            dest.writeString(this.optionValue);
+            dest.writeString(this.totalVote);
+            dest.writeString(this.isSelect);
+        }
+
+        public Option() {
+        }
+
+        protected Option(Parcel in) {
+            this.id = in.readString();
+            this.questionId = in.readString();
+            this.optionValue = in.readString();
+            this.totalVote = in.readString();
+            this.isSelect = in.readString();
+        }
+
+        public static final Parcelable.Creator<Option> CREATOR = new Parcelable.Creator<Option>() {
+            @Override
+            public Option createFromParcel(Parcel source) {
+                return new Option(source);
+            }
+
+            @Override
+            public Option[] newArray(int size) {
+                return new Option[size];
+            }
+        };
     }
 }

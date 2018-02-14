@@ -28,6 +28,7 @@ public class FacultyFragment extends Fragment {
 
     private FragmentFacultyBinding binding;
     private String loginUserId = "", loginUserCollegeId = "";
+
     public FacultyFragment() {
         // Required empty public constructor
     }
@@ -51,6 +52,9 @@ public class FacultyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        loginUserId = Utility.getLoginUserId(getActivity());
+        loginUserCollegeId = "1";
+
         getStudents();
     }
 
@@ -81,11 +85,13 @@ public class FacultyFragment extends Fragment {
             Utility.showErrorMsg(getActivity());
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
             setRecyclerView(response.getUserArrayList());
+        } else {
+            Utility.showToast(getActivity(), response.getResponseMessage());
         }
     }
 
     private void setRecyclerView(ArrayList<GetCollegeUserResponse.User> userArrayList) {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity(), userArrayList));
+        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity(), "Faculty", userArrayList));
     }
 }

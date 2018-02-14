@@ -28,6 +28,7 @@ public class StudentFragment extends Fragment {
 
     private FragmentStudentBinding binding;
     private String loginUserId = "", loginUserCollegeId = "";
+
     public StudentFragment() {
         // Required empty public constructor
     }
@@ -52,7 +53,7 @@ public class StudentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
-        loginUserCollegeId = "";
+        loginUserCollegeId = "1";
         getStudents();
     }
 
@@ -87,6 +88,6 @@ public class StudentFragment extends Fragment {
 
     private void setRecyclerView(ArrayList<GetCollegeUserResponse.User> userArrayList) {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity(), userArrayList));
+        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity(), "Student", userArrayList));
     }
 }

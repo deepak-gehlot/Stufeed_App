@@ -48,6 +48,7 @@ public class ConnectFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setupViewPager(binding.viewpager);
         binding.tabLayout.setupWithViewPager(binding.viewpager);
+        binding.viewpager.setOffscreenPageLimit(4);
 
     }
 
@@ -57,7 +58,7 @@ public class ConnectFragment extends Fragment {
      * @param viewPager @ViewPager
      */
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(AcademyFragment.newInstance(), getString(R.string.academy));
         adapter.addFragment(FacultyFragment.newInstance(), getString(R.string.faculty));
         adapter.addFragment(StudentFragment.newInstance(), getString(R.string.student));

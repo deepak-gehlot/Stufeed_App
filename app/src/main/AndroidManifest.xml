@@ -55,6 +55,10 @@
         <activity
             android:name=".view.activity.BoardListActivity"
             android:label="@string/title_activity_board_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.activity.UserProfileActivity"
+            android:label="@string/title_activity_user_profile"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
