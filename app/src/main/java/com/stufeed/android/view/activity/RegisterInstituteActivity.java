@@ -1,11 +1,12 @@
 package com.stufeed.android.view.activity;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,9 +15,7 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
-import com.stufeed.android.api.response.UpdateCollegeResponse;
-import com.stufeed.android.databinding.ActivitySelectCollegeBinding;
-import com.stufeed.android.util.ProgressDialog;
+import com.stufeed.android.databinding.RegisterInstituteBinding;
 import com.stufeed.android.util.Utility;
 
 import java.util.ArrayList;
@@ -27,23 +26,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SelectCollegeActivity extends AppCompatActivity {
+import static android.view.View.GONE;
 
+public class RegisterInstituteActivity extends AppCompatActivity {
 
-    private ActivitySelectCollegeBinding binding;
+    private RegisterInstituteBinding mBinding;
+
     private GetAllCollegeResponse.College college;
     private ArrayList<String> collegesStrList = new ArrayList<>();
     private ArrayList<GetAllCollegeResponse.College> colleges = new ArrayList<>();
 
+    private int stepTag = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_select_college);
-        binding.setActivity(this);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.register_institute);
+        mBinding.mainContent.setActivity(this);
+        setSupportActionBar(mBinding.toolbar);
+        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         setTextChangeListener();
 
-        binding.searchCollegeEdt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mBinding.mainContent.searchCollegeEdt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 college = colleges.get(position);
@@ -51,16 +61,44 @@ public class SelectCollegeActivity extends AppCompatActivity {
         });
     }
 
-    public void onSkipClick() {
-        if (college == null) {
-            Utility.showToast(SelectCollegeActivity.this, "Select college.");
+    @Override
+    public void onBackPressed() {
+        if (stepTag == 2) {
+            manageViewState();
         } else {
-            setCollege(college.getCollegeId());
+            finish();
+        }
+    }
+
+    public void onRegisterButtonClick() {
+        if (stepTag == 2) {
+
+        } else {
+            manageViewState();
+        }
+    }
+
+    public void onNextButtonClick() {
+        manageViewState();
+
+    }
+
+    private void manageViewState() {
+        if (stepTag == 1) {
+            stepTag = 2;
+            mBinding.mainContent.registerPart1.setVisibility(GONE);
+            mBinding.mainContent.registerPart2.setVisibility(View.VISIBLE);
+            mBinding.mainContent.part2RegisterBtn.setText(getString(R.string.register));
+        } else {
+            stepTag = 1;
+            mBinding.mainContent.registerPart1.setVisibility(View.VISIBLE);
+            mBinding.mainContent.registerPart2.setVisibility(View.GONE);
+            mBinding.mainContent.part2RegisterBtn.setText("Next");
         }
     }
 
     private void setTextChangeListener() {
-        binding.searchCollegeEdt.addTextChangedListener(new TextWatcher() {
+        mBinding.mainContent.searchCollegeEdt.addTextChangedListener(new TextWatcher() {
             private final long DELAY = 500; // milliseconds
             private Timer timer = new Timer();
 
@@ -76,7 +114,6 @@ public class SelectCollegeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                binding.progressBar.setVisibility(View.VISIBLE);
                 //   closeImg.setVisibility(View.GONE);
                 timer.cancel();
                 timer = new Timer();
@@ -87,7 +124,8 @@ public class SelectCollegeActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        searchCollege(binding.searchCollegeEdt.getText().toString().trim());
+                                        searchCollege(mBinding.mainContent.searchCollegeEdt.getText().toString().trim
+                                                ());
                                     }
                                 });
                             }
@@ -103,20 +141,19 @@ public class SelectCollegeActivity extends AppCompatActivity {
         responseCall.enqueue(new Callback<GetAllCollegeResponse>() {
             @Override
             public void onResponse(Call<GetAllCollegeResponse> call, Response<GetAllCollegeResponse> response) {
-                binding.progressBar.setVisibility(View.GONE);
                 handleSearchResult(response.body());
             }
 
             @Override
             public void onFailure(Call<GetAllCollegeResponse> call, Throwable t) {
-                binding.progressBar.setVisibility(View.GONE);
+
             }
         });
     }
 
     private void handleSearchResult(GetAllCollegeResponse getAllCollegeResponse) {
         if (getAllCollegeResponse == null) {
-            Utility.showErrorMsg(SelectCollegeActivity.this);
+            Utility.showErrorMsg(RegisterInstituteActivity.this);
         } else if (getAllCollegeResponse.getResponseCode().equals(Api.SUCCESS)) {
             colleges = getAllCollegeResponse.getCollegeArrayList();
             int size = colleges.size();
@@ -127,38 +164,8 @@ public class SelectCollegeActivity extends AppCompatActivity {
 
             ArrayAdapter<String> adapterCity = new ArrayAdapter<String>
                     (this, android.R.layout.select_dialog_item, collegesStrList);
-            binding.searchCollegeEdt.setAdapter(adapterCity);
+            mBinding.mainContent.searchCollegeEdt.setAdapter(adapterCity);
         }
     }
 
-    private void setCollege(String collegeId) {
-        Api api = APIClient.getClient().create(Api.class);
-        String userId = Utility.getLoginUserId(SelectCollegeActivity.this);
-        Call<UpdateCollegeResponse> responseCall = api.setCollegeId(userId, collegeId);
-        ProgressDialog.getInstance().showProgressDialog(SelectCollegeActivity.this);
-        responseCall.enqueue(new Callback<UpdateCollegeResponse>() {
-            @Override
-            public void onResponse(Call<UpdateCollegeResponse> call, Response<UpdateCollegeResponse> response) {
-                ProgressDialog.getInstance().dismissDialog();
-                handleSetCollegeResponse(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<UpdateCollegeResponse> call, Throwable t) {
-                ProgressDialog.getInstance().dismissDialog();
-                Utility.showErrorMsg(SelectCollegeActivity.this);
-            }
-        });
-    }
-
-    private void handleSetCollegeResponse(UpdateCollegeResponse response) {
-        if (response == null) {
-            Utility.showErrorMsg(SelectCollegeActivity.this);
-        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
-            startActivity(new Intent(SelectCollegeActivity.this, VerifyAccountActivity.class));
-            finish();
-        } else {
-            Utility.showToast(SelectCollegeActivity.this, response.getResponseMessage());
-        }
-    }
 }

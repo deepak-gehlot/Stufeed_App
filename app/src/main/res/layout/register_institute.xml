@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:focusable="false"
+        android:focusableInTouchMode="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:navigationIcon="@drawable/back_icon"
+                app:title="Register Institute"
+                app:titleTextColor="@color/white" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <include
+            android:id="@+id/mainContent"
+            layout="@layout/register_institute_content" />
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

@@ -140,6 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:onClick="@{()->activity.onRegisterInstituteBtnClick()}"
                     android:text="@string/register_college_info"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/colorPrimary"

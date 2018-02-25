@@ -99,6 +99,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * On Register button click method
+     */
+    public void onRegisterBtnClick() {
+        startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+    }
+
+    /**
+     * On Register button click method
+     */
+    public void onRegisterInstituteBtnClick() {
+        startActivity(new Intent(LoginActivity.this, RegisterInstituteActivity.class));
+    }
+
+
+    /**
      * handle login response
      *
      * @param loginResponse @LoginResponse
@@ -121,10 +136,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * On Register button click method
-     */
-    public void onRegisterBtnClick() {
-        startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
-    }
 }

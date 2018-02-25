@@ -18,6 +18,7 @@ import com.stufeed.android.databinding.ActivityUserProfileBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.BoardListAdapter;
+import com.stufeed.android.view.adapter.UserBoardListAdapter;
 
 import java.util.ArrayList;
 
@@ -102,7 +103,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<GetBoardListResponse.Board> boardArrayList) {
         if (boardArrayList != null) {
             binding.container.recyclerView.setLayoutManager(new GridLayoutManager(UserProfileActivity.this, 2));
-            BoardListAdapter adapter = new BoardListAdapter(UserProfileActivity.this, boardArrayList);
+            UserBoardListAdapter adapter = new UserBoardListAdapter(UserProfileActivity.this, boardArrayList);
             binding.container.recyclerView.setAdapter(adapter);
         }
     }
