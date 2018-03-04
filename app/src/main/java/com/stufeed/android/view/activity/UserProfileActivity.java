@@ -31,31 +31,32 @@ public class UserProfileActivity extends AppCompatActivity {
     public static final String USER = "user";
     public static final String TYPE = "type";
 
-    private ActivityUserProfileBinding binding;
+    private ActivityUserProfileBinding mBinding;
     private GetCollegeUserResponse.User user;
     private String type = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile);
-        setSupportActionBar(binding.toolbar);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile);
+        setSupportActionBar(mBinding.toolbar);
         setTitleBackClick();
         getDataFromBundle();
         getBoardList();
+        mBinding.container.setUser(user);
 
         if (user.getIsFollow().equals("1")) {
-            binding.container.btnFollowStatus.setText("Followed");
+            mBinding.container.btnFollowStatus.setText("Followed");
         } else {
-            binding.container.btnFollowStatus.setVisibility(View.GONE);
+            mBinding.container.btnFollowStatus.setVisibility(View.GONE);
         }
 
-        binding.container.txtUserName.setText(user.getFullName());
-        binding.container.txtType.setText(type);
+        mBinding.container.txtUserName.setText(user.getFullName());
+        mBinding.container.txtType.setText(type);
     }
 
     private void setTitleBackClick() {
-        binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -76,8 +77,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void getBoardList() {
         ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
+        String userId = Utility.getLoginUserId(UserProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetBoardListResponse> responseCall = api.getBoardList(user.getUserId());
+        Call<GetBoardListResponse> responseCall = api.getAllBoardList(user.getUserId(), userId);
         responseCall.enqueue(new Callback<GetBoardListResponse>() {
             @Override
             public void onResponse(Call<GetBoardListResponse> call, Response<GetBoardListResponse> response) {
@@ -97,14 +99,15 @@ public class UserProfileActivity extends AppCompatActivity {
             Utility.showErrorMsg(UserProfileActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
             setRecyclerView(response.getBoardArrayList());
+            mBinding.container.setCountModel(response.getAllCount());
         }
     }
 
     private void setRecyclerView(ArrayList<GetBoardListResponse.Board> boardArrayList) {
         if (boardArrayList != null) {
-            binding.container.recyclerView.setLayoutManager(new GridLayoutManager(UserProfileActivity.this, 2));
+            mBinding.container.recyclerView.setLayoutManager(new GridLayoutManager(UserProfileActivity.this, 2));
             UserBoardListAdapter adapter = new UserBoardListAdapter(UserProfileActivity.this, boardArrayList);
-            binding.container.recyclerView.setAdapter(adapter);
+            mBinding.container.recyclerView.setAdapter(adapter);
         }
     }
 }

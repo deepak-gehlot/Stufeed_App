@@ -14,6 +14,7 @@ import android.view.View;
 import com.stufeed.android.R;
 import com.stufeed.android.bean.DrawerItem;
 import com.stufeed.android.databinding.ActivityHomeBinding;
+import com.stufeed.android.listener.OnItemClickListener;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.DrawrAdapter;
 import com.stufeed.android.view.fragment.BoardFragment;
@@ -43,6 +44,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
+        binding.notificationImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
+            }
+        });
         Utility.addFragment(this, YouFragment.newInstance(), "YouFragment", binding.frame.getId());
 
         setNavigationList();
@@ -81,7 +88,30 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private void setNavigationList() {
         ArrayList<DrawerItem> drawerItems = createDrawerList();
         binding.recyclerViewNavigation.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
-        binding.recyclerViewNavigation.setAdapter(new DrawrAdapter(HomeActivity.this, drawerItems));
+        DrawrAdapter drawrAdapter = new DrawrAdapter(HomeActivity.this, drawerItems);
+        binding.recyclerViewNavigation.setAdapter(drawrAdapter);
+        drawrAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onClick(int position, Object obj) {
+                switch (position) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                        break;
+                    case 6:
+                        break;
+                }
+            }
+        });
     }
 
     /**

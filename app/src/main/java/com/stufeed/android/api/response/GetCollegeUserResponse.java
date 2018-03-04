@@ -47,6 +47,8 @@ public class GetCollegeUserResponse {
         private String userId = "";
         @SerializedName("collegeid")
         private String collegeId = "";
+        @SerializedName("collegename")
+        private String collegeName;
         @SerializedName("fullname")
         private String fullName = "";
         @SerializedName("profilepic")
@@ -94,6 +96,16 @@ public class GetCollegeUserResponse {
             this.isFollow = isFollow;
         }
 
+        public String getCollegeName() {
+            return collegeName;
+        }
+
+        public void setCollegeName(String collegeName) {
+            this.collegeName = collegeName;
+        }
+
+        public User() {
+        }
 
         @Override
         public int describeContents() {
@@ -104,23 +116,22 @@ public class GetCollegeUserResponse {
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(this.userId);
             dest.writeString(this.collegeId);
+            dest.writeString(this.collegeName);
             dest.writeString(this.fullName);
             dest.writeString(this.profilePic);
             dest.writeString(this.isFollow);
         }
 
-        public User() {
-        }
-
         protected User(Parcel in) {
             this.userId = in.readString();
             this.collegeId = in.readString();
+            this.collegeName = in.readString();
             this.fullName = in.readString();
             this.profilePic = in.readString();
             this.isFollow = in.readString();
         }
 
-        public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        public static final Creator<User> CREATOR = new Creator<User>() {
             @Override
             public User createFromParcel(Parcel source) {
                 return new User(source);

@@ -26,13 +26,23 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolBar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize" />
+                    android:layout_height="?attr/actionBarSize">
 
+                    <ImageView
+                        android:id="@+id/notificationImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:src="@drawable/ic_notifications_black_24dp" />
+                </android.support.v7.widget.Toolbar>
             </android.support.design.widget.AppBarLayout>
 
             <FrameLayout
                 android:id="@+id/frame"
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
                 android:layout_above="@+id/bottomNavigation"
                 android:layout_below="@+id/appbar" />

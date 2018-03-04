@@ -97,4 +97,6 @@
     <string name="notification_txt">If you ON this button Push Notification will be enable</string>
     <string name="delete_txt">If you use this feature you will be lost your Stufeed account</string>
 
+    <string name="hide_search">Hide My Account From Search</string>
+    <string name="delete">Delete</string>
 </resources>

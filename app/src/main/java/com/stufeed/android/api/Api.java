@@ -8,6 +8,7 @@ import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.api.response.LikeResponse;
@@ -135,9 +136,23 @@ public interface Api {
     Call<GetBoardListResponse> getBoardList(@Field("userid") String userId);
 
     @FormUrlEncoded
+    @POST("getalluserbaordwithcount")
+    Call<GetBoardListResponse> getAllBoardList(@Field("userid") String userId,
+                                               @Field("loginuserid") String loginUserId);
+
+    @FormUrlEncoded
     @POST("joinboard")
     Call<JoinBoardResponse> joinBoard(@Field("userid") String userId,
                                       @Field("boardid") String boardId,
                                       @Field("joinerid") String joinUserId);
 
+    @FormUrlEncoded
+    @POST("privateboardjoinrequest")
+    Call<JoinBoardResponse> requestJoinBoard(@Field("userid") String userId,
+                                             @Field("boardid") String boardId,
+                                             @Field("joinerid") String joinUserId);
+
+    @FormUrlEncoded
+    @POST("getuserJoinboard")
+    Call<GetJoinBoardListResponse> getJoinBoardList(@Field("userid") String userId);
 }
