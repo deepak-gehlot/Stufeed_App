@@ -54,7 +54,7 @@ public class StudentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
         loginUserCollegeId = "1";
-        getStudents();
+  //      getStudents();
     }
 
     private void getStudents() {

@@ -97,6 +97,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     case 0:
                         break;
                     case 1:
+                        startActivity(new Intent(HomeActivity.this, MyBookmarkListActivity.class));
                         break;
                     case 2:
                         break;

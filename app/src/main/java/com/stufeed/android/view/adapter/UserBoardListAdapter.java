@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
@@ -46,6 +47,14 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
         GetBoardListResponse.Board board = boardArrayList.get(position);
         holder.rowBoardBinding.setModel(board);
         holder.rowBoardBinding.setAdapter(this);
+
+        if (board.getIsPrivate().equals("1")) {
+            holder.rowBoardBinding.iconLock.setVisibility(View.VISIBLE);
+        } else {
+            holder.rowBoardBinding.iconLock.setVisibility(View.GONE);
+        }
+
+        holder.rowBoardBinding.iconSetting.setVisibility(View.GONE);
 
         //android:text='@{model.isPrivate.equals("1") ? "Request" : "Join"}'
         switch (board.getJoinType()) {

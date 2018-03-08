@@ -55,6 +55,7 @@ public class JoinBoardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mLoginUserId = Utility.getLoginUserId(getActivity());
         getBoardList();
     }
 

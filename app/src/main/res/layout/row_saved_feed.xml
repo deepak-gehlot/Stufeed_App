@@ -5,11 +5,11 @@
 
         <variable
             name="adapter"
-            type="com.stufeed.android.view.adapter.FeedListAdapter" />
+            type="com.stufeed.android.view.adapter.SavedFeedListAdapter" />
 
         <variable
             name="model"
-            type="com.stufeed.android.api.response.GetPostResponse.Post" />
+            type="com.stufeed.android.api.response.GetSavedPostResponse.Post" />
     </data>
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -343,7 +343,8 @@
                     android:layout_gravity="end"
                     android:onClick="@{()->adapter.onSavePostBtnClick(model)}"
                     android:padding="10dp"
-                    android:src="@drawable/bookmark_icon" />
+                    android:src="@drawable/bookmark_icon"
+                    android:visibility="invisible" />
             </RelativeLayout>
             <!--    Like Comment Re post end  -->
 

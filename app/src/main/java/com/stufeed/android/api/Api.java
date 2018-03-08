@@ -10,12 +10,15 @@ import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetPostResponse;
+import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.LoginResponse;
 import com.stufeed.android.api.response.PostResponse;
 import com.stufeed.android.api.response.RePostResponse;
+import com.stufeed.android.api.response.Response;
 import com.stufeed.android.api.response.SavePostResponse;
+import com.stufeed.android.api.response.SaveSettingResponse;
 import com.stufeed.android.api.response.UpdateCollegeResponse;
 import com.stufeed.android.api.response.VerifyResponse;
 
@@ -132,6 +135,14 @@ public interface Api {
                                           @Field("iscircle") int isCircle);
 
     @FormUrlEncoded
+    @POST("updateboard")
+    Call<CreateBoardResponse> updateBoard(@Field("userid") String userId,
+                                          @Field("boardname") String title,
+                                          @Field("boarddescription") String description,
+                                          @Field("isprivate") int isPrivate,
+                                          @Field("iscircle") int isCircle);
+
+    @FormUrlEncoded
     @POST("getalluserboard")
     Call<GetBoardListResponse> getBoardList(@Field("userid") String userId);
 
@@ -155,4 +166,27 @@ public interface Api {
     @FormUrlEncoded
     @POST("getuserJoinboard")
     Call<GetJoinBoardListResponse> getJoinBoardList(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("getallusersavedpost")
+    Call<GetPostResponse> getSavedPost(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("savesettingsbyuser")
+    Call<SaveSettingResponse> saveSetting(@Field("userid") String userId,
+                                          @Field("issearch") String search,
+                                          @Field("issound") String sound,
+                                          @Field("isnotifications") String notification);
+
+    @FormUrlEncoded
+    @POST("getusersettings")
+    Call<GetSettingResponse> getSetting(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("archiveboard")
+    Call<Response> archiveBoard(@Field("boardid") String boardId);
+
+    @FormUrlEncoded
+    @POST("deleteboard")
+    Call<Response> deleteBoard(@Field("boardid") String boardId);
 }

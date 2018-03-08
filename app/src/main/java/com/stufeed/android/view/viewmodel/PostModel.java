@@ -27,6 +27,7 @@ public class PostModel extends BaseObservable {
     private String pollOption1 = "";
     private String pollOption2 = "";
     private String pollOption = "";
+    private String boardId = "0";
 
     @Bindable
     public String getUserId() {
@@ -147,6 +148,16 @@ public class PostModel extends BaseObservable {
         notifyPropertyChanged(BR.pollOption2);
     }
 
+    @Bindable
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
+        notifyPropertyChanged(BR.boardId);
+    }
+
     //{"userid":1,"title":"test title","description":"test description","file":"file(image,audio)","alowcomment":0,
     // "alowrepost":0,"type":3,"videourl":""}
     public Map<String, RequestBody> getPostBody() {
@@ -165,6 +176,7 @@ public class PostModel extends BaseObservable {
         requestBodyMap.put("videourl", RequestBody.create(mediaTypeText, getVideoUrl()));
         requestBodyMap.put("pollquestion", RequestBody.create(mediaTypeText, getPollQuestion()));
         requestBodyMap.put("polloption", RequestBody.create(mediaTypeText, getPollOption()));
+        requestBodyMap.put("boardid", RequestBody.create(mediaTypeText, getBoardId()));
         return requestBodyMap;
     }
 

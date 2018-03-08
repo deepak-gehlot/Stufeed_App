@@ -39,6 +39,7 @@ import com.stufeed.android.util.ValidationTemplate;
 import com.stufeed.android.view.viewmodel.PostModel;
 
 import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -405,6 +406,9 @@ public class PostActivity extends AppCompatActivity {
                 postPoll(postModel);
                 return;
             }
+
+
+
             Api api = APIClient.getClient().create(Api.class);
             MultipartBody.Part part = postModel.prepareFilePart("file", postModel.getFile());
 
@@ -433,8 +437,19 @@ public class PostActivity extends AppCompatActivity {
      */
     public void postPoll(PostModel postModel) {
         if (validatePost(postModel)) {
-            Api api = APIClient.getClient().create(Api.class);
 
+            if (TextUtils.isEmpty(postModel.getPollQuestion())) {
+                Utility.showToast(PostActivity.this, "Enter poll details.");
+                return;
+            } else if (TextUtils.isEmpty(postModel.getPollOption1())) {
+                Utility.showToast(PostActivity.this, "Enter poll details.");
+                return;
+            } else if (TextUtils.isEmpty(postModel.getPollOption2())) {
+                Utility.showToast(PostActivity.this, "Enter poll details.");
+                return;
+            }
+
+            Api api = APIClient.getClient().create(Api.class);
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(postModel.getPollOption1());
             jsonArray.put(postModel.getPollOption2());

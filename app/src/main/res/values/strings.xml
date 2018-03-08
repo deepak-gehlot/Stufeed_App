@@ -99,4 +99,5 @@
 
     <string name="hide_search">Hide My Account From Search</string>
     <string name="delete">Delete</string>
+    <string name="title_activity_my_bookmark">My Bookmark</string>
 </resources>

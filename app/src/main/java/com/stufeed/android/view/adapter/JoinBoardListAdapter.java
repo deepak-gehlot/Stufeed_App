@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
@@ -38,6 +39,7 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.binding.setAdapter(this);
         holder.binding.setModel(list.get(position));
+        holder.binding.iconSetting.setVisibility(View.GONE);
     }
 
     @Override

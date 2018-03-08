@@ -51,18 +51,33 @@
         <activity
             android:name=".view.activity.CommentPostActivity"
             android:label="@string/title_activity_comment_post"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activity.BoardListActivity"
             android:label="@string/title_activity_board_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activity.UserProfileActivity"
             android:label="@string/title_activity_user_profile"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.RegisterInstituteActivity" />
-        <activity android:name=".view.activity.SettingActivity" />
-        <activity android:name=".view.activity.NotificationActivity"></activity>
+        <activity
+            android:name=".view.activity.RegisterInstituteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.NotificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.MyBookmarkListActivity"
+            android:label="@string/title_activity_my_bookmark"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.activity.BoardSelectionActivity"></activity>
     </application>
 
 </manifest>

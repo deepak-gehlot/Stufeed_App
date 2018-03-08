@@ -32,6 +32,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/iconLock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -39,6 +40,7 @@
                     android:src="@drawable/ic_lock" />
 
                 <ImageButton
+                    android:id="@+id/iconSetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
