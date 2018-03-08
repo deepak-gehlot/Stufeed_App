@@ -20,7 +20,6 @@ import com.stufeed.android.view.adapter.DrawrAdapter;
 import com.stufeed.android.view.fragment.BoardFragment;
 import com.stufeed.android.view.fragment.ConnectFragment;
 import com.stufeed.android.view.fragment.FeedFragment;
-import com.stufeed.android.view.fragment.PostFragment;
 import com.stufeed.android.view.fragment.YouFragment;
 
 import java.util.ArrayList;
@@ -100,6 +99,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         startActivity(new Intent(HomeActivity.this, MyBookmarkListActivity.class));
                         break;
                     case 2:
+                        startActivity(new Intent(HomeActivity.this, ArchiveBoardListActivity.class));
                         break;
                     case 3:
                         break;

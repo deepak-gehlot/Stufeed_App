@@ -6,6 +6,7 @@ import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
+import com.stufeed.android.api.response.GetArchiveBoardListResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
@@ -29,7 +30,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -189,4 +189,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("deleteboard")
     Call<Response> deleteBoard(@Field("boardid") String boardId);
+
+    @FormUrlEncoded
+    @POST("getalluserarchiveboard")
+    Call<GetArchiveBoardListResponse> getArchiveBoardList(@Field("userid") String userId);
 }

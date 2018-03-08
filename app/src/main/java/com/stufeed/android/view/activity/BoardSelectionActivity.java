@@ -78,6 +78,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.putExtra("board_id", boardId);
                     setResult(RESULT_OK, intent);
+                    finish();
                 }
             });
         }

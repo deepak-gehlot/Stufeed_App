@@ -39,7 +39,6 @@ import com.stufeed.android.util.ValidationTemplate;
 import com.stufeed.android.view.viewmodel.PostModel;
 
 import org.json.JSONArray;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,6 +56,7 @@ public class PostActivity extends AppCompatActivity {
 
     //Audio player variables
     private final int RECORD_AUDIO = 101;
+    private final int SELECT_BOARD = 102;
     Handler seekHandler = new Handler();
     private ActivityPostBinding binding;
     private String settingStr[] = new String[]{"Allow Comment", "Allow Repost"};
@@ -107,6 +107,18 @@ public class PostActivity extends AppCompatActivity {
                     break;
                 case RESULT_CANCELED:
                     Utility.showToast(PostActivity.this, "Recording canceled.");
+                    break;
+            }
+        } else if (requestCode == SELECT_BOARD) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    PostModel postModel = binding.getModel();
+                    String boardId = data.getStringExtra("board_id");
+                    postModel.setBoardId(boardId);
+                    postAll(postModel);
+                    break;
+                case RESULT_CANCELED:
+                    Utility.showToast(PostActivity.this, "Selection canceled.");
                     break;
             }
         } else {
@@ -400,34 +412,56 @@ public class PostActivity extends AppCompatActivity {
      *
      * @param postModel @PostModel
      */
-    public void onPostButtonClick(PostModel postModel) {
+    public void onPostButtonClick(final PostModel postModel) {
         if (validatePost(postModel)) {
-            if (postModel.getType() == 4) {
-                postPoll(postModel);
-                return;
-            }
-
-
-
-            Api api = APIClient.getClient().create(Api.class);
-            MultipartBody.Part part = postModel.prepareFilePart("file", postModel.getFile());
-
-            Call<PostResponse> responseCall = api.post(postModel.getPostBody(), part);
-            ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
-            responseCall.enqueue(new Callback<PostResponse>() {
+            String[] listItems = {"Post Public", "Post In Board"};
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(PostActivity.this);
+            mBuilder.setTitle("Where to post");
+            mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
                 @Override
-                public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    handlePostResponse(response.body());
-                }
-
-                @Override
-                public void onFailure(Call<PostResponse> call, Throwable t) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    Utility.showErrorMsg(PostActivity.this);
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (i) {
+                        case 0:
+                            postAll(postModel);
+                            break;
+                        case 1:
+                            Intent intent = new Intent(PostActivity.this, BoardSelectionActivity.class);
+                            startActivityForResult(intent, SELECT_BOARD);
+                            break;
+                    }
+                    dialogInterface.dismiss();
                 }
             });
+
+            AlertDialog mDialog = mBuilder.create();
+            mDialog.show();
+
         }
+    }
+
+    private void postAll(PostModel postModel) {
+        if (postModel.getType() == 4) {
+            postPoll(postModel);
+            return;
+        }
+        Api api = APIClient.getClient().create(Api.class);
+        MultipartBody.Part part = postModel.prepareFilePart("file", postModel.getFile());
+
+        Call<PostResponse> responseCall = api.post(postModel.getPostBody(), part);
+        ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
+        responseCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handlePostResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(PostActivity.this);
+            }
+        });
     }
 
     /**

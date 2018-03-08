@@ -77,7 +77,8 @@
             android:label="@string/title_activity_my_bookmark"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.BoardSelectionActivity"></activity>
+        <activity android:name=".view.activity.BoardSelectionActivity" />
+        <activity android:name=".view.activity.ArchiveBoardListActivity"></activity>
     </application>
 
 </manifest>

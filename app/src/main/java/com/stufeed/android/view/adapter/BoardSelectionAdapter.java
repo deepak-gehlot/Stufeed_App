@@ -39,7 +39,7 @@ public class BoardSelectionAdapter extends RecyclerView.Adapter<BoardSelectionAd
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.binding.textViewBoardName.setText(boardArrayList.get(position).getBoardName());
 
-        holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+        holder.binding.textViewBoardName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemClickListener.onClick(holder.getAdapterPosition(), null);
