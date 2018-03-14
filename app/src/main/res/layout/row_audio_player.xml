@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:lines="2"
-                    android:text="Audio file Name"
+                    android:text=""
                     android:textColor="@color/colorAccent"
                     android:textSize="14sp" />
 

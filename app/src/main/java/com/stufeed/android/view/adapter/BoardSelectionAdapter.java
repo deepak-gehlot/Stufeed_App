@@ -37,7 +37,11 @@ public class BoardSelectionAdapter extends RecyclerView.Adapter<BoardSelectionAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.binding.textViewBoardName.setText(boardArrayList.get(position).getBoardName());
+        if (position == 0) {
+            holder.binding.textViewBoardName.setText("Post in Public");
+        } else {
+            holder.binding.textViewBoardName.setText(boardArrayList.get(position).getBoardName());
+        }
 
         holder.binding.textViewBoardName.setOnClickListener(new View.OnClickListener() {
             @Override

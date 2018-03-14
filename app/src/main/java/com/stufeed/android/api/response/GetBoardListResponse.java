@@ -47,7 +47,7 @@ public class GetBoardListResponse {
         this.allCount = allCount;
     }
 
-    public class Board {
+    public static class Board {
         @SerializedName("boardid")
         private String boardId = "";
         @SerializedName("userid")

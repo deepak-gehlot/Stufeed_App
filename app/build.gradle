@@ -54,7 +54,9 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     compile 'com.github.appunite:video-player-android:1.0.1'
     compile 'com.github.adrielcafe:AndroidAudioRecorder:0.3.0'
-
+    compile 'com.android.support:multidex:1.0.3'
+    compile 'me.gujun.android.taggroup:library:1.4@aar'
+    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

@@ -1,5 +1,7 @@
 package com.stufeed.android.api;
 
+import android.util.Log;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -22,7 +24,7 @@ public class APIClient {
                             () {
                         @Override
                         public void log(String message) {
-                            Timber.tag("OkHttp").e(message);
+                            Log.e("OkHttp", message);
                         }
                     });
                     interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

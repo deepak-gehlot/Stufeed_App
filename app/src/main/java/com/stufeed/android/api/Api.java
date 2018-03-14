@@ -21,6 +21,7 @@ import com.stufeed.android.api.response.Response;
 import com.stufeed.android.api.response.SavePostResponse;
 import com.stufeed.android.api.response.SaveSettingResponse;
 import com.stufeed.android.api.response.UpdateCollegeResponse;
+import com.stufeed.android.api.response.UpdateProfileResponse;
 import com.stufeed.android.api.response.VerifyResponse;
 
 import java.util.Map;
@@ -193,4 +194,32 @@ public interface Api {
     @FormUrlEncoded
     @POST("getalluserarchiveboard")
     Call<GetArchiveBoardListResponse> getArchiveBoardList(@Field("userid") String userId);
+
+    //updateAllProfileData
+    //updateAllProfileData
+    @FormUrlEncoded
+    @POST("profileupdate")
+    Call<UpdateProfileResponse> updateAllProfileData(@Field("userid") String userId,
+                                                     @Field("fullname") String name,
+                                                     @Field("joiningyear") String joinYear,
+                                                     @Field("aboutus") String aboutUs,
+                                                     @Field("gender") String gender,
+                                                     @Field("contactno") String mobile,
+                                                     @Field("birthdate") String birthDate,
+                                                     @Field("degree") String degree,
+                                                     @Field("branch") String branch,
+                                                     @Field("designation") String designation,
+                                                     @Field("department") String department
+    );
+
+    @FormUrlEncoded
+    @POST("changepassword")
+    Call<Response> changePassword(@Field("userid") String userId,
+                                  @Field("newpassword") String newPassword);
+
+
+    @Multipart
+    @POST("updateprofilepic")
+    Call<UpdateProfileResponse> uploadProfile(@PartMap Map<String, RequestBody> map, @Part MultipartBody.Part file);
+
 }

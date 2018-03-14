@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.stufeed.android.view.activity.EditProfileActivity" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.stufeed.android.view.activity.EditProfileActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:navigationIcon="@drawable/back_icon"
+            app:title="Edit Profile"
+            app:titleTextColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_16dp"
+            android:drawableEnd="@drawable/next_icon"
+            android:onClick="@{()->activity.onClickBasicInfo()}"
+            android:padding="@dimen/dimen_16dp"
+            android:text="Basic Information"
+            android:textColor="@color/text_color" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/next_icon"
+            android:onClick="@{()->activity.onClickAchievement()}"
+            android:padding="16dp"
+            android:text="Achievements"
+            android:textColor="@color/text_color" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/next_icon"
+            android:onClick="@{()->activity.onClickSkill()}"
+            android:padding="16dp"
+            android:text="Skills/Speciality"
+            android:textColor="@color/text_color" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_color" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/next_icon"
+            android:padding="16dp"
+            android:text="About Me"
+            android:textColor="@color/text_color" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_color" />
+    </LinearLayout>
+</layout>

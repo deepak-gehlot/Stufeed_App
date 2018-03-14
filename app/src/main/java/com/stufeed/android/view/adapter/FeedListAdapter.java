@@ -419,8 +419,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     public void onAudioPlayClick(GetPostResponse.Post post) {
         // Show DialogFragment
-        PlayerDialogFragment.newInstance(post.getFilePath() + post.getImage())
-                .show(context.getFragmentManager(), "Dialog Fragment");
+        PlayerDialogFragment.newInstance(
+                post.getFilePath() + post.getAudioFile()
+        ).show(context.getFragmentManager(), "Dialog Fragment");
     }
 
     /**

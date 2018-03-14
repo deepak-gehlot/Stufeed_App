@@ -28,6 +28,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.ParseException;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -54,6 +55,7 @@ import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.listener.DialogListener;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -918,5 +920,17 @@ aq.id(R.id.image).image(url, options);*/
         Pattern p = Patterns.WEB_URL;
         Matcher m = p.matcher(url.toLowerCase());
         return m.matches();
+    }
+
+    public static File generateFile(Context context) {
+        try {
+            String fileName = "IMG_" + System.currentTimeMillis();
+            File file = new File(Environment.getExternalStorageDirectory(), fileName);
+            file.createNewFile();
+            return file;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

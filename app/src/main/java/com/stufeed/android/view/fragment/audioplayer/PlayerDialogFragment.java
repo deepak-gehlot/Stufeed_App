@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.RowAudioPlayerBinding;
+import com.stufeed.android.util.ProgressDialog;
 
 /**
  * Created by Deepak Gehlot on 2/7/2018.
@@ -60,15 +61,36 @@ public class PlayerDialogFragment extends DialogFragment {
         audioPlayer();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            mp.stop();
+            mp.release();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Create Audio player
      */
     private void audioPlayer() {
+        ProgressDialog.getInstance().showProgressDialog(getActivity());
         //set up MediaPlayer
         mp = new MediaPlayer();
         try {
             mp.setDataSource(audioUrl);
             mp.prepareAsync();
+            mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    mp.start();
+                    seekUpdate();
+                    binding.audioStartStopImg.setImageResource(R.drawable.ic_video_pause);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

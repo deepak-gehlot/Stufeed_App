@@ -1,0 +1,196 @@
+[ {
+  "Short form" : "AA ",
+  "degree" : "AA - Associate of Science"
+}, {
+  "Short form" : "AAS",
+  "degree" : "AAS - Associate of Arts and Science"
+}, {
+  "Short form" : "AS ",
+  "degree" : "AS - Associate of Arts"
+}, {
+  "Short form" : "BDS",
+  "degree" : "BDS - Bachelor of Dental Surgery"
+}, {
+  "Short form" : "BA ",
+  "degree" : "BA - Bachelor Of Arts"
+}, {
+  "Short form" : "BArch",
+  "degree" : "BArch - Bachelor Of Architecture"
+}, {
+  "Short form" : "BASc",
+  "degree" : "BASc - Bachelor of Applied Science"
+}, {
+  "Short form" : "BBA",
+  "degree" : "BBA - Bachelor of Business Administration"
+}, {
+  "Short form" : "BCA",
+  "degree" : "BCA - Bachelor of Computer Application"
+}, {
+  "Short form" : "BCom",
+  "degree" : "BCom - Bachelor of Commerce"
+}, {
+  "Short form" : "BDes",
+  "degree" : "BDes - Bachelor of Design"
+}, {
+  "Short form" : "BE",
+  "degree" : "BE - Bachelor of Engineering"
+}, {
+  "Short form" : "BEd",
+  "degree" : "BEd - Bachelor of Education"
+}, {
+  "Short form" : "BFA",
+  "degree" : "BFA - Bachelor of Fine Arts"
+}, {
+  "Short form" : "BFS",
+  "degree" : "BFSc - Bachelor of Fisheries Science"
+}, {
+  "Short form" : "BHM",
+  "degree" : "BHMS - Bachelor of Homeopathic Medicine and Surgery"
+}, {
+  "Short form" : "BLi",
+  "degree" : "BLib - Bachelor of Library Scinece"
+}, {
+  "Short form" : "BLI",
+  "degree" : "BLIM - Master of Library & Information Science"
+}, {
+  "Short form" : "BMC",
+  "degree" : "BMC - Bachelor of Mass Communication"
+}, {
+  "Short form" : "BPE",
+  "degree" : "BPEd - Bachelor of Physical Education"
+}, {
+  "Short form" : "BPh",
+  "degree" : "BPharma - Bachelor of Pharmacy"
+}, {
+  "Short form" : "BPT",
+  "degree" : "BPT - Bachelor of Physiotherapy"
+}, {
+  "Short form" : "BSc",
+  "degree" : "BSc - Bachelor of Science"
+}, {
+  "Short form" : "BSW",
+  "degree" : "BSW- Bachelor of Social Work"
+}, {
+  "Short form" : "BTech",
+  "degree" : "BTech - Bachelor of Technology"
+}, {
+  "Short form" : "BVSc ",
+  "degree" : "BVSc - Bachelor of Veterinary Science & Animal Husbandry"
+}, {
+  "Short form" : "DM",
+  "degree" : "DM-Doctorate Of Medicine"
+}, {
+  "Short form" : "FPM",
+  "degree" : "FPM - Fellow Programme in Management"
+}, {
+  "Short form" : "JD ",
+  "degree" : "JD - Doctor of Law"
+}, {
+  "Short form" : "LLB",
+  "degree" : "LLB - Bachelor of Laws"
+}, {
+  "Short form" : "LLD",
+  "degree" : "LLD"
+}, {
+  "Short form" : "LLM",
+  "degree" : "LLM - Master of Laws"
+}, {
+  "Short form" : "M.Pharm",
+  "degree" : "M.Pharm - Master of Pharmacy"
+}, {
+  "Short form" : "MA ",
+  "degree" : "MA - Master of Arts"
+}, {
+  "Short form" : "MArch",
+  "degree" : "MArch - Master of Architecture"
+}, {
+  "Short form" : "MBA",
+  "degree" : "MBA - Master of Business Administration"
+}, {
+  "Short form" : "MBA",
+  "degree" : "MBA - Master of Business Administration+A3476"
+}, {
+  "Short form" : "MCA",
+  "degree" : "MCA Master of Computer Application"
+}, {
+  "Short form" : "MCA",
+  "degree" : "MCA-Master of Computer Application"
+}, {
+  "Short form" : "MCh",
+  "degree" : "MCh - Master of Chirurgiae"
+}, {
+  "Short form" : "MCh",
+  "degree" : "MCh-Master Of Chirurgiae"
+}, {
+  "Short form" : "MCL",
+  "degree" : "MCL - Master of Comparative Law"
+}, {
+  "Short form" : "MCom",
+  "degree" : "MCom - Master Of Commerce"
+}, {
+  "Short form" : "MD",
+  "degree" : "MD - Doctor Of Medicine"
+}, {
+  "Short form" : "MDes",
+  "degree" : "MDes - Master of Design"
+}, {
+  "Short form" : "MDiv",
+  "degree" : "MDiv - Master of Divinity "
+}, {
+  "Short form" : "MDS ",
+  "degree" : "MDS - Master of Dental  Surgery"
+}, {
+  "Short form" : "ME ",
+  "degree" : "ME - Master of Engineering"
+}, {
+  "Short form" : "MEd ",
+  "degree" : "MEd - Master of Education"
+}, {
+  "Short form" : "MFA ",
+  "degree" : "MFA - Master of  Fine Arts"
+}, {
+  "Short form" : "MFC-",
+  "degree" : "MFC-Master Of Finance and Control"
+}, {
+  "Short form" : "MFSc",
+  "degree" : "MFSc - Master of Fisheries Science"
+}, {
+  "Short form" : "MIB ",
+  "degree" : "MIB - Master of International Business"
+}, {
+  "Short form" : "MMC ",
+  "degree" : "MMC - Master of Mass Communication"
+}, {
+  "Short form" : "MPA ",
+  "degree" : "MPA - Master of Public Administration"
+}, {
+  "Short form" : "MPEd ",
+  "degree" : "MPEd - Master Of Physical Education"
+}, {
+  "Short form" : "MPhil",
+  "degree" : "MPhil - Master of Philosophy"
+}, {
+  "Short form" : "MPT",
+  "degree" : "MPT - Master of Physiotherapy"
+}, {
+  "Short form" : "MS ",
+  "degree" : "MS - Master of Surgery"
+}, {
+  "Short form" : "MSc",
+  "degree" : "MSc - Master Of Science"
+}, {
+  "Short form" : "MSW",
+  "degree" : "MSW - Master Social Work"
+}, {
+  "Short form" : "MTech",
+  "degree" : "MTech - Master of Technology"
+}, {
+  "Short form" : "MVSc ",
+  "degree" : "MVSc - Master of Veterinary Science"
+}, {
+  "Short form" : "PharmD",
+  "degree" : "PharmD - Doctor of Pharmacy"
+}, {
+  "Short form" : "PhD",
+  "degree" : "PhD - Doctor Of Philosophy"
+} ]

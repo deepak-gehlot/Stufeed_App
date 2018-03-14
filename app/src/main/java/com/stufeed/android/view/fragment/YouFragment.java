@@ -1,5 +1,6 @@
 package com.stufeed.android.view.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.FragmentYouBinding;
+import com.stufeed.android.view.activity.EditBasicInfoActivity;
+import com.stufeed.android.view.activity.EditProfileActivity;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 
 public class YouFragment extends Fragment {
@@ -39,12 +42,19 @@ public class YouFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.setFragment(this);
         setRecyclerView();
     }
-    
+
+    public void onEditButtonClick() {
+        startActivity(new Intent(getActivity(), EditProfileActivity.class));
+    }
+
     private void setRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         /*FeedListAdapter adapter = new FeedListAdapter(getActivity());
         binding.recyclerView.setAdapter(adapter);*/
     }
+
+
 }

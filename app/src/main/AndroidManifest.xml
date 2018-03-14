@@ -78,7 +78,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.activity.BoardSelectionActivity" />
-        <activity android:name=".view.activity.ArchiveBoardListActivity"></activity>
+        <activity android:name=".view.activity.ArchiveBoardListActivity" />
+        <activity android:name=".view.activity.EditBasicInfoActivity" />
+        <activity android:name=".view.activity.EditProfileActivity" />
+        <activity android:name=".view.activity.AchivementActivity" />
+        <activity android:name=".view.activity.SkillsActivity" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
     </application>
 
 </manifest>

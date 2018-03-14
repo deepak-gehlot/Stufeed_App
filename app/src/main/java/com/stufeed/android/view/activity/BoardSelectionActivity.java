@@ -33,6 +33,12 @@ public class BoardSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_board_selection);
+        mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         loginUserId = Utility.getLoginUserId(this);
         getBoardList();
     }
@@ -67,6 +73,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
 
     private void setRecyclerView(final ArrayList<GetBoardListResponse.Board> boardArrayList) {
         if (boardArrayList != null) {
+            boardArrayList.add(0, new GetBoardListResponse.Board());
             mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(BoardSelectionActivity.this));
             BoardSelectionAdapter adapter = new BoardSelectionAdapter(BoardSelectionActivity.this, boardArrayList);
             mBinding.recyclerView.setAdapter(adapter);
@@ -74,7 +81,13 @@ public class BoardSelectionActivity extends AppCompatActivity {
             adapter.setItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onClick(int position, Object obj) {
-                    String boardId = boardArrayList.get(position).getBoardId();
+                    String boardId = "";
+                    if (position == 0) {
+                        boardId = "0";
+                    } else {
+                        boardId = boardArrayList.get(position).getBoardId();
+                    }
+
                     Intent intent = new Intent();
                     intent.putExtra("board_id", boardId);
                     setResult(RESULT_OK, intent);

@@ -77,6 +77,8 @@ public class GetPostResponse {
         private ArrayList<Option> optionArrayList;
         @SerializedName("optionid ")
         private String selectedId;
+        @SerializedName("audiofile")
+        private String audioFile;
 
         public Post() {
         }
@@ -233,6 +235,14 @@ public class GetPostResponse {
             this.selectedId = selectedId;
         }
 
+        public String getAudioFile() {
+            return audioFile;
+        }
+
+        public void setAudioFile(String audioFile) {
+            this.audioFile = audioFile;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -257,8 +267,9 @@ public class GetPostResponse {
             dest.writeString(this.totalComment);
             dest.writeString(this.question);
             dest.writeString(this.questionId);
-            dest.writeList(this.optionArrayList);
+            dest.writeTypedList(this.optionArrayList);
             dest.writeString(this.selectedId);
+            dest.writeString(this.audioFile);
         }
 
         protected Post(Parcel in) {
@@ -279,9 +290,9 @@ public class GetPostResponse {
             this.totalComment = in.readString();
             this.question = in.readString();
             this.questionId = in.readString();
-            this.optionArrayList = new ArrayList<Option>();
-            in.readList(this.optionArrayList, Option.class.getClassLoader());
+            this.optionArrayList = in.createTypedArrayList(Option.CREATOR);
             this.selectedId = in.readString();
+            this.audioFile = in.readString();
         }
 
         public static final Creator<Post> CREATOR = new Creator<Post>() {

@@ -43,7 +43,7 @@
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@mipmap/ic_launcher_round" />
+                        app:profileImageUrl="@{model.profilePic}" />
                 </RelativeLayout>
 
                 <LinearLayout

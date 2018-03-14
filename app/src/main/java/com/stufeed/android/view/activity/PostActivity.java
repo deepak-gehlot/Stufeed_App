@@ -414,7 +414,9 @@ public class PostActivity extends AppCompatActivity {
      */
     public void onPostButtonClick(final PostModel postModel) {
         if (validatePost(postModel)) {
-            String[] listItems = {"Post Public", "Post In Board"};
+            Intent intent = new Intent(PostActivity.this, BoardSelectionActivity.class);
+            startActivityForResult(intent, SELECT_BOARD);
+            /*String[] listItems = {"Post Public", "Post In Board"};
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(PostActivity.this);
             mBuilder.setTitle("Where to post");
             mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
@@ -425,8 +427,7 @@ public class PostActivity extends AppCompatActivity {
                             postAll(postModel);
                             break;
                         case 1:
-                            Intent intent = new Intent(PostActivity.this, BoardSelectionActivity.class);
-                            startActivityForResult(intent, SELECT_BOARD);
+
                             break;
                     }
                     dialogInterface.dismiss();
@@ -434,7 +435,7 @@ public class PostActivity extends AppCompatActivity {
             });
 
             AlertDialog mDialog = mBuilder.create();
-            mDialog.show();
+            mDialog.show();*/
 
         }
     }
