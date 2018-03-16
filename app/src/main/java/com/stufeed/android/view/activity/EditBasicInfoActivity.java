@@ -423,6 +423,11 @@ public class EditBasicInfoActivity extends AppCompatActivity {
         }
     }
 
+    private void getUserAllDetails() {
+        Api api = APIClient.getClient().create(Api.class);
+        api.getUserAllInfo(loginUserId);
+    }
+
     /**
      * Change password
      *

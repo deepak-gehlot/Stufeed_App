@@ -222,4 +222,44 @@ public interface Api {
     @POST("updateprofilepic")
     Call<UpdateProfileResponse> uploadProfile(@PartMap Map<String, RequestBody> map, @Part MultipartBody.Part file);
 
+    @FormUrlEncoded
+    @POST("getallalluserdetials")
+    Call<Response> getUserAllInfo(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("saveuserskils")
+    Call<Response> saveSkills(@Field("userid") String userId,
+                              @Field("skills") String skills);
+
+    @FormUrlEncoded
+    @POST("getuserskills")
+    Call<Response> getUserSkills(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("saveuserachievement")
+    Call<Response> saveAchievement(@Field("userid") String userId,
+                                   @Field("title") String title,
+                                   @Field("issuedby") String issueBy,
+                                   @Field("issuddate") String issueDate,
+                                   @Field("achievmenttype") String achievementType,
+                                   @Field("description") String description);
+
+    @FormUrlEncoded
+    @POST("updateachievement")
+    Call<Response> updateAchievement(@Field("userid") String userId,
+                                     @Field("achievmentid") String achievementId,
+                                     @Field("title") String title,
+                                     @Field("issuedby") String issueBy,
+                                     @Field("issuddate") String issueDate,
+                                     @Field("achievmenttype") String achievementType,
+                                     @Field("description") String description);
+
+    @FormUrlEncoded
+    @POST("getalluserarchivements")
+    Call<Response> getAllAchievements(@Field("userid") String userId);
+
+
+    @FormUrlEncoded
+    @POST("achivementdelete")
+    Call<Response> deleteAchievements(@Field("userid") String userId);
 }
