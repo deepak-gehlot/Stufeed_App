@@ -484,6 +484,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
         });
     }
 
+
     public Map<String, RequestBody> getPostBody(String userId) {
         MediaType mediaTypeText = MediaType.parse("text/plain");
         MediaType mediaTypeImage = MediaType.parse("image/*");
