@@ -27,10 +27,12 @@
             app:titleTextColor="@color/white">
 
             <Button
+                android:id="@+id/buttonSave"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:onClick="@{()->activity.onSaveButtonClick()}"
                 android:text="save"
                 android:textColor="@color/white" />
 

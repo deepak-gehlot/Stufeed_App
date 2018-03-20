@@ -17,6 +17,8 @@ public class UserDetail {
     private String userType;
     @SerializedName("Contactno")
     private String contactNo;
+    @SerializedName("Profilepic")
+    private String profilePic = "";
 
     public String getUserId() {
         return userId;
@@ -56,5 +58,13 @@ public class UserDetail {
 
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }

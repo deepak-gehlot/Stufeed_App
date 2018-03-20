@@ -3,6 +3,10 @@
     <data>
 
         <variable
+            name="model"
+            type="com.stufeed.android.api.response.UserDetail" />
+
+        <variable
             name="fragment"
             type="com.stufeed.android.view.fragment.YouFragment" />
     </data>
@@ -68,7 +72,7 @@
                         android:gravity="center"
                         android:lines="1"
                         android:maxLines="1"
-                        android:text="api level 18 android"
+                        android:text="Collage Name"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
 
@@ -196,6 +200,7 @@
         </RelativeLayout>
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/profilePic"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"

@@ -4,6 +4,7 @@ import com.stufeed.android.api.response.CommentResponse;
 import com.stufeed.android.api.response.CreateBoardResponse;
 import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
+import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
 import com.stufeed.android.api.response.GetArchiveBoardListResponse;
@@ -12,6 +13,7 @@ import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetSettingResponse;
+import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.LoginResponse;
@@ -224,7 +226,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getallalluserdetials")
-    Call<Response> getUserAllInfo(@Field("userid") String userId);
+    Call<GetUserDetailsResponse> getUserAllInfo(@Field("userid") String userId);
 
     @FormUrlEncoded
     @POST("saveuserskils")
@@ -239,7 +241,7 @@ public interface Api {
     @POST("saveuserachievement")
     Call<Response> saveAchievement(@Field("userid") String userId,
                                    @Field("title") String title,
-                                   @Field("issuedby") String issueBy,
+                                   @Field("issudby") String issueBy,
                                    @Field("issuddate") String issueDate,
                                    @Field("achievmenttype") String achievementType,
                                    @Field("description") String description);
@@ -256,10 +258,10 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getalluserarchivements")
-    Call<Response> getAllAchievements(@Field("userid") String userId);
+    Call<GetAchievementListResponse> getAllAchievements(@Field("userid") String userId);
 
 
     @FormUrlEncoded
     @POST("achivementdelete")
-    Call<Response> deleteAchievements(@Field("userid") String userId);
+    Call<Response> deleteAchievements(@Field("achievmentid") String id);
 }

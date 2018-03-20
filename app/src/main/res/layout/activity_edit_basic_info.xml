@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.stufeed.android.view.viewmodel.EditBasicInfoModel" />
+            type="com.stufeed.android.api.response.GetUserDetailsResponse.Details" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -88,7 +88,8 @@
                                     android:layout_width="@dimen/dimen_100dp"
                                     android:layout_height="@dimen/dimen_100dp"
                                     android:onClick="@{()->activity.openImagePicker()}"
-                                    android:src="@mipmap/ic_launcher" />
+                                    android:src="@mipmap/ic_launcher"
+                                    app:profileImageUrl="@{model.profilePic}" />
                             </android.support.v7.widget.CardView>
 
                             <EditText
@@ -100,7 +101,7 @@
                                 android:drawablePadding="@dimen/dimen_10dp"
                                 android:hint="Full Name"
                                 android:singleLine="true"
-                                android:text="@={model.name}"
+                                android:text="@={model.fullName}"
                                 android:textColor="@color/text_color"
                                 android:textColorHint="@color/text_hint_color"
                                 android:textSize="@dimen/dimen_14sp" />
@@ -184,7 +185,7 @@
                                 android:maxLength="150"
                                 android:scrollbars="horizontal"
                                 android:singleLine="true"
-                                android:text="@={model.about}"
+                                android:text="@={model.aboutUs}"
                                 android:textColor="@color/text_color"
                                 android:textColorHint="@color/text_hint_color"
                                 android:textSize="@dimen/dimen_14sp" />
@@ -250,7 +251,7 @@
                                 android:inputType="number"
                                 android:maxLength="12"
                                 android:singleLine="true"
-                                android:text="@={model.contact}"
+                                android:text="@={model.contactNo}"
                                 android:textColor="@color/text_color"
                                 android:textColorHint="@color/text_hint_color"
                                 android:textSize="@dimen/dimen_14sp" />

@@ -29,6 +29,7 @@ import com.soundcloud.android.crop.Crop;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.api.response.UpdateProfileResponse;
 import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.bean.Degree;
@@ -36,6 +37,7 @@ import com.stufeed.android.bean.Department;
 import com.stufeed.android.bean.Designation;
 import com.stufeed.android.databinding.ActivityEditBasicInfoBinding;
 import com.stufeed.android.util.AssetsUtil;
+import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.fragment.DatePickerFragment;
@@ -71,7 +73,6 @@ public class EditBasicInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_basic_info);
         mBinding.setActivity(this);
-        mBinding.setModel(new EditBasicInfoModel());
         loginUserId = Utility.getLoginUserId(this);
         aQuery = new AQuery(this);
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -81,6 +82,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
             }
         });
 
+        getUserAllDetails();
         getDegreeList();
         getDepartmentsList();
         getDesignationList();
@@ -113,10 +115,11 @@ public class EditBasicInfoActivity extends AppCompatActivity {
         showHideAsPerRole(userDetail.getUserType());
     }
 
-    public void onClickSaveButton(EditBasicInfoModel model) {
+    public void onClickSaveButton(GetUserDetailsResponse.Details model) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<UpdateProfileResponse> responseCall = api.updateAllProfileData(loginUserId, model.getName(),
-                model.getJoiningYear(), model.getAbout(), model.getGender(), model.getContact(), model.getBirthDate(),
+        Call<UpdateProfileResponse> responseCall = api.updateAllProfileData(loginUserId, model.getFullName(),
+                model.getJoiningYear(), model.getAboutUs(), model.getGender(), model.getContactNo(), model
+                        .getBirthDate(),
                 model.getDegree(), model.getBranch(), model.getDesignation(), model.getDepartment());
         ProgressDialog.getInstance().showProgressDialog(EditBasicInfoActivity.this);
         responseCall.enqueue(new Callback<UpdateProfileResponse>() {
@@ -424,8 +427,34 @@ public class EditBasicInfoActivity extends AppCompatActivity {
     }
 
     private void getUserAllDetails() {
+        ProgressDialog.getInstance().showProgressDialog(EditBasicInfoActivity.this);
         Api api = APIClient.getClient().create(Api.class);
-        api.getUserAllInfo(loginUserId);
+        Call<GetUserDetailsResponse> responseCall = api.getUserAllInfo(loginUserId);
+        responseCall.enqueue(new Callback<GetUserDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetUserDetailsResponse> call, Response<GetUserDetailsResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleUserResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetUserDetailsResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleUserResponse(null);
+            }
+        });
+    }
+
+    private void handleUserResponse(GetUserDetailsResponse response) {
+        if (response == null) {
+            Utility.showErrorMsg(EditBasicInfoActivity.this);
+        } else {
+            if (response.getResponseCode().equals(Api.SUCCESS)) {
+                mBinding.setModel(response.getAllDetails());
+            } else {
+                Utility.showToast(EditBasicInfoActivity.this, response.getResponseMessage());
+            }
+        }
     }
 
     /**
@@ -472,6 +501,12 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                 UpdateProfileResponse updateProfileResponse = response.body();
                 if (updateProfileResponse != null) {
                     if (updateProfileResponse.getResponseCode().equals(Api.SUCCESS)) {
+                        UserDetail details = Utility.getLoginUserDetail(EditBasicInfoActivity
+                                .this);
+                        details.setProfilePic(updateProfileResponse.getProfilePic());
+                        String json = new Gson().toJson(details);
+                        PreferenceConnector.writeString(EditBasicInfoActivity.this, PreferenceConnector.USER_DATA,
+                                json);
                         Utility.showToast(EditBasicInfoActivity.this, updateProfileResponse.getResponseMessage());
                     } else {
                         Utility.showToast(EditBasicInfoActivity.this, updateProfileResponse.getResponseMessage());
