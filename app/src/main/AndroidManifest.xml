@@ -84,7 +84,8 @@
         <activity android:name=".view.activity.AchivementActivity" />
         <activity android:name=".view.activity.SkillsActivity" />
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".view.activity.AddAchievementActivity"></activity>
+        <activity android:name=".view.activity.AddAchievementActivity" />
+        <activity android:name=".view.activity.ForgotPasswordActivity"></activity>
     </application>
 
 </manifest>

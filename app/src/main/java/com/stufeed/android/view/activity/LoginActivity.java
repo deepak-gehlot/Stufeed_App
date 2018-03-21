@@ -106,6 +106,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * On Forgot Password button click method
+     */
+    public void onForgotPasswordBtnClick() {
+        startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+    }
+
+    /**
      * On Register button click method
      */
     public void onRegisterInstituteBtnClick() {

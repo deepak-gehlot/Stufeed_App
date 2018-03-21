@@ -71,6 +71,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
         holder.rowBinding.pollLayout.setVisibility(View.GONE);
         holder.rowBinding.imageLayout.setVisibility(View.GONE);
+
+        if (!TextUtils.isEmpty(post.getBoardId())) {
+            holder.rowBinding.boardName.setVisibility(View.VISIBLE);
+        } else {
+            holder.rowBinding.boardName.setVisibility(View.GONE);
+        }
+
         switch (post.getPostType()) {
             case "5":  // for audio
                 holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);

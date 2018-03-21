@@ -79,6 +79,10 @@ public class GetPostResponse {
         private String selectedId;
         @SerializedName("audiofile")
         private String audioFile;
+        @SerializedName("boardid")
+        private String boardId = "";
+        @SerializedName("boardname")
+        private String boardName = "";
 
         public Post() {
         }
@@ -243,6 +247,22 @@ public class GetPostResponse {
             this.audioFile = audioFile;
         }
 
+        public String getBoardId() {
+            return boardId;
+        }
+
+        public void setBoardId(String boardId) {
+            this.boardId = boardId;
+        }
+
+        public String getBoardName() {
+            return boardName;
+        }
+
+        public void setBoardName(String boardName) {
+            this.boardName = boardName;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -270,6 +290,8 @@ public class GetPostResponse {
             dest.writeTypedList(this.optionArrayList);
             dest.writeString(this.selectedId);
             dest.writeString(this.audioFile);
+            dest.writeString(this.boardId);
+            dest.writeString(this.boardName);
         }
 
         protected Post(Parcel in) {
@@ -293,6 +315,8 @@ public class GetPostResponse {
             this.optionArrayList = in.createTypedArrayList(Option.CREATOR);
             this.selectedId = in.readString();
             this.audioFile = in.readString();
+            this.boardId = in.readString();
+            this.boardName = in.readString();
         }
 
         public static final Creator<Post> CREATOR = new Creator<Post>() {

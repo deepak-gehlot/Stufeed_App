@@ -264,4 +264,9 @@ public interface Api {
     @FormUrlEncoded
     @POST("achivementdelete")
     Call<Response> deleteAchievements(@Field("achievmentid") String id);
+
+    @FormUrlEncoded
+    @POST("forgot")
+    Call<Response> forgotPassword(@Field("email") String email);
+
 }

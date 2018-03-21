@@ -225,7 +225,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                 if (new_password.getText().toString().trim().equals(confirm_password.getText().toString().trim())) {
                     if (!new_password.getText().toString().trim().equals("")) {
                         if (new_password.getText().toString().trim().length() < 6) {
-                            new_password.setError("atleast 6 characters");
+                            new_password.setError("Atleast 6 characters");
                         } else {
                             ialog.dismiss();
                             changePassword(new_password.getText().toString().trim());
