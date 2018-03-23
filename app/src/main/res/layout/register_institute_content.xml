@@ -4,6 +4,10 @@
     <data>
 
         <variable
+            name="model"
+            type="com.stufeed.android.view.viewmodel.RegisterInstituteModel" />
+
+        <variable
             name="activity"
             type="com.stufeed.android.view.activity.RegisterInstituteActivity" />
     </data>
@@ -138,7 +142,7 @@
                         android:layout_below="@id/rdx"
                         android:background="@color/view_color" />
 
-                    <AutoCompleteTextView
+                    <EditText
                         android:id="@+id/autocomple_university"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -159,6 +163,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/address"
+                            android:text="@={model.address}"
                             android:textColor="@color/text_color"
                             android:textSize="16dp" />
                     </android.support.design.widget.TextInputLayout>
@@ -172,21 +177,23 @@
                         android:orientation="horizontal"
                         android:weightSum="2">
 
-                        <AutoCompleteTextView
+                        <EditText
                             android:id="@+id/autocomplete_city"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:hint="@string/city"
+                            android:text="@={model.city}"
                             android:textColor="@color/text_color"
                             android:textSize="16dp" />
 
-                        <AutoCompleteTextView
+                        <EditText
                             android:id="@+id/autocomplete_state"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:hint="@string/state"
+                            android:text="@={model.state}"
                             android:textColor="@color/text_color"
                             android:textSize="16dp" />
                     </LinearLayout>
@@ -208,7 +215,8 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/inst_number"
                             android:textColor="@color/text_color"
-                            android:textSize="16dp" />
+                            android:textSize="16dp"
+                            android:text="@={model.instituteId}"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <Button
@@ -249,6 +257,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:hint="@string/email_address"
+                            android:text="@={model.email}"
                             android:inputType="textEmailAddress"
                             android:paddingLeft="5dp"
                             android:textColor="@color/text_color"
@@ -268,6 +277,7 @@
                             android:hint="@string/password"
                             android:inputType="textPassword"
                             android:maxLength="30"
+                            android:text="@={model.password}"
                             android:paddingLeft="5dp"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
@@ -290,6 +300,7 @@
                             android:hint="@string/mobile_number"
                             android:inputType="number"
                             android:paddingLeft="5dp"
+                            android:text="@={model.contactNo}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
                             android:textSize="16dp" />
@@ -312,6 +323,7 @@
                             android:inputType="textWebEmailAddress"
                             android:maxLength="60"
                             android:paddingLeft="5dp"
+                            android:text="@={model.website}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
                             android:textSize="16dp" />
@@ -322,12 +334,13 @@
                         android:layout_height="16dp"
                         android:visibility="gone" />
 
-                    <AutoCompleteTextView
+                    <TextView
                         android:id="@+id/specialist"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/specialist"
                         android:paddingLeft="5dp"
+                        android:text="@={model.specialisedIn}"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/text_hint_color"
                         android:textSize="16dp" />
@@ -337,7 +350,7 @@
                         android:layout_height="16dp"
                         android:visibility="gone" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/year_os_established"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -346,6 +359,7 @@
                         android:focusable="false"
                         android:hint="@string/year_of_stablished"
                         android:inputType="number"
+                        android:text="@={model.yearOfEstablishment}"
                         android:textColor="@color/text_color"
                         android:textSize="16dp" />
 
@@ -385,7 +399,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
-                                android:hint="Goverment"
+                                android:hint="Government"
                                 android:textColorHint="@color/text_color"
                                 android:textSize="16dp" />
 
@@ -455,8 +469,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="10dp"
-                        android:onClick="@{()->activity.onRegisterButtonClick()}"
                         android:backgroundTint="@color/button_color"
+                        android:onClick="@{()->activity.onRegisterButtonClick()}"
                         android:text="@string/register"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/white"

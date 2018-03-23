@@ -10,13 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RadioGroup;
 
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.databinding.RegisterInstituteBinding;
+import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.viewmodel.RegisterInstituteModel;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -35,7 +38,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
     private GetAllCollegeResponse.College college;
     private ArrayList<String> collegesStrList = new ArrayList<>();
     private ArrayList<GetAllCollegeResponse.College> colleges = new ArrayList<>();
-
+    private RegisterInstituteModel registerInstituteModel = new RegisterInstituteModel();
     private int stepTag = 1;
 
     @Override
@@ -43,6 +46,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.register_institute);
         mBinding.mainContent.setActivity(this);
+        mBinding.mainContent.setModel(registerInstituteModel);
         setSupportActionBar(mBinding.toolbar);
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,11 +56,28 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         });
 
         setTextChangeListener();
+        setInstituteTypeRadioGroup();
+        setLocationRadio();
+        setManageByRadio();
 
         mBinding.mainContent.searchCollegeEdt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 college = colleges.get(position);
+                registerInstituteModel.setAddress(college.getAddress());
+                registerInstituteModel.setInstituteId(college.getAffiliationNo());
+                registerInstituteModel.setCollegeId(college.getCollegeId());
+                registerInstituteModel.setCollegeName(college.getCollegeName());
+                registerInstituteModel.setInstitutionType(college.getCollegeType());
+                registerInstituteModel.setCity(college.getDistrict());
+                registerInstituteModel.setInstitutionType(college.getInstitutionType());
+                registerInstituteModel.setLocation(college.getLocation());
+                registerInstituteModel.setManagedBy(college.getManagement());
+                registerInstituteModel.setSpecialisedIn(college.getSpecialisedIn());
+                registerInstituteModel.setState(college.getState());
+                registerInstituteModel.setUniversityName(college.getUniversityName());
+                registerInstituteModel.setWebsite(college.getWebsite());
+                registerInstituteModel.setYearOfEstablishment(college.getYearOfEstablishment());
             }
         });
     }
@@ -72,7 +93,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
 
     public void onRegisterButtonClick() {
         if (stepTag == 2) {
-
+            registerService(mBinding.mainContent.getModel());
         } else {
             manageViewState();
         }
@@ -80,7 +101,6 @@ public class RegisterInstituteActivity extends AppCompatActivity {
 
     public void onNextButtonClick() {
         manageViewState();
-
     }
 
     private void manageViewState() {
@@ -135,6 +155,60 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         });
     }
 
+    public void setInstituteTypeRadioGroup() {
+        mBinding.mainContent.rdx.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.college_radio:
+                        mBinding.mainContent.getModel().setInstitutionType("1");
+                        break;
+                    case R.id.school_radio:
+                        mBinding.mainContent.getModel().setInstitutionType("2");
+                        break;
+                    case R.id.university_radio:
+                        mBinding.mainContent.getModel().setInstitutionType("3");
+                        break;
+                    case R.id.coaching_radio:
+                        mBinding.mainContent.getModel().setInstitutionType("4");
+                        break;
+                }
+            }
+        });
+    }
+
+    public void setManageByRadio() {
+        mBinding.mainContent.managedRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.private_radio:
+                        mBinding.mainContent.getModel().setManagedBy("Private");
+                        break;
+                    case R.id.goverment_radio:
+                        mBinding.mainContent.getModel().setManagedBy("Government");
+                        break;
+                }
+            }
+        });
+    }
+
+    private void setLocationRadio() {
+        mBinding.mainContent.locationRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.urban:
+                        mBinding.mainContent.getModel().setLocation("Urban");
+                        break;
+                    case R.id.rural:
+                        mBinding.mainContent.getModel().setLocation("Rural");
+                        break;
+                }
+            }
+        });
+    }
+
     private void searchCollege(String searchTxt) {
         Api api = APIClient.getClient().create(Api.class);
         Call<GetAllCollegeResponse> responseCall = api.getColleges(searchTxt);
@@ -168,4 +242,44 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         }
     }
 
+    private void registerService(RegisterInstituteModel registerInstituteModel) {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<com.stufeed.android.api.response.Response> responseCall = api.registerInstitute(registerInstituteModel
+                        .getCollegeId(),
+                registerInstituteModel
+                        .getCollegeName(),
+                registerInstituteModel.getEmail(), registerInstituteModel.getPassword(),
+                registerInstituteModel.getUserType(), registerInstituteModel.getContactNo(),
+                registerInstituteModel.getInstitutionType(), registerInstituteModel.getUniversityName(),
+                registerInstituteModel.getAddress(), registerInstituteModel.getInstituteId(), registerInstituteModel
+                        .getCity(), registerInstituteModel.getState(), registerInstituteModel.getWebsite(),
+                registerInstituteModel.getSpecialisedIn(), registerInstituteModel.getYearOfEstablishment(),
+                registerInstituteModel.getManagedBy(), registerInstituteModel.getLocation());
+        ProgressDialog.getInstance().showProgressDialog(RegisterInstituteActivity.this);
+        responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
+            @Override
+            public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android
+                    .api.response.Response> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleRegisterResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<com.stufeed.android.api.response.Response> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleRegisterResponse(null);
+            }
+        });
+    }
+
+    private void handleRegisterResponse(com.stufeed.android.api.response.Response response) {
+        if (response == null) {
+            Utility.showErrorMsg(RegisterInstituteActivity.this);
+        } else if (response.getResponseCode().equalsIgnoreCase(Api.SUCCESS)) {
+            Utility.showToast(RegisterInstituteActivity.this, response.getResponseMessage());
+            finish();
+        } else {
+            Utility.showToast(RegisterInstituteActivity.this, response.getResponseMessage());
+        }
+    }
 }

@@ -217,7 +217,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("changepassword")
     Call<Response> changePassword(@Field("userid") String userId,
-                                  @Field("newpassword") String newPassword);
+                                  @Field("newpassword") String newPassword,
+                                  @Field("oldpassword") String oldPassword);
 
 
     @Multipart
@@ -268,5 +269,25 @@ public interface Api {
     @FormUrlEncoded
     @POST("forgot")
     Call<Response> forgotPassword(@Field("email") String email);
+
+    @FormUrlEncoded
+    @POST("instuteregistration")
+    Call<Response> registerInstitute(@Field("collegeid") String collegeId,
+                                     @Field("college_name") String collegeName,
+                                     @Field("email") String email,
+                                     @Field("password") String password,
+                                     @Field("usertype") String userTyp,
+                                     @Field("contactno") String number,
+                                     @Field("institutiontype") String instituteType,
+                                     @Field("university_name") String universityName,
+                                     @Field("address") String address,
+                                     @Field("instituteid") String instituteId,
+                                     @Field("city") String city,
+                                     @Field("state") String state,
+                                     @Field("website") String website,
+                                     @Field("specialised_in") String specialisedIn,
+                                     @Field("year_of_establishment") String yearEstablishment,
+                                     @Field("managedby") String managedBy,
+                                     @Field("location") String location);
 
 }

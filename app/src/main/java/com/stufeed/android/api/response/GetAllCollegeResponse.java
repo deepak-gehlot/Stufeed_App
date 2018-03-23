@@ -7,11 +7,11 @@ import java.util.ArrayList;
 /**
  * Created by Deepak Gehlot on 1/29/2018.
  */
-
 public class GetAllCollegeResponse {
 
     private String responseMessage = "";
     private String responseCode = "";
+
     @SerializedName("getpost")
     private ArrayList<College> collegeArrayList = new ArrayList<>();
 
@@ -40,8 +40,37 @@ public class GetAllCollegeResponse {
     }
 
     public static class College {
+
         private String collegeId = "";
         private String collegeName = "";
+        @SerializedName("institutiontype")
+        private String institutionType = "";
+        @SerializedName("address")
+        private String address = "";
+        @SerializedName("affiliation_no")
+        private String affiliationNo = "";
+        @SerializedName("college_type")
+        private String collegeType = "";
+        @SerializedName("district")
+        private String district = "";
+        @SerializedName("location")
+        private String location = "";
+        @SerializedName("management")
+        private String management = "";
+        @SerializedName("specialised_in")
+        private String specialisedIn = "";
+        @SerializedName("state")
+        private String state = "";
+        @SerializedName("university_name")
+        private String universityName = "";
+        @SerializedName("university_type")
+        private String universityType = "";
+        @SerializedName("upload_year")
+        private String uploadYear = "";
+        @SerializedName("website")
+        private String website = "";
+        @SerializedName("year_of_establishment")
+        private String yearOfEstablishment = "";
 
         public String getCollegeId() {
             return collegeId;
@@ -57,6 +86,118 @@ public class GetAllCollegeResponse {
 
         public void setCollegeName(String collegeName) {
             this.collegeName = collegeName;
+        }
+
+        public String getInstitutionType() {
+            return institutionType;
+        }
+
+        public void setInstitutionType(String institutionType) {
+            this.institutionType = institutionType;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getAffiliationNo() {
+            return affiliationNo;
+        }
+
+        public void setAffiliationNo(String affiliationNo) {
+            this.affiliationNo = affiliationNo;
+        }
+
+        public String getCollegeType() {
+            return collegeType;
+        }
+
+        public void setCollegeType(String collegeType) {
+            this.collegeType = collegeType;
+        }
+
+        public String getDistrict() {
+            return district;
+        }
+
+        public void setDistrict(String district) {
+            this.district = district;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public String getManagement() {
+            return management;
+        }
+
+        public void setManagement(String management) {
+            this.management = management;
+        }
+
+        public String getSpecialisedIn() {
+            return specialisedIn;
+        }
+
+        public void setSpecialisedIn(String specialisedIn) {
+            this.specialisedIn = specialisedIn;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getUniversityName() {
+            return universityName;
+        }
+
+        public void setUniversityName(String universityName) {
+            this.universityName = universityName;
+        }
+
+        public String getUniversityType() {
+            return universityType;
+        }
+
+        public void setUniversityType(String universityType) {
+            this.universityType = universityType;
+        }
+
+        public String getUploadYear() {
+            return uploadYear;
+        }
+
+        public void setUploadYear(String uploadYear) {
+            this.uploadYear = uploadYear;
+        }
+
+        public String getWebsite() {
+            return website;
+        }
+
+        public void setWebsite(String website) {
+            this.website = website;
+        }
+
+        public String getYearOfEstablishment() {
+            return yearOfEstablishment;
+        }
+
+        public void setYearOfEstablishment(String yearOfEstablishment) {
+            this.yearOfEstablishment = yearOfEstablishment;
         }
     }
 }

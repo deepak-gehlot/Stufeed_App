@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -222,13 +223,18 @@ public class EditBasicInfoActivity extends AppCompatActivity {
         dialogok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String oldpassword = old_password.getText().toString().trim();
+                if (TextUtils.isEmpty(oldpassword)) {
+                    Utility.showToast(EditBasicInfoActivity.this, "Enter old password.");
+                    return;
+                }
                 if (new_password.getText().toString().trim().equals(confirm_password.getText().toString().trim())) {
                     if (!new_password.getText().toString().trim().equals("")) {
                         if (new_password.getText().toString().trim().length() < 6) {
                             new_password.setError("Atleast 6 characters");
                         } else {
                             ialog.dismiss();
-                            changePassword(new_password.getText().toString().trim());
+                            changePassword(oldpassword, new_password.getText().toString().trim());
                         }
                     } else if (new_password.getText().toString().trim().equals("")) {
                         new_password.setError("Enter password");
@@ -462,10 +468,11 @@ public class EditBasicInfoActivity extends AppCompatActivity {
      *
      * @param password
      */
-    private void changePassword(String password) {
+    private void changePassword(String oldPass, String password) {
         ProgressDialog.getInstance().showProgressDialog(EditBasicInfoActivity.this);
         Api api = APIClient.getClient().create(Api.class);
-        api.changePassword(loginUserId, password).enqueue(new Callback<com.stufeed.android.api.response.Response>() {
+        api.changePassword(loginUserId, password, oldPass).enqueue(new Callback<com.stufeed.android.api.response
+                .Response>() {
             @Override
             public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android
                     .api.response.Response> response) {
