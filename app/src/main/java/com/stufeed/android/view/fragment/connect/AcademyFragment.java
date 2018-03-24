@@ -44,9 +44,9 @@ public class AcademyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //setupViewPager(binding.viewpager);
-       // binding.tabLayout.setupWithViewPager(binding.viewpager);
-       // binding.viewpager.setOffscreenPageLimit(3);
+        setupViewPager(binding.viewpager);
+        binding.tabLayout.setupWithViewPager(binding.viewpager);
+        binding.viewpager.setOffscreenPageLimit(3);
     }
 
     /**

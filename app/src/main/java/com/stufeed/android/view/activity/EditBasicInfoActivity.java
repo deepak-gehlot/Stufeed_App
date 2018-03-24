@@ -33,6 +33,7 @@ import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.api.response.UpdateProfileResponse;
 import com.stufeed.android.api.response.UserDetail;
+import com.stufeed.android.bean.Branch;
 import com.stufeed.android.bean.Degree;
 import com.stufeed.android.bean.Department;
 import com.stufeed.android.bean.Designation;
@@ -61,6 +62,7 @@ import retrofit2.Response;
 
 public class EditBasicInfoActivity extends AppCompatActivity {
 
+    private ArrayList<String> branchList = new ArrayList<>();
     private ArrayList<String> degreeList = new ArrayList<>();
     private ArrayList<String> departmentList = new ArrayList<>();
     private ArrayList<String> designationList = new ArrayList<>();
@@ -85,6 +87,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
 
         getUserAllDetails();
         getDegreeList();
+        getBranchList();
         getDepartmentsList();
         getDesignationList();
         setData();
@@ -333,6 +336,23 @@ public class EditBasicInfoActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+                ArrayAdapter<String> adapterBranch = new ArrayAdapter<String>
+                        (this, android.R.layout.select_dialog_item, branchList);
+                mBinding.autoComplete2.setAdapter(adapterBranch);
+                mBinding.autoComplete2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        mBinding.getModel().setBranch(branchList.get(position));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
                 break;
             case "2":   // Department
                 mBinding.autoComplete1.setHint("department");
@@ -429,6 +449,15 @@ public class EditBasicInfoActivity extends AppCompatActivity {
 
         for (Designation designation : designations) {
             designationList.add(designation.getDesignation());
+        }
+    }
+
+
+    private void getBranchList() {
+        String json = AssetsUtil.ReadFromfile("branch.json", EditBasicInfoActivity.this);
+        Branch[] branches = new Gson().fromJson(json, Branch[].class);
+        for (Branch branch : branches) {
+            branchList.add(branch.getFIELD1());
         }
     }
 

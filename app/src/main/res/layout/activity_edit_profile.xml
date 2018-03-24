@@ -72,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/next_icon"
+            android:onClick="@{()->activity.onClickAbout()}"
             android:padding="16dp"
             android:text="About Me"
             android:textColor="@color/text_color" />

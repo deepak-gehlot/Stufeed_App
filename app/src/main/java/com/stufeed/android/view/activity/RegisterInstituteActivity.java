@@ -1,5 +1,6 @@
 package com.stufeed.android.view.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
+import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
+import com.stufeed.android.api.response.UpdateCollegeResponse;
 import com.stufeed.android.databinding.RegisterInstituteBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
@@ -34,7 +37,6 @@ import static android.view.View.GONE;
 public class RegisterInstituteActivity extends AppCompatActivity {
 
     private RegisterInstituteBinding mBinding;
-
     private GetAllCollegeResponse.College college;
     private ArrayList<String> collegesStrList = new ArrayList<>();
     private ArrayList<GetAllCollegeResponse.College> colleges = new ArrayList<>();
@@ -162,15 +164,19 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                 switch (checkedId) {
                     case R.id.college_radio:
                         mBinding.mainContent.getModel().setInstitutionType("1");
+                        mBinding.mainContent.autocompleUniversity.setVisibility(GONE);
                         break;
                     case R.id.school_radio:
                         mBinding.mainContent.getModel().setInstitutionType("2");
+                        mBinding.mainContent.autocompleUniversity.setVisibility(GONE);
                         break;
                     case R.id.university_radio:
                         mBinding.mainContent.getModel().setInstitutionType("3");
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
                         break;
                     case R.id.coaching_radio:
                         mBinding.mainContent.getModel().setInstitutionType("4");
+                        mBinding.mainContent.autocompleUniversity.setVisibility(GONE);
                         break;
                 }
             }
@@ -244,10 +250,8 @@ public class RegisterInstituteActivity extends AppCompatActivity {
 
     private void registerService(RegisterInstituteModel registerInstituteModel) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<com.stufeed.android.api.response.Response> responseCall = api.registerInstitute(registerInstituteModel
-                        .getCollegeId(),
-                registerInstituteModel
-                        .getCollegeName(),
+        Call<GetInstituteRegistrationResponse> responseCall = api.registerInstitute(registerInstituteModel
+                        .getCollegeId(), registerInstituteModel.getCollegeName(),
                 registerInstituteModel.getEmail(), registerInstituteModel.getPassword(),
                 registerInstituteModel.getUserType(), registerInstituteModel.getContactNo(),
                 registerInstituteModel.getInstitutionType(), registerInstituteModel.getUniversityName(),
@@ -256,27 +260,59 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                 registerInstituteModel.getSpecialisedIn(), registerInstituteModel.getYearOfEstablishment(),
                 registerInstituteModel.getManagedBy(), registerInstituteModel.getLocation());
         ProgressDialog.getInstance().showProgressDialog(RegisterInstituteActivity.this);
-        responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
+
+        responseCall.enqueue(new Callback<GetInstituteRegistrationResponse>() {
             @Override
-            public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android
-                    .api.response.Response> response) {
+            public void onResponse(Call<GetInstituteRegistrationResponse> call,
+                                   Response<GetInstituteRegistrationResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
                 handleRegisterResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<com.stufeed.android.api.response.Response> call, Throwable t) {
+            public void onFailure(Call<GetInstituteRegistrationResponse> call, Throwable t) {
                 ProgressDialog.getInstance().dismissDialog();
                 handleRegisterResponse(null);
             }
         });
     }
 
-    private void handleRegisterResponse(com.stufeed.android.api.response.Response response) {
+    private void handleRegisterResponse(GetInstituteRegistrationResponse response) {
         if (response == null) {
             Utility.showErrorMsg(RegisterInstituteActivity.this);
         } else if (response.getResponseCode().equalsIgnoreCase(Api.SUCCESS)) {
             Utility.showToast(RegisterInstituteActivity.this, response.getResponseMessage());
+            setCollege(response.getUserid(), registerInstituteModel
+                    .getCollegeId());
+        } else {
+            Utility.showToast(RegisterInstituteActivity.this, response.getResponseMessage());
+        }
+    }
+
+    private void setCollege(String userId, String collegeId) {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<UpdateCollegeResponse> responseCall = api.setCollegeId(userId, collegeId);
+        ProgressDialog.getInstance().showProgressDialog(RegisterInstituteActivity.this);
+        responseCall.enqueue(new Callback<UpdateCollegeResponse>() {
+            @Override
+            public void onResponse(Call<UpdateCollegeResponse> call, Response<UpdateCollegeResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleSetCollegeResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<UpdateCollegeResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(RegisterInstituteActivity.this);
+            }
+        });
+    }
+
+    private void handleSetCollegeResponse(UpdateCollegeResponse response) {
+        if (response == null) {
+            Utility.showErrorMsg(RegisterInstituteActivity.this);
+        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            startActivity(new Intent(RegisterInstituteActivity.this, VerifyAccountActivity.class));
             finish();
         } else {
             Utility.showToast(RegisterInstituteActivity.this, response.getResponseMessage());

@@ -7,9 +7,11 @@ import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
+import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetArchiveBoardListResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetSettingResponse;
@@ -236,7 +238,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getuserskills")
-    Call<Response> getUserSkills(@Field("userid") String userId);
+    Call<GetAllSkillsResponse> getUserSkills(@Field("userid") String userId);
 
     @FormUrlEncoded
     @POST("saveuserachievement")
@@ -272,22 +274,22 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("instuteregistration")
-    Call<Response> registerInstitute(@Field("collegeid") String collegeId,
-                                     @Field("college_name") String collegeName,
-                                     @Field("email") String email,
-                                     @Field("password") String password,
-                                     @Field("usertype") String userTyp,
-                                     @Field("contactno") String number,
-                                     @Field("institutiontype") String instituteType,
-                                     @Field("university_name") String universityName,
-                                     @Field("address") String address,
-                                     @Field("instituteid") String instituteId,
-                                     @Field("city") String city,
-                                     @Field("state") String state,
-                                     @Field("website") String website,
-                                     @Field("specialised_in") String specialisedIn,
-                                     @Field("year_of_establishment") String yearEstablishment,
-                                     @Field("managedby") String managedBy,
-                                     @Field("location") String location);
+    Call<GetInstituteRegistrationResponse> registerInstitute(@Field("collegeid") String collegeId,
+                                                             @Field("college_name") String collegeName,
+                                                             @Field("email") String email,
+                                                             @Field("password") String password,
+                                                             @Field("usertype") String userTyp,
+                                                             @Field("contactno") String number,
+                                                             @Field("institutiontype") String instituteType,
+                                                             @Field("university_name") String universityName,
+                                                             @Field("address") String address,
+                                                             @Field("instituteid") String instituteId,
+                                                             @Field("city") String city,
+                                                             @Field("state") String state,
+                                                             @Field("website") String website,
+                                                             @Field("specialised_in") String specialisedIn,
+                                                             @Field("year_of_establishment") String yearEstablishment,
+                                                             @Field("managedby") String managedBy,
+                                                             @Field("location") String location);
 
 }

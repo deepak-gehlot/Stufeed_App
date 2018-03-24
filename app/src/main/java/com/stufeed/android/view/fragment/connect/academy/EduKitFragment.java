@@ -22,7 +22,6 @@ public class EduKitFragment extends Fragment {
     public static EduKitFragment newInstance() {
 
         Bundle args = new Bundle();
-
         EduKitFragment fragment = new EduKitFragment();
         fragment.setArguments(args);
         return fragment;

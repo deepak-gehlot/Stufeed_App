@@ -10,6 +10,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tagview="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,15 +47,24 @@
             android:orientation="vertical"
             android:padding="@dimen/dimen_16dp">
 
-            <me.gujun.android.taggroup.TagGroup
+            <com.cunoraz.tagview.TagView
                 android:id="@+id/tag_group"
-                style="@style/TagGroup" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                tagview:lineMargin="5dp"
+                tagview:tagMargin="5dp"
+                tagview:textPaddingBottom="5dp"
+                tagview:textPaddingLeft="16dp"
+                tagview:textPaddingRight="16dp"
+                tagview:textPaddingTop="5dp" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/editTextSkill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text"
+                android:completionThreshold="1"
                 android:hint="Skills / Specialities"
                 android:padding="16dp" />
 
