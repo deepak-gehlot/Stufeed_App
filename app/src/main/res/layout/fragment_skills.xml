@@ -1,0 +1,50 @@
+<layout>
+
+    <ScrollView
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tagview="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:context="com.stufeed.android.view.fragment.profile.SkillsFragment">
+
+            <com.cunoraz.tagview.TagView
+                android:id="@+id/tag_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                tagview:lineMargin="5dp"
+                tagview:tagMargin="5dp"
+                tagview:textPaddingBottom="5dp"
+                tagview:textPaddingLeft="16dp"
+                tagview:textPaddingRight="16dp"
+                tagview:textPaddingTop="5dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:padding="@dimen/dimen_16dp"
+                android:text="About Me :"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_16dp"
+                android:text="Lorem ipsum dolor sit amet, ut sed omnis viris doctus. Ne pri saperet alienum, tractatos elaboraret ea quo, pri at laoreet tacimates. Vis tempor philosophia ex. Aeterno feugait has ut. Eum in prima essent inimicus, in eos intellegebat conclusionemque.
+Lorem ipsum dolor sit amet, ut sed omnis viris doctus. Ne pri saperet alienum, tractatos elaboraret ea quo, pri at laoreet tacimates. Vis tempor philosophia ex. Aeterno feugait has ut. Eum in prima essent inimicus, in eos intellegebat conclusionemque."
+                android:textColor="@color/text_color" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

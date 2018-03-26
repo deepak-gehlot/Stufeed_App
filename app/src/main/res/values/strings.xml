@@ -44,6 +44,11 @@
     <!--    Verify account  -->
     <string name="verify_des">Now you can check your <b>Email box</b> for we have sent to you a <b>OTP</b> and enter to verify stufeed account.</string>
 
+    <!--    full profile    -->
+    <string name="general">General</string>
+    <string name="achievement">Achievement</string>
+    <string name="skill">Skills</string>
+    <string name="about">About</string>
 
     <!--    Connect     -->
     <string name="academy">Academy</string>

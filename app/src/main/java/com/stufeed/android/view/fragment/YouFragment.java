@@ -16,6 +16,7 @@ import com.stufeed.android.databinding.FragmentYouBinding;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditBasicInfoActivity;
 import com.stufeed.android.view.activity.EditProfileActivity;
+import com.stufeed.android.view.activity.ViewFullProfileActivity;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 
 public class YouFragment extends Fragment {
@@ -55,6 +56,10 @@ public class YouFragment extends Fragment {
 
     public void onEditButtonClick() {
         startActivity(new Intent(getActivity(), EditProfileActivity.class));
+    }
+
+    public void onViewButtonClick() {
+        startActivity(new Intent(getActivity(), ViewFullProfileActivity.class));
     }
 
     private void setRecyclerView() {

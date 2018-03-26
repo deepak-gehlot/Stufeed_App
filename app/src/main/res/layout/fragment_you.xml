@@ -40,6 +40,15 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="false"
+                        android:onClick="@{()->fragment.onViewButtonClick()}"
+                        android:padding="10dp"
+                        android:tint="@color/button_color"
+                        app:srcCompat="@drawable/view_icon" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:onClick="@{()->fragment.onEditButtonClick()}"
                         android:padding="10dp"
