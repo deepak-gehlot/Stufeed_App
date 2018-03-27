@@ -44,6 +44,8 @@ public class GetUserDetailsResponse {
         private String deviceToken = "";
         @SerializedName("collegeid")
         private String collegeId = "";
+        @SerializedName("collegename")
+        private String collegeName = "";
         @SerializedName("fullname")
         private String fullName = "";
         @SerializedName("email")
@@ -302,5 +304,16 @@ public class GetUserDetailsResponse {
             this.is_deleted = is_deleted;
             notifyPropertyChanged(BR.is_deleted);
         }
+
+        @Bindable
+        public String getCollegeName() {
+            return collegeName;
+        }
+
+        public void setCollegeName(String collegeName) {
+            this.collegeName = collegeName;
+            notifyPropertyChanged(BR.collegeName);
+        }
     }
+
 }

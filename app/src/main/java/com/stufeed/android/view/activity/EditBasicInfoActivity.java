@@ -43,7 +43,6 @@ import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.fragment.DatePickerFragment;
-import com.stufeed.android.view.viewmodel.EditBasicInfoModel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -325,34 +324,22 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapterDegree = new ArrayAdapter<String>
                         (this, android.R.layout.select_dialog_item, degreeList);
                 mBinding.autoComplete1.setAdapter(adapterDegree);
-                mBinding.autoComplete1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                mBinding.autoComplete1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        mBinding.getModel().setDegree(degreeList.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mBinding.getModel().setDegree(mBinding.autoComplete1.getText().toString().trim());
                     }
                 });
-
 
                 ArrayAdapter<String> adapterBranch = new ArrayAdapter<String>
                         (this, android.R.layout.select_dialog_item, branchList);
                 mBinding.autoComplete2.setAdapter(adapterBranch);
-                mBinding.autoComplete2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                mBinding.autoComplete2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        mBinding.getModel().setBranch(branchList.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mBinding.getModel().setBranch(mBinding.autoComplete2.getText().toString().trim());
                     }
                 });
-
                 break;
             case "2":   // Department
                 mBinding.autoComplete1.setHint("department");
@@ -365,18 +352,12 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                         (this, android.R.layout.select_dialog_item, departmentList);
                 mBinding.autoComplete1.setAdapter(adapterDepartment);
 
-                mBinding.autoComplete1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                mBinding.autoComplete1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        mBinding.getModel().setDepartment(departmentList.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mBinding.getModel().setDepartment(mBinding.autoComplete1.getText().toString().trim());
                     }
                 });
-
                 break;
             case "3":   // Faculty
                 mBinding.autoComplete1.setHint("designation");
@@ -394,29 +375,20 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                         (this, android.R.layout.select_dialog_item, departmentList);
                 mBinding.autoComplete1.setAdapter(adapterDesignation);
 
-                mBinding.autoComplete1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                mBinding.autoComplete1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        mBinding.getModel().setDesignation(designationList.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mBinding.getModel().setDesignation(mBinding.autoComplete1.getText().toString().trim());
                     }
                 });
 
-                mBinding.autoComplete1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                mBinding.autoComplete2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        mBinding.getModel().setDepartment(departmentList.get(position));
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mBinding.getModel().setDepartment(mBinding.autoComplete2.getText().toString().trim());
                     }
                 });
+
                 break;
             case "4": // institute
 

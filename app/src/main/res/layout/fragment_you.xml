@@ -4,226 +4,373 @@
 
         <variable
             name="model"
-            type="com.stufeed.android.api.response.UserDetail" />
+            type="com.stufeed.android.api.response.GetUserDetailsResponse.Details" />
 
         <variable
             name="fragment"
             type="com.stufeed.android.view.fragment.YouFragment" />
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tagview="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_color"
-        android:clickable="true"
-        android:focusable="true"
-        tools:context="com.stufeed.android.view.fragment.YouFragment">
+        android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/topPanel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="false"
-                        android:onClick="@{()->fragment.onViewButtonClick()}"
-                        android:padding="10dp"
-                        android:tint="@color/button_color"
-                        app:srcCompat="@drawable/view_icon" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:onClick="@{()->fragment.onEditButtonClick()}"
-                        android:padding="10dp"
-                        android:tint="@color/button_color"
-                        app:srcCompat="@drawable/edit_icon" />
-
-                    <TextView
-                        android:id="@+id/txtType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="50dp"
-                        android:background="@drawable/button"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:paddingBottom="3dp"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:paddingTop="3dp"
-                        android:text="tempter"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/txtCollageName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtType"
-                        android:layout_marginTop="5dp"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:text="Collage Name"
-                        android:textColor="@color/text_color"
-                        android:textSize="16sp" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtCollageName"
-                        android:layout_marginTop="10dp"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal">
-
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:maxLines="1"
-                                android:text="8"
-                                android:textColor="@color/text_color"
-                                android:textSize="13sp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:maxLines="1"
-                                android:text="Post"
-                                android:textColor="@color/text_color"
-                                android:textSize="13sp" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/grey_color" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:maxLines="1"
-                                android:textColor="@color/text_color"
-                                android:textSize="13sp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:maxLines="1"
-                                android:textColor="@color/text_color"
-                                android:textSize="13sp" />
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/grey_color" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:maxLines="1"
-                                android:textColor="@color/text_color"
-                                android:textSize="13sp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center"
-                                android:lines="1"
-                                android:maxLines="1"
-                                android:textColor="@color/text_color"
-                                android:textSize="13sp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-        </RelativeLayout>
-
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/profilePic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/user_default" />
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/topPanel"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp" />
+            android:background="@color/bg_color"
+            android:clickable="true"
+            android:focusable="true"
+            tools:context="com.stufeed.android.view.fragment.YouFragment">
 
-    </RelativeLayout>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <RelativeLayout
+                android:id="@+id/topPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:visibility="gone">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="false"
+                            android:onClick="@{()->fragment.onViewButtonClick()}"
+                            android:padding="10dp"
+                            android:tint="@color/button_color"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/view_icon" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:onClick="@{()->fragment.onEditButtonClick()}"
+                            android:padding="10dp"
+                            android:tint="@color/button_color"
+                            app:srcCompat="@drawable/edit_icon" />
+
+                        <TextView
+                            android:id="@+id/txtType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="50dp"
+                            android:background="@drawable/button"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:paddingBottom="3dp"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingTop="3dp"
+                            android:text=""
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txtUserName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtType"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text="@{model.fullName}"
+                            android:textColor="@color/text_color"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtCourse"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtUserName"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text='@{model.degree.equals("") ? "NA" : model.degree}'
+                            android:textColor="@color/text_color"
+                            android:textSize="13sp" />
+
+
+                        <TextView
+                            android:id="@+id/txtBranch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtCourse"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text='@{model.branch.equals("") ? "NA" : model.branch}'
+                            android:textColor="@color/text_color"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/txtCollageName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtBranch"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:text='@{model.collegeName.equals("") ? "NA" : model.collegeName}'
+                            android:textColor="@color/button_color"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/countLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtCollageName"
+                            android:layout_marginTop="10dp"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:text="8"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:text="Post"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/grey_color" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:text="153"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:text="Followers"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/grey_color" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="5dp">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:text="13"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_above="@+id/txtAbout"
+                                    android:layout_alignParentEnd="true"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:text="Join Board"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/txtAbout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/countLayout"
+                            android:layout_marginTop="5dp"
+                            android:ellipsize="end"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:text="@{model.aboutUs}"
+                            android:textColor="@color/text_color"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imageDownIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtAbout"
+                            android:layout_centerHorizontal="true"
+                            android:onClick="@{()->fragment.onClickDownArrow()}"
+                            android:padding="10dp"
+                            android:src="@drawable/arrow_down_icon"
+                            android:tint="@color/button_color" />
+
+                        <LinearLayout
+                            android:id="@+id/detailsLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/imageDownIcon"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Skills"
+                                android:textColor="@color/text_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <com.cunoraz.tagview.TagView
+                                android:id="@+id/tag_group"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                tagview:lineMargin="2dp"
+                                tagview:tagMargin="2dp"
+                                tagview:textPaddingBottom="5dp"
+                                tagview:textPaddingLeft="10dp"
+                                tagview:textPaddingRight="10dp"
+                                tagview:textPaddingTop="5dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Achievement"
+                                android:textColor="@color/text_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerViewAchievement"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="About Me"
+                                android:textColor="@color/text_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="About Me"
+                                android:textColor="#000000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/profilePic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/user_default"
+                app:profileImageUrl="@{model.profilePic}" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/topPanel"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </ScrollView>
 </layout>

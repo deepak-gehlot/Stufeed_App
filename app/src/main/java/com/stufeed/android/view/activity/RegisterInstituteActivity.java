@@ -2,12 +2,10 @@ package com.stufeed.android.view.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -164,19 +162,19 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                 switch (checkedId) {
                     case R.id.college_radio:
                         mBinding.mainContent.getModel().setInstitutionType("1");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
                         break;
                     case R.id.school_radio:
                         mBinding.mainContent.getModel().setInstitutionType("2");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
                         break;
                     case R.id.university_radio:
                         mBinding.mainContent.getModel().setInstitutionType("3");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
                         break;
                     case R.id.coaching_radio:
                         mBinding.mainContent.getModel().setInstitutionType("4");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
                         break;
                 }
             }
