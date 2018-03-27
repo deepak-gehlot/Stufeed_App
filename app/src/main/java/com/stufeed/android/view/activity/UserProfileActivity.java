@@ -2,25 +2,34 @@ package com.stufeed.android.view.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.cunoraz.tagview.Tag;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetAchievementListResponse;
+import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetUserDetailsResponse;
+import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.ActivityUserProfileBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 import com.stufeed.android.view.adapter.BoardListAdapter;
 import com.stufeed.android.view.adapter.UserBoardListAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,12 +43,14 @@ public class UserProfileActivity extends AppCompatActivity {
     private ActivityUserProfileBinding mBinding;
     private GetCollegeUserResponse.User user;
     private String type = "";
+    private List<Tag> tagList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile);
         setSupportActionBar(mBinding.toolbar);
+        mBinding.container.setActivity(this);
         setTitleBackClick();
         getDataFromBundle();
         getBoardList();
@@ -53,6 +64,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
         mBinding.container.txtUserName.setText(user.getFullName());
         mBinding.container.txtType.setText(type);
+
+        getBasicDetails();
+        setUserType();
     }
 
     private void setTitleBackClick() {
@@ -108,6 +122,166 @@ public class UserProfileActivity extends AppCompatActivity {
             mBinding.container.recyclerView.setLayoutManager(new GridLayoutManager(UserProfileActivity.this, 2));
             UserBoardListAdapter adapter = new UserBoardListAdapter(UserProfileActivity.this, boardArrayList);
             mBinding.container.recyclerView.setAdapter(adapter);
+        }
+    }
+
+
+    public void onClickDownArrow() {
+        if (mBinding.container.detailsLayout.getVisibility() == View.GONE) {
+            mBinding.container.detailsLayout.setVisibility(View.VISIBLE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (tagList != null) {
+                        mBinding.container.tagGroup.addTags(tagList);
+                    }
+                }
+            }, 10);
+        } else {
+            mBinding.container.detailsLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public void setUserType() {
+        switch (type) {
+            case "1":
+                mBinding.container.txtType.setText("Student");
+                break;
+            case "2":
+                mBinding.container.txtType.setText("Department");
+                break;
+            case "3":
+                mBinding.container.txtType.setText("Faculty");
+                break;
+            case "4":
+                mBinding.container.txtType.setText("Institute");
+                break;
+        }
+    }
+
+    /**
+     * Get User basic details
+     */
+    private void getBasicDetails() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetUserDetailsResponse> responseCall = api.getUserAllInfo(user.getUserId());
+        responseCall.enqueue(new Callback<GetUserDetailsResponse>() {
+            @Override
+            public void onResponse(Call<GetUserDetailsResponse> call, Response<GetUserDetailsResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleUserResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetUserDetailsResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleUserResponse(null);
+            }
+        });
+    }
+
+    /**
+     * Get User Skills
+     */
+    private void getSkills() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetAllSkillsResponse> responseCall = api.getUserSkills(user.getUserId());
+        responseCall.enqueue(new Callback<GetAllSkillsResponse>() {
+            @Override
+            public void onResponse(Call<GetAllSkillsResponse> call, retrofit2.Response<GetAllSkillsResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleGetUserSkillResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetAllSkillsResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleGetUserSkillResponse(null);
+            }
+        });
+    }
+
+    /**
+     * Get User Achievement list
+     */
+    private void getAchievement() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetAchievementListResponse> responseCall = api.getAllAchievements(user.getUserId());
+        responseCall.enqueue(new Callback<GetAchievementListResponse>() {
+            @Override
+            public void onResponse(Call<GetAchievementListResponse> call, Response<GetAchievementListResponse>
+                    response) {
+                handleAchievementResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetAchievementListResponse> call, Throwable t) {
+                handleAchievementResponse(null);
+            }
+        });
+    }
+
+    /**
+     * Get About
+     */
+    private void getAbout() {
+
+    }
+
+    /**
+     * User details response
+     */
+    private void handleUserResponse(GetUserDetailsResponse response) {
+        mBinding.container.topPanel.setVisibility(View.VISIBLE);
+        if (response != null) {
+            if (response.getResponseCode().equals(Api.SUCCESS)) {
+                mBinding.container.setModel(response.getAllDetails());
+            }
+        }
+        getSkills();
+        getAbout();
+        getAchievement();
+    }
+
+    /**
+     * Get all skills response
+     */
+    private void handleGetUserSkillResponse(GetAllSkillsResponse response) {
+        if (response != null) {
+            if (response.getResponseCode().equals(Api.SUCCESS)) {
+                String allSkills = response.getAllSkills();
+                String skills[] = allSkills.split(",");
+                for (int i = 0; i < skills.length; i++) {
+                    Tag tag = new Tag(skills[i]);
+                    tagList.add(tag);
+                }
+            }
+        }
+    }
+
+    /**
+     * Get achievement response
+     */
+    private void handleAchievementResponse(GetAchievementListResponse response) {
+        if (response != null) {
+            if (response.getResponseCode().equals(Api.SUCCESS)) {
+                setAchievementRecyclerView(response.getAchievementArrayList());
+            }
+        }
+    }
+
+    /**
+     * Get Achievement response
+     */
+    private void setAchievementRecyclerView(ArrayList<GetAchievementListResponse.Achievement> achievementArrayList) {
+        if (achievementArrayList != null) {
+            AchivementFragmentListAdapter adapter = new AchivementFragmentListAdapter(UserProfileActivity.this,
+                    achievementArrayList);
+            mBinding.container.recyclerViewAchievement.setLayoutManager(new LinearLayoutManager(UserProfileActivity
+                    .this));
+            mBinding.container.recyclerViewAchievement.setAdapter(adapter);
+        } else {
+            Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
         }
     }
 }
