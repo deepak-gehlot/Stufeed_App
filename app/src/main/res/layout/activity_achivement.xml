@@ -75,13 +75,14 @@
                     android:padding="16dp"
                     android:text="@={model.issueBy}" />
 
-                <EditText
+                <TextView
                     android:id="@+id/editTextIssuedDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edit_text"
                     android:hint="Issued date"
+                    android:onClick="@{()->activity.selectIssuedDate()}"
                     android:padding="16dp"
                     android:text="@={model.issueDate}" />
 

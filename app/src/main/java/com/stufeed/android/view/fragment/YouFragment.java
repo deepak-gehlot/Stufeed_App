@@ -211,6 +211,7 @@ public class YouFragment extends Fragment {
      * Get all skills response
      */
     private void handleGetUserSkillResponse(GetAllSkillsResponse response) {
+        tagList.clear();
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 String allSkills = response.getAllSkills();

@@ -1,9 +1,11 @@
 package com.stufeed.android.view.activity;
 
+import android.app.DatePickerDialog;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -14,6 +16,8 @@ import com.stufeed.android.databinding.ActivityAchivementBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.viewmodel.AddAchievementModel;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +45,21 @@ public class AddAchievementActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public void selectIssuedDate() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(AddAchievementActivity.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month = month + 1;
+                        String date = dayOfMonth + "-" + month + "-" + year;
+                        addAchievementModel.setIssueDate(date);
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
     }
 
     private void getDataFromBundle() {
