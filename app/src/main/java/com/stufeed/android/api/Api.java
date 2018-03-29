@@ -13,6 +13,7 @@ import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
+import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
@@ -175,6 +176,11 @@ public interface Api {
     @FormUrlEncoded
     @POST("getallusersavedpost")
     Call<GetPostResponse> getSavedPost(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("getallboardjoinrequestlist")
+    Call<GetJoinBoardRequestResponse> getJoinBoardRequestList(@Field("userid") String userId);
+
 
     @FormUrlEncoded
     @POST("savesettingsbyuser")

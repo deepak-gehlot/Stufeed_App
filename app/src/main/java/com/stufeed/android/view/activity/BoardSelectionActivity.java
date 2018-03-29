@@ -2,9 +2,8 @@ package com.stufeed.android.view.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -12,10 +11,10 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetBoardListResponse;
+import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.databinding.ActivityBoardSelectionBinding;
 import com.stufeed.android.listener.OnItemClickListener;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.adapter.BoardListAdapter;
 import com.stufeed.android.view.adapter.BoardSelectionAdapter;
 
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import retrofit2.Response;
 public class BoardSelectionActivity extends AppCompatActivity {
 
     private ActivityBoardSelectionBinding mBinding;
+    ArrayList<GetBoardListResponse.Board> mBoardArrayList = new ArrayList<>();
     private String loginUserId;
 
     @Override
@@ -62,20 +62,59 @@ public class BoardSelectionActivity extends AppCompatActivity {
     }
 
     private void handleBoardListResponse(GetBoardListResponse response) {
-        mBinding.progressBar.setVisibility(View.GONE);
-        mBinding.recyclerView.setVisibility(View.VISIBLE);
         if (response == null) {
             Utility.showErrorMsg(BoardSelectionActivity.this);
+            return;
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
-            setRecyclerView(response.getBoardArrayList());
+            mBoardArrayList = response.getBoardArrayList();
         }
+        getJoinedBoardList();
     }
 
-    private void setRecyclerView(final ArrayList<GetBoardListResponse.Board> boardArrayList) {
-        if (boardArrayList != null) {
-            boardArrayList.add(0, new GetBoardListResponse.Board());
+    /**
+     * Get login user board list
+     */
+    private void getJoinedBoardList() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(loginUserId);
+        responseCall.enqueue(new Callback<GetJoinBoardListResponse>() {
+            @Override
+            public void onResponse(Call<GetJoinBoardListResponse> call, Response<GetJoinBoardListResponse> response) {
+                handleResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetJoinBoardListResponse> call, Throwable t) {
+                handleResponse(null);
+            }
+        });
+    }
+
+    private void handleResponse(GetJoinBoardListResponse response) {
+        if (response.getResponseCode().equals(Api.SUCCESS)) {
+            if (response.getBoardArrayList() != null) {
+                ArrayList<GetJoinBoardListResponse.Board> boardArrayList = response.getBoardArrayList();
+                for (int i = 0; i < boardArrayList.size(); i++) {
+                    GetJoinBoardListResponse.Board board = boardArrayList.get(i);
+                    if (board.getIsCircle().equalsIgnoreCase("1")) {
+                        GetBoardListResponse.Board newBoard = new GetBoardListResponse.Board();
+                        newBoard.setBoardName(board.getBoardName());
+                        newBoard.setBoardId(board.getBoardId());
+                        mBoardArrayList.add(newBoard);
+                    }
+                }
+            }
+        }
+        setRecyclerView();
+    }
+
+    private void setRecyclerView() {
+        mBinding.progressBar.setVisibility(View.GONE);
+        mBinding.recyclerView.setVisibility(View.VISIBLE);
+        if (mBoardArrayList != null) {
+            mBoardArrayList.add(0, new GetBoardListResponse.Board());
             mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(BoardSelectionActivity.this));
-            BoardSelectionAdapter adapter = new BoardSelectionAdapter(BoardSelectionActivity.this, boardArrayList);
+            BoardSelectionAdapter adapter = new BoardSelectionAdapter(BoardSelectionActivity.this, mBoardArrayList);
             mBinding.recyclerView.setAdapter(adapter);
 
             adapter.setItemClickListener(new OnItemClickListener() {
@@ -85,7 +124,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
                     if (position == 0) {
                         boardId = "0";
                     } else {
-                        boardId = boardArrayList.get(position).getBoardId();
+                        boardId = mBoardArrayList.get(position).getBoardId();
                     }
 
                     Intent intent = new Intent();
@@ -96,4 +135,6 @@ public class BoardSelectionActivity extends AppCompatActivity {
             });
         }
     }
+
+
 }

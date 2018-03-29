@@ -1,8 +1,6 @@
 package com.stufeed.android.view.fragment.board;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,11 +13,9 @@ import android.view.ViewGroup;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
-import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.databinding.FragmentJoinBoardBinding;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.adapter.BoardListAdapter;
 import com.stufeed.android.view.adapter.JoinBoardListAdapter;
 
 import java.util.ArrayList;
@@ -63,6 +59,8 @@ public class JoinBoardFragment extends Fragment {
      * Get login user board list
      */
     private void getBoardList() {
+        mBinding.recyclerView.setVisibility(View.GONE);
+        mBinding.progressBar.setVisibility(View.VISIBLE);
         Api api = APIClient.getClient().create(Api.class);
         Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(mLoginUserId);
         responseCall.enqueue(new Callback<GetJoinBoardListResponse>() {
@@ -79,6 +77,8 @@ public class JoinBoardFragment extends Fragment {
     }
 
     private void handleResponse(GetJoinBoardListResponse response) {
+        mBinding.recyclerView.setVisibility(View.VISIBLE);
+        mBinding.progressBar.setVisibility(View.GONE);
         if (response == null) {
             Utility.showToast(getActivity(), getString(R.string.wrong));
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {

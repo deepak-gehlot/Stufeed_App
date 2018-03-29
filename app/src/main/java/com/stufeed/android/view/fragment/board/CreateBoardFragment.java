@@ -1,27 +1,20 @@
 package com.stufeed.android.view.fragment.board;
 
-import android.app.Dialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
-import com.stufeed.android.api.response.CreateBoardResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
-import com.stufeed.android.databinding.DialogCreateBoardBinding;
-import com.stufeed.android.databinding.DialogEditBoardBinding;
 import com.stufeed.android.databinding.FragmentCreateBoardBinding;
-import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.BoardListAdapter;
 
@@ -60,7 +53,6 @@ public class CreateBoardFragment extends Fragment {
         loginUserId = Utility.getLoginUserId(getActivity());
         getBoardList();
     }
-
 
     private void getBoardList() {
         binding.progressBar.setVisibility(View.VISIBLE);

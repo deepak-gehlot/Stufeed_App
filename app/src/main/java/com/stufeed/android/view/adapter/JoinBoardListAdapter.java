@@ -8,10 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
+import com.stufeed.android.api.APIClient;
+import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
+import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.databinding.RowJoinBoardBinding;
+import com.stufeed.android.util.ProgressDialog;
+import com.stufeed.android.util.Utility;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by HP on 3/4/2018.
@@ -21,17 +30,18 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
 
     private Context context;
     private ArrayList<GetJoinBoardListResponse.Board> list;
+    private String loginUserId = "";
 
     public JoinBoardListAdapter(Context context, ArrayList<GetJoinBoardListResponse.Board> list) {
         this.context = context;
         this.list = list;
+        loginUserId = Utility.getLoginUserId(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowJoinBoardBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_join_board,
-                parent,
-                false);
+        RowJoinBoardBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context),
+                R.layout.row_join_board, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -40,6 +50,8 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
         holder.binding.setAdapter(this);
         holder.binding.setModel(list.get(position));
         holder.binding.iconSetting.setVisibility(View.GONE);
+
+        holder.binding.btnJoin.setText("UnJoin");
     }
 
     @Override
@@ -55,5 +67,28 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    /**
+     * Join public board
+     */
+    public void unJoinBoard(final GetJoinBoardListResponse.Board board) {
+        ProgressDialog.getInstance().showProgressDialog(context);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<JoinBoardResponse> responseCall = api.joinBoard(board.getUserId(), board.getBoardId(), loginUserId);
+        responseCall.enqueue(new Callback<JoinBoardResponse>() {
+            @Override
+            public void onResponse(Call<JoinBoardResponse> call, Response<JoinBoardResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                int position = list.indexOf(board);
+                list.remove(position);
+                notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onFailure(Call<JoinBoardResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+            }
+        });
     }
 }
