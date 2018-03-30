@@ -92,11 +92,11 @@
                                 android:gravity="center"
                                 android:lines="1"
                                 android:maxLines="1"
-                                android:text="@{user.fullName}"
                                 android:textAllCaps="true"
                                 android:textColor="@color/text_color"
                                 android:textSize="18sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:setTextValue="@{model.fullName}" />
 
                             <TextView
                                 android:id="@+id/txtCourse"
@@ -107,9 +107,9 @@
                                 android:gravity="center"
                                 android:lines="1"
                                 android:maxLines="1"
-                                android:text='@{model.degree.equals("") ? "NA" : model.degree}'
                                 android:textColor="@color/text_color"
-                                android:textSize="13sp" />
+                                android:textSize="13sp"
+                                app:setTextValue="@{model.degree}" />
 
 
                             <TextView
@@ -121,9 +121,9 @@
                                 android:gravity="center"
                                 android:lines="1"
                                 android:maxLines="1"
-                                android:text='@{model.branch.equals("") ? "NA" : model.branch}'
                                 android:textColor="@color/text_color"
-                                android:textSize="13sp" />
+                                android:textSize="13sp"
+                                app:setTextValue="@{model.branch}" />
 
                             <TextView
                                 android:id="@+id/txtCollageName"
@@ -135,9 +135,9 @@
                                 android:gravity="center"
                                 android:lines="1"
                                 android:maxLines="1"
-                                android:text="@{user.collegeName}"
                                 android:textColor="@color/text_color"
-                                android:textSize="13sp" />
+                                android:textSize="13sp"
+                                app:setTextValue="@{model.collegeName}" />
 
 
                             <LinearLayout
@@ -277,10 +277,10 @@
                                 android:ellipsize="end"
                                 android:gravity="center"
                                 android:maxLines="2"
-                                android:text='@{model.aboutUs.equals("") ? "NA" : model.aboutUs }'
                                 android:textColor="@color/text_color"
                                 android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:setTextValue="@{model.aboutUs}" />
 
                             <ImageView
                                 android:id="@+id/imageDownIcon"
@@ -305,6 +305,7 @@
                                 android:visibility="gone">
 
                                 <TextView
+                                    android:id="@+id/textSkill"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Skills"
@@ -325,6 +326,7 @@
                                     tagview:textPaddingTop="5dp" />
 
                                 <TextView
+                                    android:id="@+id/textAchievement"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Achievement"
@@ -339,6 +341,7 @@
                                     android:padding="5dp" />
 
                                 <TextView
+                                    android:id="@+id/textAboutMe"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="About Me"
@@ -347,6 +350,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/textAboutMeData"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="About Me"

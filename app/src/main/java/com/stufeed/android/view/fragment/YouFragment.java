@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,10 +218,17 @@ public class YouFragment extends Fragment {
                 String allSkills = response.getAllSkills();
                 String skills[] = allSkills.split(",");
                 for (int i = 0; i < skills.length; i++) {
-                    Tag tag = new Tag(skills[i]);
-                    tagList.add(tag);
+                    if (!TextUtils.isEmpty(skills[i])) {
+                        Tag tag = new Tag(skills[i]);
+                        tagList.add(tag);
+                    }
                 }
             }
+        }
+        if (tagList.size() == 0) {
+            binding.textSkill.setVisibility(View.GONE);
+        } else {
+            binding.textSkill.setVisibility(View.VISIBLE);
         }
     }
 
@@ -231,6 +239,9 @@ public class YouFragment extends Fragment {
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 setAchievementRecyclerView(response.getAchievementArrayList());
+            } else {
+                binding.textAchievement.setVisibility(View.GONE);
+                binding.recyclerViewAchievement.setVisibility(View.GONE);
             }
         }
     }
@@ -245,6 +256,8 @@ public class YouFragment extends Fragment {
             binding.recyclerViewAchievement.setLayoutManager(new LinearLayoutManager(getActivity()));
             binding.recyclerViewAchievement.setAdapter(adapter);
         } else {
+            binding.textAchievement.setVisibility(View.GONE);
+            binding.recyclerViewAchievement.setVisibility(View.GONE);
             Utility.showToast(getActivity(), getString(R.string.wrong));
         }
     }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.cunoraz.tagview.Tag;
@@ -252,10 +253,17 @@ public class UserProfileActivity extends AppCompatActivity {
                 String allSkills = response.getAllSkills();
                 String skills[] = allSkills.split(",");
                 for (int i = 0; i < skills.length; i++) {
-                    Tag tag = new Tag(skills[i]);
-                    tagList.add(tag);
+                    if (!TextUtils.isEmpty(skills[i])) {
+                        Tag tag = new Tag(skills[i]);
+                        tagList.add(tag);
+                    }
                 }
             }
+        }
+        if (tagList.size() == 0) {
+            mBinding.container.textSkill.setVisibility(View.GONE);
+        } else {
+            mBinding.container.textSkill.setVisibility(View.VISIBLE);
         }
     }
 
@@ -266,6 +274,9 @@ public class UserProfileActivity extends AppCompatActivity {
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 setAchievementRecyclerView(response.getAchievementArrayList());
+            } else {
+                mBinding.container.textAchievement.setVisibility(View.GONE);
+                mBinding.container.recyclerViewAchievement.setVisibility(View.GONE);
             }
         }
     }
@@ -274,13 +285,15 @@ public class UserProfileActivity extends AppCompatActivity {
      * Get Achievement response
      */
     private void setAchievementRecyclerView(ArrayList<GetAchievementListResponse.Achievement> achievementArrayList) {
-        if (achievementArrayList != null) {
+        if (achievementArrayList != null && achievementArrayList.size() != 0) {
             AchivementFragmentListAdapter adapter = new AchivementFragmentListAdapter(UserProfileActivity.this,
                     achievementArrayList);
             mBinding.container.recyclerViewAchievement.setLayoutManager(new LinearLayoutManager(UserProfileActivity
                     .this));
             mBinding.container.recyclerViewAchievement.setAdapter(adapter);
         } else {
+            mBinding.container.textAchievement.setVisibility(View.GONE);
+            mBinding.container.recyclerViewAchievement.setVisibility(View.GONE);
             Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
         }
     }

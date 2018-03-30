@@ -49,12 +49,12 @@ public class NotificationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GetJoinBoardRequestResponse> call,
                                    retrofit2.Response<GetJoinBoardRequestResponse> response) {
-
+                handleResponse(response.body());
             }
 
             @Override
             public void onFailure(Call<GetJoinBoardRequestResponse> call, Throwable t) {
-
+                handleResponse(null);
             }
         });
     }

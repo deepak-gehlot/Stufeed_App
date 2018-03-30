@@ -61,6 +61,8 @@ public class GetJoinBoardRequestResponse {
         private String userType = "";
         @SerializedName("contactno")
         private String contactNo = "";
+        @SerializedName("joinerid")
+        private String joinerId = "";
 
         public String getBoardId() {
             return boardId;
@@ -148,6 +150,14 @@ public class GetJoinBoardRequestResponse {
 
         public void setContactNo(String contactNo) {
             this.contactNo = contactNo;
+        }
+
+        public String getJoinerId() {
+            return joinerId;
+        }
+
+        public void setJoinerId(String joinerId) {
+            this.joinerId = joinerId;
         }
     }
 }

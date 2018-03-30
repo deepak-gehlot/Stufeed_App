@@ -10,10 +10,16 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
+import com.stufeed.android.api.response.JoinBoardResponse;
+import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.RowNotificationBinding;
+import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * Created by HP on 2/28/2018.
@@ -41,7 +47,8 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.binding.setAdapter(this);
+        holder.binding.setModel(requestArrayList.get(position));
     }
 
     @Override
@@ -58,8 +65,23 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         }
     }
 
-    public void acceptRequest(GetJoinBoardRequestResponse.Request request) {
+    public void acceptRequest(final GetJoinBoardRequestResponse.Request request) {
         Api api = APIClient.getClient().create(Api.class);
-        ///api.joinBoard(mLoginUserId,request.getBoardId(),);
+        ProgressDialog.getInstance().showProgressDialog(context);
+        Call<JoinBoardResponse> responseCall = api.joinBoard(mLoginUserId, request.getBoardId(), request.getJoinerId());
+        responseCall.enqueue(new Callback<JoinBoardResponse>() {
+            @Override
+            public void onResponse(Call<JoinBoardResponse> call, retrofit2.Response<JoinBoardResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                int position = requestArrayList.indexOf(request);
+                requestArrayList.remove(position);
+                notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onFailure(Call<JoinBoardResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+            }
+        });
     }
 }

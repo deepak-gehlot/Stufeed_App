@@ -94,7 +94,7 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            android:text="@{model.fullName}"
+                            app:setTextValue="@{model.fullName}"
                             android:textColor="@color/text_color"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -108,7 +108,7 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            android:text='@{model.degree.equals("") ? "NA" : model.degree}'
+                            app:setTextValue="@{model.degree}"
                             android:textColor="@color/text_color"
                             android:textSize="13sp" />
 
@@ -122,7 +122,7 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            android:text='@{model.branch.equals("") ? "NA" : model.branch}'
+                            app:setTextValue="@{model.branch}"
                             android:textColor="@color/text_color"
                             android:textSize="13sp" />
 
@@ -136,7 +136,7 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            android:text='@{model.collegeName.equals("") ? "NA" : model.collegeName}'
+                            app:setTextValue="@{model.collegeName}"
                             android:textColor="@color/button_color"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -272,7 +272,7 @@
                             android:ellipsize="end"
                             android:gravity="center"
                             android:maxLines="2"
-                            android:text="@{model.aboutUs}"
+                            app:setTextValue="@{model.aboutUs}"
                             android:textColor="@color/text_color"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -297,6 +297,7 @@
                             android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/textSkill"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Skills"
@@ -317,6 +318,7 @@
                                 tagview:textPaddingTop="5dp" />
 
                             <TextView
+                                android:id="@+id/textAchievement"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Achievement"
