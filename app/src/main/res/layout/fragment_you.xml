@@ -94,10 +94,10 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            app:setTextValue="@{model.fullName}"
                             android:textColor="@color/text_color"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:setTextValue="@{model.fullName}" />
 
                         <TextView
                             android:id="@+id/txtCourse"
@@ -108,9 +108,9 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            app:setTextValue="@{model.degree}"
                             android:textColor="@color/text_color"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            app:setTextValue="@{model.degree}" />
 
 
                         <TextView
@@ -122,9 +122,9 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            app:setTextValue="@{model.branch}"
                             android:textColor="@color/text_color"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            app:setTextValue="@{model.branch}" />
 
                         <TextView
                             android:id="@+id/txtCollageName"
@@ -136,10 +136,10 @@
                             android:gravity="center"
                             android:lines="1"
                             android:maxLines="1"
-                            app:setTextValue="@{model.collegeName}"
                             android:textColor="@color/button_color"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:setTextValue="@{model.collegeName}" />
 
                         <LinearLayout
                             android:id="@+id/countLayout"
@@ -155,6 +155,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
+                                android:onClick="@{()->fragment.onPostCountClick()}"
                                 android:orientation="vertical"
                                 android:padding="5dp">
 
@@ -272,10 +273,10 @@
                             android:ellipsize="end"
                             android:gravity="center"
                             android:maxLines="2"
-                            app:setTextValue="@{model.aboutUs}"
                             android:textColor="@color/text_color"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:setTextValue="@{model.aboutUs}" />
 
                         <ImageView
                             android:id="@+id/imageDownIcon"

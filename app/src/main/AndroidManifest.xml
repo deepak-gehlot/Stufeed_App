@@ -77,19 +77,45 @@
             android:label="@string/title_activity_my_bookmark"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.BoardSelectionActivity" />
-        <activity android:name=".view.activity.ArchiveBoardListActivity" />
-        <activity android:name=".view.activity.EditBasicInfoActivity" />
-        <activity android:name=".view.activity.EditProfileActivity" />
-        <activity android:name=".view.activity.AchivementActivity" />
-        <activity android:name=".view.activity.SkillsActivity" />
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".view.activity.AddAchievementActivity" />
-        <activity android:name=".view.activity.ForgotPasswordActivity" />
-        <activity android:name=".view.activity.ViewFullProfileActivity" />
-        <activity android:name=".view.activity.UsersPostActivity" />
-        <activity android:name=".view.activity.UserJoinBoardActivity" />
-        <activity android:name=".view.activity.UserFollowerListActivity"></activity>
+        <activity
+            android:name=".view.activity.BoardSelectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ArchiveBoardListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.EditBasicInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.AchivementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.SkillsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.AddAchievementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ViewFullProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.UsersPostActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.UserJoinBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.UserFollowerListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

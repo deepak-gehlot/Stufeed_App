@@ -25,6 +25,7 @@ import com.stufeed.android.databinding.FragmentYouBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
+import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 
@@ -73,6 +74,12 @@ public class YouFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+    }
+
+    public void onPostCountClick() {
+        Intent intent = new Intent(getActivity(), UsersPostActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
     }
 
     public void onEditButtonClick() {

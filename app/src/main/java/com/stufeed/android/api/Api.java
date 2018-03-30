@@ -86,6 +86,10 @@ public interface Api {
     Call<GetPostResponse> getAllPost(@Field("userid") String userId);
 
     @FormUrlEncoded
+    @POST("getuserpost")
+    Call<GetPostResponse> getUserAllPost(@Field("userid") String userId);
+
+    @FormUrlEncoded
     @POST("commentpost")
     Call<CommentResponse> postComment(@Field("userid") String userId,
                                       @Field("postid") String postId,
