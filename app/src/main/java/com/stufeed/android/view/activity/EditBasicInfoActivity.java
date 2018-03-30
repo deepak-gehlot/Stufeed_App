@@ -69,6 +69,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
     private String loginUserId = "";
     private Uri outputUri;
     private AQuery aQuery;
+    private String userType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
         mBinding.userNameEdt.setText(userDetail.getFullName());
         mBinding.emailEdt.setText(userDetail.getEmail());
         mBinding.mobileEdt.setText(userDetail.getContactNo());
-        showHideAsPerRole(userDetail.getUserType());
+        userType = userDetail.getUserType();
     }
 
     public void onClickSaveButton(GetUserDetailsResponse.Details model) {
@@ -312,10 +313,15 @@ public class EditBasicInfoActivity extends AppCompatActivity {
     }
 
     private void showHideAsPerRole(String type) {
+        GetUserDetailsResponse.Details details = mBinding.getModel();
         switch (type) {
             case "1": // Student
                 mBinding.autoComplete1.setHint("program");
                 mBinding.autoComplete2.setHint("branch");
+                if (details != null) {
+                    mBinding.autoComplete1.setText(details.getDegree());
+                    mBinding.autoComplete2.setText(details.getBranch());
+                }
                 //  mBinding.autoComplete1.setText(getFromLocalDataBase(sharedPref, CST_PROGRAM));
                 //  mBinding.autoComplete2.setText(getFromLocalDataBase(sharedPref, CST_BRANCH));
                 mBinding.autoComplete1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.program_edit_icon, 0, 0, 0);
@@ -324,6 +330,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapterDegree = new ArrayAdapter<String>
                         (this, android.R.layout.select_dialog_item, degreeList);
                 mBinding.autoComplete1.setAdapter(adapterDegree);
+
                 mBinding.autoComplete1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -343,6 +350,9 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                 break;
             case "2":   // Department
                 mBinding.autoComplete1.setHint("department");
+                if (details != null) {
+                    mBinding.autoComplete1.setText(details.getDepartment());
+                }
                 //     mBinding.autoComplete1.setText(getFromLocalDataBase(sharedPref, CST_DEPARTMENT));
                 mBinding.autoComplete1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.branch_edit_icon, 0, 0, 0);
 
@@ -362,6 +372,12 @@ public class EditBasicInfoActivity extends AppCompatActivity {
             case "3":   // Faculty
                 mBinding.autoComplete1.setHint("designation");
                 mBinding.autoComplete2.setHint("department");
+
+                if (details != null) {
+                    mBinding.autoComplete1.setText(details.getDesignation());
+                    mBinding.autoComplete2.setText(details.getDepartment());
+                }
+
                 //    mBinding.autoComplete1.setText(getFromLocalDataBase(sharedPref, CST_DESIGNATION));
                 //     mBinding.autoComplete2.setText(getFromLocalDataBase(sharedPref, CST_DEPARTMENT));
                 mBinding.autoComplete1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.program_edit_icon, 0, 0, 0);
@@ -462,6 +478,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                 Utility.showToast(EditBasicInfoActivity.this, response.getResponseMessage());
             }
         }
+        showHideAsPerRole(userType);
     }
 
     /**

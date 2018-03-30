@@ -60,7 +60,7 @@ public class DepartmentFragment extends Fragment {
         loginUserId = Utility.getLoginUserId(getActivity());
         loginUserCollegeId = "1";
 
-   //     getStudents();
+        getStudents();
     }
 
     private void getStudents() {
