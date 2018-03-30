@@ -86,7 +86,10 @@
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity android:name=".view.activity.AddAchievementActivity" />
         <activity android:name=".view.activity.ForgotPasswordActivity" />
-        <activity android:name=".view.activity.ViewFullProfileActivity"></activity>
+        <activity android:name=".view.activity.ViewFullProfileActivity" />
+        <activity android:name=".view.activity.UsersPostActivity" />
+        <activity android:name=".view.activity.UserJoinBoardActivity" />
+        <activity android:name=".view.activity.UserFollowerListActivity"></activity>
     </application>
 
 </manifest>

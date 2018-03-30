@@ -165,7 +165,7 @@
                                     android:gravity="center"
                                     android:lines="1"
                                     android:maxLines="1"
-                                    android:text="8"
+                                    android:text="@{model.postCount}"
                                     android:textColor="@color/text_color"
                                     android:textSize="13sp" />
 
@@ -204,7 +204,7 @@
                                     android:gravity="center"
                                     android:lines="1"
                                     android:maxLines="1"
-                                    android:text="153"
+                                    android:text="@{model.followerCount}"
                                     android:textColor="@color/text_color"
                                     android:textSize="13sp" />
 
@@ -243,7 +243,7 @@
                                     android:gravity="center"
                                     android:lines="1"
                                     android:maxLines="1"
-                                    android:text="13"
+                                    android:text="@{model.joinCount}"
                                     android:textColor="@color/text_color"
                                     android:textSize="13sp" />
 

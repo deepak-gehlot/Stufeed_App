@@ -84,6 +84,12 @@ public class GetUserDetailsResponse {
         private String is_active = "";
         @SerializedName("is_deleted")
         private String is_deleted = "";
+        @SerializedName("postcount")
+        private String postCount = "";
+        @SerializedName("followercount")
+        private String followerCount = "";
+        @SerializedName("joincount")
+        private String joinCount = "";
 
         @Bindable
         public String getUserId() {
@@ -314,6 +320,29 @@ public class GetUserDetailsResponse {
             this.collegeName = collegeName;
             notifyPropertyChanged(BR.collegeName);
         }
-    }
 
+        public String getPostCount() {
+            return postCount;
+        }
+
+        public void setPostCount(String postCount) {
+            this.postCount = postCount;
+        }
+
+        public String getFollowerCount() {
+            return followerCount;
+        }
+
+        public void setFollowerCount(String followerCount) {
+            this.followerCount = followerCount;
+        }
+
+        public String getJoinCount() {
+            return joinCount;
+        }
+
+        public void setJoinCount(String joinCount) {
+            this.joinCount = joinCount;
+        }
+    }
 }
