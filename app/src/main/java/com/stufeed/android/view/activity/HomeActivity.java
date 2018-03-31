@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
             }
         });
-        Utility.addFragment(this, YouFragment.newInstance(), "YouFragment", binding.frame.getId());
+        Utility.addFragment(this, FeedFragment.newInstance(), "FeedFragment", binding.frame.getId());
 
         setNavigationList();
     }

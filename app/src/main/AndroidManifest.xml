@@ -116,6 +116,7 @@
         <activity
             android:name=".view.activity.UserFollowerListActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.FolloweListActivity"></activity>
     </application>
 
 </manifest>

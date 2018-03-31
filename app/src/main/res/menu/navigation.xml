@@ -2,9 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_person"
-        android:icon="@drawable/person_icon"
-        android:title="@string/title_person" />
+        android:id="@+id/navigation_feed"
+        android:icon="@drawable/feed_icon"
+        android:title="@string/title_feed" />
+
+    <item
+        android:id="@+id/navigation_board"
+        android:icon="@drawable/board_icon"
+        android:title="@string/title_board" />
+
+    <item
+        android:id="@+id/navigation_post"
+        android:icon="@drawable/add_icon"
+        android:title="@string/title_post" />
 
     <item
         android:id="@+id/navigation_connect"
@@ -12,17 +22,7 @@
         android:title="@string/title_connect" />
 
     <item
-        android:id="@+id/navigation_post"
-        android:icon="@drawable/add_icon"
-        android:title="@string/title_post" />
-    <item
-        android:id="@+id/navigation_board"
-        android:icon="@drawable/board_icon"
-        android:title="@string/title_board" />
-
-    <item
-        android:id="@+id/navigation_feed"
-        android:icon="@drawable/feed_icon"
-        android:title="@string/title_feed" />
-
+        android:id="@+id/navigation_person"
+        android:icon="@drawable/person_icon"
+        android:title="@string/title_person" />
 </menu>

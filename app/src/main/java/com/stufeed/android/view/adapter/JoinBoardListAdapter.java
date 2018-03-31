@@ -47,11 +47,18 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        GetJoinBoardListResponse.Board board = list.get(position);
         holder.binding.setAdapter(this);
         holder.binding.setModel(list.get(position));
         holder.binding.iconSetting.setVisibility(View.GONE);
 
         holder.binding.btnJoin.setText("UnJoin");
+
+        if (board.getIsPrivate().equals("1")) {
+            holder.binding.iconLock.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.iconLock.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -125,6 +125,14 @@ public interface Api {
                                 @Field("followuserid") String followedUserId);
 
     @FormUrlEncoded
+    @POST("getuserfollowers")
+    Call<Response> getUserFollowers(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("getuserfollowing")
+    Call<Response> getUserFollowing(@Field("userid") String userId);
+
+    @FormUrlEncoded
     @POST("addpollanswer")
     Call<FollowResponse> addPollAnswer(@Field("userid") String userId,
                                        @Field("questionid") String questionId,
@@ -264,7 +272,7 @@ public interface Api {
     Call<Response> updateAchievement(@Field("userid") String userId,
                                      @Field("achievmentid") String achievementId,
                                      @Field("title") String title,
-                                     @Field("issuedby") String issueBy,
+                                     @Field("issudby") String issueBy,
                                      @Field("issuddate") String issueDate,
                                      @Field("achievmenttype") String achievementType,
                                      @Field("description") String description);

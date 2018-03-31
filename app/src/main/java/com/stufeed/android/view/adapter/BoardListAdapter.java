@@ -2,7 +2,6 @@ package com.stufeed.android.view.adapter;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.CreateBoardResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.databinding.DialogEditBoardBinding;
-import com.stufeed.android.databinding.RowBoardBinding;
 import com.stufeed.android.databinding.RowMyBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
@@ -52,10 +50,16 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        GetBoardListResponse.Board board = boardArrayList.get(position);
         holder.rowBoardBinding.setModel(boardArrayList.get(position));
         holder.rowBoardBinding.setAdapter(this);
         holder.rowBoardBinding.btnJoin.setText("Post");
 
+        if (board.getIsPrivate().equals("1")) {
+            holder.rowBoardBinding.iconLock.setVisibility(View.VISIBLE);
+        } else {
+            holder.rowBoardBinding.iconLock.setVisibility(View.GONE);
+        }
     }
 
     @Override

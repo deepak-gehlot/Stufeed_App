@@ -25,6 +25,8 @@ import com.stufeed.android.databinding.FragmentYouBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
+import com.stufeed.android.view.activity.FolloweListActivity;
+import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
@@ -78,6 +80,18 @@ public class YouFragment extends Fragment {
 
     public void onPostCountClick() {
         Intent intent = new Intent(getActivity(), UsersPostActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
+    }
+
+    public void onBoardJoinCountClick() {
+        Intent intent = new Intent(getActivity(), UserJoinBoardActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
+    }
+
+    public void onFollowerCountClick() {
+        Intent intent = new Intent(getActivity(), FolloweListActivity.class);
         intent.putExtra("user_id", mLoginUserId);
         startActivity(intent);
     }
