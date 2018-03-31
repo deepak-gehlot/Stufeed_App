@@ -60,6 +60,12 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         } else {
             holder.rowBoardBinding.iconLock.setVisibility(View.GONE);
         }
+
+        if (board.getIsCircle().equals("1")) {
+            holder.rowBoardBinding.iconCircle.setVisibility(View.VISIBLE);
+        } else {
+            holder.rowBoardBinding.iconCircle.setVisibility(View.GONE);
+        }
     }
 
     @Override

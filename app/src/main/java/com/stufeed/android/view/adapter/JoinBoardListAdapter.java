@@ -59,6 +59,12 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
         } else {
             holder.binding.iconLock.setVisibility(View.GONE);
         }
+
+        if (board.getIsCircle().equals("1")) {
+            holder.binding.iconCircle.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.iconCircle.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -54,6 +54,12 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
             holder.rowBoardBinding.iconLock.setVisibility(View.GONE);
         }
 
+        if (board.getIsCircle().equals("1")) {
+            holder.rowBoardBinding.iconCircle.setVisibility(View.VISIBLE);
+        } else {
+            holder.rowBoardBinding.iconCircle.setVisibility(View.GONE);
+        }
+
         holder.rowBoardBinding.iconSetting.setVisibility(View.GONE);
 
         //android:text='@{model.isPrivate.equals("1") ? "Request" : "Join"}'

@@ -45,6 +45,9 @@ public class UserProfileActivity extends AppCompatActivity {
     private GetCollegeUserResponse.User user;
     private String type = "";
     private List<Tag> tagList = new ArrayList<>();
+    private boolean isHaveSkills = false;
+    private boolean isHaveAchivment = false;
+    private boolean isHaveAbout = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,10 +264,13 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         }
         if (tagList.size() == 0) {
+            isHaveSkills = false;
             mBinding.container.textSkill.setVisibility(View.GONE);
         } else {
+            isHaveSkills = true;
             mBinding.container.textSkill.setVisibility(View.VISIBLE);
         }
+        showHideArrow();
     }
 
     /**
@@ -275,9 +281,11 @@ public class UserProfileActivity extends AppCompatActivity {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 setAchievementRecyclerView(response.getAchievementArrayList());
             } else {
+                isHaveAchivment = false;
                 mBinding.container.textAchievement.setVisibility(View.GONE);
                 mBinding.container.recyclerViewAchievement.setVisibility(View.GONE);
             }
+            showHideArrow();
         }
     }
 
@@ -291,10 +299,21 @@ public class UserProfileActivity extends AppCompatActivity {
             mBinding.container.recyclerViewAchievement.setLayoutManager(new LinearLayoutManager(UserProfileActivity
                     .this));
             mBinding.container.recyclerViewAchievement.setAdapter(adapter);
+            isHaveAchivment = true;
         } else {
+            isHaveAchivment = false;
             mBinding.container.textAchievement.setVisibility(View.GONE);
             mBinding.container.recyclerViewAchievement.setVisibility(View.GONE);
             Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
+        }
+        showHideArrow();
+    }
+
+    private void showHideArrow() {
+        if (isHaveAchivment || isHaveAchivment || isHaveAbout) {
+            mBinding.container.imageDownIcon.setVisibility(View.VISIBLE);
+        } else {
+            mBinding.container.imageDownIcon.setVisibility(View.GONE);
         }
     }
 }

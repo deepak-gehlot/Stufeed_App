@@ -47,6 +47,9 @@ public class YouFragment extends Fragment {
     private FragmentYouBinding binding;
     private List<Tag> tagList = new ArrayList<>();
     private String mLoginUserId = "";
+    private boolean isHaveSkills = false;
+    private boolean isHaveAchivment = false;
+    private boolean isHaveAbout = false;
 
     public static YouFragment newInstance() {
         Bundle args = new Bundle();
@@ -247,10 +250,13 @@ public class YouFragment extends Fragment {
             }
         }
         if (tagList.size() == 0) {
+            isHaveSkills = false;
             binding.textSkill.setVisibility(View.GONE);
         } else {
+            isHaveSkills = true;
             binding.textSkill.setVisibility(View.VISIBLE);
         }
+        showHideArrow();
     }
 
     /**
@@ -261,10 +267,12 @@ public class YouFragment extends Fragment {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 setAchievementRecyclerView(response.getAchievementArrayList());
             } else {
+                isHaveAchivment = false;
                 binding.textAchievement.setVisibility(View.GONE);
                 binding.recyclerViewAchievement.setVisibility(View.GONE);
             }
         }
+        showHideArrow();
     }
 
     /**
@@ -276,10 +284,21 @@ public class YouFragment extends Fragment {
                     achievementArrayList);
             binding.recyclerViewAchievement.setLayoutManager(new LinearLayoutManager(getActivity()));
             binding.recyclerViewAchievement.setAdapter(adapter);
+            isHaveAchivment = true;
         } else {
+            isHaveAchivment = false;
             binding.textAchievement.setVisibility(View.GONE);
             binding.recyclerViewAchievement.setVisibility(View.GONE);
             Utility.showToast(getActivity(), getString(R.string.wrong));
+        }
+        showHideArrow();
+    }
+
+    private void showHideArrow() {
+        if (isHaveAchivment || isHaveAchivment || isHaveAbout) {
+            binding.imageDownIcon.setVisibility(View.VISIBLE);
+        } else {
+            binding.imageDownIcon.setVisibility(View.GONE);
         }
     }
 }
