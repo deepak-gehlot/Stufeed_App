@@ -70,9 +70,12 @@
             android:fitsSystemWindows="true"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/profilePic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="16dp"
                 android:layout_marginTop="16dp"
                 app:srcCompat="@drawable/ic_launcher_background" />
 

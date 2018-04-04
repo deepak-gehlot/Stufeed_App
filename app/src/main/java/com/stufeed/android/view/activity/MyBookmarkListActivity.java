@@ -91,7 +91,7 @@ public class MyBookmarkListActivity extends AppCompatActivity {
         mBinding.container.msgTxt.setVisibility(View.GONE);
         mBinding.container.recyclerView.setVisibility(View.VISIBLE);
         mBinding.container.recyclerView.setLayoutManager(new LinearLayoutManager(MyBookmarkListActivity.this));
-        FeedListAdapter adapter = new FeedListAdapter(MyBookmarkListActivity.this, postArrayList);
-        mBinding.container.recyclerView.setAdapter(adapter);
+        //FeedListAdapter adapter = new FeedListAdapter(MyBookmarkListActivity.this, postArrayList);
+      //  mBinding.container.recyclerView.setAdapter(adapter);
     }
 }

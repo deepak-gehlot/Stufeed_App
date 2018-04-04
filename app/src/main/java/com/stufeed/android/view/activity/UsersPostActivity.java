@@ -80,7 +80,7 @@ public class UsersPostActivity extends AppCompatActivity {
         mBinding.msgTxt.setVisibility(View.GONE);
         mBinding.recyclerView.setVisibility(View.VISIBLE);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(UsersPostActivity.this));
-        FeedListAdapter adapter = new FeedListAdapter(UsersPostActivity.this, postArrayList);
-        mBinding.recyclerView.setAdapter(adapter);
+     //   FeedListAdapter adapter = new FeedListAdapter(UsersPostActivity.this, postArrayList);
+     //   mBinding.recyclerView.setAdapter(adapter);
     }
 }

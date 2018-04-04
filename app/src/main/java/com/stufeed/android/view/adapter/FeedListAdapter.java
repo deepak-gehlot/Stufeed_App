@@ -1,6 +1,7 @@
 package com.stufeed.android.view.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -44,22 +46,21 @@ import retrofit2.Response;
 
 public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHolder> {
 
-    private Activity context;
+    private Fragment context;
     private ArrayList<GetPostResponse.Post> postArrayList;
     private String loginUserId;
     private String videoURL = "";
 
-    public FeedListAdapter(Activity context, ArrayList<GetPostResponse.Post> postArrayList) {
+    public FeedListAdapter(Fragment context, ArrayList<GetPostResponse.Post> postArrayList) {
         this.context = context;
         this.postArrayList = postArrayList;
-        loginUserId = Utility.getLoginUserDetail(context).getUserId();
+        loginUserId = Utility.getLoginUserDetail(context.getActivity()).getUserId();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_feed,
-                parent,
-                false);
+        RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context.getActivity()), R.layout
+                .row_feed, parent, false);
         return new ViewHolder(rowBinding);
     }
 
@@ -212,7 +213,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     context.startActivity(browserIntent);
                 } else {
-                    context.startActivity(PlayerActivity.getVideoPlayerIntent(context,
+                    context.startActivity(PlayerActivity.getVideoPlayerIntent(context.getActivity(),
                             videoURL,
                             "Video title"));
                 }
@@ -221,7 +222,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     }
 
     private void showActionMenu(final GetPostResponse.Post post, int position, View view) {
-        PopupMenu popup = new PopupMenu(context, view);
+        PopupMenu popup = new PopupMenu(context.getActivity(), view);
 
         if (post.getUserId().equals(loginUserId)) {
             popup.inflate(R.menu.post_user_row_menu);
@@ -272,10 +273,19 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     }
 
     public void onCommentBtnClick(GetPostResponse.Post post) {
-        Intent intent = new Intent(context, CommentPostActivity.class);
+        Intent intent = new Intent(context.getActivity(), CommentPostActivity.class);
         intent.putExtra(CommentPostActivity.TAG_POST, post);
-        context.startActivity(intent);
+        intent.putExtra(CommentPostActivity.TAG_POSITION, postArrayList.indexOf(post));
+        context.startActivityForResult(intent, 114);
     }
+
+    public void refreshItem(int position, GetPostResponse.Post post) {
+        if (position != -1) {
+            postArrayList.set(position, post);
+            notifyItemChanged(position);
+        }
+    }
+
 
     /**
      * show re post confirmation dialog
@@ -283,7 +293,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
      * @param post {@link GetPostResponse.Post}
      */
     public void onRePostBtnClick(final GetPostResponse.Post post) {
-        Utility.setDialog(context, "Message", "Do you want to repost this.", "No", "Yes",
+        Utility.setDialog(context.getActivity(), "Message", "Do you want to repost this.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -306,18 +316,18 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     private void rePost(GetPostResponse.Post post) {
         Api api = APIClient.getClient().create(Api.class);
         Call<RePostResponse> responseCall = api.rePost(loginUserId, post.getPostId());
-        ProgressDialog.getInstance().showProgressDialog(context);
+        ProgressDialog.getInstance().showProgressDialog(context.getActivity());
         responseCall.enqueue(new Callback<RePostResponse>() {
             @Override
             public void onResponse(Call<RePostResponse> call, Response<RePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showToast(context, "Post successfully.");
+                Utility.showToast(context.getActivity(), "Post successfully.");
             }
 
             @Override
             public void onFailure(Call<RePostResponse> call, Throwable t) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showErrorMsg(context);
+                Utility.showErrorMsg(context.getActivity());
             }
         });
 
@@ -330,7 +340,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
      * @param post {@link GetPostResponse.Post}
      */
     public void onSavePostBtnClick(final GetPostResponse.Post post) {
-        Utility.setDialog(context, "Message", "Do you want to bookmark this post.", "No", "Yes",
+        Utility.setDialog(context.getActivity(), "Message", "Do you want to bookmark this post.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -353,24 +363,25 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     private void savePost(GetPostResponse.Post post) {
         Api api = APIClient.getClient().create(Api.class);
         Call<SavePostResponse> responseCall = api.savePost(loginUserId, post.getPostId());
-        ProgressDialog.getInstance().showProgressDialog(context);
+        ProgressDialog.getInstance().showProgressDialog(context.getActivity());
         responseCall.enqueue(new Callback<SavePostResponse>() {
             @Override
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showToast(context, "Bookmark Post successfully.");
+                Utility.showToast(context.getActivity(), "Bookmark Post successfully.");
             }
 
             @Override
             public void onFailure(Call<SavePostResponse> call, Throwable t) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showErrorMsg(context);
+                Utility.showErrorMsg(context.getActivity());
             }
         });
     }
 
     private void showDeleteConfirmatinDialog(final GetPostResponse.Post post) {
-        Utility.setDialog(context, context.getString(R.string.alert), "Are you sure, You want to delete this post?",
+        Utility.setDialog(context.getActivity(), context.getString(R.string.alert), "Are you sure, You want to delete" +
+                        " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -405,7 +416,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     }
 
     private void showReportConfirmatinDialog(final GetPostResponse.Post post) {
-        Utility.setDialog(context, context.getString(R.string.alert), "Are you sure, You want to report this post?",
+        Utility.setDialog(context.getActivity(), context.getString(R.string.alert), "Are you sure, You want to report" +
+                        " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -428,7 +440,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         // Show DialogFragment
         PlayerDialogFragment.newInstance(
                 post.getFilePath() + post.getAudioFile()
-        ).show(context.getFragmentManager(), "Dialog Fragment");
+        ).show(context.getActivity().getFragmentManager(), "Dialog Fragment");
     }
 
     /**

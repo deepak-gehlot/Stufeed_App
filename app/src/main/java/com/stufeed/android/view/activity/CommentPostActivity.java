@@ -1,10 +1,12 @@
 package com.stufeed.android.view.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.stufeed.android.R;
@@ -33,11 +35,13 @@ import retrofit2.Response;
 public class CommentPostActivity extends AppCompatActivity {
 
     public static final String TAG_POST = "post";
+    public static final String TAG_POSITION = "position";
 
     private ActivityCommentPostBinding binding;
     private GetPostResponse.Post post;
     private ArrayList<GetAllCommentResponse.Comment> commentArrayList = new ArrayList<>();
     private UserDetail userDetail;
+    private int position = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,15 @@ public class CommentPostActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(TAG_POST, post);
+        intent.putExtra(TAG_POSITION, position);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         getAllCommentList();
@@ -69,6 +82,7 @@ public class CommentPostActivity extends AppCompatActivity {
     private void getDataFromBundle() {
         Bundle bundle = getIntent().getExtras();
         post = bundle.getParcelable(TAG_POST);
+        position = bundle.getInt(TAG_POSITION);
         userDetail = Utility.getLoginUserDetail(CommentPostActivity.this);
     }
 
@@ -87,7 +101,6 @@ public class CommentPostActivity extends AppCompatActivity {
         responseCall.enqueue(new Callback<CommentResponse>() {
             @Override
             public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
-
                 handleCommentResponse(response.body());
             }
 
@@ -142,13 +155,16 @@ public class CommentPostActivity extends AppCompatActivity {
     }
 
     private void addNewComment(CommentModel commentModel) {
+        if (!TextUtils.isEmpty(post.getTotalComment())) {
+            post.setTotalComment("" + (Integer.parseInt(post.getTotalComment()) + 1));
+        }
         GetAllCommentResponse.Comment comment = new GetAllCommentResponse.Comment();
         comment.setComment(commentModel.getComment());
         comment.setUserId(commentModel.getUserId());
         comment.setEmail(userDetail.getEmail());
         comment.setFullName(userDetail.getFullName());
         comment.setPostId(commentModel.getPostId());
-        comment.setProfilePic("");
+        comment.setProfilePic(userDetail.getProfilePic());
         comment.setDateTime(new SimpleDateFormat(Constant.FORMAT_DATE_TIME, Locale.US).format(new Date()));
         commentArrayList.add(comment);
         if (binding.recyclerView.getAdapter() != null) {

@@ -1,5 +1,6 @@
 package com.stufeed.android.view.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.databinding.FragmentFeedBinding;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 
 import java.util.ArrayList;
@@ -57,6 +59,15 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onRefresh() {
         getAllPost();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FeedListAdapter adapter = (FeedListAdapter) binding.recyclerView.getAdapter();
+        GetPostResponse.Post post = data.getParcelableExtra(CommentPostActivity.TAG_POST);
+        int position = data.getIntExtra(CommentPostActivity.TAG_POSITION, -1);
+        adapter.refreshItem(position, post);
     }
 
     private void getAllPost() {
@@ -105,7 +116,7 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         binding.msgTxt.setVisibility(View.GONE);
         binding.recyclerView.setVisibility(View.VISIBLE);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FeedListAdapter adapter = new FeedListAdapter(getActivity(), postArrayList);
+        FeedListAdapter adapter = new FeedListAdapter(FeedFragment.this, postArrayList);
         binding.recyclerView.setAdapter(adapter);
     }
 }

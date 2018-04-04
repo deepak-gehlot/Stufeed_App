@@ -11,6 +11,7 @@ import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetArchiveBoardListResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
@@ -126,7 +127,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getuserfollowers")
-    Call<Response> getUserFollowers(@Field("userid") String userId);
+    Call<GetFollowerListResponse> getUserFollowers(@Field("userid") String userId);
 
     @FormUrlEncoded
     @POST("getuserfollowing")

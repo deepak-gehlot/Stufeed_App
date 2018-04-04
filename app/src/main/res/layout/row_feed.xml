@@ -70,7 +70,7 @@
                         android:textColor="@color/text_color"
                         android:textSize="12sp"
                         android:visibility="gone"
-                        app:time="@{model.boardName}" />
+                        android:text="@{model.boardName}" />
 
                     <TextView
                         android:id="@+id/time"
@@ -353,7 +353,7 @@
                     android:layout_gravity="end"
                     android:onClick="@{()->adapter.onSavePostBtnClick(model)}"
                     android:padding="10dp"
-                    android:src="@drawable/bookmark_icon" />
+                    android:src="@drawable/ic_bookmark_border" />
             </RelativeLayout>
             <!--    Like Comment Re post end  -->
 

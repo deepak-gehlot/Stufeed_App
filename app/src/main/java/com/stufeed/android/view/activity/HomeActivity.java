@@ -1,5 +1,6 @@
 package com.stufeed.android.view.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,10 +14,13 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.androidquery.AQuery;
 import com.stufeed.android.R;
 import com.stufeed.android.bean.DrawerItem;
 import com.stufeed.android.databinding.ActivityHomeBinding;
+import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.listener.OnItemClickListener;
+import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.DrawrAdapter;
 import com.stufeed.android.view.fragment.BoardFragment;
@@ -55,6 +59,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         Utility.addFragment(this, FeedFragment.newInstance(), "FeedFragment", binding.frame.getId());
 
         setNavigationList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AQuery aQuery = new AQuery(HomeActivity.this);
+        String profilePic = Utility.getLoginUserDetail(HomeActivity.this).getProfilePic();
+        aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.drawable.user_default);
     }
 
     @Override
@@ -117,6 +129,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             public void onClick(int position, Object obj) {
                 switch (position) {
                     case 0:
+                        Intent intent = new Intent(HomeActivity.this, UserFollowingActivity.class);
+                        intent.putExtra("user_id", Utility.getLoginUserId(HomeActivity.this));
+                        startActivity(intent);
                         break;
                     case 1:
                         startActivity(new Intent(HomeActivity.this, MyBookmarkListActivity.class));
@@ -132,10 +147,32 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                         break;
                     case 6:
+                        showLogoutConfirmation();
                         break;
                 }
             }
         });
+    }
+
+    /**
+     * Show logout confirmation dialog
+     */
+    public void showLogoutConfirmation() {
+        Utility.setDialog(HomeActivity.this, "Alert!", "Do you want to logout?",
+                "No", "Yes", new DialogListener() {
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onPositive(DialogInterface dialog) {
+                        dialog.dismiss();
+                        PreferenceConnector.clear(HomeActivity.this);
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                });
     }
 
     /**

@@ -32,10 +32,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         String verify = PreferenceConnector.readString(LoginActivity.this, PreferenceConnector.VERIFY, "");
+        boolean isLogin = PreferenceConnector.readBoolean(LoginActivity.this, PreferenceConnector.IS_LOGIN, false);
         if (verify.equals("0")) {
             startActivity(new Intent(LoginActivity.this, SelectCollegeActivity.class));
             finish();
+        } else if (isLogin) {
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            finish();
         }
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
@@ -131,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 PreferenceConnector.writeString(LoginActivity.this, PreferenceConnector.USER_DATA, new Gson()
                         .toJson(loginResponse.getUser()));
+                PreferenceConnector.writeBoolean(LoginActivity.this, PreferenceConnector.IS_LOGIN, true);
                 finish();
             } else if (loginResponse.getResponseMessage().equals("Account not verified.")) {
                 startActivity(new Intent(LoginActivity.this, VerifyAccountActivity.class));

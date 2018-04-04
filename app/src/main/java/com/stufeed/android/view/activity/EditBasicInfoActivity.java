@@ -314,6 +314,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
 
     private void showHideAsPerRole(String type) {
         GetUserDetailsResponse.Details details = mBinding.getModel();
+        mBinding.collegeText.setText(details.getCollegeName());
         switch (type) {
             case "1": // Student
                 mBinding.autoComplete1.setHint("program");

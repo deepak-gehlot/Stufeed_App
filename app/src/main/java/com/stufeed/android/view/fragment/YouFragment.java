@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidquery.AQuery;
 import com.cunoraz.tagview.Tag;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -26,6 +27,7 @@ import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
 import com.stufeed.android.view.activity.FolloweListActivity;
+import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
@@ -78,7 +80,9 @@ public class YouFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        AQuery aQuery = new AQuery(getActivity());
+        String profilePic = Utility.getLoginUserDetail(getActivity()).getProfilePic();
+        aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.drawable.user_default);
     }
 
     public void onPostCountClick() {

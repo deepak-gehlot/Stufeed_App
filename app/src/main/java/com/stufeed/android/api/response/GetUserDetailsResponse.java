@@ -44,7 +44,7 @@ public class GetUserDetailsResponse {
         private String deviceToken = "";
         @SerializedName("collegeid")
         private String collegeId = "";
-        @SerializedName("collegename")
+        @SerializedName("college_name")
         private String collegeName = "";
         @SerializedName("fullname")
         private String fullName = "";

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.ActivityFolloweListBinding;
 
@@ -31,15 +32,16 @@ public class FolloweListActivity extends AppCompatActivity {
 
     private void getFollowerList() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<Response> responseCall = api.getUserFollowers(userId);
-        responseCall.enqueue(new Callback<Response>() {
+        Call<GetFollowerListResponse> responseCall = api.getUserFollowers(userId);
+        responseCall.enqueue(new Callback<GetFollowerListResponse>() {
             @Override
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+            public void onResponse(Call<GetFollowerListResponse> call, retrofit2.Response<GetFollowerListResponse>
+                    response) {
 
             }
 
             @Override
-            public void onFailure(Call<Response> call, Throwable t) {
+            public void onFailure(Call<GetFollowerListResponse> call, Throwable t) {
 
             }
         });

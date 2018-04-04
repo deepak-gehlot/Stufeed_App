@@ -8,6 +8,7 @@ public class PreferenceConnector {
     public static final String USER_DATA = "user_data";
     public static final String USER_ID = "user_id";
     public static final String VERIFY = "verify";
+    public static final String IS_LOGIN = "is_login";
     private static final int MODE = Context.MODE_PRIVATE;
     private static final String PREF_NAME = "stu";
 
