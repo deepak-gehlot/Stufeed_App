@@ -40,11 +40,21 @@
                     android:src="@drawable/ic_lock" />
 
                 <ImageButton
+                    android:id="@+id/iconCircle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@null"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_group_work" />
+
+                <ImageButton
                     android:id="@+id/iconSetting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:background="@null"
+                    android:onClick="@{()->adapter.onSettingClick(model)}"
                     android:padding="5dp"
                     android:src="@drawable/settings_icon" />
             </RelativeLayout>
@@ -90,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/button_color"
+                android:text="POST"
                 android:textColor="@color/white" />
 
         </LinearLayout>
