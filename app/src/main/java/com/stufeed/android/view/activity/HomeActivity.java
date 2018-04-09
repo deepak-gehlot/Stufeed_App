@@ -140,6 +140,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         startActivity(new Intent(HomeActivity.this, ArchiveBoardListActivity.class));
                         break;
                     case 3:
+                        startActivity(new Intent(HomeActivity.this, BlockedUserListActivity.class));
                         break;
                     case 4:
                         break;

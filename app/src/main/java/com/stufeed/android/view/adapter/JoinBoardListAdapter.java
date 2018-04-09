@@ -1,6 +1,7 @@
 package com.stufeed.android.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.databinding.RowJoinBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.BoardDetailsMainActivity;
 
 import java.util.ArrayList;
 
@@ -65,6 +67,13 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
         } else {
             holder.binding.iconCircle.setVisibility(View.GONE);
         }
+
+        holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, BoardDetailsMainActivity.class));
+            }
+        });
     }
 
     @Override

@@ -20,6 +20,9 @@ import com.stufeed.android.databinding.DialogEditBoardBinding;
 import com.stufeed.android.databinding.RowMyBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.BlockedUserListActivity;
+import com.stufeed.android.view.activity.BoardDetailsMainActivity;
+import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.activity.PostActivity;
 
 import java.util.ArrayList;
@@ -66,6 +69,13 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         } else {
             holder.rowBoardBinding.iconCircle.setVisibility(View.GONE);
         }
+
+        holder.rowBoardBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, BoardDetailsMainActivity.class));
+            }
+        });
     }
 
     @Override
