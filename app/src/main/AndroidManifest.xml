@@ -118,6 +118,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.FolloweListActivity" />
         <activity android:name=".view.activity.UserFollowingActivity" />
+        <activity android:name=".view.activity.BlockedUserListActivity" />
+        <activity android:name=".view.activity.BoardDetailsMainActivity"></activity>
     </application>
 
 </manifest>

@@ -60,6 +60,7 @@
     <string name="create_board">Create Board</string>
     <string name="join_board">Join Board</string>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_post">Post</string>
@@ -105,4 +106,7 @@
     <string name="hide_search">Hide My Account From Search</string>
     <string name="delete">Delete</string>
     <string name="title_activity_my_bookmark">My Bookmark</string>
+
+    <string name="board_post">Post</string>
+    <string name="board_member">Member</string>
 </resources>

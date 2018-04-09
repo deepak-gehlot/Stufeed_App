@@ -3,13 +3,13 @@ package com.stufeed.android.view.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.cunoraz.tagview.Tag;
@@ -21,12 +21,10 @@ import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
-import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.ActivityUserProfileBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
-import com.stufeed.android.view.adapter.BoardListAdapter;
 import com.stufeed.android.view.adapter.UserBoardListAdapter;
 
 import java.util.ArrayList;
@@ -71,6 +69,24 @@ public class UserProfileActivity extends AppCompatActivity {
 
         getBasicDetails();
         setUserType();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_user_profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menuBlocked:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setTitleBackClick() {
