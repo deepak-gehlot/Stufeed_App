@@ -1,5 +1,6 @@
 package com.stufeed.android.api;
 
+import com.stufeed.android.api.response.BlockedUserListResponse;
 import com.stufeed.android.api.response.CommentResponse;
 import com.stufeed.android.api.response.CreateBoardResponse;
 import com.stufeed.android.api.response.DeletePostResponse;
@@ -323,6 +324,6 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("blockuserslist")
-    Call<Response> blockedUserList(@Field("userid") String userId);
+    Call<BlockedUserListResponse> blockedUserList(@Field("userid") String userId);
 
 }

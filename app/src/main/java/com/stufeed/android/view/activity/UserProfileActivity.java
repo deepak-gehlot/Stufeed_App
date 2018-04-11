@@ -340,6 +340,7 @@ public class UserProfileActivity extends AppCompatActivity {
      * unblock user
      */
     private void unBlock() {
+        ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<com.stufeed.android.api.response.Response> responseCall = api.unblockUser(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
@@ -381,6 +382,7 @@ public class UserProfileActivity extends AppCompatActivity {
      * Handle block unblock response
      */
     private void handleResponseBlockUnblock(com.stufeed.android.api.response.Response response) {
+        ProgressDialog.getInstance().dismissDialog();
         if (response == null) {
             Utility.showErrorMsg(UserProfileActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
