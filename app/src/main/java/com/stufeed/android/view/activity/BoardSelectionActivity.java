@@ -28,6 +28,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
     private ActivityBoardSelectionBinding mBinding;
     ArrayList<GetBoardListResponse.Board> mBoardArrayList = new ArrayList<>();
     private String loginUserId;
+    private String postId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,14 @@ public class BoardSelectionActivity extends AppCompatActivity {
         });
         loginUserId = Utility.getLoginUserId(this);
         getBoardList();
+        getDataFromBundle();
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            postId = bundle.getString("post_id");
+        }
     }
 
     private void getBoardList() {
@@ -129,12 +138,11 @@ public class BoardSelectionActivity extends AppCompatActivity {
 
                     Intent intent = new Intent();
                     intent.putExtra("board_id", boardId);
+                    intent.putExtra("post_id", postId);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
             });
         }
     }
-
-
 }

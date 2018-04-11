@@ -1,7 +1,5 @@
 package com.stufeed.android.view.adapter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -18,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
-import android.widget.RadioGroup;
 
 import com.appunite.appunitevideoplayer.PlayerActivity;
 import com.bumptech.glide.Glide;
@@ -35,6 +32,7 @@ import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.BoardSelectionActivity;
 import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
@@ -77,6 +75,16 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             holder.rowBinding.boardName.setVisibility(View.VISIBLE);
         } else {
             holder.rowBinding.boardName.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(post.getIsLike())) {
+            if (post.getIsLike().equals("0")) {
+                holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
+            } else {
+                holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_icon);
+            }
+        } else {
+            holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
         }
 
         switch (post.getPostType()) {
@@ -250,10 +258,20 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
     public void onLikeClick(GetPostResponse.Post post) {
         String like = post.getTotalLike();
-        if (!TextUtils.isEmpty(like)) {
-            int likeCount = Integer.parseInt(like) + 1;
-            post.setTotalLike("" + likeCount);
+        if (post.getIsLike().equals("1")) {
+            if (!TextUtils.isEmpty(like)) {
+                int likeCount = Integer.parseInt(like) - 1;
+                post.setTotalLike("" + likeCount);
+            }
+            post.setIsLike("0");
+        } else {
+            if (!TextUtils.isEmpty(like)) {
+                int likeCount = Integer.parseInt(like) + 1;
+                post.setTotalLike("" + likeCount);
+            }
+            post.setIsLike("1");
         }
+
         int position = postArrayList.indexOf(post);
         postArrayList.add(position, post);
         notifyItemChanged(position);
@@ -303,19 +321,20 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     @Override
                     public void onPositive(DialogInterface dialog) {
                         dialog.dismiss();
-                        rePost(post);
+                        Intent intent = new Intent(context.getActivity(), BoardSelectionActivity.class);
+                        intent.putExtra("post_id", post.getPostId());
+                        context.startActivityForResult(intent, 231);
+                        //rePost(post);
                     }
                 });
     }
 
     /**
      * Call service for Re post
-     *
-     * @param post
      */
-    private void rePost(GetPostResponse.Post post) {
+    public void rePost(String postId, String boardId) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<RePostResponse> responseCall = api.rePost(loginUserId, post.getPostId());
+        Call<RePostResponse> responseCall = api.rePost(loginUserId, postId);
         ProgressDialog.getInstance().showProgressDialog(context.getActivity());
         responseCall.enqueue(new Callback<RePostResponse>() {
             @Override
@@ -330,7 +349,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                 Utility.showErrorMsg(context.getActivity());
             }
         });
-
     }
 
 

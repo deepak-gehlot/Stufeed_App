@@ -83,6 +83,8 @@ public class GetPostResponse {
         private String boardId = "";
         @SerializedName("boardname")
         private String boardName = "";
+        @SerializedName("is_like")
+        private String isLike = "";
 
         public Post() {
         }
@@ -263,6 +265,14 @@ public class GetPostResponse {
             this.boardName = boardName;
         }
 
+        public String getIsLike() {
+            return isLike;
+        }
+
+        public void setIsLike(String isLike) {
+            this.isLike = isLike;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -292,6 +302,7 @@ public class GetPostResponse {
             dest.writeString(this.audioFile);
             dest.writeString(this.boardId);
             dest.writeString(this.boardName);
+            dest.writeString(this.isLike);
         }
 
         protected Post(Parcel in) {
@@ -317,6 +328,7 @@ public class GetPostResponse {
             this.audioFile = in.readString();
             this.boardId = in.readString();
             this.boardName = in.readString();
+            this.isLike = in.readString();
         }
 
         public static final Creator<Post> CREATOR = new Creator<Post>() {

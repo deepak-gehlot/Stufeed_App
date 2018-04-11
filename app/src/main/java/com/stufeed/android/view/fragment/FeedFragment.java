@@ -1,5 +1,6 @@
 package com.stufeed.android.view.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -64,10 +65,19 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        FeedListAdapter adapter = (FeedListAdapter) binding.recyclerView.getAdapter();
-        GetPostResponse.Post post = data.getParcelableExtra(CommentPostActivity.TAG_POST);
-        int position = data.getIntExtra(CommentPostActivity.TAG_POSITION, -1);
-        adapter.refreshItem(position, post);
+
+        if (resultCode == Activity.RESULT_OK) {
+            FeedListAdapter adapter = (FeedListAdapter) binding.recyclerView.getAdapter();
+            if (requestCode == 114) { // comment
+                GetPostResponse.Post post = data.getParcelableExtra(CommentPostActivity.TAG_POST);
+                int position = data.getIntExtra(CommentPostActivity.TAG_POSITION, -1);
+                adapter.refreshItem(position, post);
+            } else {    // re post
+                String boardId = data.getStringExtra("board_id");
+                String postId = data.getStringExtra("post_id");
+                adapter.rePost(postId, boardId);
+            }
+        }
     }
 
     private void getAllPost() {
