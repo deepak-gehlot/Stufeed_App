@@ -46,6 +46,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private boolean isHaveSkills = false;
     private boolean isHaveAchivment = false;
     private boolean isHaveAbout = false;
+    private String mLoginUserId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class UserProfileActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile);
         setSupportActionBar(mBinding.toolbar);
         mBinding.container.setActivity(this);
+
+        mLoginUserId = Utility.getLoginUserId(UserProfileActivity.this);
         setTitleBackClick();
         getDataFromBundle();
         getBoardList();
@@ -83,6 +86,7 @@ public class UserProfileActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menuBlocked:
+                block();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -144,7 +148,6 @@ public class UserProfileActivity extends AppCompatActivity {
             mBinding.container.recyclerView.setAdapter(adapter);
         }
     }
-
 
     public void onClickDownArrow() {
         if (mBinding.container.detailsLayout.getVisibility() == View.GONE) {
@@ -330,6 +333,60 @@ public class UserProfileActivity extends AppCompatActivity {
             mBinding.container.imageDownIcon.setVisibility(View.VISIBLE);
         } else {
             mBinding.container.imageDownIcon.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * unblock user
+     */
+    private void unBlock() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<com.stufeed.android.api.response.Response> responseCall = api.unblockUser(mLoginUserId, user.getUserId());
+        responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
+            @Override
+            public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android
+                    .api.response.Response> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<com.stufeed.android.api.response.Response> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /**
+     * block user
+     */
+    private void block() {
+        ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<com.stufeed.android.api.response.Response> responseCall = api.blockUser(mLoginUserId, user.getUserId());
+        responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
+            @Override
+            public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android
+                    .api.response.Response> response) {
+                handleResponseBlockUnblock(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<com.stufeed.android.api.response.Response> call, Throwable t) {
+                handleResponseBlockUnblock(null);
+            }
+        });
+    }
+
+    /**
+     * Handle block unblock response
+     */
+    private void handleResponseBlockUnblock(com.stufeed.android.api.response.Response response) {
+        if (response == null) {
+            Utility.showErrorMsg(UserProfileActivity.this);
+        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            Utility.showToast(UserProfileActivity.this, response.getResponseMessage());
+        } else {
+            Utility.showToast(UserProfileActivity.this, response.getResponseMessage());
         }
     }
 }

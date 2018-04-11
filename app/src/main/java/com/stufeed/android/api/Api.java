@@ -311,4 +311,18 @@ public interface Api {
                                                              @Field("managedby") String managedBy,
                                                              @Field("location") String location);
 
+    @FormUrlEncoded
+    @POST("blockusers")
+    Call<Response> blockUser(@Field("userid") String userId,
+                             @Field("blockuserid") String blockUserId);
+
+    @FormUrlEncoded
+    @POST("unblockusers")
+    Call<Response> unblockUser(@Field("userid") String userId,
+                               @Field("blockuserid") String blockUserId);
+
+    @FormUrlEncoded
+    @POST("blockuserslist")
+    Call<Response> blockedUserList(@Field("userid") String userId);
+
 }
