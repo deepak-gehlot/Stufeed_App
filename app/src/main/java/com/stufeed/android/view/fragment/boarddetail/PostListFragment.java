@@ -11,8 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
+import com.stufeed.android.api.APIClient;
+import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.FragmentPostListBinding;
 import com.stufeed.android.util.Utility;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +60,24 @@ public class PostListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getPostByBoard();
     }
 
+
+    private void getPostByBoard() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<Response> responseCall = api.getPostByBoardId(mLoginUserId, boardId);
+        responseCall.enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Response> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

@@ -119,7 +119,10 @@
         <activity android:name=".view.activity.FolloweListActivity" />
         <activity android:name=".view.activity.UserFollowingActivity" />
         <activity android:name=".view.activity.BlockedUserListActivity" />
-        <activity android:name=".view.activity.BoardDetailsMainActivity"></activity>
+        <activity android:name=".view.activity.BoardDetailsMainActivity" />
+        <activity
+            android:name=".view.activity.FullImageActivity"
+            android:theme="@style/Theme.AppCompat.Translucent" />
     </application>
 
 </manifest>

@@ -34,6 +34,7 @@ import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.BoardSelectionActivity;
 import com.stufeed.android.view.activity.CommentPostActivity;
+import com.stufeed.android.view.activity.FullImageActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
 import java.util.ArrayList;
@@ -235,6 +236,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                             videoURL,
                             "Video title"));
                 }
+            }
+        } else {
+            String imageUrl = post.getFilePath() + post.getImage();
+            if (!TextUtils.isEmpty(imageUrl)) {
+                Intent intent = new Intent(context.getActivity(), FullImageActivity.class);
+                intent.putExtra("image", imageUrl);
+                context.startActivity(intent);
             }
         }
     }
