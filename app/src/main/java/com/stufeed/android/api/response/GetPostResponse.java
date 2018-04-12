@@ -85,6 +85,8 @@ public class GetPostResponse {
         private String boardName = "";
         @SerializedName("is_like")
         private String isLike = "";
+        @SerializedName("is_bookmark")
+        private String isBookmark = "";
 
         public Post() {
         }
@@ -273,6 +275,14 @@ public class GetPostResponse {
             this.isLike = isLike;
         }
 
+        public String getIsBookmark() {
+            return isBookmark;
+        }
+
+        public void setIsBookmark(String isBookmark) {
+            this.isBookmark = isBookmark;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -303,6 +313,7 @@ public class GetPostResponse {
             dest.writeString(this.boardId);
             dest.writeString(this.boardName);
             dest.writeString(this.isLike);
+            dest.writeString(this.isBookmark);
         }
 
         protected Post(Parcel in) {
@@ -329,6 +340,7 @@ public class GetPostResponse {
             this.boardId = in.readString();
             this.boardName = in.readString();
             this.isLike = in.readString();
+            this.isBookmark = in.readString();
         }
 
         public static final Creator<Post> CREATOR = new Creator<Post>() {

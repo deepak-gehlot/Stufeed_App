@@ -44,6 +44,7 @@ public class BlockedListAdapter extends RecyclerView.Adapter<BlockedListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.binding.setUser(userArrayList.get(position));
+        holder.binding.setAdapter(this);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class BlockedListAdapter extends RecyclerView.Adapter<BlockedListAdapter.
      */
     public void onUnBlockClick(final BlockedUserListResponse.User user) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<Response> responseCall = api.unblockUser(mLoginUserId, "");
+        Call<Response> responseCall = api.unblockUser(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {

@@ -20,6 +20,7 @@ import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.databinding.ActivityUserProfileBinding;
 import com.stufeed.android.util.ProgressDialog;
@@ -248,6 +249,25 @@ public class UserProfileActivity extends AppCompatActivity {
      * Get About
      */
     private void getAbout() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetUserDescriptionResponse> responseCall = api.getUserDescription(mLoginUserId);
+        responseCall.enqueue(new Callback<GetUserDescriptionResponse>() {
+            @Override
+            public void onResponse(Call<GetUserDescriptionResponse> call,
+                                   retrofit2.Response<GetUserDescriptionResponse> response) {
+                GetUserDescriptionResponse response1 = response.body();
+                if (response1 != null && response1.getResponseCode().equals(Api.SUCCESS)) {
+                    String description = response1.getDescription();
+                    mBinding.container.textAboutMeData.setText(description);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUserDescriptionResponse> call, Throwable t) {
+
+            }
+        });
+
 
     }
 

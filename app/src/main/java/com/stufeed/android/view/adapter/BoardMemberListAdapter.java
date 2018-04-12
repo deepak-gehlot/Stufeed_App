@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
+import com.stufeed.android.api.response.GetBoardMemberListResponse;
 import com.stufeed.android.databinding.RowBoardMemberBinding;
+
+import java.util.ArrayList;
 
 /**
  * Created by Deepak Gehlot on 4/9/2018.
@@ -16,9 +19,11 @@ import com.stufeed.android.databinding.RowBoardMemberBinding;
 public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberListAdapter.ViewHolder> {
 
     private Context context;
+    private ArrayList<GetBoardMemberListResponse.User> userArrayList;
 
-    public BoardMemberListAdapter(Context context) {
+    public BoardMemberListAdapter(Context context, ArrayList<GetBoardMemberListResponse.User> userArrayList) {
         this.context = context;
+        this.userArrayList = userArrayList;
     }
 
     @Override
@@ -30,12 +35,12 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.binding.setUser(userArrayList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return userArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

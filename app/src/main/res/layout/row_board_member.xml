@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.stufeed.android.api.response.GetBoardMemberListResponse.User" />
+    </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -17,14 +24,15 @@
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/user_default" />
+                android:src="@drawable/user_default"
+                app:profileImageUrl="@{user.profilePic}" />
 
             <TextView
-                android:layout_width="@dimen/dimen_0dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:text="User Name"
+                android:text="@{user.fullName}"
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 

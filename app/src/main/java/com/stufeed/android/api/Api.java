@@ -11,6 +11,7 @@ import com.stufeed.android.api.response.GetAllCommentResponse;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetArchiveBoardListResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
+import com.stufeed.android.api.response.GetBoardMemberListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
@@ -18,6 +19,7 @@ import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetSettingResponse;
+import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.api.response.LikeResponse;
@@ -212,6 +214,10 @@ public interface Api {
     Call<Response> archiveBoard(@Field("boardid") String boardId);
 
     @FormUrlEncoded
+    @POST("unarchiveboard")
+    Call<Response> unarchiveBoard(@Field("boardid") String boardId);
+
+    @FormUrlEncoded
     @POST("deleteboard")
     Call<Response> deleteBoard(@Field("boardid") String boardId);
 
@@ -326,4 +332,27 @@ public interface Api {
     @POST("blockuserslist")
     Call<BlockedUserListResponse> blockedUserList(@Field("userid") String userId);
 
+    //saveuserdescription  {"userid":"1","description":"Helllo my test description"}
+    //getuserdescription  {"userid":"1"}
+    //boardmemberlist  {"userid":"1","boardid":"2"}
+    //getpostbyboardid {"userid":"1","boardid":"2"}
+
+    @FormUrlEncoded
+    @POST("saveuserdescription")
+    Call<Response> saveUserDescription(@Field("userid") String userId,
+                                       @Field("description") String description);
+
+    @FormUrlEncoded
+    @POST("getuserdescription")
+    Call<GetUserDescriptionResponse> getUserDescription(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("boardmemberlist")
+    Call<GetBoardMemberListResponse> getBoardMemberList(@Field("userid") String userId,
+                                                        @Field("boardid") String boardId);
+
+    @FormUrlEncoded
+    @POST("getpostbyboardid")
+    Call<Response> getPostByBoardId(@Field("userid") String userId,
+                                    @Field("boardid") String boardId);
 }

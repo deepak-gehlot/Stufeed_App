@@ -5,16 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Created by Deepak Gehlot on 4/11/2018.
+ * Created by Deepak Gehlot on 4/12/2018.
  */
+public class GetBoardMemberListResponse {
 
-public class BlockedUserListResponse {
-
-    public String responseMessage = "";
-    public String responseCode = "";
-
+    private String responseMessage = "";
+    private String responseCode = "";
     @SerializedName("allachivement")
-    public ArrayList<User> userArrayList;
+    private ArrayList<User> userArrayList;
 
     public String getResponseMessage() {
         return responseMessage;
@@ -42,24 +40,26 @@ public class BlockedUserListResponse {
 
     public class User {
         @SerializedName("fullname")
-        private String name = "";
+        private String fullName = "";
         @SerializedName("profilepic")
         private String profilePic = "";
         @SerializedName("email")
         private String email = "";
+        @SerializedName("userid")
+        private String userId = "";
         @SerializedName("contactno")
         private String contactNo = "";
         @SerializedName("usertype")
         private String userType = "";
-        @SerializedName("userid")
-        private String userId = "";
+        @SerializedName("is_follow")
+        private String isFollow = "";
 
-        public String getName() {
-            return name;
+        public String getFullName() {
+            return fullName;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
         }
 
         public String getProfilePic() {
@@ -78,6 +78,14 @@ public class BlockedUserListResponse {
             this.email = email;
         }
 
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
         public String getContactNo() {
             return contactNo;
         }
@@ -94,12 +102,12 @@ public class BlockedUserListResponse {
             this.userType = userType;
         }
 
-        public String getUserId() {
-            return userId;
+        public String getIsFollow() {
+            return isFollow;
         }
 
-        public void setUserId(String userId) {
-            this.userId = userId;
+        public void setIsFollow(String isFollow) {
+            this.isFollow = isFollow;
         }
     }
 }

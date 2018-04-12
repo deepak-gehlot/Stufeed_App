@@ -15,11 +15,13 @@ import com.stufeed.android.view.fragment.boarddetail.PostListFragment;
 public class BoardDetailsMainActivity extends AppCompatActivity {
 
     private ActivityBlockedDetailsMainBinding mBinding;
+    private String boardId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_blocked_details_main);
+        getDataFromBundle();
         setupViewPager(mBinding.viewPager);
         mBinding.tabLayout.setupWithViewPager(mBinding.viewPager);
 
@@ -31,6 +33,15 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
         });
     }
 
+    private void getDataFromBundle() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            finish();
+        } else {
+            boardId = bundle.getString("board_id");
+        }
+    }
+
     /**
      * Set view pager adapter
      *
@@ -38,8 +49,8 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(PostListFragment.newInstance(), getString(R.string.board_post));
-        adapter.addFragment(MemberListFragment.newInstance(), getString(R.string.board_member));
+        adapter.addFragment(PostListFragment.newInstance(boardId), getString(R.string.board_post));
+        adapter.addFragment(MemberListFragment.newInstance(boardId), getString(R.string.board_member));
         viewPager.setAdapter(adapter);
     }
 

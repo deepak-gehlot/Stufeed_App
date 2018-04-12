@@ -45,7 +45,7 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         GetBoardListResponse.Board board = boardArrayList.get(position);
         holder.rowBoardBinding.setModel(board);
         holder.rowBoardBinding.setAdapter(this);
@@ -86,7 +86,10 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
         holder.rowBoardBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, BoardDetailsMainActivity.class));
+                Intent intent = new Intent(context, BoardDetailsMainActivity.class);
+                String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
+                intent.putExtra("board_id", boardId);
+                context.startActivity(intent);
             }
         });
     }

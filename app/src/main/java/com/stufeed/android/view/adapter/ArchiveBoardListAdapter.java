@@ -16,7 +16,6 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.CreateBoardResponse;
 import com.stufeed.android.api.response.GetArchiveBoardListResponse;
-import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.databinding.DialogEditBoardBinding;
 import com.stufeed.android.databinding.RowArchiveBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
@@ -52,10 +51,10 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.binding.setAdapter(this);
         holder.binding.setModel(boardArrayList.get(position));
-        GetArchiveBoardListResponse.Board board = boardArrayList.get(position);
+        final GetArchiveBoardListResponse.Board board = boardArrayList.get(position);
 
         if (board.getIsPrivate().equals("1")) {
             holder.binding.iconLock.setVisibility(View.VISIBLE);
@@ -72,7 +71,10 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, BoardDetailsMainActivity.class));
+                Intent intent = new Intent(context, BoardDetailsMainActivity.class);
+                String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
+                intent.putExtra("board_id", boardId);
+                context.startActivity(intent);
             }
         });
     }
@@ -148,7 +150,7 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
                         break;
 
                     case R.id.textViewArchiveBoard: // move to profile button
-
+                        moveToProfileBoard(board);
                         break;
 
                     case R.id.textViewDeleteBoard:
@@ -218,6 +220,39 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
         Api api = APIClient.getClient().create(Api.class);
         ProgressDialog.getInstance().showProgressDialog(context);
         Call<com.stufeed.android.api.response.Response> responseCall = api.deleteBoard(board.getBoardId());
+        responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
+            @Override
+            public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android
+                    .api.response.Response> response) {
+                com.stufeed.android.api.response.Response response1 = response.body();
+                ProgressDialog.getInstance().dismissDialog();
+                if (response1 != null) {
+                    if (response1.getResponseCode().equals(Api.SUCCESS)) {
+                        int position = boardArrayList.indexOf(board);
+                        boardArrayList.remove(position);
+                        notifyItemRemoved(position);
+                        Utility.showToast(context, response1.getResponseMessage());
+                    } else {
+                        Utility.showToast(context, response1.getResponseMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<com.stufeed.android.api.response.Response> call, Throwable t) {
+                Utility.showToast(context, context.getString(R.string.wrong));
+            }
+        });
+    }
+
+
+    /**
+     * Move to profile board
+     */
+    private void moveToProfileBoard(final GetArchiveBoardListResponse.Board board) {
+        Api api = APIClient.getClient().create(Api.class);
+        ProgressDialog.getInstance().showProgressDialog(context);
+        Call<com.stufeed.android.api.response.Response> responseCall = api.unarchiveBoard(board.getBoardId());
         responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
             @Override
             public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.FragmentPostListBinding;
+import com.stufeed.android.util.Utility;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,14 +24,24 @@ public class PostListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static PostListFragment newInstance() {
+    private String boardId = "";
+    private String mLoginUserId = "";
+    private FragmentPostListBinding mBinding;
+
+    public static PostListFragment newInstance(String boardId) {
         Bundle args = new Bundle();
         PostListFragment fragment = new PostListFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    private FragmentPostListBinding mBinding;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        boardId = bundle.getString("board_id");
+        mLoginUserId = Utility.getLoginUserId(getActivity());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

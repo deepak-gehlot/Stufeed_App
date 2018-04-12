@@ -87,6 +87,16 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
         }
 
+        if (!TextUtils.isEmpty(post.getIsBookmark())) {
+            if (post.getIsBookmark().equals("0")) {
+                holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
+            } else {
+                holder.rowBinding.imgSave.setImageResource(R.drawable.bookmark_icon);
+            }
+        } else {
+            holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
+        }
+
         switch (post.getPostType()) {
             case "5":  // for audio
                 holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
@@ -358,6 +368,11 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
      * @param post {@link GetPostResponse.Post}
      */
     public void onSavePostBtnClick(final GetPostResponse.Post post) {
+        if (!TextUtils.isEmpty(post.getIsBookmark())) {
+            if (post.getIsBookmark().equals("1")) {
+                return;
+            }
+        }
         Utility.setDialog(context.getActivity(), "Message", "Do you want to bookmark this post.", "No", "Yes",
                 new DialogListener() {
                     @Override
@@ -378,7 +393,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
      *
      * @param post
      */
-    private void savePost(GetPostResponse.Post post) {
+    private void savePost(final GetPostResponse.Post post) {
         Api api = APIClient.getClient().create(Api.class);
         Call<SavePostResponse> responseCall = api.savePost(loginUserId, post.getPostId());
         ProgressDialog.getInstance().showProgressDialog(context.getActivity());
@@ -386,6 +401,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             @Override
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
+                post.setIsBookmark("1");
+                notifyItemChanged(postArrayList.indexOf(post));
                 Utility.showToast(context.getActivity(), "Bookmark Post successfully.");
             }
 

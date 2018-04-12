@@ -20,6 +20,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
+import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.FragmentYouBinding;
@@ -27,7 +28,6 @@ import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
 import com.stufeed.android.view.activity.FolloweListActivity;
-import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
@@ -217,6 +217,25 @@ public class YouFragment extends Fragment {
      * Get About
      */
     private void getAbout() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetUserDescriptionResponse> responseCall = api.getUserDescription(mLoginUserId);
+        responseCall.enqueue(new Callback<GetUserDescriptionResponse>() {
+            @Override
+            public void onResponse(Call<GetUserDescriptionResponse> call,
+                                   retrofit2.Response<GetUserDescriptionResponse> response) {
+                GetUserDescriptionResponse response1 = response.body();
+                if (response1 != null && response1.getResponseCode().equals(Api.SUCCESS)) {
+                    String description = response1.getDescription();
+                    binding.textAboutMe.setText(description);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetUserDescriptionResponse> call, Throwable t) {
+
+            }
+        });
+
 
     }
 
