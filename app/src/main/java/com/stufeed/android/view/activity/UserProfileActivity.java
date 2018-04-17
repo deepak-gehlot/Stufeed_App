@@ -42,7 +42,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private ActivityUserProfileBinding mBinding;
     private GetCollegeUserResponse.User user;
-    private String type = "";
     private List<Tag> tagList = new ArrayList<>();
     private boolean isHaveSkills = false;
     private boolean isHaveAchivment = false;
@@ -60,7 +59,6 @@ public class UserProfileActivity extends AppCompatActivity {
         setTitleBackClick();
         getDataFromBundle();
         getBoardList();
-        mBinding.container.setUser(user);
 
         if (user.getIsFollow().equals("1")) {
             mBinding.container.btnFollowStatus.setText("Followed");
@@ -69,10 +67,8 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         mBinding.container.txtUserName.setText(user.getFullName());
-        mBinding.container.txtType.setText(type);
 
         getBasicDetails();
-        setUserType();
     }
 
     @Override
@@ -110,7 +106,6 @@ public class UserProfileActivity extends AppCompatActivity {
             finish();
         } else {
             user = bundle.getParcelable(USER);
-            type = bundle.getString(TYPE);
         }
     }
 
@@ -166,7 +161,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void setUserType() {
+    public void setUserType(String type) {
         switch (type) {
             case "1":
                 mBinding.container.txtType.setText("Student");
@@ -279,6 +274,7 @@ public class UserProfileActivity extends AppCompatActivity {
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 mBinding.container.setModel(response.getAllDetails());
+                setUserType(response.getAllDetails().getUserType());
             }
         }
         getSkills();

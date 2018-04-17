@@ -24,6 +24,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
+import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
@@ -35,6 +36,7 @@ import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.BoardSelectionActivity;
 import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.activity.FullImageActivity;
+import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
 import java.util.ArrayList;
@@ -221,6 +223,19 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     @Override
     public int getItemCount() {
         return postArrayList != null ? postArrayList.size() : 0;
+    }
+
+    /**
+     * On click user name
+     */
+    public void onClickName(GetPostResponse.Post post) {
+        GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
+        user.setUserId(post.getUserId());
+        user.setFullName(post.getFullName());
+        user.setIsFollow("0");
+        Intent intent = new Intent(context.getActivity(), UserProfileActivity.class);
+        intent.putExtra(UserProfileActivity.USER, user);
+        context.startActivity(intent);
     }
 
     public void onImageClick(GetPostResponse.Post post) {
