@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.FragmentConnectBinding;
+import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
 import com.stufeed.android.view.fragment.connect.AcademyFragment;
 import com.stufeed.android.view.fragment.connect.DepartmentFragment;
@@ -64,5 +65,26 @@ public class ConnectFragment extends Fragment {
         adapter.addFragment(StudentFragment.newInstance(), getString(R.string.student));
         adapter.addFragment(DepartmentFragment.newInstance(), getString(R.string.department));
         viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position != 0) {
+                    ((HomeActivity) getActivity()).showHideSearchIcon(position, true);
+                } else {
+                    ((HomeActivity) getActivity()).showHideSearchIcon(position, false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

@@ -28,6 +28,7 @@ import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
 import com.stufeed.android.view.activity.FolloweListActivity;
+import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
@@ -72,6 +73,9 @@ public class YouFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.setFragment(this);
         mLoginUserId = Utility.getLoginUserId(getActivity());
+
+        ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
+
         setRecyclerView();
         getBasicDetails();
         setUserType();

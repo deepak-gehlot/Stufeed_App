@@ -1,5 +1,9 @@
 package com.stufeed.android.view.fragment.connect;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +32,8 @@ public class FacultyFragment extends Fragment {
 
     private FragmentFacultyBinding binding;
     private String loginUserId = "", loginUserCollegeId = "";
+    ArrayList<GetCollegeUserResponse.User> userArrayList = new ArrayList<>();
+    private FacultyListAdapter facultyListAdapter;
 
     public FacultyFragment() {
         // Required empty public constructor
@@ -54,10 +60,10 @@ public class FacultyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
         loginUserCollegeId = "1";
-
+        SearchReceiver searchReceiver = new SearchReceiver();
+        getActivity().registerReceiver(searchReceiver, new IntentFilter("com.stufeed.android.search"));
         getStudents();
     }
-
 
     private void getStudents() {
         binding.progressBar.setVisibility(View.VISIBLE);
@@ -84,14 +90,45 @@ public class FacultyFragment extends Fragment {
         if (response == null) {
             Utility.showErrorMsg(getActivity());
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
-            setRecyclerView(response.getUserArrayList());
+            if (response.getUserArrayList() != null) {
+                userArrayList = response.getUserArrayList();
+                setRecyclerView();
+            }
         } else {
             Utility.showToast(getActivity(), response.getResponseMessage());
         }
     }
 
-    private void setRecyclerView(ArrayList<GetCollegeUserResponse.User> userArrayList) {
+    private void setRecyclerView() {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity(), "Faculty", userArrayList));
+        facultyListAdapter = new FacultyListAdapter(getActivity(), "Faculty", userArrayList);
+        binding.recyclerView.setAdapter(facultyListAdapter);
+    }
+
+    class SearchReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                int type = bundle.getInt("type");
+                if (type == 1) {
+                    String search = bundle.getString("search");
+                    Utility.showToast(getActivity(), search);
+
+                    //new array list that will hold the filtered data
+                    ArrayList<GetCollegeUserResponse.User> userArrayListNew = new ArrayList<>();
+
+                    //looping through existing elements
+                    for (GetCollegeUserResponse.User s : userArrayList) {
+                        //if the existing elements contains the search input
+                        if (s.getFullName().toLowerCase().contains(search.toLowerCase())) {
+                            //adding the element to filtered list
+                            userArrayListNew.add(s);
+                        }
+                    }
+                    facultyListAdapter.filterList(userArrayListNew);
+                }
+            }
+        }
     }
 }

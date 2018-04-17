@@ -34,6 +34,7 @@ import java.util.ArrayList;
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ActivityHomeBinding binding;
+    private int searchType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,18 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
             }
         });
+
+        binding.searchImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (searchType != 0) {
+                    Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+                    intent.putExtra("type", searchType);
+                    startActivity(intent);
+                }
+            }
+        });
+
         Utility.addFragment(this, FeedFragment.newInstance(), "FeedFragment", binding.frame.getId());
 
         setNavigationList();
@@ -113,6 +126,18 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             //Timber.e(e, "Unable to get shift mode field");
         } catch (IllegalAccessException e) {
             //Timber.e(e, "Unable to change value of shift mode");
+        }
+    }
+
+    /**
+     * show hide search icon function
+     */
+    public void showHideSearchIcon(int position, boolean show) {
+        searchType = position;
+        if (show) {
+            binding.searchImg.setVisibility(View.VISIBLE);
+        } else {
+            binding.searchImg.setVisibility(View.GONE);
         }
     }
 

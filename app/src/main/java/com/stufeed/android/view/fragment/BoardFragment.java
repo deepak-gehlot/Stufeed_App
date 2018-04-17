@@ -23,6 +23,7 @@ import com.stufeed.android.databinding.DialogCreateBoardBinding;
 import com.stufeed.android.databinding.FragmentBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
 import com.stufeed.android.view.fragment.board.CreateBoardFragment;
 import com.stufeed.android.view.fragment.board.JoinBoardFragment;
@@ -65,6 +66,8 @@ public class BoardFragment extends Fragment {
         binding.setFragment(this);
         setupViewPager(binding.viewPager);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
+
+        ((HomeActivity) getActivity()).showHideSearchIcon(0,false);
 
         loginUserId = Utility.getLoginUserId(getActivity());
     }

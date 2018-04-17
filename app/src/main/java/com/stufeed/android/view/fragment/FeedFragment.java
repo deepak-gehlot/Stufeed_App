@@ -20,6 +20,7 @@ import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.databinding.FragmentFeedBinding;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.CommentPostActivity;
+import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onViewCreated(view, savedInstanceState);
         getAllPost();
         binding.pullToRefresh.setOnRefreshListener(this);
+
+        ((HomeActivity) getActivity()).showHideSearchIcon(0,false);
     }
 
     @Override

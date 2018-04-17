@@ -1,5 +1,9 @@
 package com.stufeed.android.view.fragment.connect;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +32,8 @@ public class StudentFragment extends Fragment {
 
     private FragmentStudentBinding binding;
     private String loginUserId = "", loginUserCollegeId = "";
+    private FacultyListAdapter facultyListAdapter;
+    ArrayList<GetCollegeUserResponse.User> userArrayList = new ArrayList<>();
 
     public StudentFragment() {
         // Required empty public constructor
@@ -55,6 +61,9 @@ public class StudentFragment extends Fragment {
         loginUserId = Utility.getLoginUserId(getActivity());
         loginUserCollegeId = "1";
         getStudents();
+        SearchReceiver searchReceiver = new SearchReceiver();
+        getActivity().registerReceiver(searchReceiver, new IntentFilter("com.stufeed.android.search"));
+
     }
 
     private void getStudents() {
@@ -88,6 +97,34 @@ public class StudentFragment extends Fragment {
 
     private void setRecyclerView(ArrayList<GetCollegeUserResponse.User> userArrayList) {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        binding.recyclerView.setAdapter(new FacultyListAdapter(getActivity(), "Student", userArrayList));
+        facultyListAdapter = new FacultyListAdapter(getActivity(), "Student", userArrayList);
+        binding.recyclerView.setAdapter(facultyListAdapter);
+    }
+
+    class SearchReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                int type = bundle.getInt("type");
+                if (type == 2) {
+                    String search = bundle.getString("search");
+                    Utility.showToast(getActivity(), search);
+
+                    //new array list that will hold the filtered data
+                    ArrayList<GetCollegeUserResponse.User> userArrayListNew = new ArrayList<>();
+
+                    //looping through existing elements
+                    for (GetCollegeUserResponse.User s : userArrayList) {
+                        //if the existing elements contains the search input
+                        if (s.getFullName().toLowerCase().contains(search.toLowerCase())) {
+                            //adding the element to filtered list
+                            userArrayListNew.add(s);
+                        }
+                    }
+                    facultyListAdapter.filterList(userArrayListNew);
+                }
+            }
+        }
     }
 }

@@ -81,6 +81,11 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
         });
     }
 
+    public void filterList(ArrayList<GetCollegeUserResponse.User> userArrayList1) {
+        this.userArrayList = userArrayList1;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return userArrayList == null ? 0 : userArrayList.size();

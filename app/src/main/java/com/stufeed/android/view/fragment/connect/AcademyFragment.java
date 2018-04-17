@@ -12,10 +12,9 @@ import android.view.ViewGroup;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.FragmentAcademyBinding;
+import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
-import com.stufeed.android.view.fragment.BoardFragment;
 import com.stufeed.android.view.fragment.FeedFragment;
-import com.stufeed.android.view.fragment.PostFragment;
 import com.stufeed.android.view.fragment.connect.academy.AcademyBoardListFragment;
 import com.stufeed.android.view.fragment.connect.academy.EduKitFragment;
 
@@ -33,6 +32,7 @@ public class AcademyFragment extends Fragment {
     }
 
     private FragmentAcademyBinding binding;
+    private boolean isVisible = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +47,14 @@ public class AcademyFragment extends Fragment {
         setupViewPager(binding.viewpager);
         binding.tabLayout.setupWithViewPager(binding.viewpager);
         binding.viewpager.setOffscreenPageLimit(3);
+
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isVisible = isVisibleToUser;
     }
 
     /**
