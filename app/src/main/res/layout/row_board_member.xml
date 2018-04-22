@@ -4,6 +4,10 @@
     <data>
 
         <variable
+            name="adapter"
+            type="com.stufeed.android.view.adapter.BoardMemberListAdapter" />
+
+        <variable
             name="user"
             type="com.stufeed.android.api.response.GetBoardMemberListResponse.User" />
     </data>
@@ -36,6 +40,14 @@
                 android:textColor="@color/text_color"
                 android:textSize="14sp" />
 
+            <Button
+                android:id="@+id/removeButton"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->adapter.onClickRemove()}"
+                android:text="Remove"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <View

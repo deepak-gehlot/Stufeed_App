@@ -32,11 +32,14 @@ public class PostListFragment extends Fragment {
 
     private String boardId = "";
     private String mLoginUserId = "";
+    private boolean isAdmin = false;
     private FragmentPostListBinding mBinding;
 
-    public static PostListFragment newInstance(String boardId) {
+    public static PostListFragment newInstance(String boardId, boolean isAdmin) {
         Bundle args = new Bundle();
         PostListFragment fragment = new PostListFragment();
+        args.putString("board_id", boardId);
+        args.putBoolean("isAdmin", isAdmin);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +49,7 @@ public class PostListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         boardId = bundle.getString("board_id");
+        isAdmin = bundle.getBoolean("is_admin");
         mLoginUserId = Utility.getLoginUserId(getActivity());
     }
 

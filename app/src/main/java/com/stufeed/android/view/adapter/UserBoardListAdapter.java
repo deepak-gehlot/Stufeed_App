@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        GetBoardListResponse.Board board = boardArrayList.get(position);
+        final GetBoardListResponse.Board board = boardArrayList.get(position);
         holder.rowBoardBinding.setModel(board);
         holder.rowBoardBinding.setAdapter(this);
 
@@ -86,10 +87,13 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
         holder.rowBoardBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, BoardDetailsMainActivity.class);
-                String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
-                intent.putExtra("board_id", boardId);
-                context.startActivity(intent);
+                if (!TextUtils.isEmpty(board.getJoinType()) &&
+                        board.getJoinType().equals("1")) {
+                    Intent intent = new Intent(context, BoardDetailsMainActivity.class);
+                    String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
+                    intent.putExtra("board_id", boardId);
+                    context.startActivity(intent);
+                }
             }
         });
     }

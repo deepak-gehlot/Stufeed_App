@@ -16,6 +16,7 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
 
     private ActivityBlockedDetailsMainBinding mBinding;
     private String boardId = "";
+    private boolean isAdmin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
             finish();
         } else {
             boardId = bundle.getString("board_id");
+            isAdmin = bundle.getBoolean("is_admin");
         }
     }
 
@@ -49,8 +51,8 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(PostListFragment.newInstance(boardId), getString(R.string.board_post));
-        adapter.addFragment(MemberListFragment.newInstance(boardId), getString(R.string.board_member));
+        adapter.addFragment(PostListFragment.newInstance(boardId, isAdmin), getString(R.string.board_post));
+        adapter.addFragment(MemberListFragment.newInstance(boardId, isAdmin), getString(R.string.board_member));
         viewPager.setAdapter(adapter);
     }
 

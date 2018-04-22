@@ -245,7 +245,7 @@ public class UserProfileActivity extends AppCompatActivity {
      */
     private void getAbout() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetUserDescriptionResponse> responseCall = api.getUserDescription(mLoginUserId);
+        Call<GetUserDescriptionResponse> responseCall = api.getUserDescription(user.getUserId());
         responseCall.enqueue(new Callback<GetUserDescriptionResponse>() {
             @Override
             public void onResponse(Call<GetUserDescriptionResponse> call,
@@ -262,8 +262,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     /**

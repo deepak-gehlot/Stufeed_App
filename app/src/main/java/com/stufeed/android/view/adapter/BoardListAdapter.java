@@ -76,6 +76,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
                 Intent intent = new Intent(context, BoardDetailsMainActivity.class);
                 String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
                 intent.putExtra("board_id", boardId);
+                intent.putExtra("is_admin", true);
                 context.startActivity(intent);
             }
         });
