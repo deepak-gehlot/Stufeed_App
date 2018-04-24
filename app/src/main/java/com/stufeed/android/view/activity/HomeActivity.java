@@ -96,8 +96,19 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_connect:
                 Utility.addFragment(this, ConnectFragment.newInstance(), "ConnectFragment", binding.frame.getId());
                 break;
-            case R.id.navigation_post:
-                startActivity(new Intent(HomeActivity.this, PostActivity.class));
+            case R.id.navigation_post:  // PostActivity
+                Utility.setDialog(HomeActivity.this, "Alert", "testing", "UserPost", "InstitutePost",
+                        new DialogListener() {
+                            @Override
+                            public void onNegative(DialogInterface dialog) {
+                                startActivity(new Intent(HomeActivity.this, PostActivity.class));
+                            }
+
+                            @Override
+                            public void onPositive(DialogInterface dialog) {
+                                startActivity(new Intent(HomeActivity.this, InstitutePostActivity.class));
+                            }
+                        });
                 return false;
             case R.id.navigation_board:
                 Utility.addFragment(this, BoardFragment.newInstance(), "BoardFragment", binding.frame.getId());

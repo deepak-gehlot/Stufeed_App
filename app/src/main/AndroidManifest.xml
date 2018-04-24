@@ -38,6 +38,7 @@
         <activity
             android:name=".view.activity.PostActivity"
             android:label="@string/title_activity_post"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -132,6 +133,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".view.activity.InstitutePostActivity"
+            android:label="@string/title_activity_post"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
