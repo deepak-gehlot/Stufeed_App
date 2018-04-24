@@ -1,5 +1,6 @@
 package com.stufeed.android.view.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -107,6 +108,24 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             user = bundle.getParcelable(USER);
         }
+    }
+
+    public void onPostCountClick() {
+        Intent intent = new Intent(UserProfileActivity.this, UsersPostActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
+    }
+
+    public void onBoardJoinCountClick() {
+        Intent intent = new Intent(UserProfileActivity.this, UserJoinBoardActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
+    }
+
+    public void onFollowerCountClick() {
+        Intent intent = new Intent(UserProfileActivity.this, FolloweListActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
     }
 
     private void getBoardList() {

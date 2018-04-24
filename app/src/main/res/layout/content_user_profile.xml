@@ -155,6 +155,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center"
+                                    android:onClick="@{()->activity.onPostCountClick()}"
                                     android:orientation="vertical"
                                     android:padding="5dp">
 
@@ -196,6 +197,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center"
+                                    android:onClick="@{()->activity.onFollowerCountClick()}"
                                     android:orientation="vertical"
                                     android:padding="5dp">
 
@@ -237,6 +239,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center"
+                                    android:onClick="@{()->activity.onBoardJoinCountClick()}"
                                     android:orientation="vertical"
                                     android:padding="5dp">
 

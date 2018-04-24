@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "670087874450",
+    "firebase_url": "https://stufeed-dev.firebaseio.com",
+    "project_id": "stufeed-dev",
+    "storage_bucket": "stufeed-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670087874450:android:8890dd75229df4f9",
+        "android_client_info": {
+          "package_name": "com.stufeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670087874450-j4mi605cmoc7qk0mi2j6ug92gupdd7a9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stufeed",
+            "certificate_hash": "6d88ff2d83550cb7144723f693339ac901a4933e"
+          }
+        },
+        {
+          "client_id": "670087874450-kebrb5sm3107f02fpf86kkcnd3f904sa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stufeed",
+            "certificate_hash": "c5f99ed332f49e07be3e5c737241e9fdc6cb0995"
+          }
+        },
+        {
+          "client_id": "670087874450-d8afcuj9l6v1pam483qt98o5s53qilkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe6ZaXLVHm6WjPWfwPGrlIBY5u-KLJKLQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670087874450-d8afcuj9l6v1pam483qt98o5s53qilkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670087874450:android:410cb286bc75a7f0",
+        "android_client_info": {
+          "package_name": "com.stufeed.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670087874450-859d02b0p2i74tfu99deac63qkmn1ct7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stufeed.android",
+            "certificate_hash": "0596d910cc23abe4b1b6ed98485905551b0c9a1c"
+          }
+        },
+        {
+          "client_id": "670087874450-d8afcuj9l6v1pam483qt98o5s53qilkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe6ZaXLVHm6WjPWfwPGrlIBY5u-KLJKLQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670087874450-d8afcuj9l6v1pam483qt98o5s53qilkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

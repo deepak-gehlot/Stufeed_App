@@ -54,16 +54,16 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
         if (board.getIsPrivate().equals("1")) {
             holder.rowBoardBinding.iconLock.setVisibility(View.VISIBLE);
         } else {
-            holder.rowBoardBinding.iconLock.setVisibility(View.GONE);
+            holder.rowBoardBinding.iconLock.setVisibility(View.INVISIBLE);
         }
 
         if (board.getIsCircle().equals("1")) {
             holder.rowBoardBinding.iconCircle.setVisibility(View.VISIBLE);
         } else {
-            holder.rowBoardBinding.iconCircle.setVisibility(View.GONE);
+            holder.rowBoardBinding.iconCircle.setVisibility(View.INVISIBLE);
         }
 
-        holder.rowBoardBinding.iconSetting.setVisibility(View.GONE);
+        holder.rowBoardBinding.iconSetting.setVisibility(View.INVISIBLE);
 
         //android:text='@{model.isPrivate.equals("1") ? "Request" : "Join"}'
         switch (board.getJoinType()) {
@@ -92,6 +92,7 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
                     Intent intent = new Intent(context, BoardDetailsMainActivity.class);
                     String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
                     intent.putExtra("board_id", boardId);
+                    intent.putExtra("is_admin", false);
                     context.startActivity(intent);
                 }
             }

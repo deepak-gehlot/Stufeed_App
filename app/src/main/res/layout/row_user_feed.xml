@@ -5,7 +5,7 @@
 
         <variable
             name="adapter"
-            type="com.stufeed.android.view.adapter.FeedListAdapter" />
+            type="com.stufeed.android.view.adapter.UserFeedListAdapter" />
 
         <variable
             name="model"

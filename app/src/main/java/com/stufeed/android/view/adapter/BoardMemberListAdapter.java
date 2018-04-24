@@ -24,10 +24,14 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
 
     private Context context;
     private ArrayList<GetBoardMemberListResponse.User> userArrayList;
+    private boolean isAdmin;
 
-    public BoardMemberListAdapter(Context context, ArrayList<GetBoardMemberListResponse.User> userArrayList) {
+    public BoardMemberListAdapter(Context context,
+                                  ArrayList<GetBoardMemberListResponse.User> userArrayList,
+                                  boolean isAdmin) {
         this.context = context;
         this.userArrayList = userArrayList;
+        this.isAdmin = isAdmin;
     }
 
     @Override
@@ -41,6 +45,8 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.binding.setUser(userArrayList.get(position));
         holder.binding.setAdapter(this);
+        holder.binding.setRemove(isAdmin);
+
     }
 
     @Override

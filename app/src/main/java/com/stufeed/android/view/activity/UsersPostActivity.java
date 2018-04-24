@@ -13,6 +13,7 @@ import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.databinding.ActivityUsersPostBinding;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.FeedListAdapter;
+import com.stufeed.android.view.adapter.UserFeedListAdapter;
 
 import java.util.ArrayList;
 
@@ -80,7 +81,7 @@ public class UsersPostActivity extends AppCompatActivity {
         mBinding.msgTxt.setVisibility(View.GONE);
         mBinding.recyclerView.setVisibility(View.VISIBLE);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(UsersPostActivity.this));
-     //   FeedListAdapter adapter = new FeedListAdapter(UsersPostActivity.this, postArrayList);
-     //   mBinding.recyclerView.setAdapter(adapter);
+        UserFeedListAdapter adapter = new UserFeedListAdapter(UsersPostActivity.this, postArrayList);
+        mBinding.recyclerView.setAdapter(adapter);
     }
 }

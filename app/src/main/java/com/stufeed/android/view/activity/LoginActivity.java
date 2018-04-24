@@ -1,11 +1,16 @@
 package com.stufeed.android.view.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -79,6 +84,8 @@ public class LoginActivity extends AppCompatActivity {
      * @param loginModel @LoginModel
      */
     public void onLoginBtnClick(LoginModel loginModel) {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        loginModel.setDeviceToken(refreshedToken);
         if (validate(loginModel)) {
             Api api = APIClient.getClient().create(Api.class);
             final Call<LoginResponse> responseCall = api.login(loginModel.getEmail(), loginModel.getPassword(),
@@ -148,5 +155,4 @@ public class LoginActivity extends AppCompatActivity {
             Utility.showErrorMsg(LoginActivity.this);
         }
     }
-
 }
