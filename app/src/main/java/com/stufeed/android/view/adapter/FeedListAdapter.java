@@ -35,6 +35,7 @@ import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.BoardSelectionActivity;
 import com.stufeed.android.view.activity.CommentPostActivity;
+import com.stufeed.android.view.activity.EditPostActivity;
 import com.stufeed.android.view.activity.FullImageActivity;
 import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
@@ -275,6 +276,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuEdit:
+                        Intent intent = new Intent(context.getActivity(), EditPostActivity.class);
+                        intent.putExtra("item", post);
+                        context.startActivityForResult(intent, 192);
                         break;
                     case R.id.menuDelete:
                         showDeleteConfirmatinDialog(post);
@@ -393,6 +397,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     public void onSavePostBtnClick(final GetPostResponse.Post post) {
         if (!TextUtils.isEmpty(post.getIsBookmark())) {
             if (post.getIsBookmark().equals("1")) {
+                onRemovePostBtnClick(post);
                 return;
             }
         }
@@ -411,6 +416,33 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                 });
     }
 
+
+    /**
+     * show remove saved post confirmation dialog
+     *
+     * @param post {@link GetPostResponse.Post}
+     */
+    private void onRemovePostBtnClick(final GetPostResponse.Post post) {
+        if (!TextUtils.isEmpty(post.getIsBookmark())) {
+            if (post.getIsBookmark().equals("0")) {
+                return;
+            }
+        }
+        Utility.setDialog(context.getActivity(), "Message", "Do you want to unbookmark this post.", "No", "Yes",
+                new DialogListener() {
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onPositive(DialogInterface dialog) {
+                        dialog.dismiss();
+                        removePost(post);
+                    }
+                });
+    }
+
     /**
      * Call service for save post
      *
@@ -425,6 +457,32 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
                 post.setIsBookmark("1");
+                notifyItemChanged(postArrayList.indexOf(post));
+                Utility.showToast(context.getActivity(), "Bookmark Post successfully.");
+            }
+
+            @Override
+            public void onFailure(Call<SavePostResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(context.getActivity());
+            }
+        });
+    }
+
+    /**
+     * Call service for save post
+     *
+     * @param post
+     */
+    private void removePost(final GetPostResponse.Post post) {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<SavePostResponse> responseCall = api.removePost(loginUserId, post.getPostId());
+        ProgressDialog.getInstance().showProgressDialog(context.getActivity());
+        responseCall.enqueue(new Callback<SavePostResponse>() {
+            @Override
+            public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                post.setIsBookmark("0");
                 notifyItemChanged(postArrayList.indexOf(post));
                 Utility.showToast(context.getActivity(), "Bookmark Post successfully.");
             }

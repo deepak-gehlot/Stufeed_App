@@ -2,10 +2,13 @@
 <layout>
 
     <data>
-
         <variable
             name="activity"
-            type="com.stufeed.android.view.activity.InstitutePostActivity" />
+            type="com.stufeed.android.view.activity.EditPostActivity"/>
+
+        <variable
+            name="model"
+            type="com.stufeed.android.view.viewmodel.EditPostModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,9 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        tools:context=".view.activity.InstitutePostActivity">
-
+        tools:context="com.stufeed.android.view.activity.PostActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -29,8 +30,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:navigationIcon="@drawable/back_icon"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="Post" />
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -63,7 +63,8 @@
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
                         android:paddingTop="12dp"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:text="@={model.title}" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -88,33 +89,9 @@
                         android:paddingBottom="12dp"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="12dp" />
+                        android:paddingTop="12dp"
+                        android:text="@={model.description}" />
                 </android.support.design.widget.TextInputLayout>
-
-                <!-- Image View Layout Start    -->
-                <RelativeLayout
-                    android:id="@+id/selectedImgLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_margin="16dp"
-                    android:layout_marginBottom="5dp"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:id="@+id/selectedImg"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:background="#19000000"
-                        android:padding="5dp"
-                        android:src="@drawable/close_icon" />
-                </RelativeLayout>
-                <!-- Image View Layout End    -->
 
             </LinearLayout>
         </ScrollView>
@@ -133,66 +110,28 @@
             android:layout_alignParentBottom="true"
             android:background="@color/bg_color">
 
+
             <ImageView
-                android:id="@+id/attachmentIcon"
+                android:id="@+id/settingIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:onClick="@{()->activity.onAttachmentButtonClick()}"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/attachmentIcon"
+                android:onClick="@{()->activity.showSettingDialog()}"
                 android:padding="10dp"
-                android:src="@drawable/attachment_icon"
+                android:src="@drawable/settings_icon"
                 android:tint="@color/button_color" />
-
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="10dp"
-                android:onClick="@{()->activity.onPostButtonClick()}"
+                android:onClick="@{()->activity.onPostButtonClick(model)}"
                 android:src="@drawable/send_icon"
                 android:tint="@color/white" />
 
         </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/postSelectionLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/bg_color"
-            android:orientation="vertical"
-
-            android:padding="16dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:onClick="@{()->activity.onClickBoard()}"
-                android:padding="@dimen/dimen_10dp"
-                android:text="Board"
-                android:textColor="#000000"
-                android:textSize="@dimen/dimen_14sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/grey_color" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:onClick="@{()->activity.onClickEdukit()}"
-                android:padding="@dimen/dimen_10dp"
-                android:text="Edukit"
-                android:textColor="#000000"
-                android:textSize="@dimen/dimen_14sp" />
-
-        </LinearLayout>
-
     </RelativeLayout>
 </layout>

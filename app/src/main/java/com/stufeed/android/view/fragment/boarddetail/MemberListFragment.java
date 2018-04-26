@@ -67,7 +67,7 @@ public class MemberListFragment extends Fragment {
 
     private void setRecyclerView(ArrayList<GetBoardMemberListResponse.User> userArrayList) {
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        BoardMemberListAdapter adapter = new BoardMemberListAdapter(getActivity(), userArrayList, isAdmin);
+        BoardMemberListAdapter adapter = new BoardMemberListAdapter(getActivity(), userArrayList, boardId, isAdmin);
         mBinding.recyclerView.setAdapter(adapter);
     }
 

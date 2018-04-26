@@ -57,7 +57,7 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         getAllPost();
         binding.pullToRefresh.setOnRefreshListener(this);
 
-        ((HomeActivity) getActivity()).showHideSearchIcon(0,false);
+        ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
     }
 
     @Override
@@ -75,6 +75,8 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 GetPostResponse.Post post = data.getParcelableExtra(CommentPostActivity.TAG_POST);
                 int position = data.getIntExtra(CommentPostActivity.TAG_POSITION, -1);
                 adapter.refreshItem(position, post);
+            } else if (requestCode == 192) {
+                getAllPost();
             } else {    // re post
                 String boardId = data.getStringExtra("board_id");
                 String postId = data.getStringExtra("post_id");

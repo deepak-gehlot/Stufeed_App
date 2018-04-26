@@ -86,6 +86,17 @@ public interface Api {
     Call<PostResponse> post(@PartMap Map<String, RequestBody> map);
 
     @FormUrlEncoded
+    @POST("editPost")
+    Call<PostResponse> editPost(@Field("userid") String userId,
+                            @Field("postid") String postId,
+                            @Field("boardid") String boardId,
+                            @Field("title") String title,
+                            @Field("description") String description,
+                            @Field("alowcomment") String allowComment,
+                            @Field("Alowrepost") String allowRePost
+    );
+
+    @FormUrlEncoded
     @POST("getpost")
     Call<GetPostResponse> getAllPost(@Field("userid") String userId);
 
@@ -122,6 +133,11 @@ public interface Api {
     @POST("savepost")
     Call<SavePostResponse> savePost(@Field("userid") String userId,
                                     @Field("postid") String postId);
+
+    @FormUrlEncoded
+    @POST("removePost")
+    Call<SavePostResponse> removePost(@Field("userid") String userId,
+                                      @Field("postid") String postId);
 
     @FormUrlEncoded
     @POST("follow")
@@ -184,6 +200,13 @@ public interface Api {
     Call<JoinBoardResponse> requestJoinBoard(@Field("userid") String userId,
                                              @Field("boardid") String boardId,
                                              @Field("joinerid") String joinUserId);
+
+    @FormUrlEncoded
+    @POST("removeJoinBoardUser")
+    Call<Response> removeBoardMember(@Field("userid") String userId,
+                                     @Field("boardid") String boardId,
+                                     @Field("joinerid") String joinerId);
+
 
     @FormUrlEncoded
     @POST("getuserJoinboard")

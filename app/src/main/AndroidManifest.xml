@@ -38,9 +38,9 @@
         <activity
             android:name=".view.activity.PostActivity"
             android:label="@string/title_activity_post"
-            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.activity.SelectCollegeActivity"
             android:screenOrientation="portrait"
@@ -134,11 +134,21 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".view.activity.InstitutePostActivity"
+        <activity
+            android:name=".view.activity.InstitutePostActivity"
             android:label="@string/title_activity_post"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".view.activity.EdukitSelectionActivity" />
+        <activity android:name=".view.activity.EdukitBoardActivity" />
+
+        <activity
+            android:name=".view.activity.EditPostActivity"
+            android:label="@string/title_activity_edit_post"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

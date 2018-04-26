@@ -6,28 +6,23 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.stufeed.android.view.activity.BoardSelectionActivity">
+        android:background="@color/bg_color"
+        tools:context=".view.activity.EdukitBoardActivity">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:title="Select Board"
+            app:title="Board"
             app:titleTextColor="@color/white" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolBar"
+            android:padding="@dimen/dimen_10dp" />
 
     </RelativeLayout>
 </layout>

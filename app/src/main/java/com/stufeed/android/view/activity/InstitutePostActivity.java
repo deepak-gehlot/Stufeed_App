@@ -32,6 +32,7 @@ public class InstitutePostActivity extends AppCompatActivity {
     private ActivityInstitutePostBinding mBinding;
     private final int SELECT_DOC = 101;
     private final int SELECT_BOARD = 102;
+    private final int SELECT_EDUKIT = 103;
     private AQuery aQuery;
 
     @Override
@@ -70,6 +71,15 @@ public class InstitutePostActivity extends AppCompatActivity {
                     Utility.showToast(InstitutePostActivity.this, "Selection canceled.");
                     break;
             }
+        } else if (requestCode == SELECT_EDUKIT) {
+            switch (resultCode) {
+                case RESULT_OK:
+
+                    break;
+                case RESULT_CANCELED:
+                    Utility.showToast(InstitutePostActivity.this, "Selection canceled.");
+                    break;
+            }
         } else {
             EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
                 @Override
@@ -82,6 +92,25 @@ public class InstitutePostActivity extends AppCompatActivity {
             });
         }
     }
+
+    public void onPostButtonClick() {
+        // need to validate post
+        mBinding.postSelectionLayout.setVisibility(View.VISIBLE);
+
+    }
+
+    public void onClickBoard() {
+        Intent intent = new Intent(InstitutePostActivity.this, EdukitBoardActivity.class);
+        startActivityForResult(intent, SELECT_BOARD);
+        mBinding.postSelectionLayout.setVisibility(View.GONE);
+    }
+
+    public void onClickEdukit() {
+        Intent intent = new Intent(InstitutePostActivity.this, EdukitSelectionActivity.class);
+        startActivityForResult(intent, SELECT_EDUKIT);
+        mBinding.postSelectionLayout.setVisibility(View.GONE);
+    }
+
 
     /**
      * On attachment button click

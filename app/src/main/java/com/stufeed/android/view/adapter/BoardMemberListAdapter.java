@@ -8,13 +8,19 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.stufeed.android.R;
+import com.stufeed.android.api.APIClient;
+import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetBoardMemberListResponse;
+import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.RowBoardMemberBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * Created by Deepak Gehlot on 4/9/2018.
@@ -25,13 +31,17 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
     private Context context;
     private ArrayList<GetBoardMemberListResponse.User> userArrayList;
     private boolean isAdmin;
+    private String mLoginUserId = "";
+    private String boardId = "";
 
     public BoardMemberListAdapter(Context context,
                                   ArrayList<GetBoardMemberListResponse.User> userArrayList,
-                                  boolean isAdmin) {
+                                  String boardId, boolean isAdmin) {
         this.context = context;
         this.userArrayList = userArrayList;
         this.isAdmin = isAdmin;
+        this.boardId = boardId;
+        mLoginUserId = Utility.getLoginUserId(context);
     }
 
     @Override
@@ -64,13 +74,13 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
         }
     }
 
-    public void onClickRemove() {
+    public void onClickRemove(final GetBoardMemberListResponse.User user) {
         Utility.setDialog(context, "Alert", "Do you want to remove from board?",
                 "No", "Yes", new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
                         dialog.dismiss();
-                        ProgressDialog.getInstance().showProgressDialog(context);
+                        removeUser(user);
                     }
 
                     @Override
@@ -78,5 +88,27 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
                         dialog.dismiss();
                     }
                 });
+    }
+
+    private void removeUser(final GetBoardMemberListResponse.User user) {
+        ProgressDialog.getInstance().showProgressDialog(context);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<Response> responseCall = api.removeBoardMember(mLoginUserId, boardId, user.getUserId());
+        responseCall.enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                int index = userArrayList.indexOf(user);
+                userArrayList.remove(index);
+                notifyItemRemoved(index);
+            }
+
+            @Override
+            public void onFailure(Call<Response> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showToast(context, context.getString(R.string.wrong));
+
+            }
+        });
     }
 }
