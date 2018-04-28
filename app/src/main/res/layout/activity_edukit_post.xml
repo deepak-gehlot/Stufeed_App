@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_color"
-        tools:context=".view.activity.EdukitBoardActivity">
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".view.activity.EdukitPostActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:title="Board"
+            app:navigationIcon="@drawable/back_icon"
+            app:title="Edukit"
             app:titleTextColor="@color/white" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolBar"
             android:padding="@dimen/dimen_10dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

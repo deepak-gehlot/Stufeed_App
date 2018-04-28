@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.androidquery.AQuery;
 import com.stufeed.android.R;
+import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.bean.DrawerItem;
 import com.stufeed.android.databinding.ActivityHomeBinding;
 import com.stufeed.android.listener.DialogListener;
@@ -35,6 +36,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     private ActivityHomeBinding binding;
     private int searchType = 0;
+    private String userType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         Utility.addFragment(this, FeedFragment.newInstance(), "FeedFragment", binding.frame.getId());
 
+        UserDetail userDetail = Utility.getLoginUserDetail(this);
+        userType = userDetail.getUserType();
         setNavigationList();
     }
 
@@ -97,18 +101,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 Utility.addFragment(this, ConnectFragment.newInstance(), "ConnectFragment", binding.frame.getId());
                 break;
             case R.id.navigation_post:  // PostActivity
-                Utility.setDialog(HomeActivity.this, "Alert", "testing", "UserPost", "InstitutePost",
-                        new DialogListener() {
-                            @Override
-                            public void onNegative(DialogInterface dialog) {
-                                startActivity(new Intent(HomeActivity.this, PostActivity.class));
-                            }
-
-                            @Override
-                            public void onPositive(DialogInterface dialog) {
-                                startActivity(new Intent(HomeActivity.this, InstitutePostActivity.class));
-                            }
-                        });
+                if (userType.equals("4")) {
+                    startActivity(new Intent(HomeActivity.this, InstitutePostActivity.class));
+                } else {
+                    startActivity(new Intent(HomeActivity.this, PostActivity.class));
+                }
                 return false;
             case R.id.navigation_board:
                 Utility.addFragment(this, BoardFragment.newInstance(), "BoardFragment", binding.frame.getId());

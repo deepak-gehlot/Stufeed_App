@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +92,7 @@ public class StudentFragment extends Fragment {
         if (response == null) {
             Utility.showErrorMsg(getActivity());
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            userArrayList = response.getUserArrayList();
             setRecyclerView(response.getUserArrayList());
         }
     }
@@ -109,7 +111,6 @@ public class StudentFragment extends Fragment {
                 int type = bundle.getInt("type");
                 if (type == 2) {
                     String search = bundle.getString("search");
-                    Utility.showToast(getActivity(), search);
 
                     //new array list that will hold the filtered data
                     ArrayList<GetCollegeUserResponse.User> userArrayListNew = new ArrayList<>();
@@ -117,7 +118,9 @@ public class StudentFragment extends Fragment {
                     //looping through existing elements
                     for (GetCollegeUserResponse.User s : userArrayList) {
                         //if the existing elements contains the search input
-                        if (s.getFullName().toLowerCase().contains(search.toLowerCase())) {
+                        if (TextUtils.isEmpty(search)) {
+                            userArrayListNew.add(s);
+                        } else if (s.getFullName().toLowerCase().contains(search.toLowerCase())) {
                             //adding the element to filtered list
                             userArrayListNew.add(s);
                         }

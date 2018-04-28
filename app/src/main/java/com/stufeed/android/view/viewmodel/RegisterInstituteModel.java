@@ -20,7 +20,7 @@ public class RegisterInstituteModel extends BaseObservable {
     @SerializedName("password")
     private String password = "";
     @SerializedName("usertype")
-    private String userType = "";
+    private String userType = "4";
     @SerializedName("contactno")
     private String contactNo = "";
     @SerializedName("institutiontype")

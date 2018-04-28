@@ -58,9 +58,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String searchTxt = mBinding.editText.getText().toString().trim();
-                if (!TextUtils.isEmpty(searchTxt)) {
-                    setResult(searchTxt);
-                }
+                setResult(searchTxt);
             }
         });
         mBinding.editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

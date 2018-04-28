@@ -41,7 +41,7 @@ public class VerifyAccountActivity extends AppCompatActivity {
 
     private void verify(String code) {
         Api api = APIClient.getClient().create(Api.class);
-        String userId = Utility.getLoginUserId(VerifyAccountActivity.this);
+        String userId = PreferenceConnector.readString(VerifyAccountActivity.this, PreferenceConnector.USER_ID, "");
         Call<VerifyResponse> responseCall = api.verifyEmail(userId, code);
         ProgressDialog.getInstance().showProgressDialog(VerifyAccountActivity.this);
         responseCall.enqueue(new Callback<VerifyResponse>() {

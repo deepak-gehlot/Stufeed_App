@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -15,17 +16,28 @@ import com.github.jksiezni.permissive.PermissionsGrantedListener;
 import com.github.jksiezni.permissive.PermissionsRefusedListener;
 import com.github.jksiezni.permissive.Permissive;
 import com.stufeed.android.R;
+import com.stufeed.android.api.APIClient;
+import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.PostResponse;
 import com.stufeed.android.databinding.ActivityInstitutePostBinding;
 import com.stufeed.android.databinding.DialogInstitutePostSelectorBinding;
 import com.stufeed.android.databinding.DialogPostSelectorBinding;
+import com.stufeed.android.util.Extension;
+import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.util.ValidationTemplate;
+import com.stufeed.android.view.viewmodel.EdukitPostModel;
 import com.stufeed.android.view.viewmodel.PostModel;
 
 import java.io.File;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InstitutePostActivity extends AppCompatActivity {
 
@@ -41,7 +53,9 @@ public class InstitutePostActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_institute_post);
         mBinding.setActivity(this);
         aQuery = new AQuery(this);
-
+        EdukitPostModel edukitPostModel = new EdukitPostModel();
+        edukitPostModel.setUserId(Utility.getLoginUserId(this));
+        mBinding.setModel(edukitPostModel);
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +79,11 @@ public class InstitutePostActivity extends AppCompatActivity {
         } else if (requestCode == SELECT_BOARD) {
             switch (resultCode) {
                 case RESULT_OK:
-
+                    EdukitPostModel postModel = mBinding.getModel();
+                    String boardId = data.getStringExtra("board_id");
+                    postModel.setBoardId(boardId);
+                    postModel.setType("Board");
+                    post(mBinding.getModel());
                     break;
                 case RESULT_CANCELED:
                     Utility.showToast(InstitutePostActivity.this, "Selection canceled.");
@@ -74,7 +92,11 @@ public class InstitutePostActivity extends AppCompatActivity {
         } else if (requestCode == SELECT_EDUKIT) {
             switch (resultCode) {
                 case RESULT_OK:
-
+                    EdukitPostModel postModel = mBinding.getModel();
+                    String boardId = data.getStringExtra("edukit_id");
+                    postModel.setEdukitId(boardId);
+                    post(mBinding.getModel());
+                    postModel.setType("Edukit");
                     break;
                 case RESULT_CANCELED:
                     Utility.showToast(InstitutePostActivity.this, "Selection canceled.");
@@ -87,30 +109,55 @@ public class InstitutePostActivity extends AppCompatActivity {
                     File file = imageFiles.get(0);
                     mBinding.selectedImgLayout.setVisibility(View.VISIBLE);
                     aQuery.id(mBinding.selectedImg).image(file, 300);
-                    //mBinding.getModel().setFile(file);
+                    mBinding.getModel().setFile(file);
                 }
             });
         }
     }
 
-    public void onPostButtonClick() {
+    /**
+     * Post button click
+     */
+    public void onPostButtonClick(EdukitPostModel edukitPostModel) {
         // need to validate post
-        mBinding.postSelectionLayout.setVisibility(View.VISIBLE);
-
+        if (validate(edukitPostModel)) {
+            mBinding.postSelectionLayout.setVisibility(View.VISIBLE);
+        }
     }
 
+    /**
+     * validate post
+     */
+    public boolean validate(EdukitPostModel edukitPostModel) {
+        if (TextUtils.isEmpty(edukitPostModel.getTitle()) || TextUtils.isEmpty(edukitPostModel.getDescription()) ||
+                edukitPostModel.getFile() == null) {
+            Utility.showToast(InstitutePostActivity.this, "All required");
+            return false;
+        } else if (!Extension.getInstance().executeStrategy(InstitutePostActivity.this, "", ValidationTemplate.INTERNET)) {
+            Utility.setNoInternetPopup(InstitutePostActivity.this);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Select board click
+     */
     public void onClickBoard() {
         Intent intent = new Intent(InstitutePostActivity.this, EdukitBoardActivity.class);
         startActivityForResult(intent, SELECT_BOARD);
         mBinding.postSelectionLayout.setVisibility(View.GONE);
     }
 
+    /**
+     * Select Edukit click
+     */
     public void onClickEdukit() {
         Intent intent = new Intent(InstitutePostActivity.this, EdukitSelectionActivity.class);
         startActivityForResult(intent, SELECT_EDUKIT);
         mBinding.postSelectionLayout.setVisibility(View.GONE);
     }
-
 
     /**
      * On attachment button click
@@ -185,5 +232,44 @@ public class InstitutePostActivity extends AppCompatActivity {
                 Utility.showToast(InstitutePostActivity.this, "Need permission to open gallery.");
             }
         }).execute(InstitutePostActivity.this);
+    }
+
+    private void post(EdukitPostModel edukitPostModel) {
+        Api api = APIClient.getClient().create(Api.class);
+        MultipartBody.Part part = edukitPostModel.prepareFilePart("file", edukitPostModel.getFile());
+
+        Call<PostResponse> responseCall = api.institutePost(edukitPostModel.getPostBody(), part);
+        ProgressDialog.getInstance().showProgressDialog(InstitutePostActivity.this);
+        responseCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handlePostResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(InstitutePostActivity.this);
+            }
+        });
+    }
+
+    /**
+     * Handle post response
+     *
+     * @param postResponse @PostResponse
+     */
+    private void handlePostResponse(PostResponse postResponse) {
+        if (postResponse != null) {
+            if (postResponse.getResponseCode().equals(Api.SUCCESS)) {
+                Utility.showToast(InstitutePostActivity.this, "Posted Successfully.");
+                finish();
+            } else {
+                Utility.showToast(InstitutePostActivity.this, postResponse.getResponseMessage());
+            }
+        } else {
+            Utility.showErrorMsg(InstitutePostActivity.this);
+        }
     }
 }

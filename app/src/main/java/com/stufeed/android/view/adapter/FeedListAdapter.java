@@ -110,6 +110,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             case "4":  // for poll
                 holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
                 holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
+
                 holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
                 holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
                 for (int i = 0; i < post.getOptionArrayList().size(); i++) {
@@ -132,7 +133,20 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                             holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
                         }
-                        holder.rowBinding.totalCount1.setText(post.getOptionArrayList().get(i).getTotalVote());
+
+                        int firstValue = 0, secondValue = 0;
+                        int total = 0;
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                            firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                        }
+
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                            secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                        }
+                        total = firstValue + secondValue;
+                        int firstPer = (firstValue / total) * 100;
+
+                        holder.rowBinding.totalCount1.setText("" + firstPer);
                     } else if (i == 1) {
                         if (!TextUtils.isEmpty(select) && select.equals("1")) {
                             holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
@@ -143,7 +157,19 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                             holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
                         }
-                        holder.rowBinding.totalCount2.setText(post.getOptionArrayList().get(i).getTotalVote());
+                        int firstValue = 0, secondValue = 0;
+                        int total = 0;
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                            firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                        }
+
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                            secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                        }
+                        total = firstValue + secondValue;
+                        int firstPer = (secondValue / total) * 100;
+
+                        holder.rowBinding.totalCount2.setText("" + firstPer);
                     }
                 }
 

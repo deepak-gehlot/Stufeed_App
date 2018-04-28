@@ -4,6 +4,10 @@
     <data>
 
         <variable
+            name="model"
+            type="com.stufeed.android.view.viewmodel.EdukitPostModel" />
+
+        <variable
             name="activity"
             type="com.stufeed.android.view.activity.InstitutePostActivity" />
     </data>
@@ -63,7 +67,8 @@
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
                         android:paddingTop="12dp"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:text="@={model.title}" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -87,6 +92,7 @@
                         android:linksClickable="true"
                         android:paddingBottom="12dp"
                         android:paddingEnd="16dp"
+                        android:text="@={model.description}"
                         android:paddingStart="16dp"
                         android:paddingTop="12dp" />
                 </android.support.design.widget.TextInputLayout>
@@ -150,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="10dp"
-                android:onClick="@{()->activity.onPostButtonClick()}"
+                android:onClick="@{()->activity.onPostButtonClick(model)}"
                 android:src="@drawable/send_icon"
                 android:tint="@color/white" />
 

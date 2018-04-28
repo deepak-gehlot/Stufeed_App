@@ -42,7 +42,7 @@ public class EdukitSelectionActivity extends AppCompatActivity {
             @Override
             public void onClick(int position, Object obj) {
                 Intent intent = new Intent();
-                intent.putExtra("id", edukitItems.get(position).getId());
+                intent.putExtra("edukit_id", edukitItems.get(position).getId());
                 setResult(RESULT_OK, intent);
                 finish();
             }

@@ -378,4 +378,9 @@ public interface Api {
     @POST("getpostbyboardid")
     Call<Response> getPostByBoardId(@Field("userid") String userId,
                                     @Field("boardid") String boardId);
+
+
+    @Multipart
+    @POST("institutePost")
+    Call<PostResponse> institutePost(@PartMap Map<String, RequestBody> map, @Part MultipartBody.Part file);
 }

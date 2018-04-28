@@ -3,6 +3,7 @@ package com.stufeed.android.view.activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
 import com.stufeed.android.api.response.UpdateCollegeResponse;
 import com.stufeed.android.databinding.RegisterInstituteBinding;
+import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.viewmodel.RegisterInstituteModel;
@@ -78,6 +80,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                 registerInstituteModel.setUniversityName(college.getUniversityName());
                 registerInstituteModel.setWebsite(college.getWebsite());
                 registerInstituteModel.setYearOfEstablishment(college.getYearOfEstablishment());
+                mBinding.mainContent.setModel(registerInstituteModel);
             }
         });
     }
@@ -248,8 +251,8 @@ public class RegisterInstituteActivity extends AppCompatActivity {
 
     private void registerService(RegisterInstituteModel registerInstituteModel) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetInstituteRegistrationResponse> responseCall = api.registerInstitute(registerInstituteModel
-                        .getCollegeId(), registerInstituteModel.getCollegeName(),
+        Call<GetInstituteRegistrationResponse> responseCall = api.registerInstitute(
+                registerInstituteModel.getCollegeId(), registerInstituteModel.getCollegeName(),
                 registerInstituteModel.getEmail(), registerInstituteModel.getPassword(),
                 registerInstituteModel.getUserType(), registerInstituteModel.getContactNo(),
                 registerInstituteModel.getInstitutionType(), registerInstituteModel.getUniversityName(),
@@ -287,7 +290,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         }
     }
 
-    private void setCollege(String userId, String collegeId) {
+    private void setCollege(final String userId, String collegeId) {
         Api api = APIClient.getClient().create(Api.class);
         Call<UpdateCollegeResponse> responseCall = api.setCollegeId(userId, collegeId);
         ProgressDialog.getInstance().showProgressDialog(RegisterInstituteActivity.this);
@@ -295,7 +298,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UpdateCollegeResponse> call, Response<UpdateCollegeResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
-                handleSetCollegeResponse(response.body());
+                handleSetCollegeResponse(response.body(), userId);
             }
 
             @Override
@@ -306,10 +309,11 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         });
     }
 
-    private void handleSetCollegeResponse(UpdateCollegeResponse response) {
+    private void handleSetCollegeResponse(UpdateCollegeResponse response, String userId) {
         if (response == null) {
             Utility.showErrorMsg(RegisterInstituteActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            PreferenceConnector.writeString(RegisterInstituteActivity.this, PreferenceConnector.USER_ID, userId);
             startActivity(new Intent(RegisterInstituteActivity.this, VerifyAccountActivity.class));
             finish();
         } else {

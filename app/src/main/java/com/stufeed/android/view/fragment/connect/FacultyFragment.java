@@ -113,7 +113,6 @@ public class FacultyFragment extends Fragment {
                 int type = bundle.getInt("type");
                 if (type == 1) {
                     String search = bundle.getString("search");
-                    Utility.showToast(getActivity(), search);
 
                     //new array list that will hold the filtered data
                     ArrayList<GetCollegeUserResponse.User> userArrayListNew = new ArrayList<>();
