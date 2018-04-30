@@ -9,6 +9,8 @@ public class UserDetail {
 
     @SerializedName("Userid")
     private String userId;
+    @SerializedName("Collegeid")
+    private String collegeId;
     @SerializedName("Fullname")
     private String fullName;
     @SerializedName("Email")
@@ -19,6 +21,8 @@ public class UserDetail {
     private String contactNo;
     @SerializedName("Profilepic")
     private String profilePic = "";
+    @SerializedName("noti_count")
+    private String notiCount = "";
 
     public String getUserId() {
         return userId;
@@ -66,5 +70,21 @@ public class UserDetail {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public String getCollegeId() {
+        return collegeId;
+    }
+
+    public void setCollegeId(String collegeId) {
+        this.collegeId = collegeId;
+    }
+
+    public String getNotiCount() {
+        return notiCount;
+    }
+
+    public void setNotiCount(String notiCount) {
+        this.notiCount = notiCount;
     }
 }

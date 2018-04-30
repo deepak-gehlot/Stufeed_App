@@ -55,6 +55,7 @@ public class InstitutePostActivity extends AppCompatActivity {
         aQuery = new AQuery(this);
         EdukitPostModel edukitPostModel = new EdukitPostModel();
         edukitPostModel.setUserId(Utility.getLoginUserId(this));
+        edukitPostModel.setUserId("45");
         mBinding.setModel(edukitPostModel);
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +82,10 @@ public class InstitutePostActivity extends AppCompatActivity {
                 case RESULT_OK:
                     EdukitPostModel postModel = mBinding.getModel();
                     String boardId = data.getStringExtra("board_id");
+                    mBinding.getModel().setPostValue("1");
                     postModel.setBoardId(boardId);
-                    postModel.setType("Board");
-                    post(mBinding.getModel());
+                    postModel.setType("0");
+                    post(postModel);
                     break;
                 case RESULT_CANCELED:
                     Utility.showToast(InstitutePostActivity.this, "Selection canceled.");
@@ -93,10 +95,11 @@ public class InstitutePostActivity extends AppCompatActivity {
             switch (resultCode) {
                 case RESULT_OK:
                     EdukitPostModel postModel = mBinding.getModel();
+                    mBinding.getModel().setPostValue("1");
                     String boardId = data.getStringExtra("edukit_id");
                     postModel.setEdukitId(boardId);
-                    post(mBinding.getModel());
-                    postModel.setType("Edukit");
+                    postModel.setType("1");
+                    post(postModel);
                     break;
                 case RESULT_CANCELED:
                     Utility.showToast(InstitutePostActivity.this, "Selection canceled.");
@@ -110,6 +113,7 @@ public class InstitutePostActivity extends AppCompatActivity {
                     mBinding.selectedImgLayout.setVisibility(View.VISIBLE);
                     aQuery.id(mBinding.selectedImg).image(file, 300);
                     mBinding.getModel().setFile(file);
+                    mBinding.getModel().setPostValue("3");
                 }
             });
         }
@@ -236,7 +240,13 @@ public class InstitutePostActivity extends AppCompatActivity {
 
     private void post(EdukitPostModel edukitPostModel) {
         Api api = APIClient.getClient().create(Api.class);
-        MultipartBody.Part part = edukitPostModel.prepareFilePart("file", edukitPostModel.getFile());
+        MultipartBody.Part part;
+        if (edukitPostModel.getPostValue().equals("3")) {
+            part = edukitPostModel.prepareFilePart("image", edukitPostModel.getFile());
+        } else {
+            part = edukitPostModel.prepareFilePart("file", edukitPostModel.getFile());
+        }
+
 
         Call<PostResponse> responseCall = api.institutePost(edukitPostModel.getPostBody(), part);
         ProgressDialog.getInstance().showProgressDialog(InstitutePostActivity.this);

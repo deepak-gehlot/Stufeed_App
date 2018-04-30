@@ -47,9 +47,9 @@ public class EduKitFragment extends Fragment {
     }
 
     public void onItemClick(int positoin) {
+        String id = "";
         switch (positoin) {
             case 1:
-
                 break;
             case 2:
                 break;
@@ -66,6 +66,7 @@ public class EduKitFragment extends Fragment {
         }
 
         Intent intent = new Intent(getActivity(), EdukitPostActivity.class);
+        intent.putExtra("edukit_id", "" +positoin);
         startActivity(intent);
     }
 

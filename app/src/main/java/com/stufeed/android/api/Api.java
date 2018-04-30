@@ -13,10 +13,12 @@ import com.stufeed.android.api.response.GetArchiveBoardListResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetBoardMemberListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetEdukitResponse;
 import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
+import com.stufeed.android.api.response.GetNotificationResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.api.response.GetUserDescriptionResponse;
@@ -48,6 +50,7 @@ import retrofit2.http.PartMap;
 public interface Api {
 
     String BASE_URL = "http://65.60.10.51/~stufeed/stufeed-webservice/";
+    String IMAGE_URL = "http://65.60.10.51/~stufeed/uploads/";
     String SUCCESS = "200";
 
     @FormUrlEncoded
@@ -88,12 +91,12 @@ public interface Api {
     @FormUrlEncoded
     @POST("editPost")
     Call<PostResponse> editPost(@Field("userid") String userId,
-                            @Field("postid") String postId,
-                            @Field("boardid") String boardId,
-                            @Field("title") String title,
-                            @Field("description") String description,
-                            @Field("alowcomment") String allowComment,
-                            @Field("Alowrepost") String allowRePost
+                                @Field("postid") String postId,
+                                @Field("boardid") String boardId,
+                                @Field("title") String title,
+                                @Field("description") String description,
+                                @Field("alowcomment") String allowComment,
+                                @Field("Alowrepost") String allowRePost
     );
 
     @FormUrlEncoded
@@ -383,4 +386,14 @@ public interface Api {
     @Multipart
     @POST("institutePost")
     Call<PostResponse> institutePost(@PartMap Map<String, RequestBody> map, @Part MultipartBody.Part file);
+
+    @FormUrlEncoded
+    @POST("getUserNotification")
+    Call<GetNotificationResponse> getUserNotification(@Field("user_id") String userId);
+
+
+    @FormUrlEncoded
+    @POST("getEdukitPost")
+    Call<GetEdukitResponse> getEdukitPost(@Field("user_id") String userId,
+                                          @Field("edukit_id") String edukitId);
 }

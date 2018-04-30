@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+
+        <variable
+            name="model"
+            type="com.stufeed.android.api.response.GetEdukitResponse.EdukitPost" />
+    </data>
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_margin="3dp"
+        android:clipToPadding="true"
+        app:cardUseCompatPadding="true">
 
-        <TextView
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/arrow_down_color_icon"
-            android:padding="@dimen/dimen_10dp"
-            android:text="Event"
-            android:textColor="@drawable/block_icon"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textViewTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/arrow_down_color_icon"
                 android:padding="@dimen/dimen_10dp"
-                android:text="@string/description"
-                android:textColor="@color/text_color" />
+                android:text="@{model.title}"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/layoutFullView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/user_default" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textViewDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dimen_10dp"
+                    android:text="@{model.description}"
+                    android:textColor="@color/text_color" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop" />
+                </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 </layout>

@@ -22,7 +22,8 @@ public class EdukitPostModel extends BaseObservable {
     private File file;
     private int allowComment = 1; // 1 = true, 0 = false
     private int allowRePost = 1;   // 1 = true, 0 = false
-    private String type = ""; // 1 = board, 2 = edukit
+    private String type = ""; // 0 = board, 1 = edukit
+    private String postValue = ""; // 3 image
     private String boardId = "0";
     private String edukitId = "0";
 
@@ -116,14 +117,24 @@ public class EdukitPostModel extends BaseObservable {
     }
 
 
-    /*user_id:1
-title:demo
-desc:desc
-allow_comment:
-allow_repost:
-post_type:aaaa
-edukit_id:1
-board_id:1,file*/
+    public String getPostValue() {
+        return postValue;
+    }
+
+    public void setPostValue(String postValue) {
+        this.postValue = postValue;
+    }
+
+    /*user_id:45
+    title:amit demo
+    desc:amit desc
+    board_id:220
+    post_value:1
+    post_type:0
+    edukit_id:44
+    file : (optional)
+    image : (optional)
+    */
     public Map<String, RequestBody> getPostBody() {
         MediaType mediaTypeText = MediaType.parse("text/plain");
         MediaType mediaTypeImage = MediaType.parse("image/*");
@@ -137,7 +148,8 @@ board_id:1,file*/
         requestBodyMap.put("allow_repost", RequestBody.create(mediaTypeText, String.valueOf(getAllowRePost()
         )));
         requestBodyMap.put("post_type", RequestBody.create(mediaTypeText, String.valueOf(getType())));
-        requestBodyMap.put("edukit_id", RequestBody.create(mediaTypeText, getBoardId()));
+        requestBodyMap.put("post_value", RequestBody.create(mediaTypeText, String.valueOf(getPostValue())));
+        requestBodyMap.put("edukit_id", RequestBody.create(mediaTypeText, getEdukitId()));
         requestBodyMap.put("board_id", RequestBody.create(mediaTypeText, getBoardId()));
         return requestBodyMap;
     }

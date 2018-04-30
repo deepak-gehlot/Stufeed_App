@@ -10,10 +10,13 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
+import com.stufeed.android.api.response.GetNotificationResponse;
+import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.ActivityNotificationBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.NotificationListAdapter;
+import com.stufeed.android.view.adapter.NotificationListItemAdapter;
 
 import java.util.ArrayList;
 
@@ -38,10 +41,53 @@ public class NotificationActivity extends AppCompatActivity {
             }
         });
 
-        getJoinBoardList();
+        getRequestList();
+        // getJoinBoardList();
     }
 
-    private void getJoinBoardList() {
+  /*  private void setRecyclerView(ArrayList<GetJoinBoardRequestResponse.Request> requestArrayList) {
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        NotificationListAdapter adapter = new NotificationListAdapter(NotificationActivity.this, requestArrayList);
+        binding.recyclerView.setAdapter(adapter);
+    }*/
+
+    private void setRecyclerView(ArrayList<GetNotificationResponse.NotiItem> notiItems) {
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        NotificationListItemAdapter adapter = new NotificationListItemAdapter(NotificationActivity.this, notiItems);
+        binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void getRequestList() {
+        ProgressDialog.getInstance().showProgressDialog(NotificationActivity.this);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetNotificationResponse> responseCall = api.getUserNotification(mLoginUserId);
+        responseCall.enqueue(new Callback<GetNotificationResponse>() {
+            @Override
+            public void onResponse(Call<GetNotificationResponse> call, retrofit2.Response<GetNotificationResponse> response) {
+                handleResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetNotificationResponse> call, Throwable t) {
+                handleResponse(null);
+            }
+        });
+    }
+
+    private void handleResponse(GetNotificationResponse response) {
+        ProgressDialog.getInstance().dismissDialog();
+        if (response == null) {
+            Utility.showToast(NotificationActivity.this, getString(R.string.wrong));
+        } else {
+            if (response.getResponseCode().equals(Api.SUCCESS)) {
+                setRecyclerView(response.getNotiItems());
+            } else {
+                Utility.showToast(NotificationActivity.this, getString(R.string.wrong));
+            }
+        }
+    }
+
+    /*private void getJoinBoardList() {
         ProgressDialog.getInstance().showProgressDialog(NotificationActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<GetJoinBoardRequestResponse> responseCall = api.getJoinBoardRequestList(mLoginUserId);
@@ -71,11 +117,7 @@ public class NotificationActivity extends AppCompatActivity {
         } else {
             Utility.showToast(NotificationActivity.this, response.getResponseMessage());
         }
-    }
+    }*/
 
-    private void setRecyclerView(ArrayList<GetJoinBoardRequestResponse.Request> requestArrayList) {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        NotificationListAdapter adapter = new NotificationListAdapter(NotificationActivity.this, requestArrayList);
-        binding.recyclerView.setAdapter(adapter);
-    }
+
 }
