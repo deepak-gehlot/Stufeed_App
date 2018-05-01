@@ -30,8 +30,11 @@ import com.stufeed.android.view.viewmodel.EdukitPostModel;
 import com.stufeed.android.view.viewmodel.PostModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
 import okhttp3.MultipartBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -68,10 +71,13 @@ public class InstitutePostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SELECT_DOC) {
+        if (requestCode == FilePickerConst.REQUEST_CODE_DOC) {
             switch (resultCode) {
                 case RESULT_OK:
-
+                    File file = new File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS).get(0));
+                    mBinding.selectedImgLayout.setVisibility(View.VISIBLE);
+                    mBinding.getModel().setFile(file);
+                    mBinding.getModel().setPostValue("1");
                     break;
                 case RESULT_CANCELED:
                     Utility.showToast(InstitutePostActivity.this, "Recording canceled.");
@@ -134,7 +140,13 @@ public class InstitutePostActivity extends AppCompatActivity {
      */
     public boolean validate(EdukitPostModel edukitPostModel) {
         if (TextUtils.isEmpty(edukitPostModel.getTitle()) || TextUtils.isEmpty(edukitPostModel.getDescription()) ||
-                edukitPostModel.getFile() == null) {
+                TextUtils.isEmpty(edukitPostModel.getPostValue())) {
+            Utility.showToast(InstitutePostActivity.this, "All required");
+            return false;
+        } else if (edukitPostModel.getPostValue().equals("3") && edukitPostModel.getFile() == null) {
+            Utility.showToast(InstitutePostActivity.this, "All required");
+            return false;
+        } else if (edukitPostModel.getPostValue().equals("1") && edukitPostModel.getFile() == null) {
             Utility.showToast(InstitutePostActivity.this, "All required");
             return false;
         } else if (!Extension.getInstance().executeStrategy(InstitutePostActivity.this, "", ValidationTemplate.INTERNET)) {
@@ -184,9 +196,7 @@ public class InstitutePostActivity extends AppCompatActivity {
                         openGallery();
                         break;
                     case R.id.documentButton:
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("file/*");
-                        startActivityForResult(intent, SELECT_DOC);
+                        pickDocument();
                         break;
                 }
             }
@@ -229,6 +239,27 @@ public class InstitutePostActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionsGranted(String[] permissions) throws SecurityException {
                         EasyImage.openGallery(InstitutePostActivity.this, 1);
+                    }
+                }).whenPermissionsRefused(new PermissionsRefusedListener() {
+            @Override
+            public void onPermissionsRefused(String[] permissions) {
+                Utility.showToast(InstitutePostActivity.this, "Need permission to open gallery.");
+            }
+        }).execute(InstitutePostActivity.this);
+    }
+
+    /**
+     * Pic document file
+     */
+    private void pickDocument() {
+        new Permissive.Request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .whenPermissionsGranted(new PermissionsGrantedListener() {
+                    @Override
+                    public void onPermissionsGranted(String[] permissions) throws SecurityException {
+                        FilePickerBuilder.getInstance().setMaxCount(1)
+                                .setSelectedFiles(new ArrayList<String>())
+                                .setActivityTheme(R.style.AppTheme)
+                                .pickFile(InstitutePostActivity.this);
                     }
                 }).whenPermissionsRefused(new PermissionsRefusedListener() {
             @Override

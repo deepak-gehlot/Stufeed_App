@@ -13,9 +13,11 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetPostResponse;
+import com.stufeed.android.api.response.GetSavedPostResponse;
 import com.stufeed.android.databinding.ActivityMyBookmarkListBinding;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.FeedListAdapter;
+import com.stufeed.android.view.adapter.SavedFeedListAdapter;
 
 import java.util.ArrayList;
 
@@ -48,18 +50,18 @@ public class MyBookmarkListActivity extends AppCompatActivity {
         mBinding.container.progressBar.setVisibility(View.VISIBLE);
         mBinding.container.msgTxt.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getAllPost(
+        Call<GetSavedPostResponse> responseCall = api.getSavedPost(
                 Utility.getLoginUserId(MyBookmarkListActivity.this));
-        responseCall.enqueue(new Callback<GetPostResponse>() {
+        responseCall.enqueue(new Callback<GetSavedPostResponse>() {
             @Override
-            public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {
+            public void onResponse(Call<GetSavedPostResponse> call, Response<GetSavedPostResponse> response) {
                 mBinding.container.progressBar.setVisibility(View.GONE);
                 mBinding.container.pullToRefresh.setRefreshing(false);
                 handleGetAllPostResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<GetPostResponse> call, Throwable t) {
+            public void onFailure(Call<GetSavedPostResponse> call, Throwable t) {
                 mBinding.container.progressBar.setVisibility(View.GONE);
                 mBinding.container.msgTxt.setVisibility(View.VISIBLE);
                 mBinding.container.msgTxt.setText(getString(R.string.wrong));
@@ -70,7 +72,7 @@ public class MyBookmarkListActivity extends AppCompatActivity {
     }
 
 
-    private void handleGetAllPostResponse(GetPostResponse getPostResponse) {
+    private void handleGetAllPostResponse(GetSavedPostResponse getPostResponse) {
         if (getPostResponse != null) {
             if (getPostResponse.getResponseCode().equals(Api.SUCCESS)) {
                 setRecyclerView(getPostResponse.getPost());
@@ -86,12 +88,12 @@ public class MyBookmarkListActivity extends AppCompatActivity {
         }
     }
 
-    private void setRecyclerView(ArrayList<GetPostResponse.Post> postArrayList) {
+    private void setRecyclerView(ArrayList<GetSavedPostResponse.Post> postArrayList) {
         mBinding.container.progressBar.setVisibility(View.GONE);
         mBinding.container.msgTxt.setVisibility(View.GONE);
         mBinding.container.recyclerView.setVisibility(View.VISIBLE);
         mBinding.container.recyclerView.setLayoutManager(new LinearLayoutManager(MyBookmarkListActivity.this));
-        //FeedListAdapter adapter = new FeedListAdapter(MyBookmarkListActivity.this, postArrayList);
-      //  mBinding.container.recyclerView.setAdapter(adapter);
+        SavedFeedListAdapter adapter = new SavedFeedListAdapter(MyBookmarkListActivity.this, postArrayList);
+        mBinding.container.recyclerView.setAdapter(adapter);
     }
 }

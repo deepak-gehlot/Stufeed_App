@@ -11,7 +11,7 @@ public class GetSavedPostResponse {
 
     private String responseMessage;
     private String responseCode;
-    @SerializedName("getpost")
+    @SerializedName("allsavedpost")
     private ArrayList<Post> post;
 
     public String getResponseMessage() {
