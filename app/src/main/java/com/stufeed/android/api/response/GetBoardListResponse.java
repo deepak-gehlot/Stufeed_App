@@ -74,6 +74,10 @@ public class GetBoardListResponse {
         private String joinType;
         @SerializedName("totaljoinboard")
         private String totalJoinBoard;
+        @SerializedName("joinCount")
+        private String joinCount = "";
+        @SerializedName("postCount")
+        private String postCount = "";
 
         public String getBoardId() {
             return boardId;
@@ -177,6 +181,22 @@ public class GetBoardListResponse {
 
         public void setTotalJoinBoard(String totalJoinBoard) {
             this.totalJoinBoard = totalJoinBoard;
+        }
+
+        public String getJoinCount() {
+            return joinCount;
+        }
+
+        public void setJoinCount(String joinCount) {
+            this.joinCount = joinCount;
+        }
+
+        public String getPostCount() {
+            return postCount;
+        }
+
+        public void setPostCount(String postCount) {
+            this.postCount = postCount;
         }
     }
 

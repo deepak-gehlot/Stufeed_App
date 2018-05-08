@@ -70,6 +70,9 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
             holder.rowBoardBinding.iconCircle.setVisibility(View.GONE);
         }
 
+        holder.rowBoardBinding.memberCount.setText(board.getJoinCount());
+        holder.rowBoardBinding.postCount.setText(board.getPostCount());
+
         holder.rowBoardBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +151,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
                         boolean isPrivate = dialogBinding.switchPrivate.isChecked();
                         boolean isCircle = dialogBinding.switchCircle.isChecked();
 
-                        if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description)) {
+                        if (!TextUtils.isEmpty(title)) {
                             dialog.dismiss();
                             editBoard(title, description, isPrivate, isCircle, board);
                         } else {

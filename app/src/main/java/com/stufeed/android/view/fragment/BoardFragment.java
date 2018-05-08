@@ -116,7 +116,7 @@ public class BoardFragment extends Fragment {
                         boolean isPrivate = dialogBinding.switchPrivate.isChecked();
                         boolean isCircle = dialogBinding.switchCircle.isChecked();
 
-                        if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description)) {
+                        if (!TextUtils.isEmpty(title)) {
                             dialog.dismiss();
                             createBoard(title, description, isPrivate, isCircle);
                         } else {

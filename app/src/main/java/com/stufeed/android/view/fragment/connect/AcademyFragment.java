@@ -1,5 +1,6 @@
 package com.stufeed.android.view.fragment.connect;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,7 +26,10 @@ import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.FragmentAcademyBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.FolloweListActivity;
 import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.UserJoinBoardActivity;
+import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
 import com.stufeed.android.view.fragment.FeedFragment;
@@ -87,6 +91,24 @@ public class AcademyFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         isVisible = isVisibleToUser;
+    }
+
+    public void onPostCountClick() {
+        Intent intent = new Intent(getActivity(), UsersPostActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
+    }
+
+    public void onBoardJoinCountClick() {
+        Intent intent = new Intent(getActivity(), UserJoinBoardActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
+    }
+
+    public void onFollowerCountClick() {
+        Intent intent = new Intent(getActivity(), FolloweListActivity.class);
+        intent.putExtra("user_id", mLoginUserId);
+        startActivity(intent);
     }
 
     public void setUserType() {

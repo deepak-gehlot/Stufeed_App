@@ -1,5 +1,6 @@
 package com.stufeed.android.view.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.cunoraz.tagview.Tag;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
@@ -24,6 +26,7 @@ import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.databinding.ActivityUserProfileBinding;
+import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
@@ -61,15 +64,11 @@ public class UserProfileActivity extends AppCompatActivity {
         getDataFromBundle();
         getBoardList();
 
-        if (user.getIsFollow().equals("1")) {
-            mBinding.container.btnFollowStatus.setText("Followed");
-        } else {
-            mBinding.container.btnFollowStatus.setVisibility(View.GONE);
-        }
-
         mBinding.container.txtUserName.setText(user.getFullName());
 
         getBasicDetails();
+
+
     }
 
     @Override
@@ -84,11 +83,28 @@ public class UserProfileActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menuBlocked:
-                block();
+                if (mBinding.container.getModel().getIsBlock().equals("1")) {
+                    unBlock();
+                } else {
+                    block();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem menuItem = menu.findItem(R.id.menuBlocked);
+        if (mBinding.container.getModel() != null) {
+            if (mBinding.container.getModel().getIsBlock().equals("1")) {
+                menuItem.setTitle("Un Block");
+            } else {
+                menuItem.setTitle("Block");
+            }
+        }
+        return true;
     }
 
     private void setTitleBackClick() {
@@ -112,19 +128,19 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public void onPostCountClick() {
         Intent intent = new Intent(UserProfileActivity.this, UsersPostActivity.class);
-        intent.putExtra("user_id", mLoginUserId);
+        intent.putExtra("user_id", user.getUserId());
         startActivity(intent);
     }
 
     public void onBoardJoinCountClick() {
         Intent intent = new Intent(UserProfileActivity.this, UserJoinBoardActivity.class);
-        intent.putExtra("user_id", mLoginUserId);
+        intent.putExtra("user_id", user.getUserId());
         startActivity(intent);
     }
 
     public void onFollowerCountClick() {
         Intent intent = new Intent(UserProfileActivity.this, FolloweListActivity.class);
-        intent.putExtra("user_id", mLoginUserId);
+        intent.putExtra("user_id", user.getUserId());
         startActivity(intent);
     }
 
@@ -202,7 +218,7 @@ public class UserProfileActivity extends AppCompatActivity {
      */
     private void getBasicDetails() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetUserDetailsResponse> responseCall = api.getUserAllInfo(user.getUserId());
+        Call<GetUserDetailsResponse> responseCall = api.getUserDetails(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<GetUserDetailsResponse>() {
             @Override
             public void onResponse(Call<GetUserDetailsResponse> call, Response<GetUserDetailsResponse> response) {
@@ -292,10 +308,29 @@ public class UserProfileActivity extends AppCompatActivity {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 mBinding.container.setModel(response.getAllDetails());
                 setUserType(response.getAllDetails().getUserType());
+
+                String description = response.getAllDetails().getAbout();
+                mBinding.container.textAboutMeData.setText(description);
+
+                String allSkills = response.getAllDetails().getSkills();
+                String skills[] = allSkills.split(",");
+                for (int i = 0; i < skills.length; i++) {
+                    if (!TextUtils.isEmpty(skills[i])) {
+                        Tag tag = new Tag(skills[i]);
+                        tagList.add(tag);
+                    }
+                }
+                if (tagList.size() == 0) {
+                    isHaveSkills = false;
+                    mBinding.container.textSkill.setVisibility(View.GONE);
+                } else {
+                    isHaveSkills = true;
+                    mBinding.container.textSkill.setVisibility(View.VISIBLE);
+                }
+                refreshFollowUnfollow();
             }
         }
-        getSkills();
-        getAbout();
+
         getAchievement();
     }
 
@@ -380,12 +415,12 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android
                     .api.response.Response> response) {
-
+                handleResponseBlockUnblock(response.body());
             }
 
             @Override
             public void onFailure(Call<com.stufeed.android.api.response.Response> call, Throwable t) {
-
+                handleResponseBlockUnblock(null);
             }
         });
     }
@@ -420,8 +455,85 @@ public class UserProfileActivity extends AppCompatActivity {
             Utility.showErrorMsg(UserProfileActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
             Utility.showToast(UserProfileActivity.this, response.getResponseMessage());
+            if (mBinding.container.getModel().getIsBlock().equals("1")) {
+                mBinding.container.getModel().setIsBlock("0");
+            } else {
+                mBinding.container.getModel().setIsBlock("1");
+            }
         } else {
             Utility.showToast(UserProfileActivity.this, response.getResponseMessage());
+        }
+    }
+
+    public void followUnFollowClick() {
+        if (mBinding.container.getModel().getIsFollow().equals("1")) {
+            setUnFollowConfirmation(mBinding.container.getModel());
+        } else {
+            setFollowConfirmation(mBinding.container.getModel());
+        }
+    }
+
+
+    private void follow() {
+        if (mBinding.container.getModel().getIsFollow().equals("1")) {
+            mBinding.container.getModel().setIsFollow("0");
+        } else {
+            mBinding.container.getModel().setIsFollow("1");
+        }
+        refreshFollowUnfollow();
+        Api api = APIClient.getClient().create(Api.class);
+        Call<FollowResponse> responseCall = api.follow(mLoginUserId, user.getUserId());
+        responseCall.enqueue(new Callback<FollowResponse>() {
+            @Override
+            public void onResponse(Call<FollowResponse> call, Response<FollowResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<FollowResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void setUnFollowConfirmation(final GetUserDetailsResponse.Details user) {
+        Utility.setDialog(UserProfileActivity.this, "Message", "Do you want to un-follow this.", "No", "Yes",
+                new DialogListener() {
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onPositive(DialogInterface dialog) {
+                        dialog.dismiss();
+                        follow();
+                    }
+                });
+    }
+
+    private void setFollowConfirmation(final GetUserDetailsResponse.Details user) {
+        Utility.setDialog(UserProfileActivity.this, "Message", "Do you want to follow this.", "No", "Yes",
+                new DialogListener() {
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onPositive(DialogInterface dialog) {
+                        dialog.dismiss();
+                        follow();
+                    }
+                });
+    }
+
+    private void refreshFollowUnfollow() {
+        if (mBinding.container.getModel().getIsFollow().equals("1")) {
+            mBinding.container.btnFollowStatus.setText("Un Follow");
+        } else {
+            mBinding.container.btnFollowStatus.setText("Follow");
         }
     }
 }

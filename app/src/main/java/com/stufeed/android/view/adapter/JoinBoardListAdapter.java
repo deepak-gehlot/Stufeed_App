@@ -68,6 +68,9 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
             holder.binding.iconCircle.setVisibility(View.GONE);
         }
 
+        holder.binding.memberCount.setText(board.getJoinCount());
+        holder.binding.postCount.setText(board.getPostCount());
+
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

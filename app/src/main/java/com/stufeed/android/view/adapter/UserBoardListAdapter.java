@@ -65,6 +65,9 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
 
         holder.rowBoardBinding.iconSetting.setVisibility(View.INVISIBLE);
 
+        holder.rowBoardBinding.memberCount.setText(board.getJoinCount());
+        holder.rowBoardBinding.postCount.setText(board.getPostCount());
+
         //android:text='@{model.isPrivate.equals("1") ? "Request" : "Join"}'
         switch (board.getJoinType()) {
             case "0":   // not join

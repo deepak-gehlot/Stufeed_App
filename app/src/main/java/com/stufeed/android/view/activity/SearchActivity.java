@@ -35,12 +35,14 @@ public class SearchActivity extends AppCompatActivity {
         mBinding.backImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult("");
                 onBackPressed();
             }
         });
         mBinding.doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult("");
                 onBackPressed();
             }
         });

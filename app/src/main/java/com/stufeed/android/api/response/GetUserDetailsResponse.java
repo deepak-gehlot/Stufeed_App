@@ -90,6 +90,12 @@ public class GetUserDetailsResponse {
         private String followerCount = "";
         @SerializedName("joincount")
         private String joinCount = "";
+        @SerializedName("is_follow")
+        private String isFollow = "";
+        @SerializedName("is_block")
+        private String isBlock = "";
+        @SerializedName("description")
+        private String about = "";
 
         @Bindable
         public String getUserId() {
@@ -343,6 +349,30 @@ public class GetUserDetailsResponse {
 
         public void setJoinCount(String joinCount) {
             this.joinCount = joinCount;
+        }
+
+        public String getIsFollow() {
+            return isFollow;
+        }
+
+        public void setIsFollow(String isFollow) {
+            this.isFollow = isFollow;
+        }
+
+        public String getIsBlock() {
+            return isBlock;
+        }
+
+        public void setIsBlock(String isBlock) {
+            this.isBlock = isBlock;
+        }
+
+        public String getAbout() {
+            return about;
+        }
+
+        public void setAbout(String about) {
+            this.about = about;
         }
     }
 }

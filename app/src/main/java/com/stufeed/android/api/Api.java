@@ -397,4 +397,9 @@ public interface Api {
     @POST("getEdukitPost")
     Call<GetEdukitResponse> getEdukitPost(@Field("user_id") String userId,
                                           @Field("edukit_id") String edukitId);
+
+    @FormUrlEncoded
+    @POST("getUserStatus")
+    Call<GetUserDetailsResponse> getUserDetails(@Field("userid") String userId,
+                                                @Field("otherUserId") String otherUserId);
 }

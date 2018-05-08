@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:inputType="textMultiLine"
-                android:maxLines="3"/>
+                android:maxLines="3" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -59,21 +59,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Private"
-                    android:textSize="16sp"
+                    android:textColor="@color/text_color"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="When user ON this feature everyone need permission to join this board"
-                    android:textSize="16sp" />
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <Switch
                 android:id="@+id/switchPrivate"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:theme="@style/SwitchButtonColor" />
 
         </LinearLayout>
 
@@ -94,21 +97,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Circle"
-                    android:textSize="16sp"
+                    android:textColor="@color/text_color"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="When user ON this feature all member of board can be post in this board."
-                    android:textSize="16sp" />
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <Switch
                 android:id="@+id/switchCircle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:theme="@style/SwitchButtonColor" />
 
         </LinearLayout>
 
@@ -130,7 +136,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:backgroundTint="@color/button_color"
+                android:backgroundTint="#8C9197"
                 android:gravity="center"
                 android:text="Cancel"
                 android:textColor="@android:color/white"
@@ -146,7 +152,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:backgroundTint="@color/button_color"
+                android:backgroundTint="#8C9197"
                 android:text="Done"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />

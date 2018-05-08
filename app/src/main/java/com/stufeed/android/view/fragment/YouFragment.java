@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -33,6 +34,9 @@ import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
+import com.stufeed.android.view.adapter.ViewPagerAdapter;
+import com.stufeed.android.view.fragment.board.CreateBoardFragment;
+import com.stufeed.android.view.fragment.board.JoinBoardFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,12 +77,16 @@ public class YouFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.setFragment(this);
         mLoginUserId = Utility.getLoginUserId(getActivity());
+        setupViewPager(binding.viewPager);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+
 
         ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
 
-        setRecyclerView();
+
         getBasicDetails();
         setUserType();
+
     }
 
     @Override
@@ -149,10 +157,16 @@ public class YouFragment extends Fragment {
         }
     }
 
-    private void setRecyclerView() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        /*FeedListAdapter adapter = new FeedListAdapter(getActivity());
-        binding.recyclerView.setAdapter(adapter);*/
+    /**
+     * Set view pager adapter
+     *
+     * @param viewPager @ViewPager
+     */
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(CreateBoardFragment.newInstance(), getString(R.string.create_board));
+        adapter.addFragment(UserFeedFragment.newInstance(), getString(R.string.title_post));
+        viewPager.setAdapter(adapter);
     }
 
     /**
@@ -248,7 +262,7 @@ public class YouFragment extends Fragment {
      */
     private void handleUserResponse(GetUserDetailsResponse response) {
         binding.progressBar.setVisibility(View.GONE);
-        binding.topPanel.setVisibility(View.VISIBLE);
+       binding.topPanel.setVisibility(View.VISIBLE);
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 binding.setModel(response.getAllDetails());

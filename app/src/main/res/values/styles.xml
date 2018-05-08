@@ -36,7 +36,7 @@
 
     <style name="SwitchButtonColor" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
-        <item name="colorControlActivated">@color/button_color</item>
+        <item name="colorControlActivated">@color/text_color</item>
     </style>
 
     <style name="Theme.AppCompat.Translucent">

@@ -67,6 +67,7 @@
                 android:lines="1"
                 android:text="@{model.boardName}"
                 android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -81,7 +82,7 @@
                     android:drawablePadding="5dp"
                     android:drawableStart="@drawable/person_icon"
                     android:gravity="center_vertical"
-                    android:text="@{model.totalJoinBoard}" />
+                     />
 
                 <TextView
                     android:id="@+id/postCount"
@@ -91,7 +92,7 @@
                     android:drawableEnd="@drawable/feed_icon"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
-                    android:text="1231" />
+                    android:text="0" />
             </RelativeLayout>
 
             <Button
