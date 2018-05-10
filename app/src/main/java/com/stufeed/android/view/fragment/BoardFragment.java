@@ -45,6 +45,7 @@ public class BoardFragment extends Fragment {
 
     private FragmentBoardBinding binding;
     private String loginUserId = "";
+    public static int boardCount = 0;
 
     public static BoardFragment newInstance() {
         Bundle args = new Bundle();
@@ -67,10 +68,12 @@ public class BoardFragment extends Fragment {
         setupViewPager(binding.viewPager);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
 
-        ((HomeActivity) getActivity()).showHideSearchIcon(0,false);
+        ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
 
         loginUserId = Utility.getLoginUserId(getActivity());
     }
+
+    CreateBoardFragment createBoardFragment = CreateBoardFragment.newInstance();
 
     /**
      * Set view pager adapter
@@ -79,7 +82,7 @@ public class BoardFragment extends Fragment {
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(CreateBoardFragment.newInstance(), getString(R.string.create_board));
+        adapter.addFragment(createBoardFragment, getString(R.string.create_board));
         adapter.addFragment(JoinBoardFragment.newInstance(), getString(R.string.join_board));
         viewPager.setAdapter(adapter);
     }
@@ -89,6 +92,35 @@ public class BoardFragment extends Fragment {
      * Show create board dialog
      */
     public void showCreateDialog() {
+        //  1=student 2=Faculty 3=department,4=institute,5=admin
+        String userType = Utility.getLoginUserDetail(getActivity()).getUserType();
+        switch (userType) {
+            case "1":
+                if (boardCount >= 4) {
+                    Utility.showToast(getActivity(), "You can not create more than 4 board.");
+                    return;
+                }
+                break;
+            case "2":
+                if (boardCount >= 8) {
+                    Utility.showToast(getActivity(), "You can not create more than 8 board.");
+                    return;
+                }
+                break;
+            case "3":
+                if (boardCount >= 6) {
+                    Utility.showToast(getActivity(), "You can not create more than 6 board.");
+                    return;
+                }
+                break;
+            case "4":
+                if (boardCount >= 8) {
+                    Utility.showToast(getActivity(), "You can not create more than 8 board.");
+                    return;
+                }
+                break;
+        }
+
         final DialogCreateBoardBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity())
                 , R.layout.dialog_create_board, null, false);
         final Dialog dialog = new Dialog(getActivity());
@@ -178,6 +210,7 @@ public class BoardFragment extends Fragment {
         if (response == null) {
             Utility.showErrorMsg(getActivity());
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            createBoardFragment.getBoardList();
             Utility.showToast(getActivity(), response.getResponseMessage());
         } else {
             Utility.showToast(getActivity(), response.getResponseMessage());

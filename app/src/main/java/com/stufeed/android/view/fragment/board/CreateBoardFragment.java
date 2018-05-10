@@ -17,6 +17,7 @@ import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.databinding.FragmentCreateBoardBinding;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.BoardListAdapter;
+import com.stufeed.android.view.fragment.BoardFragment;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,7 @@ public class CreateBoardFragment extends Fragment {
         getBoardList();
     }
 
-    private void getBoardList() {
+    public void getBoardList() {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
@@ -78,6 +79,7 @@ public class CreateBoardFragment extends Fragment {
         if (response == null) {
             Utility.showErrorMsg(getActivity());
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            BoardFragment.boardCount = response.getBoardArrayList() != null ? response.getBoardArrayList().size() : 0;
             setRecyclerView(response.getBoardArrayList());
         }
     }

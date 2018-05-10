@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
+import com.stufeed.android.api.response.GetBoardListResponse;
+import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.api.response.UserDetail;
@@ -34,9 +37,13 @@ import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
+import com.stufeed.android.view.adapter.BoardListAdapter;
+import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
 import com.stufeed.android.view.fragment.board.CreateBoardFragment;
 import com.stufeed.android.view.fragment.board.JoinBoardFragment;
+import com.stufeed.android.view.fragment.connect.academy.AcademyBoardListFragment;
+import com.stufeed.android.view.fragment.connect.academy.EduKitFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,15 +84,8 @@ public class YouFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.setFragment(this);
         mLoginUserId = Utility.getLoginUserId(getActivity());
-        setupViewPager(binding.viewPager);
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-
 
         ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
-
-
-        getBasicDetails();
-        setUserType();
 
     }
 
@@ -95,6 +95,9 @@ public class YouFragment extends Fragment {
         AQuery aQuery = new AQuery(getActivity());
         String profilePic = Utility.getLoginUserDetail(getActivity()).getProfilePic();
         aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.drawable.user_default);
+
+        getBasicDetails();
+        setUserType();
     }
 
     public void onPostCountClick() {
@@ -144,15 +147,35 @@ public class YouFragment extends Fragment {
         switch (userDetail.getUserType()) {
             case "1":
                 binding.txtType.setText("Student");
+                binding.recyclerViewBoard.setVisibility(View.VISIBLE);
+                binding.recyclerViewPost.setVisibility(View.VISIBLE);
+                binding.tabContainer.setVisibility(View.GONE);
+                getBoardList();
+                getAllPost();
                 break;
             case "2":
                 binding.txtType.setText("Department");
+                binding.recyclerViewBoard.setVisibility(View.VISIBLE);
+                binding.recyclerViewPost.setVisibility(View.VISIBLE);
+                binding.tabContainer.setVisibility(View.GONE);
+                getBoardList();
+                getAllPost();
                 break;
             case "3":
                 binding.txtType.setText("Faculty");
+                binding.recyclerViewBoard.setVisibility(View.VISIBLE);
+                binding.recyclerViewPost.setVisibility(View.VISIBLE);
+                binding.tabContainer.setVisibility(View.GONE);
+                getBoardList();
+                getAllPost();
                 break;
             case "4":
+                binding.tabContainer.setVisibility(View.VISIBLE);
+                binding.recyclerViewBoard.setVisibility(View.GONE);
+                binding.recyclerViewPost.setVisibility(View.GONE);
                 binding.txtType.setText("Institute");
+                setupViewPager(binding.viewPager);
+                binding.tabLayout.setupWithViewPager(binding.viewPager);
                 break;
         }
     }
@@ -164,8 +187,9 @@ public class YouFragment extends Fragment {
      */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(CreateBoardFragment.newInstance(), getString(R.string.create_board));
-        adapter.addFragment(UserFeedFragment.newInstance(), getString(R.string.title_post));
+        adapter.addFragment(EduKitFragment.newInstance(), "EDUKIT");
+        adapter.addFragment(FeedFragment.newInstance(), "POST");
+        adapter.addFragment(AcademyBoardListFragment.newInstance(), "BOARD");
         viewPager.setAdapter(adapter);
     }
 
@@ -262,7 +286,7 @@ public class YouFragment extends Fragment {
      */
     private void handleUserResponse(GetUserDetailsResponse response) {
         binding.progressBar.setVisibility(View.GONE);
-       binding.topPanel.setVisibility(View.VISIBLE);
+        binding.topPanel.setVisibility(View.VISIBLE);
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 binding.setModel(response.getAllDetails());
@@ -341,5 +365,82 @@ public class YouFragment extends Fragment {
         } else {
             binding.imageDownIcon.setVisibility(View.GONE);
         }
+    }
+
+
+    private void getBoardList() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.recyclerViewBoard.setVisibility(View.GONE);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetBoardListResponse> responseCall = api.getBoardList(mLoginUserId);
+        responseCall.enqueue(new Callback<GetBoardListResponse>() {
+            @Override
+            public void onResponse(Call<GetBoardListResponse> call, Response<GetBoardListResponse> response) {
+                handleBoardListResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetBoardListResponse> call, Throwable t) {
+                handleBoardListResponse(null);
+            }
+        });
+    }
+
+    private void handleBoardListResponse(GetBoardListResponse response) {
+        binding.progressBar.setVisibility(View.GONE);
+        binding.recyclerViewBoard.setVisibility(View.VISIBLE);
+        if (response == null) {
+            Utility.showErrorMsg(getActivity());
+        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            setRecyclerViewBoard(response.getBoardArrayList());
+        }
+    }
+
+    private void setRecyclerViewBoard(ArrayList<GetBoardListResponse.Board> boardArrayList) {
+        if (boardArrayList != null) {
+            binding.recyclerViewBoard.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            BoardListAdapter adapter = new BoardListAdapter(getActivity(), boardArrayList);
+            binding.recyclerViewBoard.setAdapter(adapter);
+        }
+    }
+
+    private void getAllPost() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetPostResponse> responseCall = api.getUserAllPost(Utility.getLoginUserId(getActivity()
+        ));
+        responseCall.enqueue(new Callback<GetPostResponse>() {
+            @Override
+            public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {
+                binding.progressBar.setVisibility(View.GONE);
+                handleGetAllPostResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetPostResponse> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                Utility.showToast(getActivity(), getString(R.string.wrong));
+            }
+        });
+    }
+
+    private void handleGetAllPostResponse(GetPostResponse getPostResponse) {
+        if (getPostResponse != null) {
+            if (getPostResponse.getResponseCode().equals(Api.SUCCESS)) {
+                setRecyclerViewPost(getPostResponse.getPost());
+            } else {
+                Utility.showToast(getActivity(), "No post found.");
+            }
+        } else {
+            Utility.showErrorMsg(getActivity());
+        }
+    }
+
+    private void setRecyclerViewPost(ArrayList<GetPostResponse.Post> postArrayList) {
+        binding.progressBar.setVisibility(View.GONE);
+        binding.recyclerViewPost.setVisibility(View.VISIBLE);
+        binding.recyclerViewPost.setLayoutManager(new LinearLayoutManager(getActivity()));
+        FeedListAdapter adapter = new FeedListAdapter(YouFragment.this, postArrayList);
+        binding.recyclerViewPost.setAdapter(adapter);
     }
 }

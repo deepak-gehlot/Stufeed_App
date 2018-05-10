@@ -23,7 +23,7 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <ImageView
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@mipmap/ic_launcher" />
@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Join Request"
+                    android:text="User Name"
                     android:textColor="@color/text_color"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -47,31 +47,41 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Accept or Reject"
+                    android:text="Requested to join your board"
                     android:textColor="@color/text_color"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Request to Join"
-                    android:textColor="@color/text_color"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/button_color"
+                        android:onClick="@{()->adapter.acceptRequest(model)}"
+                        android:padding="10dp"
+                        android:text="Accept"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:background="@color/button_color"
+                        android:onClick="@{()->adapter.rejectRequest(model)}"
+                        android:padding="10dp"
+                        android:text="Reject"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/button_color"
-                android:onClick="@{()->adapter.acceptRequest(model)}"
-                android:padding="10dp"
-                android:text="Accept"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
         </LinearLayout>
 
         <View

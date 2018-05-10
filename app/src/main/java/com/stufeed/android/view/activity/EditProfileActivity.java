@@ -16,6 +16,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.Response;
+import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.ActivityEditProfileBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
@@ -46,7 +47,12 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void onClickBasicInfo() {
-        startActivity(new Intent(EditProfileActivity.this, EditBasicInfoActivity.class));
+        UserDetail userDetail = Utility.getLoginUserDetail(EditProfileActivity.this);
+        if (userDetail.getUserType().equals("4")) {
+            startActivity(new Intent(EditProfileActivity.this, EditInstituteActivity.class));
+        } else {
+            startActivity(new Intent(EditProfileActivity.this, EditBasicInfoActivity.class));
+        }
     }
 
     public void onClickAchievement() {

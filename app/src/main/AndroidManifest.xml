@@ -117,10 +117,26 @@
         <activity
             android:name=".view.activity.UserFollowerListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.FolloweListActivity" />
-        <activity android:name=".view.activity.UserFollowingActivity" />
-        <activity android:name=".view.activity.BlockedUserListActivity" />
-        <activity android:name=".view.activity.BoardDetailsMainActivity" />
+        <activity
+            android:name=".view.activity.FolloweListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.activity.UserFollowingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.activity.BlockedUserListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.activity.BoardDetailsMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.activity.FullImageActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />
@@ -140,15 +156,38 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".view.activity.EdukitSelectionActivity" />
-        <activity android:name=".view.activity.EdukitBoardActivity" />
+        <activity
+            android:name=".view.activity.EdukitSelectionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.activity.EdukitBoardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.activity.EditPostActivity"
             android:label="@string/title_activity_edit_post"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".view.activity.EdukitPostActivity"></activity>
+        <activity
+            android:name=".view.activity.EdukitPostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.activity.ViewPostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.activity.EditInstituteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".view.activity.JoinRequestActivity"></activity>
     </application>
 
 </manifest>

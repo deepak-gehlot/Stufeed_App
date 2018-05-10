@@ -380,11 +380,13 @@
                     app:profileImageUrl="@{model.profilePic}" />
 
                 <LinearLayout
+                    android:id="@+id/tabContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/topPanel"
                     android:minHeight="400dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tabLayout"
@@ -399,6 +401,20 @@
                         android:layout_below="@+id/tabLayout"
                         android:layout_weight="1" />
                 </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewBoard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/topPanel"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/recyclerViewBoard"
+                    android:visibility="gone" />
 
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>

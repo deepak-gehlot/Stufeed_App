@@ -8,6 +8,7 @@ public class GetNotificationResponse {
 
     private String responseMessage = "";
     private String responseCode = "";
+    private int count = 0;
     @SerializedName("data")
     private ArrayList<NotiItem> notiItems;
 
@@ -25,6 +26,14 @@ public class GetNotificationResponse {
 
     public void setResponseCode(String responseCode) {
         this.responseCode = responseCode;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public ArrayList<NotiItem> getNotiItems() {
@@ -48,6 +57,12 @@ public class GetNotificationResponse {
         private String unRead = "";
         @SerializedName("un_date")
         private String unDate = "";
+        @SerializedName("un_type")
+        private String unType = "";
+        @SerializedName("un_postId")
+        private String unPostId = "";
+        @SerializedName("profilepic")
+        private String profilePic = "";
 
         public String getUnId() {
             return unId;
@@ -95,6 +110,30 @@ public class GetNotificationResponse {
 
         public void setUnDate(String unDate) {
             this.unDate = unDate;
+        }
+
+        public String getUnType() {
+            return unType;
+        }
+
+        public void setUnType(String unType) {
+            this.unType = unType;
+        }
+
+        public String getUnPostId() {
+            return unPostId;
+        }
+
+        public void setUnPostId(String unPostId) {
+            this.unPostId = unPostId;
+        }
+
+        public String getProfilePic() {
+            return profilePic;
+        }
+
+        public void setProfilePic(String profilePic) {
+            this.profilePic = profilePic;
         }
     }
 }

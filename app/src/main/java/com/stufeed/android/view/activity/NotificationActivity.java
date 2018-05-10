@@ -1,5 +1,6 @@
 package com.stufeed.android.view.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,16 +41,19 @@ public class NotificationActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         getRequestList();
-        // getJoinBoardList();
+
+        binding.layoutRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRequestClick();
+            }
+        });
     }
 
-  /*  private void setRecyclerView(ArrayList<GetJoinBoardRequestResponse.Request> requestArrayList) {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        NotificationListAdapter adapter = new NotificationListAdapter(NotificationActivity.this, requestArrayList);
-        binding.recyclerView.setAdapter(adapter);
-    }*/
+    public void onRequestClick() {
+        startActivity(new Intent(this, JoinRequestActivity.class));
+    }
 
     private void setRecyclerView(ArrayList<GetNotificationResponse.NotiItem> notiItems) {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,44 +84,13 @@ public class NotificationActivity extends AppCompatActivity {
             Utility.showToast(NotificationActivity.this, getString(R.string.wrong));
         } else {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
+                if (response.getCount() > 0) {
+                    binding.textViewCount.setText("" + response.getCount());
+                }
                 setRecyclerView(response.getNotiItems());
             } else {
                 Utility.showToast(NotificationActivity.this, getString(R.string.wrong));
             }
         }
     }
-
-    /*private void getJoinBoardList() {
-        ProgressDialog.getInstance().showProgressDialog(NotificationActivity.this);
-        Api api = APIClient.getClient().create(Api.class);
-        Call<GetJoinBoardRequestResponse> responseCall = api.getJoinBoardRequestList(mLoginUserId);
-        responseCall.enqueue(new Callback<GetJoinBoardRequestResponse>() {
-            @Override
-            public void onResponse(Call<GetJoinBoardRequestResponse> call,
-                                   retrofit2.Response<GetJoinBoardRequestResponse> response) {
-                handleResponse(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<GetJoinBoardRequestResponse> call, Throwable t) {
-                handleResponse(null);
-            }
-        });
-    }
-
-    private void handleResponse(GetJoinBoardRequestResponse response) {
-        ProgressDialog.getInstance().dismissDialog();
-        if (response == null) {
-            Utility.showErrorMsg(NotificationActivity.this);
-            return;
-        } else if (response.getResponseCode().equalsIgnoreCase(Api.SUCCESS)) {
-            if (response.getRequestArrayList() != null) {
-                setRecyclerView(response.getRequestArrayList());
-            }
-        } else {
-            Utility.showToast(NotificationActivity.this, response.getResponseMessage());
-        }
-    }*/
-
-
 }

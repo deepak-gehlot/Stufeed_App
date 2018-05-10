@@ -24,7 +24,6 @@ import retrofit2.Callback;
 /**
  * Created by HP on 2/28/2018.
  */
-
 public class NotificationListAdapter extends RecyclerView.Adapter<NotificationListAdapter.ViewHolder> {
 
     private Context context;
@@ -65,10 +64,36 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         }
     }
 
+    /**
+     * Accept join board request
+     */
     public void acceptRequest(final GetJoinBoardRequestResponse.Request request) {
         Api api = APIClient.getClient().create(Api.class);
         ProgressDialog.getInstance().showProgressDialog(context);
-        Call<JoinBoardResponse> responseCall = api.joinBoard(mLoginUserId, request.getBoardId(), request.getJoinerId());
+        Call<JoinBoardResponse> responseCall = api.acceptJoinBoard(mLoginUserId, request.getBoardId(), request.getJoinerId());
+        responseCall.enqueue(new Callback<JoinBoardResponse>() {
+            @Override
+            public void onResponse(Call<JoinBoardResponse> call, retrofit2.Response<JoinBoardResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                int position = requestArrayList.indexOf(request);
+                requestArrayList.remove(position);
+                notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onFailure(Call<JoinBoardResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+            }
+        });
+    }
+
+    /**
+     * Reject join board request
+     */
+    public void rejectRequest(final GetJoinBoardRequestResponse.Request request) {
+        Api api = APIClient.getClient().create(Api.class);
+        ProgressDialog.getInstance().showProgressDialog(context);
+        Call<JoinBoardResponse> responseCall = api.rejectJoinBoard(mLoginUserId, request.getBoardId(), request.getJoinerId());
         responseCall.enqueue(new Callback<JoinBoardResponse>() {
             @Override
             public void onResponse(Call<JoinBoardResponse> call, retrofit2.Response<JoinBoardResponse> response) {

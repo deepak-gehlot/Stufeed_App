@@ -64,7 +64,6 @@ public class UserProfileActivity extends AppCompatActivity {
         getDataFromBundle();
         getBoardList();
 
-        mBinding.container.txtUserName.setText(user.getFullName());
 
         getBasicDetails();
 
@@ -308,10 +307,9 @@ public class UserProfileActivity extends AppCompatActivity {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 mBinding.container.setModel(response.getAllDetails());
                 setUserType(response.getAllDetails().getUserType());
-
                 String description = response.getAllDetails().getAbout();
                 mBinding.container.textAboutMeData.setText(description);
-
+                mBinding.container.txtUserName.setText(mBinding.container.getModel().getFullName());
                 String allSkills = response.getAllDetails().getSkills();
                 String skills[] = allSkills.split(",");
                 for (int i = 0; i < skills.length; i++) {

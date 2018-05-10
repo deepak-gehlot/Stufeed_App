@@ -76,6 +76,7 @@ public class AcademyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mLoginUserId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
         setupViewPager(binding.viewpager);
+        binding.setFragment(this);
         binding.tabLayout.setupWithViewPager(binding.viewpager);
         binding.viewpager.setOffscreenPageLimit(3);
 

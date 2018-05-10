@@ -1,6 +1,7 @@
 package com.stufeed.android.api;
 
 import com.stufeed.android.api.response.BlockedUserListResponse;
+import com.stufeed.android.api.response.CollegeDetails;
 import com.stufeed.android.api.response.CommentResponse;
 import com.stufeed.android.api.response.CreateBoardResponse;
 import com.stufeed.android.api.response.DeletePostResponse;
@@ -32,6 +33,7 @@ import com.stufeed.android.api.response.RePostResponse;
 import com.stufeed.android.api.response.Response;
 import com.stufeed.android.api.response.SavePostResponse;
 import com.stufeed.android.api.response.SaveSettingResponse;
+import com.stufeed.android.api.response.SinglePost;
 import com.stufeed.android.api.response.UpdateCollegeResponse;
 import com.stufeed.android.api.response.UpdateProfileResponse;
 import com.stufeed.android.api.response.VerifyResponse;
@@ -402,4 +404,45 @@ public interface Api {
     @POST("getUserStatus")
     Call<GetUserDetailsResponse> getUserDetails(@Field("userid") String userId,
                                                 @Field("otherUserId") String otherUserId);
+
+    @FormUrlEncoded
+    @POST("getPostById")
+    Call<SinglePost> getPostById(@Field("postid") String postId);
+
+    @FormUrlEncoded
+    @POST("getCollegeDetials")
+    Call<CollegeDetails> getCollegeDetails(@Field("collegeid") String collegeId);
+
+    @FormUrlEncoded
+    @POST("editInstituteProfile")
+    Call<Response> editInstituteProfile(@Field("userId") String userId,
+                                        @Field("collageId") String collageId,
+                                        @Field("institutiontype") String instituteType,
+                                        @Field("university_name") String universityName,
+                                        @Field("address") String address,
+                                        @Field("affiliation_no") String affiliationNo,
+                                        @Field("college_name") String collegeName,
+                                        @Field("city") String city,
+                                        @Field("state") String state,
+                                        @Field("website") String website,
+                                        @Field("specialised_in") String specialisedIn,
+                                        @Field("year_of_establishment") String yearOfEstablishment,
+                                        @Field("managedby") String managedBy,
+                                        @Field("location") String location,
+                                        @Field("Contactno") String contactNo
+    );
+
+    @FormUrlEncoded
+    @POST("acceptJoinboard")
+    Call<JoinBoardResponse> acceptJoinBoard(@Field("userid") String userId,
+                                            @Field("boardid") String boardId,
+                                            @Field("joinerid") String joinUserId);
+
+
+    @FormUrlEncoded
+    @POST("rejectJoinboard")
+    Call<JoinBoardResponse> rejectJoinBoard(@Field("userid") String userId,
+                                            @Field("boardid") String boardId,
+                                            @Field("joinerid") String joinUserId);
+
 }

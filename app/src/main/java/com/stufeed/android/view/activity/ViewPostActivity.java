@@ -1,4 +1,4 @@
-package com.stufeed.android.view.adapter;
+package com.stufeed.android.view.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,14 +7,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.URLUtil;
 
 import com.appunite.appunitevideoplayer.PlayerActivity;
@@ -26,18 +24,15 @@ import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
+import com.stufeed.android.api.response.SinglePost;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
 import com.stufeed.android.api.response.SavePostResponse;
-import com.stufeed.android.databinding.RowFeedBinding;
+import com.stufeed.android.databinding.ActivitySinglePostBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.activity.BoardSelectionActivity;
-import com.stufeed.android.view.activity.CommentPostActivity;
-import com.stufeed.android.view.activity.EditPostActivity;
-import com.stufeed.android.view.activity.FullImageActivity;
-import com.stufeed.android.view.activity.UserProfileActivity;
+import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
 import java.util.ArrayList;
@@ -46,73 +41,110 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHolder> {
+public class ViewPostActivity extends AppCompatActivity {
 
-    private Fragment context;
-    private ArrayList<GetPostResponse.Post> postArrayList;
-    private String loginUserId;
+    private String loginUserId = "";
+    private String postId = "";
+    private ActivitySinglePostBinding mBinding;
     private String videoURL = "";
 
-    public FeedListAdapter(Fragment context, ArrayList<GetPostResponse.Post> postArrayList) {
-        this.context = context;
-        this.postArrayList = postArrayList;
-        loginUserId = Utility.getLoginUserDetail(context.getActivity()).getUserId();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_single_post);
+        loginUserId = Utility.getLoginUserId(this);
+        mBinding.setActivity(this);
+        getDataFromBundle();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context.getActivity()), R.layout
-                .row_feed, parent, false);
-        return new ViewHolder(rowBinding);
+    protected void onResume() {
+        super.onResume();
+        getPostById(postId);
     }
 
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final GetPostResponse.Post post = postArrayList.get(position);
-        holder.rowBinding.setModel(post);
-        holder.rowBinding.setAdapter(this);
-        holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
-        holder.rowBinding.pollLayout.setVisibility(View.GONE);
-        holder.rowBinding.imageLayout.setVisibility(View.GONE);
+    private void getDataFromBundle() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            finish();
+        } else {
+            postId = bundle.getString("post_id");
+        }
+    }
+
+    private void getPostById(String postId) {
+        ProgressDialog.getInstance().showProgressDialog(ViewPostActivity.this);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<SinglePost> call = api.getPostById(postId);
+        call.enqueue(new Callback<SinglePost>() {
+            @Override
+            public void onResponse(Call<SinglePost> call, Response<SinglePost> response) {
+                handleResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<SinglePost> call, Throwable t) {
+                handleResponse(null);
+            }
+        });
+    }
+
+    private void handleResponse(SinglePost singlePost) {
+        ProgressDialog.getInstance().dismissDialog();
+        if (singlePost == null) {
+            Utility.showErrorMsg(ViewPostActivity.this);
+        } else if (singlePost.getResponseCode().equals(Api.SUCCESS)) {
+            setView(singlePost.getPost());
+        } else {
+            Utility.showErrorMsg(ViewPostActivity.this);
+        }
+    }
+
+    private void setView(final SinglePost.Post post) {
+        mBinding.setModel(post);
+        mBinding.setActivity(this);
+        mBinding.audioCardLayout.setVisibility(View.GONE);
+        mBinding.pollLayout.setVisibility(View.GONE);
+        mBinding.imageLayout.setVisibility(View.GONE);
 
         if (!TextUtils.isEmpty(post.getBoardId())) {
-            holder.rowBinding.boardName.setVisibility(View.VISIBLE);
+            mBinding.boardName.setVisibility(View.VISIBLE);
         } else {
-            holder.rowBinding.boardName.setVisibility(View.GONE);
+            mBinding.boardName.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(post.getIsLike())) {
             if (post.getIsLike().equals("0")) {
-                holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
+                mBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
             } else {
-                holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_icon);
+                mBinding.imgLike.setImageResource(R.drawable.favorite_icon);
             }
         } else {
-            holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
+            mBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
         }
 
         if (!TextUtils.isEmpty(post.getIsBookmark())) {
             if (post.getIsBookmark().equals("0")) {
-                holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
+                mBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
             } else {
-                holder.rowBinding.imgSave.setImageResource(R.drawable.bookmark_icon);
+                mBinding.imgSave.setImageResource(R.drawable.bookmark_icon);
             }
         } else {
-            holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
+            mBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
         }
 
         switch (post.getPostType()) {
             case "5":  // for audio
-                holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
+                mBinding.audioCardLayout.setVisibility(View.VISIBLE);
                 String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
-                holder.rowBinding.audioText.setText(fileName);
+                mBinding.audioText.setText(fileName);
                 break;
             case "4":  // for poll
-                holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
-                holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
+                mBinding.pollLayout.setVisibility(View.VISIBLE);
+                mBinding.txtPollQuestion.setText(post.getQuestion());
 
-                holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
-                holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
+                mBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
+                mBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
                 for (int i = 0; i < post.getOptionArrayList().size(); i++) {
 
                     if (!TextUtils.isEmpty(post.getSelectedId())) {
@@ -125,12 +157,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     String select = post.getOptionArrayList().get(i).getIsSelect();
                     if (i == 0) {
                         if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                            mBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_checked, 0, 0, 0);
-                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                            mBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
                         } else {
-                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                            mBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
                         }
 
@@ -146,15 +178,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                         total = firstValue + secondValue;
                         int firstPer = (firstValue / total) * 100;
 
-                        holder.rowBinding.totalCount1.setText("" + firstPer);
+                        mBinding.totalCount1.setText("" + firstPer);
                     } else if (i == 1) {
                         if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                            mBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
-                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                            mBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_checked, 0, 0, 0);
                         } else {
-                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                            mBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
                         }
                         int firstValue = 0, secondValue = 0;
@@ -169,48 +201,42 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                         total = firstValue + secondValue;
                         int firstPer = (secondValue / total) * 100;
 
-                        holder.rowBinding.totalCount2.setText("" + firstPer);
+                        mBinding.totalCount2.setText("" + firstPer);
                     }
                 }
 
                 break;
             default:
-                holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
-                imageOrVideoRow(holder, post);
+                mBinding.imageLayout.setVisibility(View.VISIBLE);
+                imageOrVideoRow(post);
                 break;
         }
 
         if (!TextUtils.isEmpty(post.getAllowRePost())) {
             if (post.getAllowRePost().equals("1")) {
-                holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
+                mBinding.imgRepost.setVisibility(View.VISIBLE);
             } else {
-                holder.rowBinding.imgRepost.setVisibility(View.GONE);
+                mBinding.imgRepost.setVisibility(View.GONE);
             }
         } else {
-            holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
+            mBinding.imgRepost.setVisibility(View.VISIBLE);
         }
 
-        holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
-                        .rowBinding.actionIcon);
-            }
-        });
     }
 
-    private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
+
+    private void imageOrVideoRow(SinglePost.Post post) {
         ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
         if (arrayList.size() != 0) {
             videoURL = arrayList.get(0);
             if (Utility.isValidUrl(videoURL)) {
-                holder.rowBinding.playBtn.setVisibility(View.VISIBLE);
+                mBinding.playBtn.setVisibility(View.VISIBLE);
                 try {
                     if (videoURL.contains("www.youtube.com")) {
                         String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
-                        Glide.with(context)
+                        Glide.with(ViewPostActivity.this)
                                 .load(url)
-                                .into(holder.rowBinding.image);
+                                .into(mBinding.image);
                     } else {
                         new Thread(new Runnable() {
                             @Override
@@ -220,9 +246,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Glide.with(context)
+                                            Glide.with(ViewPostActivity.this)
                                                     .load(bitmap)
-                                                    .into(holder.rowBinding.image);
+                                                    .into(mBinding.image);
                                         }
                                     });
                                 } catch (Throwable throwable) {
@@ -233,48 +259,42 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     }
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
-                    holder.rowBinding.playBtn.setVisibility(View.GONE);
+                    mBinding.playBtn.setVisibility(View.GONE);
                 }
             } else {
-                holder.rowBinding.playBtn.setVisibility(View.GONE);
+                mBinding.playBtn.setVisibility(View.GONE);
             }
         } else {
-            holder.rowBinding.playBtn.setVisibility(View.GONE);
-            Glide.with(context)
+            mBinding.playBtn.setVisibility(View.GONE);
+            Glide.with(ViewPostActivity.this)
                     .load(post.getFilePath() + post.getImage())
-                    .into(holder.rowBinding.image);
+                    .into(mBinding.image);
         }
-    }
-
-    //http://techslides.com/demos/sample-videos/small.mp4
-    @Override
-    public int getItemCount() {
-        return postArrayList != null ? postArrayList.size() : 0;
     }
 
     /**
      * On click user name
      */
-    public void onClickName(GetPostResponse.Post post) {
+    public void onClickName(SinglePost.Post post) {
         GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
         user.setUserId(post.getUserId());
         user.setFullName(post.getFullName());
         user.setIsFollow("0");
-        Intent intent = new Intent(context.getActivity(), UserProfileActivity.class);
+        Intent intent = new Intent(ViewPostActivity.this, UserProfileActivity.class);
         intent.putExtra(UserProfileActivity.USER, user);
-        context.startActivity(intent);
+        startActivity(intent);
     }
 
-    public void onImageClick(GetPostResponse.Post post) {
+    public void onImageClick(SinglePost.Post post) {
         ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
         if (arrayList.size() != 0) {
             String videoURL = arrayList.get(0);
             if (Utility.isValidUrl(videoURL)) {
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
-                    context.startActivity(browserIntent);
+                    startActivity(browserIntent);
                 } else {
-                    context.startActivity(PlayerActivity.getVideoPlayerIntent(context.getActivity(),
+                    startActivity(PlayerActivity.getVideoPlayerIntent(ViewPostActivity.this,
                             videoURL,
                             "Video title"));
                 }
@@ -282,15 +302,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         } else {
             String imageUrl = post.getFilePath() + post.getImage();
             if (!TextUtils.isEmpty(imageUrl)) {
-                Intent intent = new Intent(context.getActivity(), FullImageActivity.class);
+                Intent intent = new Intent(ViewPostActivity.this, FullImageActivity.class);
                 intent.putExtra("image", imageUrl);
-                context.startActivity(intent);
+                startActivity(intent);
             }
         }
     }
 
-    private void showActionMenu(final GetPostResponse.Post post, int position, View view) {
-        PopupMenu popup = new PopupMenu(context.getActivity(), view);
+    private void showActionMenu(final SinglePost.Post post, int position, View view) {
+        PopupMenu popup = new PopupMenu(ViewPostActivity.this, view);
 
         if (post.getUserId().equals(loginUserId)) {
             popup.inflate(R.menu.post_user_row_menu);
@@ -302,9 +322,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuEdit:
-                        Intent intent = new Intent(context.getActivity(), EditPostActivity.class);
+                        Intent intent = new Intent(ViewPostActivity.this, EditPostActivity.class);
                         intent.putExtra("item", post);
-                        context.startActivityForResult(intent, 192);
+                        startActivityForResult(intent, 192);
                         break;
                     case R.id.menuDelete:
                         showDeleteConfirmatinDialog(post);
@@ -319,7 +339,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         popup.show();
     }
 
-    public void onLikeClick(GetPostResponse.Post post) {
+    public void onLikeClick(SinglePost.Post post) {
         String like = post.getTotalLike();
         if (post.getIsLike().equals("1")) {
             if (!TextUtils.isEmpty(like)) {
@@ -335,9 +355,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             post.setIsLike("1");
         }
 
-        int position = postArrayList.indexOf(post);
-        postArrayList.set(position, post);
-        notifyItemChanged(position);
         Api api = APIClient.getClient().create(Api.class);
         Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId());
         responseCall.enqueue(new Callback<LikeResponse>() {
@@ -353,28 +370,25 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         });
     }
 
-    public void onCommentBtnClick(GetPostResponse.Post post) {
-        Intent intent = new Intent(context.getActivity(), CommentPostActivity.class);
+    public void onCommentBtnClick(SinglePost.Post post) {
+        Intent intent = new Intent(ViewPostActivity.this, CommentPostActivity.class);
         intent.putExtra(CommentPostActivity.TAG_POST, post);
-        intent.putExtra(CommentPostActivity.TAG_POSITION, postArrayList.indexOf(post));
-        context.startActivityForResult(intent, 114);
+        intent.putExtra(CommentPostActivity.TAG_POSITION, 0);
+        startActivityForResult(intent, 114);
     }
 
-    public void refreshItem(int position, GetPostResponse.Post post) {
-        if (position != -1) {
-            postArrayList.set(position, post);
-            notifyItemChanged(position);
-        }
+    public void refreshItem(int position, SinglePost.Post post) {
+        onResume();
     }
 
 
     /**
      * show re post confirmation dialog
      *
-     * @param post {@link GetPostResponse.Post}
+     * @param post {@link SinglePost.Post}
      */
-    public void onRePostBtnClick(final GetPostResponse.Post post) {
-        Utility.setDialog(context.getActivity(), "Message", "Do you want to repost this.", "No", "Yes",
+    public void onRePostBtnClick(final SinglePost.Post post) {
+        Utility.setDialog(ViewPostActivity.this, "Message", "Do you want to repost this.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -384,9 +398,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     @Override
                     public void onPositive(DialogInterface dialog) {
                         dialog.dismiss();
-                        Intent intent = new Intent(context.getActivity(), BoardSelectionActivity.class);
+                        Intent intent = new Intent(ViewPostActivity.this, BoardSelectionActivity.class);
                         intent.putExtra("post_id", post.getPostId());
-                        context.startActivityForResult(intent, 231);
+                        startActivityForResult(intent, 231);
                         //rePost(post);
                     }
                 });
@@ -398,18 +412,18 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     public void rePost(String postId, String boardId) {
         Api api = APIClient.getClient().create(Api.class);
         Call<RePostResponse> responseCall = api.rePost(loginUserId, postId);
-        ProgressDialog.getInstance().showProgressDialog(context.getActivity());
+        ProgressDialog.getInstance().showProgressDialog(ViewPostActivity.this);
         responseCall.enqueue(new Callback<RePostResponse>() {
             @Override
             public void onResponse(Call<RePostResponse> call, Response<RePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showToast(context.getActivity(), "Post successfully.");
+                Utility.showToast(ViewPostActivity.this, "Post successfully.");
             }
 
             @Override
             public void onFailure(Call<RePostResponse> call, Throwable t) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showErrorMsg(context.getActivity());
+                Utility.showErrorMsg(ViewPostActivity.this);
             }
         });
     }
@@ -418,16 +432,16 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     /**
      * show save post confirmation dialog
      *
-     * @param post {@link GetPostResponse.Post}
+     * @param post {@link SinglePost.Post}
      */
-    public void onSavePostBtnClick(final GetPostResponse.Post post) {
+    public void onSavePostBtnClick(final SinglePost.Post post) {
         if (!TextUtils.isEmpty(post.getIsBookmark())) {
             if (post.getIsBookmark().equals("1")) {
                 onRemovePostBtnClick(post);
                 return;
             }
         }
-        Utility.setDialog(context.getActivity(), "Message", "Do you want to bookmark this post.", "No", "Yes",
+        Utility.setDialog(ViewPostActivity.this, "Message", "Do you want to bookmark this post.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -446,15 +460,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     /**
      * show remove saved post confirmation dialog
      *
-     * @param post {@link GetPostResponse.Post}
+     * @param post {@link SinglePost.Post}
      */
-    private void onRemovePostBtnClick(final GetPostResponse.Post post) {
+    private void onRemovePostBtnClick(final SinglePost.Post post) {
         if (!TextUtils.isEmpty(post.getIsBookmark())) {
             if (post.getIsBookmark().equals("0")) {
                 return;
             }
         }
-        Utility.setDialog(context.getActivity(), "Message", "Do you want to unbookmark this post.", "No", "Yes",
+        Utility.setDialog(ViewPostActivity.this, "Message", "Do you want to unbookmark this post.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -474,23 +488,23 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
      *
      * @param post
      */
-    private void savePost(final GetPostResponse.Post post) {
+    private void savePost(final SinglePost.Post post) {
         Api api = APIClient.getClient().create(Api.class);
         Call<SavePostResponse> responseCall = api.savePost(loginUserId, post.getPostId());
-        ProgressDialog.getInstance().showProgressDialog(context.getActivity());
+        ProgressDialog.getInstance().showProgressDialog(ViewPostActivity.this);
         responseCall.enqueue(new Callback<SavePostResponse>() {
             @Override
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
                 post.setIsBookmark("1");
-                notifyItemChanged(postArrayList.indexOf(post));
-                Utility.showToast(context.getActivity(), "Bookmark Post successfully.");
+                // notifyItemChanged(postArrayList.indexOf(post));
+                Utility.showToast(ViewPostActivity.this, "Bookmark Post successfully.");
             }
 
             @Override
             public void onFailure(Call<SavePostResponse> call, Throwable t) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showErrorMsg(context.getActivity());
+                Utility.showErrorMsg(ViewPostActivity.this);
             }
         });
     }
@@ -500,29 +514,29 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
      *
      * @param post
      */
-    private void removePost(final GetPostResponse.Post post) {
+    private void removePost(final SinglePost.Post post) {
         Api api = APIClient.getClient().create(Api.class);
         Call<SavePostResponse> responseCall = api.removePost(loginUserId, post.getPostId());
-        ProgressDialog.getInstance().showProgressDialog(context.getActivity());
+        ProgressDialog.getInstance().showProgressDialog(ViewPostActivity.this);
         responseCall.enqueue(new Callback<SavePostResponse>() {
             @Override
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
                 post.setIsBookmark("0");
-                notifyItemChanged(postArrayList.indexOf(post));
-                Utility.showToast(context.getActivity(), "Bookmark Post successfully.");
+                //   notifyItemChanged(postArrayList.indexOf(post));
+                Utility.showToast(ViewPostActivity.this, "Bookmark Post successfully.");
             }
 
             @Override
             public void onFailure(Call<SavePostResponse> call, Throwable t) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showErrorMsg(context.getActivity());
+                Utility.showErrorMsg(ViewPostActivity.this);
             }
         });
     }
 
-    private void showDeleteConfirmatinDialog(final GetPostResponse.Post post) {
-        Utility.setDialog(context.getActivity(), context.getString(R.string.alert), "Are you sure, You want to delete" +
+    private void showDeleteConfirmatinDialog(final SinglePost.Post post) {
+        Utility.setDialog(ViewPostActivity.this, getString(R.string.alert), "Are you sure, You want to delete" +
                         " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
@@ -533,15 +547,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     @Override
                     public void onPositive(DialogInterface dialog) {
                         dialog.dismiss();
-                        int position = postArrayList.indexOf(post);
-                        postArrayList.remove(position);
-                        notifyItemChanged(position);
                         deletePost(post);
                     }
                 });
     }
 
-    private void deletePost(GetPostResponse.Post post) {
+    private void deletePost(SinglePost.Post post) {
         Api api = APIClient.getClient().create(Api.class);
         Call<DeletePostResponse> responseCall = api.deletePost(loginUserId, post.getPostId());
         responseCall.enqueue(new Callback<DeletePostResponse>() {
@@ -557,8 +568,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         });
     }
 
-    private void showReportConfirmatinDialog(final GetPostResponse.Post post) {
-        Utility.setDialog(context.getActivity(), context.getString(R.string.alert), "Are you sure, You want to report" +
+    private void showReportConfirmatinDialog(final SinglePost.Post post) {
+        Utility.setDialog(ViewPostActivity.this, getString(R.string.alert), "Are you sure, You want to report" +
                         " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
@@ -573,16 +584,16 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                 });
     }
 
-    private void reportPost(GetPostResponse.Post post) {
+    private void reportPost(SinglePost.Post post) {
         Api api = APIClient.getClient().create(Api.class);
 
     }
 
-    public void onAudioPlayClick(GetPostResponse.Post post) {
+    public void onAudioPlayClick(SinglePost.Post post) {
         // Show DialogFragment
         PlayerDialogFragment.newInstance(
                 post.getFilePath() + post.getAudioFile()
-        ).show(context.getActivity().getFragmentManager(), "Dialog Fragment");
+        ).show(getFragmentManager(), "Dialog Fragment");
     }
 
     /**
@@ -591,7 +602,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
      * @param post
      * @param option
      */
-    public void onPollOptionSelect(GetPostResponse.Post post, int option) {
+    public void onPollOptionSelect(SinglePost.Post post, int option) {
         String totalVote1 = post.getOptionArrayList().get(0).getTotalVote();
         String totalVote2 = post.getOptionArrayList().get(1).getTotalVote();
         switch (option) {
@@ -630,7 +641,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         }
         post.getOptionArrayList().get(0).setTotalVote(totalVote1);
         post.getOptionArrayList().get(1).setTotalVote(totalVote2);
-        notifyItemChanged(postArrayList.indexOf(post));
+        //notifyItemChanged(postArrayList.indexOf(post));
     }
 
     /**
@@ -653,14 +664,5 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
 
             }
         });
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        private RowFeedBinding rowBinding;
-
-        private ViewHolder(RowFeedBinding rowBinding) {
-            super(rowBinding.getRoot());
-            this.rowBinding = rowBinding;
-        }
     }
 }
