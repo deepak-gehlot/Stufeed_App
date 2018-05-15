@@ -63,6 +63,8 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
             holder.rowBoardBinding.iconCircle.setVisibility(View.INVISIBLE);
         }
 
+        Utility.setUserTypeColor(context, board.getUserType(), holder.rowBoardBinding.titleText);
+
         holder.rowBoardBinding.iconSetting.setVisibility(View.INVISIBLE);
 
         holder.rowBoardBinding.memberCount.setText(board.getJoinCount());

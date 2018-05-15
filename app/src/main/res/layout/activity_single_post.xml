@@ -295,7 +295,6 @@
                 </LinearLayout>
                 <!--    Poll Layout End   -->
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -386,6 +385,14 @@
                         android:src="@drawable/ic_bookmark_border" />
                 </RelativeLayout>
                 <!--    Like Comment Re post end  -->
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true"
+                    android:padding="@dimen/dimen_10dp" />
+
 
             </LinearLayout>
         </ScrollView>

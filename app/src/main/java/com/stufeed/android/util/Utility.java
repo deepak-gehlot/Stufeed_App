@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -35,6 +36,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -46,6 +48,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -931,6 +934,40 @@ aq.id(R.id.image).image(url, options);*/
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static void setUserTypeColor(Context context, String userType, TextView textView) {
+        switch (userType) {
+            case "1": //Student
+                textView.setTextColor(ContextCompat.getColor(context, R.color.student));
+                break;
+            case "2": //Department
+                textView.setTextColor(ContextCompat.getColor(context, R.color.department));
+                break;
+            case "3": //Faculty
+                textView.setTextColor(ContextCompat.getColor(context, R.color.faculty));
+                break;
+            case "4": //Institute
+                textView.setTextColor(ContextCompat.getColor(context, R.color.institute));
+                break;
+        }
+    }
+
+    public static void setUserTypeIconColor(Context context, String userType, ImageView imageView) {
+        switch (userType) {
+            case "1": //Student
+                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.student)));
+                break;
+            case "2": //Department
+                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.department)));
+                break;
+            case "3": //Faculty
+                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.faculty)));
+                break;
+            case "4": //Institute
+                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.institute)));
+                break;
         }
     }
 }

@@ -32,7 +32,8 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_notification);
+        binding = DataBindingUtil.setContentView(this,
+                R.layout.activity_notification);
         mLoginUserId = Utility.getLoginUserId(this);
 
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -86,6 +87,7 @@ public class NotificationActivity extends AppCompatActivity {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 if (response.getCount() > 0) {
                     binding.textViewCount.setText("" + response.getCount());
+                    binding.layoutRequest.setVisibility(View.VISIBLE);
                 }
                 setRecyclerView(response.getNotiItems());
             } else {

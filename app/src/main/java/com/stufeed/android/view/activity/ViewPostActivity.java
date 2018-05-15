@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
+import com.stufeed.android.api.response.GetAllCommentResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.SinglePost;
@@ -32,6 +34,7 @@ import com.stufeed.android.databinding.ActivitySinglePostBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.adapter.CommentListAdapter;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
@@ -45,8 +48,10 @@ public class ViewPostActivity extends AppCompatActivity {
 
     private String loginUserId = "";
     private String postId = "";
+    private String _for = "";
     private ActivitySinglePostBinding mBinding;
     private String videoURL = "";
+    private ArrayList<GetAllCommentResponse.Comment> commentArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,7 @@ public class ViewPostActivity extends AppCompatActivity {
             finish();
         } else {
             postId = bundle.getString("post_id");
+            _for = bundle.getString("for");
         }
     }
 
@@ -95,6 +101,9 @@ public class ViewPostActivity extends AppCompatActivity {
             Utility.showErrorMsg(ViewPostActivity.this);
         } else if (singlePost.getResponseCode().equals(Api.SUCCESS)) {
             setView(singlePost.getPost());
+            if (_for.equals("comment")) {
+                getAllCommentList();
+            }
         } else {
             Utility.showErrorMsg(ViewPostActivity.this);
         }
@@ -381,7 +390,6 @@ public class ViewPostActivity extends AppCompatActivity {
         onResume();
     }
 
-
     /**
      * show re post confirmation dialog
      *
@@ -664,5 +672,43 @@ public class ViewPostActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void getAllCommentList() {
+        Api api = APIClient.getClient().create(Api.class);
+        ProgressDialog.getInstance().showProgressDialog(ViewPostActivity.this);
+        Call<GetAllCommentResponse> responseCall = api.getAllComment(postId);
+        responseCall.enqueue(new Callback<GetAllCommentResponse>() {
+            @Override
+            public void onResponse(Call<GetAllCommentResponse> call, Response<GetAllCommentResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handleGetAllCommentResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetAllCommentResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(ViewPostActivity.this);
+            }
+        });
+    }
+
+    private void handleGetAllCommentResponse(GetAllCommentResponse allCommentResponse) {
+        if (allCommentResponse == null) {
+            Utility.showErrorMsg(ViewPostActivity.this);
+        } else if (allCommentResponse.getResponseCode().equals(Api.SUCCESS)) {
+            commentArrayList.clear();
+            commentArrayList.addAll(allCommentResponse.getCommentArrayList());
+            setCommentRecyclerView();
+        } else {
+            Utility.showToast(ViewPostActivity.this, "No comment.");
+        }
+    }
+
+    private void setCommentRecyclerView() {
+        mBinding.recyclerViewComment.setLayoutManager(new LinearLayoutManager(ViewPostActivity.this));
+        CommentListAdapter adapter = new CommentListAdapter(ViewPostActivity.this, commentArrayList);
+        mBinding.recyclerViewComment.setAdapter(adapter);
+        mBinding.recyclerViewComment.setHasFixedSize(true);
     }
 }

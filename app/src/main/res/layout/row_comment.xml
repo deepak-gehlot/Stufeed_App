@@ -38,8 +38,8 @@
 
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/comment_user_image"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     app:profileImageUrl="@{model.profilePic}" />
             </RelativeLayout>
 
@@ -58,7 +58,9 @@
                     android:gravity="start"
                     android:text="@{model.fullName}"
                     android:textColor="@color/text_color"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textStyle="bold" />
 
                 <TextView

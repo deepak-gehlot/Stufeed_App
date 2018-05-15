@@ -43,6 +43,7 @@ public class GetPostResponse {
         private String userId = "";
         @SerializedName("Postid")
         private String postId = "";
+        private String userType = "";
         @SerializedName("Fullname")
         private String fullName = "";
         @SerializedName("Email")
@@ -89,6 +90,14 @@ public class GetPostResponse {
         private String isBookmark = "";
 
         public Post() {
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
         }
 
         public String getUserId() {
@@ -293,6 +302,7 @@ public class GetPostResponse {
             dest.writeString(this.userId);
             dest.writeString(this.postId);
             dest.writeString(this.fullName);
+            dest.writeString(this.userType);
             dest.writeString(this.email);
             dest.writeString(this.title);
             dest.writeString(this.description);
@@ -319,6 +329,7 @@ public class GetPostResponse {
         protected Post(Parcel in) {
             this.userId = in.readString();
             this.postId = in.readString();
+            this.userType = in.readString();
             this.fullName = in.readString();
             this.email = in.readString();
             this.title = in.readString();

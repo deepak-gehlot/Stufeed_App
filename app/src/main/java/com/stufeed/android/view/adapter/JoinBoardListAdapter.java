@@ -13,6 +13,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.JoinBoardResponse;
+import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.RowJoinBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
@@ -67,6 +68,8 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
         } else {
             holder.binding.iconCircle.setVisibility(View.GONE);
         }
+
+        Utility.setUserTypeColor(context, board.getUserType(), holder.binding.titleText);
 
         holder.binding.memberCount.setText(board.getJoinCount());
         holder.binding.postCount.setText(board.getPostCount());

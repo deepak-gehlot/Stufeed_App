@@ -12,8 +12,7 @@
             type="com.stufeed.android.api.response.GetPostResponse.Post" />
     </data>
 
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,10 +68,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:text="@{model.boardName}"
                         android:textColor="@color/text_color"
                         android:textSize="12sp"
-                        android:visibility="gone"
-                        android:text="@{model.boardName}" />
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/time"
@@ -83,6 +82,13 @@
                         android:textSize="12sp"
                         app:time="@{model.dateTime}" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/userTypeIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_verified_user" />
 
                 <ImageView
                     android:id="@+id/actionIcon"
@@ -104,10 +110,10 @@
                 android:autoLink="web"
                 android:linksClickable="true"
                 android:maxLines="3"
-                app:maxCollapsedLines="3"
                 android:text="@{model.description}"
                 android:textColor="@color/text_color"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:maxCollapsedLines="3" />
 
             <!--    Image Layout Start  -->
             <RelativeLayout

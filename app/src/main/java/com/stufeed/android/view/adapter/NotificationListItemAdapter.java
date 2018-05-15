@@ -56,11 +56,18 @@ public class NotificationListItemAdapter extends RecyclerView.Adapter<Notificati
                     GetNotificationResponse.NotiItem item = notiItems.get(getAdapterPosition());
                     switch (item.getUnType()) {
                         case "like":
-                        case "comment":
                             String postIdLike = item.getUnPostId();
                             Intent intent = new Intent(context, ViewPostActivity.class);
                             intent.putExtra("post_id", postIdLike);
+                            intent.putExtra("for", "like");
                             context.startActivity(intent);
+                            break;
+                        case "comment":
+                            String postIdComment = item.getUnPostId();
+                            Intent intentComment = new Intent(context, ViewPostActivity.class);
+                            intentComment.putExtra("post_id", postIdComment);
+                            intentComment.putExtra("for", "comment");
+                            context.startActivity(intentComment);
                             break;
                         case "follow":
                         case "add_board":

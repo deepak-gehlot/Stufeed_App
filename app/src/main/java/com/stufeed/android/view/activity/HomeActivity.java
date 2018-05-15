@@ -10,6 +10,7 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,7 +72,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
-        Utility.addFragment(this, FeedFragment.newInstance(), "FeedFragment", binding.frame.getId());
+        String userId = Utility.getLoginUserId(this);
+
+        Utility.addFragment(this, FeedFragment.newInstance(userId), "FeedFragment", binding.frame.getId());
 
         UserDetail userDetail = Utility.getLoginUserDetail(this);
         userType = userDetail.getUserType();
@@ -111,7 +114,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 Utility.addFragment(this, BoardFragment.newInstance(), "BoardFragment", binding.frame.getId());
                 break;
             case R.id.navigation_feed:
-                Utility.addFragment(this, FeedFragment.newInstance(), "FeedFragment", binding.frame.getId());
+                String userId =Utility.getLoginUserId(HomeActivity.this);
+                Utility.addFragment(this, FeedFragment.newInstance(userId), "FeedFragment", binding.frame.getId());
                 break;
         }
         return true;

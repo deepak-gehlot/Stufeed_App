@@ -26,6 +26,8 @@ import retrofit2.Response;
 
 public class JoinBoardFragment extends Fragment {
 
+
+
     public JoinBoardFragment() {
         // Required empty public constructor
     }

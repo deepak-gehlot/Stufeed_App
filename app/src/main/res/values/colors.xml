@@ -19,4 +19,9 @@
     <color name="view_color">#727272</color>
     <color name="divider">#bfbfbf</color>
     <color name="red">#ff3b3b</color>
+
+    <color name="student">#ff5b1f</color>
+    <color name="department">#ffbe44</color>
+    <color name="faculty">#1fff93</color>
+    <color name="institute">#ce1fff</color>
 </resources>

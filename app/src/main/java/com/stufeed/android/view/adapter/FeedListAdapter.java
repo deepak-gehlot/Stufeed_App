@@ -75,6 +75,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         holder.rowBinding.pollLayout.setVisibility(View.GONE);
         holder.rowBinding.imageLayout.setVisibility(View.GONE);
 
+        Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeIcon);
+
         if (!TextUtils.isEmpty(post.getBoardId())) {
             holder.rowBinding.boardName.setVisibility(View.VISIBLE);
         } else {
