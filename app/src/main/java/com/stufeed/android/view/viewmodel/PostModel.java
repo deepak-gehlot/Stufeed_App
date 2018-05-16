@@ -28,6 +28,8 @@ public class PostModel extends BaseObservable {
     private String pollOption2 = "";
     private String pollOption = "";
     private String boardId = "0";
+    private String article_title = "";
+    private String article_thumbnail = "";
 
     @Bindable
     public String getUserId() {
@@ -158,6 +160,26 @@ public class PostModel extends BaseObservable {
         notifyPropertyChanged(BR.boardId);
     }
 
+    @Bindable
+    public String getArticle_title() {
+        return article_title;
+    }
+
+    public void setArticle_title(String article_title) {
+        this.article_title = article_title;
+        notifyPropertyChanged(BR.article_title);
+    }
+
+    @Bindable
+    public String getArticle_thumbnail() {
+        return article_thumbnail;
+    }
+
+    public void setArticle_thumbnail(String article_thumbnail) {
+        this.article_thumbnail = article_thumbnail;
+        notifyPropertyChanged(BR.article_thumbnail);
+    }
+
     //{"userid":1,"title":"test title","description":"test description","file":"file(image,audio)","alowcomment":0,
     // "alowrepost":0,"type":3,"videourl":""}
     public Map<String, RequestBody> getPostBody() {
@@ -174,6 +196,8 @@ public class PostModel extends BaseObservable {
         )));
         requestBodyMap.put("type", RequestBody.create(mediaTypeText, String.valueOf(getType())));
         requestBodyMap.put("videourl", RequestBody.create(mediaTypeText, getVideoUrl()));
+        requestBodyMap.put("article_title", RequestBody.create(mediaTypeText, getArticle_title()));
+        requestBodyMap.put("article_thumbnail", RequestBody.create(mediaTypeText, getArticle_thumbnail()));
         requestBodyMap.put("pollquestion", RequestBody.create(mediaTypeText, getPollQuestion()));
         requestBodyMap.put("polloption", RequestBody.create(mediaTypeText, getPollOption()));
         requestBodyMap.put("boardid", RequestBody.create(mediaTypeText, getBoardId()));

@@ -88,6 +88,12 @@ public class GetPostResponse {
         private String isLike = "";
         @SerializedName("is_bookmark")
         private String isBookmark = "";
+        @SerializedName("article_title")
+        private String articleTitle = "";
+        @SerializedName("article_thumbnail")
+        private String articleThumbUrl = "";
+        @SerializedName("Videourl")
+        private String videoUrl = "";
 
         public Post() {
         }
@@ -292,6 +298,30 @@ public class GetPostResponse {
             this.isBookmark = isBookmark;
         }
 
+        public String getArticleTitle() {
+            return articleTitle;
+        }
+
+        public void setArticleTitle(String articleTitle) {
+            this.articleTitle = articleTitle;
+        }
+
+        public String getArticleThumbUrl() {
+            return articleThumbUrl;
+        }
+
+        public void setArticleThumbUrl(String articleThumbUrl) {
+            this.articleThumbUrl = articleThumbUrl;
+        }
+
+        public String getVideoUrl() {
+            return videoUrl;
+        }
+
+        public void setVideoUrl(String videoUrl) {
+            this.videoUrl = videoUrl;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -324,6 +354,9 @@ public class GetPostResponse {
             dest.writeString(this.boardName);
             dest.writeString(this.isLike);
             dest.writeString(this.isBookmark);
+            dest.writeString(this.articleTitle);
+            dest.writeString(this.articleThumbUrl);
+            dest.writeString(this.videoUrl);
         }
 
         protected Post(Parcel in) {
@@ -352,6 +385,9 @@ public class GetPostResponse {
             this.boardName = in.readString();
             this.isLike = in.readString();
             this.isBookmark = in.readString();
+            this.articleTitle = in.readString();
+            this.articleThumbUrl = in.readString();
+            this.videoUrl = in.readString();
         }
 
         public static final Creator<Post> CREATOR = new Creator<Post>() {

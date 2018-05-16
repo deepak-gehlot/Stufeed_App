@@ -7,11 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -30,6 +33,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.PostResponse;
 import com.stufeed.android.databinding.ActivityPostBinding;
+import com.stufeed.android.databinding.DialogInputBinding;
 import com.stufeed.android.databinding.DialogPostSelectorBinding;
 import com.stufeed.android.util.Extension;
 import com.stufeed.android.util.MyMovementMethod;
@@ -39,8 +43,12 @@ import com.stufeed.android.util.ValidationTemplate;
 import com.stufeed.android.view.viewmodel.PostModel;
 
 import org.json.JSONArray;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +82,8 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
+        binding = DataBindingUtil.setContentView(this,
+                R.layout.activity_post);
         binding.setActivity(this);
         PostModel postModel = new PostModel();
         postModel.setUserId(Utility.getLoginUserDetail(PostActivity.this).getUserId());
@@ -284,7 +293,7 @@ public class PostActivity extends AppCompatActivity {
     public void onAttachmentButtonClick() {
         DialogPostSelectorBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(PostActivity.this), R
                 .layout.dialog_post_selector, null, false);
-        final Dialog dialog = new Dialog(PostActivity.this);
+        final BottomSheetDialog dialog = new BottomSheetDialog(PostActivity.this);
         dialog.setContentView(dialogBinding.getRoot());
         dialog.setTitle("Select");
         View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -305,6 +314,12 @@ public class PostActivity extends AppCompatActivity {
                         binding.pollLayout.setVisibility(View.VISIBLE);
                         binding.getModel().setType(4);
                         break;
+                    case R.id.aarticalButtonLayout:
+                        showLinkDialog(1);
+                        break;
+                    case R.id.videoButtonLayout:
+                        showLinkDialog(2);
+                        break;
                 }
             }
         };
@@ -313,8 +328,118 @@ public class PostActivity extends AppCompatActivity {
         dialogBinding.galleryButton.setOnClickListener(onClickListener);
         dialogBinding.documentButton.setOnClickListener(onClickListener);
         dialogBinding.pollButton.setOnClickListener(onClickListener);
+        dialogBinding.aarticalButtonLayout.setOnClickListener(onClickListener);
 
         dialog.show();
+    }
+
+    public void showLinkDialog(final int type) {
+        final DialogInputBinding inputBinding = DataBindingUtil.inflate(LayoutInflater.from(PostActivity.this), R
+                .layout.dialog_input, null, false);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(PostActivity.this);
+        bottomSheetDialog.setContentView(inputBinding.getRoot());
+
+        inputBinding.buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String link = inputBinding.editTextLink.getText().toString().trim();
+                if (!TextUtils.isEmpty(link)) {
+                    if (Utility.isValidUrl(link)) {
+                        bottomSheetDialog.dismiss();
+                        if (type == 1) { // artical
+                            getImageTitleFromUrl(link);
+                        } else {  // video
+                            getImageTitleFromVideoUrl(link);
+                        }
+                        binding.getModel().setType(2);
+                        binding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        Utility.showToast(PostActivity.this, "Invalid Url.");
+                    }
+                }
+            }
+        });
+        bottomSheetDialog.show();
+    }
+
+    private void getImageTitleFromUrl(final String url) {
+        binding.getModel().setVideoUrl(url);
+        ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //Connect to website
+                    Document document = Jsoup.connect(url).get();
+
+                    //Get the logo source of the website
+                    Element img = document.select("img").first();
+                    // Locate the src attribute
+                    final String imgSrc = img.absUrl("src");
+                    final String title = document.title();
+                    InputStream input = new java.net.URL(imgSrc).openStream();
+                    // Decode Bitmap
+                    final Bitmap bitmap = BitmapFactory.decodeStream(input);
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ProgressDialog.getInstance().dismissDialog();
+                            binding.textAVTitle.setText(title);
+                            binding.textAVUrl.setText(url);
+                            aQuery.id(binding.audioVideoImg).image(imgSrc, true, true);
+                            binding.getModel().setArticle_title(title);
+                            binding.getModel().setArticle_thumbnail(imgSrc);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ProgressDialog.getInstance().dismissDialog();
+                            Utility.showToast(PostActivity.this, getString(R.string.wrong));
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    private void getImageTitleFromVideoUrl(final String videoURL) {
+        binding.getModel().setVideoUrl(videoURL);
+        try {
+            if (videoURL.contains("www.youtube.com")) {
+                String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
+                Glide.with(PostActivity.this)
+                        .load(url)
+                        .into(binding.audioVideoImg);
+                binding.textAVTitle.setText("YouTube");
+                binding.textAVUrl.setText(videoURL);
+            } else {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            final Bitmap bitmap = Utility.retriveVideoFrameFromVideo(videoURL);
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Glide.with(PostActivity.this)
+                                            .load(bitmap)
+                                            .into(binding.audioVideoImg);
+                                    binding.textAVTitle.setText(videoURL);
+                                    binding.textAVUrl.setText(videoURL);
+                                }
+                            });
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     /**
@@ -424,6 +549,9 @@ public class PostActivity extends AppCompatActivity {
         if (postModel.getType() == 4) {
             postPoll(postModel);
             return;
+        } else if (postModel.getType() == 2 || postModel.getType() == 7) {
+            postUrlType(postModel);
+            return;
         }
         Api api = APIClient.getClient().create(Api.class);
         MultipartBody.Part part = postModel.prepareFilePart("file", postModel.getFile());
@@ -488,6 +616,28 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
+    public void postUrlType(PostModel postModel) {
+        if (!TextUtils.isEmpty(postModel.getVideoUrl())) {
+            Api api = APIClient.getClient().create(Api.class);
+
+            Call<PostResponse> responseCall = api.post(postModel.getPostBody());
+            ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
+            responseCall.enqueue(new Callback<PostResponse>() {
+                @Override
+                public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    handlePostResponse(response.body());
+                }
+
+                @Override
+                public void onFailure(Call<PostResponse> call, Throwable t) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    Utility.showErrorMsg(PostActivity.this);
+                }
+            });
+        }
+    }
+//https://medium.com/@princessdharmy/getting-started-with-jsoup-in-android-594e89dc891f
 
     /**
      * Handle post response

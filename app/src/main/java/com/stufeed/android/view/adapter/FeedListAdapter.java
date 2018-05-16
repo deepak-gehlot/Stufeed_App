@@ -74,6 +74,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
         holder.rowBinding.pollLayout.setVisibility(View.GONE);
         holder.rowBinding.imageLayout.setVisibility(View.GONE);
+        holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
 
         Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeIcon);
 
@@ -104,6 +105,14 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         }
 
         switch (post.getPostType()) {
+            case "2": // aartical url
+                holder.rowBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(post.getArticleThumbUrl())
+                        .into(holder.rowBinding.audioVideoImg);
+                holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
+                holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
+                break;
             case "5":  // for audio
                 holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
                 String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
@@ -289,6 +298,11 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                 context.startActivity(intent);
             }
         }
+    }
+
+    public void onArticleClick(GetPostResponse.Post post) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(post.getVideoUrl()));
+        context.startActivity(browserIntent);
     }
 
     private void showActionMenu(final GetPostResponse.Post post, int position, View view) {
