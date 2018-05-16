@@ -329,6 +329,7 @@ public class PostActivity extends AppCompatActivity {
         dialogBinding.documentButton.setOnClickListener(onClickListener);
         dialogBinding.pollButton.setOnClickListener(onClickListener);
         dialogBinding.aarticalButtonLayout.setOnClickListener(onClickListener);
+        dialogBinding.videoButtonLayout.setOnClickListener(onClickListener);
 
         dialog.show();
     }
@@ -415,27 +416,10 @@ public class PostActivity extends AppCompatActivity {
                         .into(binding.audioVideoImg);
                 binding.textAVTitle.setText("YouTube");
                 binding.textAVUrl.setText(videoURL);
+                binding.getModel().setArticle_thumbnail(url);
+                binding.getModel().setArticle_title("YouTube");
             } else {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            final Bitmap bitmap = Utility.retriveVideoFrameFromVideo(videoURL);
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Glide.with(PostActivity.this)
-                                            .load(bitmap)
-                                            .into(binding.audioVideoImg);
-                                    binding.textAVTitle.setText(videoURL);
-                                    binding.textAVUrl.setText(videoURL);
-                                }
-                            });
-                        } catch (Throwable throwable) {
-                            throwable.printStackTrace();
-                        }
-                    }
-                }).start();
+                Utility.showToast(PostActivity.this, "Invalid Url.");
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();
