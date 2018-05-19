@@ -1,11 +1,14 @@
 package com.stufeed.android.view.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +19,7 @@ import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.UpdateCollegeResponse;
 import com.stufeed.android.databinding.ActivitySelectCollegeBinding;
+import com.stufeed.android.databinding.DialogInstituteCodeBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 
@@ -28,7 +32,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SelectCollegeActivity extends AppCompatActivity {
-
 
     private ActivitySelectCollegeBinding binding;
     private GetAllCollegeResponse.College college;
@@ -55,8 +58,43 @@ public class SelectCollegeActivity extends AppCompatActivity {
         if (college == null) {
             Utility.showToast(SelectCollegeActivity.this, "Select college.");
         } else {
-            setCollege(college.getCollegeId());
+            if (TextUtils.isEmpty(college.getInstituteCode())) {
+                setCollege(college.getCollegeId());
+            } else {
+                showCodeDialog();
+            }
         }
+    }
+
+    private void showCodeDialog() {
+        final DialogInstituteCodeBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(SelectCollegeActivity.this),
+                R.layout.dialog_institute_code, null, false);
+        final Dialog dialog = new Dialog(SelectCollegeActivity.this);
+        dialog.setContentView(dialogBinding.getRoot());
+        dialog.setCancelable(false);
+        dialog.setTitle("Enter PIN Code");
+        dialog.show();
+
+        dialogBinding.buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String codeStr = dialogBinding.editText.getText().toString().trim();
+                if (!TextUtils.isEmpty(codeStr)) {
+                    if (college.getInstituteCode().equals(codeStr)) {
+                        dialog.dismiss();
+                        setCollege(college.getCollegeId());
+                    } else {
+                        Utility.showToast(SelectCollegeActivity.this, "Wrong code.");
+                    }
+                }
+            }
+        });
+        dialogBinding.buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void setTextChangeListener() {
@@ -118,6 +156,8 @@ public class SelectCollegeActivity extends AppCompatActivity {
         if (getAllCollegeResponse == null) {
             Utility.showErrorMsg(SelectCollegeActivity.this);
         } else if (getAllCollegeResponse.getResponseCode().equals(Api.SUCCESS)) {
+            colleges.clear();
+            collegesStrList.clear();
             colleges = getAllCollegeResponse.getCollegeArrayList();
             int size = colleges.size();
             collegesStrList.clear();

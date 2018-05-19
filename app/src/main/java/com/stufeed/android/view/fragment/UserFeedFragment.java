@@ -32,16 +32,24 @@ import retrofit2.Response;
 public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private FragmentFeedBinding binding;
+    private String collegeId = "";
 
     public UserFeedFragment() {
         // Required empty public constructor
     }
 
-    public static UserFeedFragment newInstance() {
+    public static UserFeedFragment newInstance(String collegeId) {
         Bundle args = new Bundle();
         UserFeedFragment fragment = new UserFeedFragment();
+        args.putString("collegeId", collegeId);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        collegeId = getArguments().getString("collegeId");
     }
 
     @Override
@@ -89,8 +97,7 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.msgTxt.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(Utility.getLoginUserId(getActivity()
-        ));
+        Call<GetPostResponse> responseCall = api.getUserAllPost(collegeId);
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {

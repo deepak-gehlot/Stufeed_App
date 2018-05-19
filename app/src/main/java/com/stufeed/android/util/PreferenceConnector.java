@@ -6,6 +6,7 @@ import android.content.SharedPreferences.Editor;
 
 public class PreferenceConnector {
     public static final String USER_DATA = "user_data";
+    public static final String USER_SETTING = "user_setting";
     public static final String USER_ID = "user_id";
     public static final String VERIFY = "verify";
     public static final String IS_LOGIN = "is_login";

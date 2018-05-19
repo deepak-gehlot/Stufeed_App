@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.CommentResponse;
 import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
@@ -32,13 +33,18 @@ import com.stufeed.android.api.response.RePostResponse;
 import com.stufeed.android.api.response.SavePostResponse;
 import com.stufeed.android.databinding.ActivitySinglePostBinding;
 import com.stufeed.android.listener.DialogListener;
+import com.stufeed.android.util.Constant;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.CommentListAdapter;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
+import com.stufeed.android.view.viewmodel.CommentModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,7 +62,8 @@ public class ViewPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_single_post);
+        mBinding = DataBindingUtil.setContentView(
+                this, R.layout.activity_single_post);
         loginUserId = Utility.getLoginUserId(this);
         mBinding.setActivity(this);
         getDataFromBundle();
@@ -66,6 +73,77 @@ public class ViewPostActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getPostById(postId);
+    }
+
+    /**
+     * Comment send button click method
+     */
+    public void onSendButtonClick() {
+        String comment = mBinding.edtComment.getText().toString().trim();
+        if (!TextUtils.isEmpty(comment)) {
+            CommentModel commentModel = new CommentModel();
+            commentModel.setComment(comment);
+            commentModel.setPostId(postId);
+            commentModel.setUserId(Utility.getLoginUserDetail(ViewPostActivity.this).getUserId());
+            Api api = APIClient.getClient().create(Api.class);
+            Call<CommentResponse> responseCall = api.postComment(commentModel.getUserId(), commentModel.getPostId(),
+                    commentModel.getComment());
+            addNewComment(commentModel);
+            mBinding.edtComment.getText().clear();
+            Utility.showToast(ViewPostActivity.this, "Comment posted.");
+
+            responseCall.enqueue(new Callback<CommentResponse>() {
+                @Override
+                public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
+                    handleCommentResponse(response.body());
+                }
+
+                @Override
+                public void onFailure(Call<CommentResponse> call, Throwable t) {
+                    Utility.showErrorMsg(ViewPostActivity.this);
+                }
+            });
+        }
+    }
+
+    /**
+     * Handle comment response method
+     *
+     * @param commentResponse {@link CommentResponse}
+     */
+    private void handleCommentResponse(CommentResponse commentResponse) {
+        if (commentResponse == null) {
+            Utility.showErrorMsg(ViewPostActivity.this);
+        } else if (commentResponse.getResponseCode().equals(Api.SUCCESS)) {
+        }
+    }
+
+    private void addNewComment(CommentModel commentModel) {
+        GetAllCommentResponse.Comment comment = new GetAllCommentResponse.Comment();
+        comment.setComment(commentModel.getComment());
+        comment.setUserId(commentModel.getUserId());
+        comment.setEmail(Utility.getLoginUserDetail(ViewPostActivity.this).getEmail());
+        comment.setFullName(Utility.getLoginUserDetail(ViewPostActivity.this).getFullName());
+        comment.setPostId(commentModel.getPostId());
+        comment.setProfilePic(Utility.getLoginUserDetail(ViewPostActivity.this).getProfilePic());
+        comment.setDateTime(new SimpleDateFormat(Constant.FORMAT_DATE_TIME, Locale.US).format(new Date()));
+        commentArrayList.add(comment);
+        if (mBinding.recyclerViewComment.getAdapter() != null) {
+            mBinding.recyclerViewComment.getAdapter().notifyDataSetChanged();
+            scrollToBottom();
+        } else {
+            setCommentRecyclerView();
+        }
+    }
+
+    private void scrollToBottom() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mBinding.recyclerViewComment.smoothScrollToPosition(commentArrayList.size() - 1);
+            }
+        }, 100);
+
     }
 
     private void getDataFromBundle() {
@@ -103,6 +181,8 @@ public class ViewPostActivity extends AppCompatActivity {
             setView(singlePost.getPost());
             if (_for.equals("comment")) {
                 getAllCommentList();
+                mBinding.commentLayout.setVisibility(View.VISIBLE);
+                mBinding.dividerView.setVisibility(View.VISIBLE);
             }
         } else {
             Utility.showErrorMsg(ViewPostActivity.this);

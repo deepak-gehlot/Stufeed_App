@@ -51,10 +51,11 @@ public class AcademyBoardListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loginUserId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
 
-        if (TextUtils.isEmpty(loginUserId) || loginUserId.equals("0")) {
+        if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             loginUserId = Utility.getLoginUserId(getActivity());
+        } else {
+            loginUserId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
         }
 
         getBoardList();

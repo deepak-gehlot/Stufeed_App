@@ -107,7 +107,7 @@ public interface Api {
     Call<GetPostResponse> getAllPost(@Field("userid") String userId);
 
     @FormUrlEncoded
-    @POST("getuserpost")
+        @POST("getuserpost")
     Call<GetPostResponse> getUserAllPost(@Field("userid") String userId);
 
     @FormUrlEncoded
@@ -232,6 +232,7 @@ public interface Api {
     Call<SaveSettingResponse> saveSetting(@Field("userid") String userId,
                                           @Field("issearch") String search,
                                           @Field("issound") String sound,
+                                          @Field("institute_code") String instituteCode,
                                           @Field("isnotifications") String notification);
 
     @FormUrlEncoded

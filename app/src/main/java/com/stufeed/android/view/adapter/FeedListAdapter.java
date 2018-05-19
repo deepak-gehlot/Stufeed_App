@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 
+import com.androidquery.AQuery;
 import com.appunite.appunitevideoplayer.PlayerActivity;
 import com.bumptech.glide.Glide;
 import com.stufeed.android.R;
@@ -40,6 +43,8 @@ import com.stufeed.android.view.activity.FullImageActivity;
 import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -52,11 +57,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     private ArrayList<GetPostResponse.Post> postArrayList;
     private String loginUserId;
     private String videoURL = "";
+    private AQuery aQuery;
 
     public FeedListAdapter(Fragment context, ArrayList<GetPostResponse.Post> postArrayList) {
         this.context = context;
         this.postArrayList = postArrayList;
         loginUserId = Utility.getLoginUserDetail(context.getActivity()).getUserId();
+        aQuery = new AQuery(context.getActivity());
     }
 
     @Override
@@ -71,6 +78,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         final GetPostResponse.Post post = postArrayList.get(position);
         holder.rowBinding.setModel(post);
         holder.rowBinding.setAdapter(this);
+        holder.rowBinding.documentLayout.setVisibility(View.GONE);
         holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
         holder.rowBinding.pollLayout.setVisibility(View.GONE);
         holder.rowBinding.imageLayout.setVisibility(View.GONE);
@@ -105,13 +113,30 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         }
 
         switch (post.getPostType()) {
+            case "1":
+
+                holder.rowBinding.documentLayout.setVisibility(View.VISIBLE);
+                /*aQuery.id(holder.rowBinding.audioVideoImg).image(
+                        post.getFilePath() + post.getFile(), true, true, 200, R.drawable.user_default);
+                */
+                String ext = FilenameUtils.getExtension(post.getFile());
+                setFileAsExtension(holder, ext);
+                holder.rowBinding.doctextAVUrl.setText(post.getFile());
+                break;
             case "2": // aartical url
                 holder.rowBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+/*
                 Glide.with(context)
                         .load(post.getArticleThumbUrl())
                         .into(holder.rowBinding.audioVideoImg);
+*/
+
+                    aQuery.id(holder.rowBinding.audioVideoImg).image(
+                            post.getArticleThumbUrl(), true, true, 200, R.drawable.user_default);
+
                 holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
                 holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
+
                 break;
             case "5":  // for audio
                 holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
@@ -210,6 +235,30 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         });
     }
 
+    private void setFileAsExtension(ViewHolder holder, String extension) {
+        switch (extension) {
+            case "pdf":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_pdf);
+                break;
+            case "doc":
+            case "docx":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_doc);
+                break;
+            case "xlsx":
+            case "xls":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_xls);
+                break;
+            case "txt":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_unknown);
+                break;
+            case "ppt":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_ppt);
+                break;
+            default:
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_unknown);
+        }
+    }
+
     private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
         ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
         if (arrayList.size() != 0) {
@@ -219,9 +268,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                 try {
                     if (videoURL.contains("www.youtube.com")) {
                         String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
-                        Glide.with(context)
+                        /*Glide.with(context)
                                 .load(url)
-                                .into(holder.rowBinding.image);
+                                .into(holder.rowBinding.image);*/
+
+                        aQuery.id(holder.rowBinding.image).image(
+                                url, true, true, 200, R.drawable.user_default);
                     } else {
                         new Thread(new Runnable() {
                             @Override
@@ -251,9 +303,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             }
         } else {
             holder.rowBinding.playBtn.setVisibility(View.GONE);
-            Glide.with(context)
+            /*Glide.with(context)
                     .load(post.getFilePath() + post.getImage())
-                    .into(holder.rowBinding.image);
+                    .into(holder.rowBinding.image);*/
+
+            aQuery.id(holder.rowBinding.image).image(
+                    post.getFilePath() + post.getImage(), true, true, 200, R.drawable.user_default);
         }
     }
 
@@ -301,8 +356,19 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     }
 
     public void onArticleClick(GetPostResponse.Post post) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(post.getVideoUrl()));
-        context.startActivity(browserIntent);
+        if (post.getPostType().equals("1")) {
+            String url = post.getFilePath() + post.getFile();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(context.getActivity(), R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context.getActivity(), Uri.parse(url));
+        } else {
+            String url = post.getVideoUrl();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(context.getActivity(), R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context.getActivity(), Uri.parse(url));
+        }
     }
 
     private void showActionMenu(final GetPostResponse.Post post, int position, View view) {

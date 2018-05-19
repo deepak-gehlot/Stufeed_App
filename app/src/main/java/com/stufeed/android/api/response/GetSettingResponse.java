@@ -40,6 +40,8 @@ public class GetSettingResponse {
         private String isSearch = "";
         @SerializedName("issound")
         private String isSound = "";
+        @SerializedName("institute_code")
+        private String instituteCode = "";
         @SerializedName("isnotifications")
         private String isNotification = "";
 
@@ -74,5 +76,13 @@ public class GetSettingResponse {
         public void setIsNotification(String isNotification) {
             this.isNotification = isNotification;
         }
-    }
+
+       public String getInstituteCode() {
+           return instituteCode;
+       }
+
+       public void setInstituteCode(String instituteCode) {
+           this.instituteCode = instituteCode;
+       }
+   }
 }

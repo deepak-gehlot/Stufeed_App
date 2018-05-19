@@ -46,7 +46,8 @@ public class CommentPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_comment_post);
+        binding = DataBindingUtil.setContentView(
+                this, R.layout.activity_comment_post);
         setSupportActionBar(binding.toolbar);
         getDataFromBundle();
         binding.setActivity(this);

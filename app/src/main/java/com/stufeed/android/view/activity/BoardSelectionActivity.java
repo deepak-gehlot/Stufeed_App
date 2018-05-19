@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.stufeed.android.R;
@@ -29,11 +30,13 @@ public class BoardSelectionActivity extends AppCompatActivity {
     ArrayList<GetBoardListResponse.Board> mBoardArrayList = new ArrayList<>();
     private String loginUserId;
     private String postId = "";
+    String ids = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_board_selection);
+        mBinding = DataBindingUtil.setContentView(
+                this, R.layout.activity_board_selection);
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +46,19 @@ public class BoardSelectionActivity extends AppCompatActivity {
         loginUserId = Utility.getLoginUserId(this);
         getBoardList();
         getDataFromBundle();
+
+        mBinding.buttonPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(ids)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("board_id", ids);
+                    intent.putExtra("post_id", postId);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        });
     }
 
     private void getDataFromBundle() {
@@ -129,18 +145,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
             adapter.setItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onClick(int position, Object obj) {
-                    String boardId = "";
-                    if (position == 0) {
-                        boardId = "0";
-                    } else {
-                        boardId = mBoardArrayList.get(position).getBoardId();
-                    }
-
-                    Intent intent = new Intent();
-                    intent.putExtra("board_id", boardId);
-                    intent.putExtra("post_id", postId);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    ids = ((String) obj);
                 }
             });
         }

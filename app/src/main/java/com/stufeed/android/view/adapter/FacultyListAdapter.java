@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidquery.AQuery;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -31,17 +32,20 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
     private ArrayList<GetCollegeUserResponse.User> userArrayList;
     private String loginUserId = "";
     String userType = "";
+    private AQuery aQuery;
 
     public FacultyListAdapter(Context context, String userType, ArrayList<GetCollegeUserResponse.User> userArrayList) {
         this.context = context;
         this.userArrayList = userArrayList;
         this.userType = userType;
         loginUserId = Utility.getLoginUserId(context);
+        aQuery = new AQuery(context);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowFacultyBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_faculty,
+        RowFacultyBinding rowBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(context), R.layout.row_faculty,
                 parent, false);
         return new ViewHolder(rowBinding);
     }
@@ -56,6 +60,10 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
         } else {
             holder.rowBinding.txtFollow.setText(context.getString(R.string.follow));
         }
+
+        aQuery.id(holder.rowBinding.imageView).image(
+                user.getProfilePic(), true, true, 70, R.drawable.user_default
+        );
 
         holder.rowBinding.txtFollow.setOnClickListener(new View.OnClickListener() {
             @Override

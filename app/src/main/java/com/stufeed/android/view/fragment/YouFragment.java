@@ -186,14 +186,16 @@ public class YouFragment extends Fragment {
      * @param viewPager @ViewPager
      */
     private void setupViewPager(ViewPager viewPager) {
-        String collegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
 
-        if (TextUtils.isEmpty(collegeId) || collegeId.equals("0")) {
+        String collegeId = "";
+        if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             collegeId = Utility.getLoginUserId(getActivity());
+        } else {
+            collegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EduKitFragment.newInstance(), "EDUKIT");
-        adapter.addFragment(FeedFragment.newInstance(collegeId), "POST");
+        adapter.addFragment(UserFeedFragment.newInstance(collegeId), "POST");
         adapter.addFragment(AcademyBoardListFragment.newInstance(), "BOARD");
         viewPager.setAdapter(adapter);
     }

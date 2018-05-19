@@ -45,6 +45,8 @@ public class GetAllCollegeResponse {
         private String collegeName = "";
         @SerializedName("institutiontype")
         private String institutionType = "";
+        @SerializedName("institute_code")
+        private String instituteCode = "";
         @SerializedName("address")
         private String address = "";
         @SerializedName("affiliation_no")
@@ -198,6 +200,14 @@ public class GetAllCollegeResponse {
 
         public void setYearOfEstablishment(String yearOfEstablishment) {
             this.yearOfEstablishment = yearOfEstablishment;
+        }
+
+        public String getInstituteCode() {
+            return instituteCode;
+        }
+
+        public void setInstituteCode(String instituteCode) {
+            this.instituteCode = instituteCode;
         }
     }
 }

@@ -40,8 +40,12 @@ public class EdukitPostActivity extends AppCompatActivity {
 
 
     private void init() {
-        mCollegeId = Utility.getLoginUserDetail(EdukitPostActivity.this).getCollegeId();
-        mCollegeId = "45";
+        if (Utility.getLoginUserDetail(this).getUserType().equals("4")) {
+            mCollegeId = Utility.getLoginUserId(this);
+        } else {
+            mCollegeId = Utility.getLoginUserDetail(EdukitPostActivity.this).getCollegeId();
+        }
+        //mCollegeId = "45";
         mBinding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -33,6 +33,7 @@ import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
 import com.stufeed.android.view.fragment.FeedFragment;
+import com.stufeed.android.view.fragment.UserFeedFragment;
 import com.stufeed.android.view.fragment.connect.academy.AcademyBoardListFragment;
 import com.stufeed.android.view.fragment.connect.academy.EduKitFragment;
 
@@ -74,15 +75,16 @@ public class AcademyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mLoginUserId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
+        if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
+            mLoginUserId = Utility.getLoginUserId(getActivity());
+        } else {
+            mLoginUserId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
+        }
         setupViewPager(binding.viewpager);
         binding.setFragment(this);
         binding.tabLayout.setupWithViewPager(binding.viewpager);
         binding.viewpager.setOffscreenPageLimit(3);
 
-        if (TextUtils.isEmpty(mLoginUserId) || mLoginUserId.equals("0")) {
-            mLoginUserId = Utility.getLoginUserId(getActivity());
-        }
 
         getBasicDetails();
         setUserType();
@@ -152,14 +154,15 @@ public class AcademyFragment extends Fragment {
      * @param viewPager @ViewPager
      */
     private void setupViewPager(ViewPager viewPager) {
-        String collegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
-
-        if (TextUtils.isEmpty(collegeId) || collegeId.equals("0")) {
+        String collegeId = "";
+        if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             collegeId = Utility.getLoginUserId(getActivity());
+        } else {
+            collegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EduKitFragment.newInstance(), "EDUKIT");
-        adapter.addFragment(FeedFragment.newInstance(collegeId), "POST");
+        adapter.addFragment(UserFeedFragment.newInstance(collegeId), "POST");
         adapter.addFragment(AcademyBoardListFragment.newInstance(), "BOARD");
         viewPager.setAdapter(adapter);
     }
@@ -169,7 +172,7 @@ public class AcademyFragment extends Fragment {
      */
     private void getBasicDetails() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetUserDetailsResponse> responseCall = api.getUserAllInfo(mLoginUserId);
+        Call<GetUserDetailsResponse> responseCall = api.getUserDetails(Utility.getLoginUserId(getActivity()), mLoginUserId);
         responseCall.enqueue(new Callback<GetUserDetailsResponse>() {
             @Override
             public void onResponse(Call<GetUserDetailsResponse> call, Response<GetUserDetailsResponse> response) {
@@ -260,10 +263,28 @@ public class AcademyFragment extends Fragment {
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 binding.setModel(response.getAllDetails());
+
+                String description = response.getAllDetails().getAbout();
+                binding.textAboutMe.setText(description);
+                binding.txtUserName.setText(binding.getModel().getFullName());
+                String allSkills = response.getAllDetails().getSkills();
+                String skills[] = allSkills.split(",");
+                for (int i = 0; i < skills.length; i++) {
+                    if (!TextUtils.isEmpty(skills[i])) {
+                        Tag tag = new Tag(skills[i]);
+                        tagList.add(tag);
+                    }
+                }
+                if (tagList.size() == 0) {
+                    isHaveSkills = false;
+                    binding.textSkill.setVisibility(View.GONE);
+                } else {
+                    isHaveSkills = true;
+                    binding.textSkill.setVisibility(View.VISIBLE);
+                }
+
             }
         }
-        getSkills();
-        getAbout();
         getAchievement();
     }
 

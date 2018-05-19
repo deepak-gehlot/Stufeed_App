@@ -2,6 +2,7 @@ package com.stufeed.android.util;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,6 +56,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.stufeed.android.R;
+import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.listener.DialogListener;
 
@@ -130,6 +133,12 @@ public class Utility {
 
     public static String getLoginUserId(Context context) {
         return getLoginUserDetail(context).getUserId();
+    }
+
+
+    public static GetSettingResponse.Setting getUserSetting(Context context){
+        return new Gson().fromJson(PreferenceConnector.readString(context, PreferenceConnector.USER_SETTING, ""),
+                GetSettingResponse.Setting.class);
     }
 
     /* public static boolean isGooglePlayServicesAvailable(Activity activity) {
@@ -969,5 +978,19 @@ aq.id(R.id.image).image(url, options);*/
                 ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.institute)));
                 break;
         }
+    }
+
+    public static String getMimeType(Context context, Uri uri) {
+        String mimeType = null;
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            ContentResolver cr = context.getContentResolver();
+            mimeType = cr.getType(uri);
+        } else {
+            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri
+                    .toString());
+            mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+                    fileExtension.toLowerCase());
+        }
+        return mimeType;
     }
 }

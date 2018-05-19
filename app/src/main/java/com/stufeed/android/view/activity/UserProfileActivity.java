@@ -233,26 +233,6 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Get User Skills
-     */
-    private void getSkills() {
-        Api api = APIClient.getClient().create(Api.class);
-        Call<GetAllSkillsResponse> responseCall = api.getUserSkills(user.getUserId());
-        responseCall.enqueue(new Callback<GetAllSkillsResponse>() {
-            @Override
-            public void onResponse(Call<GetAllSkillsResponse> call, retrofit2.Response<GetAllSkillsResponse> response) {
-                ProgressDialog.getInstance().dismissDialog();
-                handleGetUserSkillResponse(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<GetAllSkillsResponse> call, Throwable t) {
-                ProgressDialog.getInstance().dismissDialog();
-                handleGetUserSkillResponse(null);
-            }
-        });
-    }
 
     /**
      * Get User Achievement list
@@ -274,29 +254,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Get About
-     */
-    private void getAbout() {
-        Api api = APIClient.getClient().create(Api.class);
-        Call<GetUserDescriptionResponse> responseCall = api.getUserDescription(user.getUserId());
-        responseCall.enqueue(new Callback<GetUserDescriptionResponse>() {
-            @Override
-            public void onResponse(Call<GetUserDescriptionResponse> call,
-                                   retrofit2.Response<GetUserDescriptionResponse> response) {
-                GetUserDescriptionResponse response1 = response.body();
-                if (response1 != null && response1.getResponseCode().equals(Api.SUCCESS)) {
-                    String description = response1.getDescription();
-                    mBinding.container.textAboutMeData.setText(description);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<GetUserDescriptionResponse> call, Throwable t) {
-
-            }
-        });
-    }
 
     /**
      * User details response
@@ -332,31 +290,7 @@ public class UserProfileActivity extends AppCompatActivity {
         getAchievement();
     }
 
-    /**
-     * Get all skills response
-     */
-    private void handleGetUserSkillResponse(GetAllSkillsResponse response) {
-        if (response != null) {
-            if (response.getResponseCode().equals(Api.SUCCESS)) {
-                String allSkills = response.getAllSkills();
-                String skills[] = allSkills.split(",");
-                for (int i = 0; i < skills.length; i++) {
-                    if (!TextUtils.isEmpty(skills[i])) {
-                        Tag tag = new Tag(skills[i]);
-                        tagList.add(tag);
-                    }
-                }
-            }
-        }
-        if (tagList.size() == 0) {
-            isHaveSkills = false;
-            mBinding.container.textSkill.setVisibility(View.GONE);
-        } else {
-            isHaveSkills = true;
-            mBinding.container.textSkill.setVisibility(View.VISIBLE);
-        }
-        showHideArrow();
-    }
+
 
     /**
      * Get achievement response

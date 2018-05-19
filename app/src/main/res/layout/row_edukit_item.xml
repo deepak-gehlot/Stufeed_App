@@ -48,8 +48,10 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/imageLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <ProgressBar
                         android:layout_width="wrap_content"
@@ -62,6 +64,37 @@
                         android:layout_height="200dp"
                         android:scaleType="centerCrop" />
                 </RelativeLayout>
+
+                <!--document row start-->
+                <LinearLayout
+                    android:id="@+id/documentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:background="@color/grey_color"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/documentImg"
+                        android:layout_width="@dimen/dimen_100dp"
+                        android:layout_height="match_parent"
+                        android:padding="16dp"
+                        android:src="@drawable/icon_file_doc"/>
+
+                    <TextView
+                        android:id="@+id/doctextAVUrl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="2"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+                <!--document row end-->
+
             </LinearLayout>
 
         </LinearLayout>

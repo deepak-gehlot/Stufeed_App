@@ -16,13 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.androidquery.AQuery;
+import com.google.gson.Gson;
 import com.stufeed.android.R;
+import com.stufeed.android.api.APIClient;
+import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.bean.DrawerItem;
 import com.stufeed.android.databinding.ActivityHomeBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.listener.OnItemClickListener;
 import com.stufeed.android.util.PreferenceConnector;
+import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.DrawrAdapter;
 import com.stufeed.android.view.fragment.BoardFragment;
@@ -32,6 +37,10 @@ import com.stufeed.android.view.fragment.YouFragment;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -114,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 Utility.addFragment(this, BoardFragment.newInstance(), "BoardFragment", binding.frame.getId());
                 break;
             case R.id.navigation_feed:
-                String userId =Utility.getLoginUserId(HomeActivity.this);
+                String userId = Utility.getLoginUserId(HomeActivity.this);
                 Utility.addFragment(this, FeedFragment.newInstance(userId), "FeedFragment", binding.frame.getId());
                 break;
         }
@@ -235,6 +244,32 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         drawerItems.add(drawerItem6);
         drawerItems.add(drawerItem7);
         return drawerItems;
+    }
+
+    private void getSettings() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetSettingResponse> responseCall = api.getSetting(Utility.getLoginUserId(HomeActivity.this));
+        responseCall.enqueue(new Callback<GetSettingResponse>() {
+            @Override
+            public void onResponse(Call<GetSettingResponse> call, Response<GetSettingResponse> response) {
+                handleGetSettingResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetSettingResponse> call, Throwable t) {
+                handleGetSettingResponse(null);
+            }
+        });
+    }
+
+    private void handleGetSettingResponse(GetSettingResponse response) {
+        if (response == null) {
+            Utility.showErrorMsg(HomeActivity.this);
+        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            GetSettingResponse.Setting setting = response.getSetting();
+            String strSetting = new Gson().toJson(setting);
+            PreferenceConnector.writeString(HomeActivity.this, PreferenceConnector.USER_SETTING, strSetting);
+        }
     }
 }
 

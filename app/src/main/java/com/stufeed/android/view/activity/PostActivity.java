@@ -9,6 +9,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -42,6 +43,7 @@ import com.stufeed.android.util.Utility;
 import com.stufeed.android.util.ValidationTemplate;
 import com.stufeed.android.view.viewmodel.PostModel;
 
+import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -53,6 +55,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
 import okhttp3.MultipartBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -103,7 +107,22 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RECORD_AUDIO) {
+        if (requestCode == FilePickerConst.REQUEST_CODE_DOC) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    File file = new File(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS).get(0));
+                    binding.docImgLayout.setVisibility(View.VISIBLE);
+                    binding.docTitle.setText(file.getName());
+                    binding.getModel().setFile(file);
+                    binding.getModel().setType(1);
+                    String ext = FilenameUtils.getExtension(file.getPath());
+                    setFileAsExtension(ext);
+                    break;
+                case RESULT_CANCELED:
+                    Utility.showToast(PostActivity.this, "Recording canceled.");
+                    break;
+            }
+        } else if (requestCode == RECORD_AUDIO) {
             switch (resultCode) {
                 case RESULT_OK:
                     binding.audioCardLayout.setVisibility(View.VISIBLE);
@@ -140,6 +159,30 @@ public class PostActivity extends AppCompatActivity {
                     binding.getModel().setFile(file);
                 }
             });
+        }
+    }
+
+    private void setFileAsExtension(String extension) {
+        switch (extension) {
+            case "pdf":
+                binding.docImg.setImageResource(R.drawable.icon_file_pdf);
+                break;
+            case "doc":
+            case "docx":
+                binding.docImg.setImageResource(R.drawable.icon_file_doc);
+                break;
+            case "xlsx":
+            case "xls":
+                binding.docImg.setImageResource(R.drawable.icon_file_xls);
+                break;
+            case "txt":
+                binding.docImg.setImageResource(R.drawable.icon_file_unknown);
+                break;
+            case "ppt":
+                binding.docImg.setImageResource(R.drawable.icon_file_ppt);
+                break;
+            default:
+                binding.docImg.setImageResource(R.drawable.icon_file_unknown);
         }
     }
 
@@ -301,16 +344,19 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 switch (v.getId()) {
-                    case R.id.cameraButton:
+                    case R.id.cameraButtonLayout:
                         openCamera();
                         break;
-                    case R.id.galleryButton:
+                    case R.id.galleryButtonLayout:
                         openGallery();
                         break;
-                    case R.id.documentButton:
+                    case R.id.documentButtonLayout:
+                        pickDocument();
+                        break;
+                    case R.id.audioButtonLayout:
                         recordAudio();
                         break;
-                    case R.id.pollButton:
+                    case R.id.pollButtonLayout:
                         binding.pollLayout.setVisibility(View.VISIBLE);
                         binding.getModel().setType(4);
                         break;
@@ -324,14 +370,36 @@ public class PostActivity extends AppCompatActivity {
             }
         };
 
-        dialogBinding.cameraButton.setOnClickListener(onClickListener);
-        dialogBinding.galleryButton.setOnClickListener(onClickListener);
-        dialogBinding.documentButton.setOnClickListener(onClickListener);
-        dialogBinding.pollButton.setOnClickListener(onClickListener);
+        dialogBinding.cameraButtonLayout.setOnClickListener(onClickListener);
+        dialogBinding.galleryButtonLayout.setOnClickListener(onClickListener);
+        dialogBinding.documentButtonLayout.setOnClickListener(onClickListener);
+        dialogBinding.audioButtonLayout.setOnClickListener(onClickListener);
+        dialogBinding.pollButtonLayout.setOnClickListener(onClickListener);
         dialogBinding.aarticalButtonLayout.setOnClickListener(onClickListener);
         dialogBinding.videoButtonLayout.setOnClickListener(onClickListener);
 
         dialog.show();
+    }
+
+    /**
+     * Pic document file
+     */
+    private void pickDocument() {
+        new Permissive.Request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .whenPermissionsGranted(new PermissionsGrantedListener() {
+                    @Override
+                    public void onPermissionsGranted(String[] permissions) throws SecurityException {
+                        FilePickerBuilder.getInstance().setMaxCount(1)
+                                .setSelectedFiles(new ArrayList<String>())
+                                .setActivityTheme(R.style.AppTheme)
+                                .pickFile(PostActivity.this);
+                    }
+                }).whenPermissionsRefused(new PermissionsRefusedListener() {
+            @Override
+            public void onPermissionsRefused(String[] permissions) {
+                Utility.showToast(PostActivity.this, "Need permission to open gallery.");
+            }
+        }).execute(PostActivity.this);
     }
 
     public void showLinkDialog(final int type) {

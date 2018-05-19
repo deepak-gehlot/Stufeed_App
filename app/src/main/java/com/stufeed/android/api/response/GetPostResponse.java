@@ -66,6 +66,8 @@ public class GetPostResponse {
         private String profilePic = "";
         @SerializedName("Image")
         private String image = "";
+        @SerializedName("File")
+        private String file = "";
         @SerializedName("Totallike")
         private String totalLike = "0";
         @SerializedName("Totalcomment")
@@ -322,6 +324,14 @@ public class GetPostResponse {
             this.videoUrl = videoUrl;
         }
 
+        public String getFile() {
+            return file;
+        }
+
+        public void setFile(String file) {
+            this.file = file;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -357,6 +367,7 @@ public class GetPostResponse {
             dest.writeString(this.articleTitle);
             dest.writeString(this.articleThumbUrl);
             dest.writeString(this.videoUrl);
+            dest.writeString(this.file);
         }
 
         protected Post(Parcel in) {
@@ -388,6 +399,7 @@ public class GetPostResponse {
             this.articleTitle = in.readString();
             this.articleThumbUrl = in.readString();
             this.videoUrl = in.readString();
+            this.file = in.readString();
         }
 
         public static final Creator<Post> CREATOR = new Creator<Post>() {

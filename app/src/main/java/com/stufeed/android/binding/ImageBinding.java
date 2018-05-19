@@ -17,7 +17,7 @@ public class ImageBinding {
     @BindingAdapter({"postImageUrl"})
     public static void setPostImage(ImageView imageView, String url) {
         AQuery aQuery = new AQuery(imageView.getContext());
-        aQuery.id(imageView).image(url, true, true, 200, R.drawable.gallery_icon);
+        aQuery.id(imageView).image(url, true, true, 200, R.drawable.user_default);
     }
 
     @BindingAdapter({"imageDrawable"})
