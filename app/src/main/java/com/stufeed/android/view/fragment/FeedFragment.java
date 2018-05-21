@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -134,6 +135,12 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void setRecyclerView(ArrayList<GetPostResponse.Post> postArrayList) {
+        for (int i = 0; i < postArrayList.size(); i++) {
+            if (i != 0 && i % 4 == 0) {
+                postArrayList.add(i, null);
+            }
+        }
+
         binding.progressBar.setVisibility(View.GONE);
         binding.msgTxt.setVisibility(View.GONE);
         binding.recyclerView.setVisibility(View.VISIBLE);

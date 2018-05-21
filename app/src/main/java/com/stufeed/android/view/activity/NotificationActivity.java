@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -34,6 +37,10 @@ public class NotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,
                 R.layout.activity_notification);
+
+        MobileAds.initialize(this,
+                getString(R.string.ad_mob_id));
+
         mLoginUserId = Utility.getLoginUserId(this);
 
         binding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -50,6 +57,10 @@ public class NotificationActivity extends AppCompatActivity {
                 onRequestClick();
             }
         });
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public void onRequestClick() {

@@ -34,6 +34,14 @@ public class VerifyAccountActivity extends AppCompatActivity {
         String code = binding.edtOtp.getText().toString().trim();
         if (TextUtils.isEmpty(code)) {
             Utility.showToast(VerifyAccountActivity.this, "Enter OTP");
+            try {
+                Intent mailClient = new Intent(Intent.ACTION_VIEW);
+                mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ConversationListActivity");
+                startActivity(mailClient);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Utility.showToast(VerifyAccountActivity.this, "No app found.");
+            }
         } else {
             verify(code);
         }

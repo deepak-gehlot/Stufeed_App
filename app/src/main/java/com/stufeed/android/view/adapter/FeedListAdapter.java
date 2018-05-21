@@ -22,6 +22,8 @@ import android.webkit.URLUtil;
 import com.androidquery.AQuery;
 import com.appunite.appunitevideoplayer.PlayerActivity;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -51,13 +53,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHolder> {
+public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Fragment context;
     private ArrayList<GetPostResponse.Post> postArrayList;
     private String loginUserId;
     private String videoURL = "";
     private AQuery aQuery;
+    private static final int TYPE_AD = 1;
+    private static final int TYPE_VIEW = 2;
 
     public FeedListAdapter(Fragment context, ArrayList<GetPostResponse.Post> postArrayList) {
         this.context = context;
@@ -67,64 +71,85 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context.getActivity()), R.layout
-                .row_feed, parent, false);
-        return new ViewHolder(rowBinding);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        if (viewType == TYPE_VIEW) {
+            RowFeedBinding rowBinding = DataBindingUtil.inflate(LayoutInflater.from(context.getActivity()), R.layout
+                    .row_feed, parent, false);
+            return new ViewHolder(rowBinding);
+        } else {
+            View view = LayoutInflater.from(context.getActivity()).inflate(R.layout.row_ad, parent, false);
+            return new AdViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final GetPostResponse.Post post = postArrayList.get(position);
-        holder.rowBinding.setModel(post);
-        holder.rowBinding.setAdapter(this);
-        holder.rowBinding.documentLayout.setVisibility(View.GONE);
-        holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
-        holder.rowBinding.pollLayout.setVisibility(View.GONE);
-        holder.rowBinding.imageLayout.setVisibility(View.GONE);
-        holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
-
-        Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeIcon);
-
-        if (!TextUtils.isEmpty(post.getBoardId())) {
-            holder.rowBinding.boardName.setVisibility(View.VISIBLE);
+    public int getItemViewType(int position) {
+        if (postArrayList.get(position) == null) {
+            return TYPE_AD;
         } else {
-            holder.rowBinding.boardName.setVisibility(View.GONE);
+            return TYPE_VIEW;
         }
+    }
 
-        if (!TextUtils.isEmpty(post.getIsLike())) {
-            if (post.getIsLike().equals("0")) {
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder rowHolder, int position) {
+
+        if (getItemViewType(position) == TYPE_AD) {
+            AdViewHolder adViewHolder = (AdViewHolder) rowHolder;
+
+        } else {
+            final ViewHolder holder = (ViewHolder) rowHolder;
+            final GetPostResponse.Post post = postArrayList.get(position);
+            holder.rowBinding.setModel(post);
+            holder.rowBinding.setAdapter(this);
+            holder.rowBinding.documentLayout.setVisibility(View.GONE);
+            holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
+            holder.rowBinding.pollLayout.setVisibility(View.GONE);
+            holder.rowBinding.imageLayout.setVisibility(View.GONE);
+            holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
+
+            Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeIcon);
+
+            if (!TextUtils.isEmpty(post.getBoardId())) {
+                holder.rowBinding.boardName.setVisibility(View.VISIBLE);
+            } else {
+                holder.rowBinding.boardName.setVisibility(View.GONE);
+            }
+
+            if (!TextUtils.isEmpty(post.getIsLike())) {
+                if (post.getIsLike().equals("0")) {
+                    holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
+                } else {
+                    holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_icon);
+                }
+            } else {
                 holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
-            } else {
-                holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_icon);
             }
-        } else {
-            holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
-        }
 
-        if (!TextUtils.isEmpty(post.getIsBookmark())) {
-            if (post.getIsBookmark().equals("0")) {
+            if (!TextUtils.isEmpty(post.getIsBookmark())) {
+                if (post.getIsBookmark().equals("0")) {
+                    holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
+                } else {
+                    holder.rowBinding.imgSave.setImageResource(R.drawable.bookmark_icon);
+                }
+            } else {
                 holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
-            } else {
-                holder.rowBinding.imgSave.setImageResource(R.drawable.bookmark_icon);
             }
-        } else {
-            holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
-        }
 
-        switch (post.getPostType()) {
-            case "1":
+            switch (post.getPostType()) {
+                case "1":
 
-                holder.rowBinding.documentLayout.setVisibility(View.VISIBLE);
+                    holder.rowBinding.documentLayout.setVisibility(View.VISIBLE);
                 /*aQuery.id(holder.rowBinding.audioVideoImg).image(
                         post.getFilePath() + post.getFile(), true, true, 200, R.drawable.user_default);
                 */
-                String ext = FilenameUtils.getExtension(post.getFile());
-                setFileAsExtension(holder, ext);
-                holder.rowBinding.doctextAVUrl.setText(post.getFile());
-                break;
-            case "2": // aartical url
-                holder.rowBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+                    String ext = FilenameUtils.getExtension(post.getFile());
+                    setFileAsExtension(holder, ext);
+                    holder.rowBinding.doctextAVUrl.setText(post.getFile());
+                    break;
+                case "2": // aartical url
+                    holder.rowBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
 /*
                 Glide.with(context)
                         .load(post.getArticleThumbUrl())
@@ -134,105 +159,106 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
                     aQuery.id(holder.rowBinding.audioVideoImg).image(
                             post.getArticleThumbUrl(), true, true, 200, R.drawable.user_default);
 
-                holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
-                holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
+                    holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
+                    holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
 
-                break;
-            case "5":  // for audio
-                holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
-                String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
-                holder.rowBinding.audioText.setText(fileName);
-                break;
-            case "4":  // for poll
-                holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
-                holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
+                    break;
+                case "5":  // for audio
+                    holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
+                    String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
+                    holder.rowBinding.audioText.setText(fileName);
+                    break;
+                case "4":  // for poll
+                    holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
+                    holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
 
-                holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
-                holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
-                for (int i = 0; i < post.getOptionArrayList().size(); i++) {
+                    holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
+                    holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
+                    for (int i = 0; i < post.getOptionArrayList().size(); i++) {
 
-                    if (!TextUtils.isEmpty(post.getSelectedId())) {
-                        String id = post.getOptionArrayList().get(i).getId();
-                        if (post.getSelectedId().equals(id)) {
-                            post.getOptionArrayList().get(i).setIsSelect("1");
+                        if (!TextUtils.isEmpty(post.getSelectedId())) {
+                            String id = post.getOptionArrayList().get(i).getId();
+                            if (post.getSelectedId().equals(id)) {
+                                post.getOptionArrayList().get(i).setIsSelect("1");
+                            }
+                        }
+
+                        String select = post.getOptionArrayList().get(i).getIsSelect();
+                        if (i == 0) {
+                            if (!TextUtils.isEmpty(select) && select.equals("1")) {
+                                holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                        .ic_radio_button_checked, 0, 0, 0);
+                                holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                        .ic_radio_button_unchecked, 0, 0, 0);
+                            } else {
+                                holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                        .ic_radio_button_unchecked, 0, 0, 0);
+                            }
+
+                            int firstValue = 0, secondValue = 0;
+                            int total = 0;
+                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                                firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                            }
+
+                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                                secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                            }
+                            total = firstValue + secondValue;
+                            int firstPer = (firstValue / total) * 100;
+
+                            holder.rowBinding.totalCount1.setText("" + firstPer);
+                        } else if (i == 1) {
+                            if (!TextUtils.isEmpty(select) && select.equals("1")) {
+                                holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                        .ic_radio_button_unchecked, 0, 0, 0);
+                                holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                        .ic_radio_button_checked, 0, 0, 0);
+                            } else {
+                                holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                        .ic_radio_button_unchecked, 0, 0, 0);
+                            }
+                            int firstValue = 0, secondValue = 0;
+                            int total = 0;
+                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                                firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                            }
+
+                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                                secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                            }
+                            total = firstValue + secondValue;
+                            int firstPer = (secondValue / total) * 100;
+
+                            holder.rowBinding.totalCount2.setText("" + firstPer);
                         }
                     }
 
-                    String select = post.getOptionArrayList().get(i).getIsSelect();
-                    if (i == 0) {
-                        if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                    .ic_radio_button_checked, 0, 0, 0);
-                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                    .ic_radio_button_unchecked, 0, 0, 0);
-                        } else {
-                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                    .ic_radio_button_unchecked, 0, 0, 0);
-                        }
+                    break;
+                default:
+                    holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
+                    imageOrVideoRow(holder, post);
+                    break;
+            }
 
-                        int firstValue = 0, secondValue = 0;
-                        int total = 0;
-                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
-                            firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
-                        }
-
-                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
-                            secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
-                        }
-                        total = firstValue + secondValue;
-                        int firstPer = (firstValue / total) * 100;
-
-                        holder.rowBinding.totalCount1.setText("" + firstPer);
-                    } else if (i == 1) {
-                        if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                            holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                    .ic_radio_button_unchecked, 0, 0, 0);
-                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                    .ic_radio_button_checked, 0, 0, 0);
-                        } else {
-                            holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                    .ic_radio_button_unchecked, 0, 0, 0);
-                        }
-                        int firstValue = 0, secondValue = 0;
-                        int total = 0;
-                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
-                            firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
-                        }
-
-                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
-                            secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
-                        }
-                        total = firstValue + secondValue;
-                        int firstPer = (secondValue / total) * 100;
-
-                        holder.rowBinding.totalCount2.setText("" + firstPer);
-                    }
+            if (!TextUtils.isEmpty(post.getAllowRePost())) {
+                if (post.getAllowRePost().equals("1")) {
+                    holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
+                } else {
+                    holder.rowBinding.imgRepost.setVisibility(View.GONE);
                 }
-
-                break;
-            default:
-                holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
-                imageOrVideoRow(holder, post);
-                break;
-        }
-
-        if (!TextUtils.isEmpty(post.getAllowRePost())) {
-            if (post.getAllowRePost().equals("1")) {
-                holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
             } else {
-                holder.rowBinding.imgRepost.setVisibility(View.GONE);
+                holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
             }
-        } else {
-            holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
-        }
 
-        holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
-                        .rowBinding.actionIcon);
-            }
-        });
+            holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
+                            .rowBinding.actionIcon);
+                }
+            });
+        }
     }
 
     private void setFileAsExtension(ViewHolder holder, String extension) {
@@ -743,6 +769,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         private ViewHolder(RowFeedBinding rowBinding) {
             super(rowBinding.getRoot());
             this.rowBinding = rowBinding;
+        }
+    }
+
+    class AdViewHolder extends RecyclerView.ViewHolder {
+        public AdViewHolder(View view) {
+            super(view);
+            AdView mAdView = view.findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
         }
     }
 }

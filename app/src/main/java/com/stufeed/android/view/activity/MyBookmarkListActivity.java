@@ -9,6 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -33,6 +36,10 @@ public class MyBookmarkListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_bookmark_list);
+
+        MobileAds.initialize(this,
+                getString(R.string.ad_mob_id));
+
         setSupportActionBar(mBinding.toolbar);
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +48,10 @@ public class MyBookmarkListActivity extends AppCompatActivity {
             }
         });
         getSavedPostList();
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     /**

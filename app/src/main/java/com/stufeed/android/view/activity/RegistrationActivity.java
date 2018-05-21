@@ -36,8 +36,20 @@ public class RegistrationActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_registration);
         binding.setModel(new RegistrationModel());
         binding.setActivity(this);
-        binding.setModel(new RegistrationModel());
+        getDataFromBundle();
         setSpinner();
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String fullName = bundle.getString("full_name");
+            String email = bundle.getString("email");
+            RegistrationModel model = binding.getModel();
+            model.setFullName(fullName);
+            model.setEmail(email);
+            binding.setModel(model);
+        }
     }
 
     private void setSpinner() {

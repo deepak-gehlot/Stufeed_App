@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.androidquery.AQuery;
+import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -51,6 +52,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobileAds.initialize(this, getString(R.string.ad_mob_id));
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         disableShiftMode(binding.bottomNavigation);
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this);

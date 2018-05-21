@@ -92,9 +92,9 @@
                         android:linksClickable="true"
                         android:paddingBottom="12dp"
                         android:paddingEnd="16dp"
-                        android:text="@={model.description}"
                         android:paddingStart="16dp"
-                        android:paddingTop="12dp" />
+                        android:paddingTop="12dp"
+                        android:text="@={model.description}" />
                 </android.support.design.widget.TextInputLayout>
 
                 <!-- Image View Layout Start    -->
@@ -185,7 +185,7 @@
             android:id="@+id/relLayBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_above="@+id/adView"
             android:background="@color/bg_color">
 
             <ImageView
@@ -215,6 +215,7 @@
             android:id="@+id/postSelectionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/adView"
             android:layout_alignParentBottom="true"
             android:background="@color/bg_color"
             android:orientation="vertical"
@@ -248,6 +249,15 @@
                 android:textSize="@dimen/dimen_14sp" />
 
         </LinearLayout>
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/ad_unit_id" />
 
     </RelativeLayout>
 </layout>

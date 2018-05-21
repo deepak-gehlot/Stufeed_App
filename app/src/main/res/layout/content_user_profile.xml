@@ -371,6 +371,7 @@
                     android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/user_default" />
+
             </RelativeLayout>
         </ScrollView>
 
@@ -381,7 +382,16 @@
             android:layout_below="@+id/scrollView"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
+            android:layout_above="@+id/adView"
             android:layout_marginTop="5dp" />
 
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            ads:adSize="SMART_BANNER"
+            android:layout_alignParentBottom="true"
+            ads:adUnitId="@string/ad_unit_id" />
     </RelativeLayout>
 </layout>

@@ -15,6 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.cunoraz.tagview.Tag;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -56,6 +59,8 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile);
+        MobileAds.initialize(this,
+                getString(R.string.ad_mob_id));
         setSupportActionBar(mBinding.toolbar);
         mBinding.container.setActivity(this);
 
@@ -68,6 +73,9 @@ public class UserProfileActivity extends AppCompatActivity {
         getBasicDetails();
 
 
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override

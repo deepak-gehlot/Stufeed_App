@@ -29,6 +29,9 @@ import com.bumptech.glide.Glide;
 import com.github.jksiezni.permissive.PermissionsGrantedListener;
 import com.github.jksiezni.permissive.PermissionsRefusedListener;
 import com.github.jksiezni.permissive.Permissive;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -57,6 +60,7 @@ import java.util.List;
 import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
+import id.zelory.compressor.Compressor;
 import okhttp3.MultipartBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -88,6 +92,9 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this,
                 R.layout.activity_post);
+        MobileAds.initialize(this,
+                getString(R.string.ad_mob_id));
+
         binding.setActivity(this);
         PostModel postModel = new PostModel();
         postModel.setUserId(Utility.getLoginUserDetail(PostActivity.this).getUserId());
@@ -102,7 +109,12 @@ public class PostActivity extends AppCompatActivity {
         aQuery = new AQuery(PostActivity.this);
 
         addDescriptionTextChangeListener();
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -153,10 +165,15 @@ public class PostActivity extends AppCompatActivity {
             EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
                 @Override
                 public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                    File file = imageFiles.get(0);
-                    binding.selectedImgLayout.setVisibility(View.VISIBLE);
-                    aQuery.id(binding.selectedImg).image(file, 300);
-                    binding.getModel().setFile(file);
+                    try {
+                        File file = imageFiles.get(0);
+                        file = new Compressor(PostActivity.this).compressToFile(file);
+                        binding.selectedImgLayout.setVisibility(View.VISIBLE);
+                        aQuery.id(binding.selectedImg).image(file, 300);
+                        binding.getModel().setFile(file);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

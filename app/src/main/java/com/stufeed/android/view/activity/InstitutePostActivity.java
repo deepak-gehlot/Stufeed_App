@@ -15,6 +15,9 @@ import com.androidquery.AQuery;
 import com.github.jksiezni.permissive.PermissionsGrantedListener;
 import com.github.jksiezni.permissive.PermissionsRefusedListener;
 import com.github.jksiezni.permissive.Permissive;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
@@ -37,6 +40,7 @@ import java.util.List;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
+import id.zelory.compressor.Compressor;
 import okhttp3.MultipartBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -57,6 +61,8 @@ public class InstitutePostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(
                 this, R.layout.activity_institute_post);
+        MobileAds.initialize(this,
+                getString(R.string.ad_mob_id));
         mBinding.setActivity(this);
         aQuery = new AQuery(this);
         EdukitPostModel edukitPostModel = new EdukitPostModel();
@@ -69,6 +75,10 @@ public class InstitutePostActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
@@ -120,12 +130,17 @@ public class InstitutePostActivity extends AppCompatActivity {
             EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
                 @Override
                 public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                    File file = imageFiles.get(0);
-                    mBinding.docImgLayout.setVisibility(View.GONE);
-                    mBinding.selectedImgLayout.setVisibility(View.VISIBLE);
-                    aQuery.id(mBinding.selectedImg).image(file, 300);
-                    mBinding.getModel().setFile(file);
-                    mBinding.getModel().setPostValue("3");
+                    try {
+                        File file = imageFiles.get(0);
+                        file = new Compressor(InstitutePostActivity.this).compressToFile(file);
+                        mBinding.docImgLayout.setVisibility(View.GONE);
+                        mBinding.selectedImgLayout.setVisibility(View.VISIBLE);
+                        aQuery.id(mBinding.selectedImg).image(file, 300);
+                        mBinding.getModel().setFile(file);
+                        mBinding.getModel().setPostValue("3");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }

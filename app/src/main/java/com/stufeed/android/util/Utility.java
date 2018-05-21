@@ -774,13 +774,14 @@ aq.id(R.id.image).image(url, options);*/
 
     public static void printHashKey(Activity pContext) {
         try {
-            PackageInfo info = pContext.getPackageManager().getPackageInfo("com.bikespot.android", PackageManager
+            PackageInfo info = pContext.getPackageManager().getPackageInfo("com.stufeed.android", PackageManager
                     .GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.e("", "printHashKey() Hash Key: " + hashKey);
+                Log.e("", "printHashKey() " +
+                        ": " + hashKey);
             }
         } catch (NoSuchAlgorithmException e) {
             Log.e("", "printHashKey()", e);

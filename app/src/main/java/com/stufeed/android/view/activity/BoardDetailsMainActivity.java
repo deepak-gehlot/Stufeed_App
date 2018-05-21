@@ -6,6 +6,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.ActivityBlockedDetailsMainBinding;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
@@ -22,6 +25,8 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_blocked_details_main);
+        MobileAds.initialize(this,
+                getString(R.string.ad_mob_id));
         getDataFromBundle();
         setupViewPager(mBinding.viewPager);
         mBinding.tabLayout.setupWithViewPager(mBinding.viewPager);
@@ -32,6 +37,10 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     private void getDataFromBundle() {
