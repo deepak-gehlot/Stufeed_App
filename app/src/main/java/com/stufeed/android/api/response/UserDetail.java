@@ -23,6 +23,8 @@ public class UserDetail {
     private String profilePic = "";
     @SerializedName("noti_count")
     private String notiCount = "";
+    @SerializedName("user_instituteId")
+    private String userInstituteId = "";
 
     public String getUserId() {
         return userId;
@@ -86,5 +88,13 @@ public class UserDetail {
 
     public void setNotiCount(String notiCount) {
         this.notiCount = notiCount;
+    }
+
+    public String getUserInstituteId() {
+        return userInstituteId;
+    }
+
+    public void setUserInstituteId(String userInstituteId) {
+        this.userInstituteId = userInstituteId;
     }
 }

@@ -191,7 +191,7 @@ public class YouFragment extends Fragment {
         if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             collegeId = Utility.getLoginUserId(getActivity());
         } else {
-            collegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
+            collegeId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EduKitFragment.newInstance(), "EDUKIT");

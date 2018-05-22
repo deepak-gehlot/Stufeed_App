@@ -55,7 +55,7 @@ public class AcademyBoardListFragment extends Fragment {
         if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             loginUserId = Utility.getLoginUserId(getActivity());
         } else {
-            loginUserId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
+            loginUserId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         }
 
         getBoardList();

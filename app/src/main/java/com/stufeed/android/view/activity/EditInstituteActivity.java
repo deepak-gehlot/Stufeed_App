@@ -85,7 +85,7 @@ public class EditInstituteActivity extends AppCompatActivity {
         context = this;
         aQuery = new AQuery(this);
         loginUserId = Utility.getLoginUserId(this);
-        collageId = Utility.getLoginUserDetail(this).getCollegeId();
+        collageId = Utility.getLoginUserDetail(this).getUserInstituteId();
 
 
         getCollegeDetails();

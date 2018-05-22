@@ -31,7 +31,7 @@
         tools:context="com.stufeed.android.view.activity.UserProfileActivity"
         tools:showIn="@layout/activity_user_profile">
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -373,25 +373,26 @@
                     android:src="@drawable/user_default" />
 
             </RelativeLayout>
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/adView"
             android:layout_below="@+id/scrollView"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:layout_above="@+id/adView"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:minHeight="400dp" />
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
             ads:adSize="SMART_BANNER"
-            android:layout_alignParentBottom="true"
             ads:adUnitId="@string/ad_unit_id" />
     </RelativeLayout>
 </layout>

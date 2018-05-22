@@ -78,7 +78,7 @@ public class AcademyFragment extends Fragment {
         if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             mLoginUserId = Utility.getLoginUserId(getActivity());
         } else {
-            mLoginUserId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
+            mLoginUserId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         }
         setupViewPager(binding.viewpager);
         binding.setFragment(this);
@@ -158,7 +158,7 @@ public class AcademyFragment extends Fragment {
         if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             collegeId = Utility.getLoginUserId(getActivity());
         } else {
-            collegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
+            collegeId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EduKitFragment.newInstance(), "EDUKIT");
