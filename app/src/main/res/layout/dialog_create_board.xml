@@ -8,6 +8,14 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Board"
+            android:textColor="@color/text_color"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -140,6 +148,7 @@
                 android:gravity="center"
                 android:text="Cancel"
                 android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <View
@@ -154,6 +163,7 @@
                 android:layout_weight="5"
                 android:backgroundTint="#8C9197"
                 android:text="Done"
+                android:textSize="16sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
         </LinearLayout>

@@ -20,7 +20,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/tool_bar_height"
             android:background="@color/colorPrimary"
             app:navigationIcon="@drawable/back_icon"
             app:title="Edit Profile"
@@ -73,9 +73,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/cv"
-                            android:background="@android:color/transparent"
+                            android:background="@drawable/edit_text"
                             android:hint="Enter Institute Name"
-                            android:padding="8dp"
+                            android:padding="10dp"
                             android:singleLine="true"
                             android:text="@{model.collegeName}"
                             android:textColor="@color/text_color" />
@@ -142,6 +142,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/regi_view"
                             android:hint="@string/select_university"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:singleLine="true"
                             android:textColor="@color/text_color"
                             android:textSize="16dp"
@@ -151,6 +153,8 @@
                             android:id="@+id/textView12"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:layout_below="@+id/autocomple_university">
 
                             <EditText
@@ -177,6 +181,8 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:hint="@string/city"
                                 android:text="@={model.city}"
                                 android:textColor="@color/text_color"
@@ -188,6 +194,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:hint="@string/state"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:text="@={model.state}"
                                 android:textColor="@color/text_color"
                                 android:textSize="16dp" />
@@ -199,8 +207,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-
-
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:layout_below="@+id/linearLayout4"
                             android:layout_marginTop="5dp">
 
@@ -247,6 +255,8 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:layout_height="wrap_content">
 
                             <TextView
@@ -269,6 +279,8 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:layout_height="wrap_content">
 
                             <EditText
@@ -291,6 +303,8 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:layout_height="wrap_content">
 
                             <EditText
@@ -318,6 +332,8 @@
                             android:layout_height="match_parent"
                             android:hint="@string/specialist"
                             android:paddingLeft="5dp"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:text="@={model.specialisedIn}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
@@ -333,6 +349,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:cursorVisible="false"
                             android:focusable="false"
                             android:hint="@string/year_of_stablished"
@@ -399,6 +417,8 @@
                             android:backgroundTint="@color/button_color"
                             android:gravity="center|left"
                             android:text="Location"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Menu"
                             android:textColor="@color/view_color"
                             android:textSize="16dp" />

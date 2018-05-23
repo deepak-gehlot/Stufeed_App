@@ -19,7 +19,7 @@
 
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="@dimen/tool_bar_height"
             android:background="@color/colorPrimary"
             app:title="Select College"
             app:titleTextColor="@color/white">

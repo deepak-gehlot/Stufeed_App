@@ -23,7 +23,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/tool_bar_height"
             android:background="@color/colorPrimary"
             app:navigationIcon="@drawable/back_icon"
             app:title="Edit Basic Info"
@@ -59,7 +59,6 @@
                     android:background="@color/bg_color"
                     android:gravity="center">
 
-
                     <android.support.v7.widget.CardView
                         android:id="@+id/cardView1"
                         android:layout_width="match_parent"
@@ -92,6 +91,7 @@
                                     app:profileImageUrl="@{model.profilePic}" />
                             </android.support.v7.widget.CardView>
 
+
                             <EditText
                                 android:id="@+id/userNameEdt"
                                 android:layout_width="match_parent"
@@ -99,6 +99,8 @@
                                 android:layout_below="@id/cardView1"
                                 android:drawableLeft="@drawable/person_edit_icon"
                                 android:drawablePadding="@dimen/dimen_10dp"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:hint="Full Name"
                                 android:singleLine="true"
                                 android:text="@={model.fullName}"
@@ -114,6 +116,8 @@
                                 android:singleLine="true"
                                 android:completionThreshold="1"
                                 android:textColor="@color/text_color"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:textColorHint="@color/text_hint_color"
                                 android:textSize="@dimen/dimen_14sp" />
 
@@ -125,6 +129,8 @@
                                 android:layout_below="@id/autoComplete1"
                                 android:drawablePadding="@dimen/dimen_10dp"
                                 android:gravity="center|left"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:completionThreshold="1"
                                 android:singleLine="true"
                                 android:textColor="@color/text_color"
@@ -137,6 +143,8 @@
                                 android:layout_height="@dimen/dimen_50dp"
                                 android:layout_below="@id/autoComplete2"
                                 android:cursorVisible="false"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:drawableLeft="@drawable/ic_school_black_24dp"
                                 android:drawablePadding="@dimen/dimen_10dp"
                                 android:focusable="false"
@@ -159,20 +167,14 @@
                                 android:drawableLeft="@drawable/college_edit_icon"
                                 android:drawablePadding="@dimen/dimen_10dp"
                                 android:gravity="center|left"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:hint="@string/college"
                                 android:singleLine="true"
                                 android:textColor="@color/text_color"
                                 android:textColorHint="@color/text_hint_color"
                                 android:textSize="@dimen/dimen_14sp" />
 
-                            <View
-                                android:id="@+id/view2"
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/collegeText"
-                                android:layout_marginLeft="@dimen/dimen_5dp"
-                                android:layout_marginRight="@dimen/dimen_5dp"
-                                android:background="@color/view_color" />
 
                             <EditText
                                 android:id="@+id/aboutStatusEdt"
@@ -183,6 +185,8 @@
                                 android:drawablePadding="@dimen/dimen_10dp"
                                 android:gravity="left"
                                 android:hint="About Status"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:inputType="textCapSentences|textMultiLine"
                                 android:maxLength="150"
                                 android:scrollbars="horizontal"
@@ -234,6 +238,8 @@
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
                                 android:gravity="center|left"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:hint="Gender"
                                 android:onClick="@{()->activity.selectGender()}"
                                 android:singleLine="true"
@@ -251,6 +257,8 @@
                                 android:drawablePadding="@dimen/dimen_10dp"
                                 android:hint="Contact"
                                 android:inputType="number"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:maxLength="12"
                                 android:singleLine="true"
                                 android:text="@={model.contactNo}"
@@ -261,26 +269,20 @@
                             <TextView
                                 android:id="@+id/emailEdt"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@+id/mobileEdt"
                                 android:layout_marginLeft="@dimen/dimen_5dp"
-                                android:background="@android:color/transparent"
                                 android:drawableLeft="@drawable/email_edit_icon"
                                 android:drawablePadding="@dimen/dimen_10dp"
                                 android:gravity="center|left"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:hint="Enter Email"
                                 android:singleLine="true"
                                 android:textColor="@color/text_color"
                                 android:textColorHint="@color/text_hint_color"
                                 android:textSize="@dimen/dimen_14sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_below="@+id/emailEdt"
-                                android:layout_marginLeft="@dimen/dimen_5dp"
-                                android:layout_marginRight="@dimen/dimen_5dp"
-                                android:background="@color/view_color" />
 
                             <TextView
                                 android:id="@+id/birthdayTxt"
@@ -293,6 +295,8 @@
                                 android:focusable="false"
                                 android:focusableInTouchMode="false"
                                 android:gravity="center|left"
+                                android:background="@drawable/edit_text"
+                                android:padding="@dimen/dimen_10dp"
                                 android:hint="Birthday"
                                 android:onClick="@{()->activity.openDatePicker()}"
                                 android:singleLine="true"
