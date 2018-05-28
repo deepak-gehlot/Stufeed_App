@@ -120,6 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:background="#19000000"
+                        android:onClick="@{()->activity.onCloseClick(3)}"
                         android:padding="5dp"
                         android:src="@drawable/close_icon" />
                 </RelativeLayout>
@@ -149,6 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:background="#19000000"
+                        android:onClick="@{()->activity.onCloseClick(1)}"
                         android:padding="5dp"
                         android:src="@drawable/close_icon" />
 
@@ -196,6 +198,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:background="#19000000"
+                        android:onClick="@{()->activity.onCloseClick(2)}"
                         android:padding="5dp"
                         android:src="@drawable/close_icon" />
 
@@ -261,13 +264,21 @@
 
                             <TextView
                                 android:id="@+id/audioText"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
+                                android:layout_weight="1"
                                 android:lines="2"
                                 android:text="Audio file Name"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="14sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:onClick="@{()->activity.onCloseClick(5)}"
+                                android:padding="10dp"
+                                android:src="@drawable/close_icon" />
 
                         </LinearLayout>
 
@@ -311,6 +322,7 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="@{()->activity.onCloseClick(4)}"
                                 android:padding="10dp"
                                 android:src="@drawable/close_icon" />
                         </LinearLayout>

@@ -77,7 +77,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("updatecollegeid")
     Call<UpdateCollegeResponse> setCollegeId(@Field("userid") String userId,
-                                             @Field("updatecollegeid") String collegeId);
+                                             @Field("collegeid") String collegeId);
 
     @FormUrlEncoded
     @POST("verifyuseremail")
@@ -107,7 +107,7 @@ public interface Api {
     Call<GetPostResponse> getAllPost(@Field("userid") String userId);
 
     @FormUrlEncoded
-        @POST("getuserpost")
+    @POST("getuserpost")
     Call<GetPostResponse> getUserAllPost(@Field("userid") String userId);
 
     @FormUrlEncoded
@@ -196,6 +196,11 @@ public interface Api {
                                                @Field("loginuserid") String loginUserId);
 
     @FormUrlEncoded
+    @POST("getuserJoinboardMy")
+    Call<GetJoinBoardListResponse> getAllBoardListMy(@Field("userid") String userId,
+                                                     @Field("loginuserid") String loginUserId);
+
+    @FormUrlEncoded
     @POST("joinboard")
     Call<JoinBoardResponse> joinBoard(@Field("userid") String userId,
                                       @Field("boardid") String boardId,
@@ -216,7 +221,8 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getuserJoinboard")
-    Call<GetJoinBoardListResponse> getJoinBoardList(@Field("userid") String userId);
+    Call<GetJoinBoardListResponse> getJoinBoardList(@Field("userid") String userId,
+                                                    @Field("loginId") String loginUserId);
 
     @FormUrlEncoded
     @POST("getallusersavedpost")
@@ -230,6 +236,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("savesettingsbyuser")
     Call<SaveSettingResponse> saveSetting(@Field("userid") String userId,
+                                          @Field("collegeid") String collageId,
                                           @Field("issearch") String search,
                                           @Field("issound") String sound,
                                           @Field("institute_code") String instituteCode,
@@ -383,8 +390,8 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getpostbyboardid")
-    Call<Response> getPostByBoardId(@Field("userid") String userId,
-                                    @Field("boardid") String boardId);
+    Call<GetPostResponse> getPostByBoardId(@Field("userid") String userId,
+                                           @Field("boardid") String boardId);
 
 
     @Multipart

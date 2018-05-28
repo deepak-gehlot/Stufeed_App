@@ -66,6 +66,7 @@ public class DepartmentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
         loginUserCollegeId = "1";
+        setRecyclerView();
         SearchReceiver searchReceiver = new SearchReceiver();
         getActivity().registerReceiver(searchReceiver, new IntentFilter("com.stufeed.android.search"));
         getStudents();
@@ -76,7 +77,7 @@ public class DepartmentFragment extends Fragment {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetCollegeUserResponse> responseCall = api.getCollegeUsers(loginUserId, loginUserCollegeId, "3");
+        Call<GetCollegeUserResponse> responseCall = api.getCollegeUsers(loginUserId, loginUserCollegeId, "2");
         responseCall.enqueue(new Callback<GetCollegeUserResponse>() {
             @Override
             public void onResponse(Call<GetCollegeUserResponse> call, Response<GetCollegeUserResponse> response) {
@@ -132,7 +133,9 @@ public class DepartmentFragment extends Fragment {
                             userArrayListNew.add(s);
                         }
                     }
-                    facultyListAdapter.filterList(userArrayListNew);
+                    if (facultyListAdapter != null) {
+                        facultyListAdapter.filterList(userArrayListNew);
+                    }
                 }
             }
         }

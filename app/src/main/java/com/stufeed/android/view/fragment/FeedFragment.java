@@ -136,7 +136,7 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private void setRecyclerView(ArrayList<GetPostResponse.Post> postArrayList) {
         for (int i = 0; i < postArrayList.size(); i++) {
-            if (i != 0 && i % 4 == 0) {
+            if (i != 0 && i % 7 == 0) {
                 postArrayList.add(i, null);
             }
         }

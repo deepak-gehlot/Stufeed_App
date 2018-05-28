@@ -136,7 +136,7 @@ public class Utility {
     }
 
 
-    public static GetSettingResponse.Setting getUserSetting(Context context){
+    public static GetSettingResponse.Setting getUserSetting(Context context) {
         return new Gson().fromJson(PreferenceConnector.readString(context, PreferenceConnector.USER_SETTING, ""),
                 GetSettingResponse.Setting.class);
     }
@@ -948,6 +948,9 @@ aq.id(R.id.image).image(url, options);*/
     }
 
     public static void setUserTypeColor(Context context, String userType, TextView textView) {
+        if (TextUtils.isEmpty(userType) || context == null || textView == null) {
+            return;
+        }
         switch (userType) {
             case "1": //Student
                 textView.setTextColor(ContextCompat.getColor(context, R.color.student));

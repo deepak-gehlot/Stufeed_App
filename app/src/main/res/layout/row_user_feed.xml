@@ -40,7 +40,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true" />
 
-                    <com.mikhaellopez.circularimageview.CircularImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         app:profileImageUrl="@{model.profilePic}" />

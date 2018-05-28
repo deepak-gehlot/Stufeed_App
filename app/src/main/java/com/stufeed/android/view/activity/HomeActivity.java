@@ -10,7 +10,9 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -76,12 +78,49 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onClick(View v) {
                 if (searchType != 0) {
-                    Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
+                    binding.toolBar.setVisibility(View.GONE);
+                    binding.searchLayout.setVisibility(View.VISIBLE);
+                    binding.editText.requestFocus();
+                    Utility.openKeyboard(HomeActivity.this);
+                    /*Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
                     intent.putExtra("type", searchType);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             }
         });
+
+
+        binding.closeSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (searchType != 0) {
+                    binding.toolBar.setVisibility(View.VISIBLE);
+                    binding.searchLayout.setVisibility(View.GONE);
+                    binding.editText.getText().clear();
+                    setResult("");
+                    Utility.closeKeyboard(HomeActivity.this, binding.editText);
+                }
+            }
+        });
+
+        binding.editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String searchTxt = binding.editText.getText().toString().trim();
+                setResult(searchTxt);
+            }
+        });
+
 
         String userId = Utility.getLoginUserId(this);
 
@@ -90,6 +129,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         UserDetail userDetail = Utility.getLoginUserDetail(this);
         userType = userDetail.getUserType();
         setNavigationList();
+
+        getSettings();
     }
 
     @Override
@@ -97,7 +138,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         super.onResume();
         AQuery aQuery = new AQuery(HomeActivity.this);
         String profilePic = Utility.getLoginUserDetail(HomeActivity.this).getProfilePic();
-        aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.drawable.user_default);
+        aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.drawable.person_icon);
+
+        if (searchType != 0) {
+            binding.toolBar.setVisibility(View.VISIBLE);
+            binding.searchLayout.setVisibility(View.GONE);
+            binding.editText.getText().clear();
+            setResult("");
+        }
     }
 
     @Override
@@ -130,6 +178,14 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 break;
         }
         return true;
+    }
+
+    private void setResult(String searchTxt) {
+        Intent intent = new Intent();
+        intent.setAction("com.stufeed.android.search");
+        intent.putExtra("type", searchType);
+        intent.putExtra("search", searchTxt);
+        sendBroadcast(intent);
     }
 
     private void disableShiftMode(BottomNavigationView view) {
@@ -265,9 +321,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void handleGetSettingResponse(GetSettingResponse response) {
-        if (response == null) {
-            Utility.showErrorMsg(HomeActivity.this);
-        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+        if (response != null && response.getResponseCode().equals(Api.SUCCESS)) {
             GetSettingResponse.Setting setting = response.getSetting();
             String strSetting = new Gson().toJson(setting);
             PreferenceConnector.writeString(HomeActivity.this, PreferenceConnector.USER_SETTING, strSetting);

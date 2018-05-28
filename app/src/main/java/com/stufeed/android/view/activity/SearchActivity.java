@@ -9,11 +9,13 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.stufeed.android.R;
 import com.stufeed.android.databinding.ActivitySearchBinding;
+import com.stufeed.android.util.Utility;
 
 public class SearchActivity extends AppCompatActivity {
 

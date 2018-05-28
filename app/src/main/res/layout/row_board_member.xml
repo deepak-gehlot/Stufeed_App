@@ -31,7 +31,7 @@
             android:orientation="horizontal"
             android:padding="@dimen/dimen_10dp">
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/user_default"

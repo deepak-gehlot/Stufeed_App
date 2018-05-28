@@ -43,6 +43,7 @@ public class GetSavedPostResponse {
         private String userId = "";
         @SerializedName("Postid")
         private String postId = "";
+        private String userType = "";
         @SerializedName("Fullname")
         private String fullName = "";
         @SerializedName("Email")
@@ -65,6 +66,8 @@ public class GetSavedPostResponse {
         private String profilePic = "";
         @SerializedName("Image")
         private String image = "";
+        @SerializedName("File")
+        private String file = "";
         @SerializedName("Totallike")
         private String totalLike = "0";
         @SerializedName("Totalcomment")
@@ -74,9 +77,25 @@ public class GetSavedPostResponse {
         @SerializedName("Questionid")
         private String questionId;
         @SerializedName("Options")
-        private ArrayList<Option> optionArrayList;
+        private ArrayList<GetPostResponse.Option> optionArrayList;
         @SerializedName("optionid ")
         private String selectedId;
+        @SerializedName("audiofile")
+        private String audioFile;
+        @SerializedName("boardid")
+        private String boardId = "";
+        @SerializedName("boardname")
+        private String boardName = "";
+        @SerializedName("is_like")
+        private String isLike = "";
+        @SerializedName("is_bookmark")
+        private String isBookmark = "";
+        @SerializedName("article_title")
+        private String articleTitle = "";
+        @SerializedName("article_thumbnail")
+        private String articleThumbUrl = "";
+        @SerializedName("Videourl")
+        private String videoUrl = "";
 
         public Post() {
         }
@@ -95,6 +114,14 @@ public class GetSavedPostResponse {
 
         public void setPostId(String postId) {
             this.postId = postId;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
         }
 
         public String getFullName() {
@@ -185,6 +212,14 @@ public class GetSavedPostResponse {
             this.image = image;
         }
 
+        public String getFile() {
+            return file;
+        }
+
+        public void setFile(String file) {
+            this.file = file;
+        }
+
         public String getTotalLike() {
             return totalLike;
         }
@@ -217,11 +252,11 @@ public class GetSavedPostResponse {
             this.questionId = questionId;
         }
 
-        public ArrayList<Option> getOptionArrayList() {
+        public ArrayList<GetPostResponse.Option> getOptionArrayList() {
             return optionArrayList;
         }
 
-        public void setOptionArrayList(ArrayList<Option> optionArrayList) {
+        public void setOptionArrayList(ArrayList<GetPostResponse.Option> optionArrayList) {
             this.optionArrayList = optionArrayList;
         }
 
@@ -231,6 +266,70 @@ public class GetSavedPostResponse {
 
         public void setSelectedId(String selectedId) {
             this.selectedId = selectedId;
+        }
+
+        public String getAudioFile() {
+            return audioFile;
+        }
+
+        public void setAudioFile(String audioFile) {
+            this.audioFile = audioFile;
+        }
+
+        public String getBoardId() {
+            return boardId;
+        }
+
+        public void setBoardId(String boardId) {
+            this.boardId = boardId;
+        }
+
+        public String getBoardName() {
+            return boardName;
+        }
+
+        public void setBoardName(String boardName) {
+            this.boardName = boardName;
+        }
+
+        public String getIsLike() {
+            return isLike;
+        }
+
+        public void setIsLike(String isLike) {
+            this.isLike = isLike;
+        }
+
+        public String getIsBookmark() {
+            return isBookmark;
+        }
+
+        public void setIsBookmark(String isBookmark) {
+            this.isBookmark = isBookmark;
+        }
+
+        public String getArticleTitle() {
+            return articleTitle;
+        }
+
+        public void setArticleTitle(String articleTitle) {
+            this.articleTitle = articleTitle;
+        }
+
+        public String getArticleThumbUrl() {
+            return articleThumbUrl;
+        }
+
+        public void setArticleThumbUrl(String articleThumbUrl) {
+            this.articleThumbUrl = articleThumbUrl;
+        }
+
+        public String getVideoUrl() {
+            return videoUrl;
+        }
+
+        public void setVideoUrl(String videoUrl) {
+            this.videoUrl = videoUrl;
         }
 
         @Override
@@ -279,8 +378,8 @@ public class GetSavedPostResponse {
             this.totalComment = in.readString();
             this.question = in.readString();
             this.questionId = in.readString();
-            this.optionArrayList = new ArrayList<Option>();
-            in.readList(this.optionArrayList, Option.class.getClassLoader());
+            this.optionArrayList = new ArrayList<GetPostResponse.Option>();
+            in.readList(this.optionArrayList, GetPostResponse.Option.class.getClassLoader());
             this.selectedId = in.readString();
         }
 
@@ -293,96 +392,6 @@ public class GetSavedPostResponse {
             @Override
             public Post[] newArray(int size) {
                 return new Post[size];
-            }
-        };
-    }
-
-    public static class Option implements Parcelable {
-        @SerializedName("id")
-        private String id = "";
-        @SerializedName("questionid")
-        private String questionId = "";
-        @SerializedName("optionvalue")
-        private String optionValue = "";
-        @SerializedName("totalvote")
-        private String totalVote = "";
-        private String isSelect = "";
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getQuestionId() {
-            return questionId;
-        }
-
-        public void setQuestionId(String questionId) {
-            this.questionId = questionId;
-        }
-
-        public String getOptionValue() {
-            return optionValue;
-        }
-
-        public void setOptionValue(String optionValue) {
-            this.optionValue = optionValue;
-        }
-
-        public String getTotalVote() {
-            return totalVote;
-        }
-
-        public void setTotalVote(String totalVote) {
-            this.totalVote = totalVote;
-        }
-
-        public String getIsSelect() {
-            return isSelect;
-        }
-
-        public void setIsSelect(String isSelect) {
-            this.isSelect = isSelect;
-        }
-
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.id);
-            dest.writeString(this.questionId);
-            dest.writeString(this.optionValue);
-            dest.writeString(this.totalVote);
-            dest.writeString(this.isSelect);
-        }
-
-        public Option() {
-        }
-
-        protected Option(Parcel in) {
-            this.id = in.readString();
-            this.questionId = in.readString();
-            this.optionValue = in.readString();
-            this.totalVote = in.readString();
-            this.isSelect = in.readString();
-        }
-
-        public static final Creator<Option> CREATOR = new Creator<Option>() {
-            @Override
-            public Option createFromParcel(Parcel source) {
-                return new Option(source);
-            }
-
-            @Override
-            public Option[] newArray(int size) {
-                return new Option[size];
             }
         };
     }

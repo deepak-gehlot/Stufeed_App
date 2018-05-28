@@ -58,7 +58,7 @@
                                 app:cardCornerRadius="@dimen/dimen_50dp"
                                 app:cardPreventCornerOverlap="true">
 
-                                <com.mikhaellopez.circularimageview.CircularImageView
+                                <de.hdodenhof.circleimageview.CircleImageView
                                     android:id="@+id/studentImg"
                                     android:layout_width="@dimen/dimen_100dp"
                                     android:layout_height="@dimen/dimen_100dp"

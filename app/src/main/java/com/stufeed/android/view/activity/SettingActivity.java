@@ -30,7 +30,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private ActivitySettingBinding binding;
     private String mSearch = "1", mSound = "1", mNotification = "1";
-    private String mLoginUserId = "";
+    private String mLoginUserId = "", mCollegeId = "";
     private String code = "";
 
     @Override
@@ -52,8 +52,10 @@ public class SettingActivity extends AppCompatActivity {
 
         if (userDetail.getUserType().equals("4")) {
             binding.instituteCodeLayout.setVisibility(View.VISIBLE);
+            mCollegeId = Utility.getLoginUserDetail(SettingActivity.this).getCollegeId();
         } else {
             binding.instituteCodeLayout.setVisibility(View.GONE);
+            mCollegeId = Utility.getLoginUserDetail(SettingActivity.this).getCollegeId();
         }
 
         binding.switchInstituteCode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -135,9 +137,13 @@ public class SettingActivity extends AppCompatActivity {
         } else {
             mNotification = "0";
         }
+        if (!binding.switchInstituteCode.isChecked()) {
+            code = "";
+        }
         Api api = APIClient.getClient().create(Api.class);
         ProgressDialog.getInstance().showProgressDialog(SettingActivity.this);
-        Call<SaveSettingResponse> responseCall = api.saveSetting(mLoginUserId, mSearch, mSound, code, mNotification);
+        Call<SaveSettingResponse> responseCall = api.saveSetting(
+                mLoginUserId, mCollegeId, mSearch, mSound, code, mNotification);
         responseCall.enqueue(new Callback<SaveSettingResponse>() {
             @Override
             public void onResponse(Call<SaveSettingResponse> call, Response<SaveSettingResponse> response) {
@@ -208,6 +214,13 @@ public class SettingActivity extends AppCompatActivity {
             binding.switchNotification.setChecked(true);
         } else {
             binding.switchNotification.setChecked(false);
+        }
+        if (Utility.getLoginUserDetail(SettingActivity.this).getUserType().equals("4")) {
+            if (!TextUtils.isEmpty(code)) {
+                binding.switchInstituteCode.setChecked(true);
+            } else {
+                binding.switchInstituteCode.setChecked(false);
+            }
         }
     }
 }

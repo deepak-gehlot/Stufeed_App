@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.api.response.UserDetail;
@@ -34,11 +35,14 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
     private Context context;
     private ArrayList<GetJoinBoardListResponse.Board> list;
     private String loginUserId = "";
+    private boolean isLoginUser = false;
 
-    public JoinBoardListAdapter(Context context, ArrayList<GetJoinBoardListResponse.Board> list) {
+    public JoinBoardListAdapter(Context context, ArrayList<GetJoinBoardListResponse.Board> list,
+                                boolean isLoginUser) {
         this.context = context;
         this.list = list;
         loginUserId = Utility.getLoginUserId(context);
+        this.isLoginUser = isLoginUser;
     }
 
     @Override
@@ -53,20 +57,38 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
         GetJoinBoardListResponse.Board board = list.get(position);
         holder.binding.setAdapter(this);
         holder.binding.setModel(list.get(position));
-        holder.binding.iconSetting.setVisibility(View.GONE);
+        holder.binding.iconSetting.setVisibility(View.INVISIBLE);
 
         holder.binding.btnJoin.setText("UnJoin");
+
+        switch (board.getJoinType()) {
+            case "0":   // not join
+                if (board.getIsPrivate().equals("1")) {
+                    holder.binding.btnJoin.setText("Join");
+                } else {
+                    holder.binding.btnJoin.setText("Join");
+                }
+                break;
+
+            case "1":   // join
+                holder.binding.btnJoin.setText("UnJoin");
+                break;
+
+            case "2":   //join request
+                holder.binding.btnJoin.setText("Requested");
+                break;
+        }
 
         if (board.getIsPrivate().equals("1")) {
             holder.binding.iconLock.setVisibility(View.VISIBLE);
         } else {
-            holder.binding.iconLock.setVisibility(View.GONE);
+            holder.binding.iconLock.setVisibility(View.INVISIBLE);
         }
 
         if (board.getIsCircle().equals("1")) {
             holder.binding.iconCircle.setVisibility(View.VISIBLE);
         } else {
-            holder.binding.iconCircle.setVisibility(View.GONE);
+            holder.binding.iconCircle.setVisibility(View.INVISIBLE);
         }
 
         Utility.setUserTypeColor(context, board.getUserType(), holder.binding.titleText);
@@ -102,19 +124,59 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
     }
 
     /**
-     * Join public board
+     * unJoin public board
      */
     public void unJoinBoard(final GetJoinBoardListResponse.Board board) {
+        if (board.getIsPrivate().equals("1")) {  // private board
+            requestJoinBoard(board);
+        } else {  // public board
+            ProgressDialog.getInstance().showProgressDialog(context);
+            Api api = APIClient.getClient().create(Api.class);
+            Call<JoinBoardResponse> responseCall = api.joinBoard(board.getUserId(), board.getBoardId(), loginUserId);
+            responseCall.enqueue(new Callback<JoinBoardResponse>() {
+                @Override
+                public void onResponse(Call<JoinBoardResponse> call, Response<JoinBoardResponse> response) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    int position = list.indexOf(board);
+                    if (isLoginUser) {
+                        list.remove(position);
+                        notifyItemRemoved(position);
+                    } else {
+                        if (board.getJoinType().equals("1")) {
+                            board.setJoinType("0");
+                        } else {
+                            board.setJoinType("1");
+                        }
+                        list.add(position, board);
+                        notifyItemChanged(position);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JoinBoardResponse> call, Throwable t) {
+                    ProgressDialog.getInstance().dismissDialog();
+                }
+            });
+        }
+    }
+
+    /**
+     * Request private board join
+     */
+    private void requestJoinBoard(final GetJoinBoardListResponse.Board board) {
         ProgressDialog.getInstance().showProgressDialog(context);
         Api api = APIClient.getClient().create(Api.class);
-        Call<JoinBoardResponse> responseCall = api.joinBoard(board.getUserId(), board.getBoardId(), loginUserId);
+        Call<JoinBoardResponse> responseCall = api.requestJoinBoard(board.getUserId(), board.getBoardId(), loginUserId);
         responseCall.enqueue(new Callback<JoinBoardResponse>() {
             @Override
             public void onResponse(Call<JoinBoardResponse> call, Response<JoinBoardResponse> response) {
+                if (board.getJoinType().equals("2")) {
+                    board.setJoinType("0");
+                } else {
+                    board.setJoinType("2");
+                }
+                notifyItemChanged(list.indexOf(board));
                 ProgressDialog.getInstance().dismissDialog();
-                int position = list.indexOf(board);
-                list.remove(position);
-                notifyItemRemoved(position);
             }
 
             @Override

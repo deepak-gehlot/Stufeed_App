@@ -101,7 +101,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
      */
     private void getJoinedBoardList() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(loginUserId);
+        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(loginUserId,loginUserId);
         responseCall.enqueue(new Callback<GetJoinBoardListResponse>() {
             @Override
             public void onResponse(Call<GetJoinBoardListResponse> call, Response<GetJoinBoardListResponse> response) {
@@ -116,16 +116,18 @@ public class BoardSelectionActivity extends AppCompatActivity {
     }
 
     private void handleResponse(GetJoinBoardListResponse response) {
-        if (response.getResponseCode().equals(Api.SUCCESS)) {
-            if (response.getBoardArrayList() != null) {
-                ArrayList<GetJoinBoardListResponse.Board> boardArrayList = response.getBoardArrayList();
-                for (int i = 0; i < boardArrayList.size(); i++) {
-                    GetJoinBoardListResponse.Board board = boardArrayList.get(i);
-                    if (board.getIsCircle().equalsIgnoreCase("1")) {
-                        GetBoardListResponse.Board newBoard = new GetBoardListResponse.Board();
-                        newBoard.setBoardName(board.getBoardName());
-                        newBoard.setBoardId(board.getBoardId());
-                        mBoardArrayList.add(newBoard);
+        if (response != null) {
+            if (response.getResponseCode().equals(Api.SUCCESS)) {
+                if (response.getBoardArrayList() != null) {
+                    ArrayList<GetJoinBoardListResponse.Board> boardArrayList = response.getBoardArrayList();
+                    for (int i = 0; i < boardArrayList.size(); i++) {
+                        GetJoinBoardListResponse.Board board = boardArrayList.get(i);
+                        if (board.getIsCircle().equalsIgnoreCase("1")) {
+                            GetBoardListResponse.Board newBoard = new GetBoardListResponse.Board();
+                            newBoard.setBoardName(board.getBoardName());
+                            newBoard.setBoardId(board.getBoardId());
+                            mBoardArrayList.add(newBoard);
+                        }
                     }
                 }
             }

@@ -45,8 +45,43 @@
                         android:layout_gravity="end"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:src="@drawable/ic_notifications_black_24dp" />
+                        android:src="@drawable/ic_notifications_black_24dp"
+                        android:visibility="visible" />
+
+
                 </android.support.v7.widget.Toolbar>
+
+                <LinearLayout
+                    android:id="@+id/searchLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/editText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:hint="Search"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:lines="1"
+                        android:padding="@dimen/dimen_10dp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/text_hint_color" />
+
+                    <ImageView
+                        android:id="@+id/closeSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="@dimen/dimen_10dp"
+                        android:paddingStart="@dimen/dimen_10dp"
+                        android:src="@drawable/close_icon" />
+
+                </LinearLayout>
             </android.support.design.widget.AppBarLayout>
 
             <FrameLayout
@@ -80,7 +115,7 @@
             android:fitsSystemWindows="true"
             android:orientation="vertical">
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profilePic"
                 android:layout_width="100dp"
                 android:layout_height="100dp"

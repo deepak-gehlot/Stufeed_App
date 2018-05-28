@@ -249,11 +249,11 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     context.startActivity(browserIntent);
-                } else {
+                } /*else {
                     context.startActivity(PlayerActivity.getVideoPlayerIntent(context,
                             videoURL,
                             "Video title"));
-                }
+                }*/
             }
         } else {
             String imageUrl = post.getFilePath() + post.getImage();

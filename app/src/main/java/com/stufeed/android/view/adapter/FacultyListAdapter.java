@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,9 +62,13 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
             holder.rowBinding.txtFollow.setText(context.getString(R.string.follow));
         }
 
-        aQuery.id(holder.rowBinding.imageView).image(
-                user.getProfilePic(), true, true, 70, R.drawable.user_default
-        );
+        if (TextUtils.isEmpty(user.getProfilePic())) {
+            aQuery.id(holder.rowBinding.imageView).image(R.drawable.person_icon);
+        } else {
+            aQuery.id(holder.rowBinding.imageView).image(
+                    user.getProfilePic(), true, true, 60, R.drawable.person_icon
+            );
+        }
 
         holder.rowBinding.txtFollow.setOnClickListener(new View.OnClickListener() {
             @Override

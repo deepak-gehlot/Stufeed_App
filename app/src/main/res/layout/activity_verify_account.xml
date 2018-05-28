@@ -18,7 +18,7 @@
         tools:context="com.stufeed.android.view.activity.VerifyAccountActivity">
 
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"

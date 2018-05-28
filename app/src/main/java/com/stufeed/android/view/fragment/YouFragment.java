@@ -109,6 +109,7 @@ public class YouFragment extends Fragment {
     public void onBoardJoinCountClick() {
         Intent intent = new Intent(getActivity(), UserJoinBoardActivity.class);
         intent.putExtra("user_id", mLoginUserId);
+        intent.putExtra("login_user_id", mLoginUserId);
         startActivity(intent);
     }
 

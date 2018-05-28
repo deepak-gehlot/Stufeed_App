@@ -314,7 +314,6 @@ public class EditBasicInfoActivity extends AppCompatActivity {
 
     private void showHideAsPerRole(String type) {
         GetUserDetailsResponse.Details details = mBinding.getModel();
-        mBinding.collegeText.setText(details.getCollegeName());
         switch (type) {
             case "1": // Student
                 mBinding.autoComplete1.setHint("program");
@@ -475,6 +474,9 @@ public class EditBasicInfoActivity extends AppCompatActivity {
         } else {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 mBinding.setModel(response.getAllDetails());
+                if (response.getAllDetails() != null) {
+                    mBinding.collegeText.setText(response.getAllDetails().getCollegeName());
+                }
             } else {
                 Utility.showToast(EditBasicInfoActivity.this, response.getResponseMessage());
             }

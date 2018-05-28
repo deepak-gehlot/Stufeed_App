@@ -75,8 +75,13 @@ public class BlockedListAdapter extends RecyclerView.Adapter<BlockedListAdapter.
                 if (response1 != null) {
                     if (response1.getResponseCode().equals(Api.SUCCESS)) {
                         int index = userArrayList.indexOf(user);
-                        userArrayList.remove(index);
-                        notifyItemRemoved(index);
+                        if (index != -1) {
+                            userArrayList.remove(index);
+                            notifyItemRemoved(index);
+                        } else {
+                            userArrayList.remove(user);
+                            notifyDataSetChanged();
+                        }
                     } else {
                         Utility.showToast(context, response1.getResponseMessage());
                     }

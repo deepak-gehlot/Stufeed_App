@@ -59,7 +59,7 @@
                             app:cardCornerRadius="@dimen/dimen_50dp"
                             app:cardPreventCornerOverlap="true">
 
-                            <com.mikhaellopez.circularimageview.CircularImageView
+                            <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/studentImg"
                                 android:layout_width="@dimen/dimen_100dp"
                                 android:layout_height="@dimen/dimen_100dp"
@@ -141,8 +141,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/regi_view"
-                            android:hint="@string/select_university"
                             android:background="@drawable/edit_text"
+                            android:hint="@string/select_university"
                             android:padding="@dimen/dimen_10dp"
                             android:singleLine="true"
                             android:textColor="@color/text_color"
@@ -153,9 +153,9 @@
                             android:id="@+id/textView12"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/autocomple_university"
                             android:background="@drawable/edit_text"
-                            android:padding="@dimen/dimen_10dp"
-                            android:layout_below="@+id/autocomple_university">
+                            android:padding="@dimen/dimen_10dp">
 
                             <EditText
                                 android:id="@+id/institute_address"
@@ -182,8 +182,8 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:background="@drawable/edit_text"
-                                android:padding="@dimen/dimen_10dp"
                                 android:hint="@string/city"
+                                android:padding="@dimen/dimen_10dp"
                                 android:text="@={model.city}"
                                 android:textColor="@color/text_color"
                                 android:textSize="16dp" />
@@ -193,8 +193,8 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:hint="@string/state"
                                 android:background="@drawable/edit_text"
+                                android:hint="@string/state"
                                 android:padding="@dimen/dimen_10dp"
                                 android:text="@={model.state}"
                                 android:textColor="@color/text_color"
@@ -207,10 +207,10 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:background="@drawable/edit_text"
-                            android:padding="@dimen/dimen_10dp"
                             android:layout_below="@+id/linearLayout4"
-                            android:layout_marginTop="5dp">
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text"
+                            android:padding="@dimen/dimen_10dp">
 
                             <EditText
                                 android:id="@+id/institute_id_no"
@@ -255,9 +255,9 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/edit_text"
-                            android:padding="@dimen/dimen_10dp"
-                            android:layout_height="wrap_content">
+                            android:padding="@dimen/dimen_10dp">
 
                             <TextView
                                 android:id="@+id/email_address"
@@ -279,9 +279,9 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/edit_text"
-                            android:padding="@dimen/dimen_10dp"
-                            android:layout_height="wrap_content">
+                            android:padding="@dimen/dimen_10dp">
 
                             <EditText
                                 android:id="@+id/mobile_number"
@@ -303,9 +303,9 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/edit_text"
-                            android:padding="@dimen/dimen_10dp"
-                            android:layout_height="wrap_content">
+                            android:padding="@dimen/dimen_10dp">
 
                             <EditText
                                 android:id="@+id/website"
@@ -330,10 +330,10 @@
                             android:id="@+id/specialist"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:hint="@string/specialist"
-                            android:paddingLeft="5dp"
                             android:background="@drawable/edit_text"
+                            android:hint="@string/specialist"
                             android:padding="@dimen/dimen_10dp"
+                            android:paddingLeft="5dp"
                             android:text="@={model.specialisedIn}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
@@ -350,11 +350,11 @@
                             android:layout_height="match_parent"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/edit_text"
-                            android:padding="@dimen/dimen_10dp"
                             android:cursorVisible="false"
                             android:focusable="false"
                             android:hint="@string/year_of_stablished"
                             android:inputType="number"
+                            android:padding="@dimen/dimen_10dp"
                             android:text="@={model.yearOfEstablishment}"
                             android:textColor="@color/text_color"
                             android:textSize="16dp" />
@@ -414,11 +414,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
+                            android:background="@drawable/edit_text"
                             android:backgroundTint="@color/button_color"
                             android:gravity="center|left"
-                            android:text="Location"
-                            android:background="@drawable/edit_text"
                             android:padding="@dimen/dimen_10dp"
+                            android:text="Location"
                             android:textAppearance="@style/TextAppearance.AppCompat.Menu"
                             android:textColor="@color/view_color"
                             android:textSize="16dp" />

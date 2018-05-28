@@ -96,7 +96,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(final RecyclerView.ViewHolder rowHolder, int position) {
 
         if (getItemViewType(position) == TYPE_AD) {
-            AdViewHolder adViewHolder = (AdViewHolder) rowHolder;
 
         } else {
             final ViewHolder holder = (ViewHolder) rowHolder;
@@ -157,7 +156,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 */
 
                     aQuery.id(holder.rowBinding.audioVideoImg).image(
-                            post.getArticleThumbUrl(), true, true, 200, R.drawable.user_default);
+                            post.getArticleThumbUrl(), true, true, 160, R.drawable.image_placeholder);
 
                     holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
                     holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
@@ -165,8 +164,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
                 case "5":  // for audio
                     holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
-                    String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
-                    holder.rowBinding.audioText.setText(fileName);
+                    // String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
+                    //holder.rowBinding.audioText.setText(fileName);
                     break;
                 case "4":  // for poll
                     holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
@@ -207,7 +206,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             total = firstValue + secondValue;
                             int firstPer = (firstValue / total) * 100;
 
-                            holder.rowBinding.totalCount1.setText("" + firstPer);
+                            holder.rowBinding.totalCount1.setText("" + firstPer + " %");
                         } else if (i == 1) {
                             if (!TextUtils.isEmpty(select) && select.equals("1")) {
                                 holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
@@ -230,7 +229,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             total = firstValue + secondValue;
                             int firstPer = (secondValue / total) * 100;
 
-                            holder.rowBinding.totalCount2.setText("" + firstPer);
+                            holder.rowBinding.totalCount2.setText("" + firstPer + " %");
                         }
                     }
 
@@ -245,10 +244,20 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (post.getAllowRePost().equals("1")) {
                     holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
                 } else {
-                    holder.rowBinding.imgRepost.setVisibility(View.GONE);
+                    holder.rowBinding.imgRepost.setVisibility(View.INVISIBLE);
                 }
             } else {
                 holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
+            }
+
+            if (!TextUtils.isEmpty(post.getAllowComment())) {
+                if (post.getAllowComment().equals("1")) {
+                    holder.rowBinding.imgComment.setVisibility(View.VISIBLE);
+                } else {
+                    holder.rowBinding.imgComment.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                holder.rowBinding.imgComment.setVisibility(View.VISIBLE);
             }
 
             holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
@@ -286,7 +295,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
-        ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
+       /* ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
         if (arrayList.size() != 0) {
             videoURL = arrayList.get(0);
             if (Utility.isValidUrl(videoURL)) {
@@ -294,12 +303,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 try {
                     if (videoURL.contains("www.youtube.com")) {
                         String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
-                        /*Glide.with(context)
+                        *//*Glide.with(context)
                                 .load(url)
-                                .into(holder.rowBinding.image);*/
+                                .into(holder.rowBinding.image);*//*
 
                         aQuery.id(holder.rowBinding.image).image(
-                                url, true, true, 200, R.drawable.user_default);
+                                url, true, true, 160, R.drawable.image_placeholder);
                     } else {
                         new Thread(new Runnable() {
                             @Override
@@ -327,15 +336,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 holder.rowBinding.playBtn.setVisibility(View.GONE);
             }
-        } else {
-            holder.rowBinding.playBtn.setVisibility(View.GONE);
+        } else {*/
+        holder.rowBinding.playBtn.setVisibility(View.GONE);
             /*Glide.with(context)
                     .load(post.getFilePath() + post.getImage())
                     .into(holder.rowBinding.image);*/
 
-            aQuery.id(holder.rowBinding.image).image(
-                    post.getFilePath() + post.getImage(), true, true, 200, R.drawable.user_default);
-        }
+        aQuery.id(holder.rowBinding.image).image(
+                post.getFilePath() + post.getImage(), true, true, 160, R.drawable.image_placeholder);
+        //}
     }
 
     //http://techslides.com/demos/sample-videos/small.mp4
@@ -365,11 +374,11 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     context.startActivity(browserIntent);
-                } else {
+                } /*else {
                     context.startActivity(PlayerActivity.getVideoPlayerIntent(context.getActivity(),
                             videoURL,
                             "Video title"));
-                }
+                }*/
             }
         } else {
             String imageUrl = post.getFilePath() + post.getImage();

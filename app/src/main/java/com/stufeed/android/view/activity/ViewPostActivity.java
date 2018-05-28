@@ -382,11 +382,11 @@ public class ViewPostActivity extends AppCompatActivity {
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     startActivity(browserIntent);
-                } else {
+                } /*else {
                     startActivity(PlayerActivity.getVideoPlayerIntent(ViewPostActivity.this,
                             videoURL,
                             "Video title"));
-                }
+                }*/
             }
         } else {
             String imageUrl = post.getFilePath() + post.getImage();

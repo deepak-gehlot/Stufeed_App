@@ -41,8 +41,8 @@
                         android:layout_centerInParent="true" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
                         app:profileImageUrl="@{model.profilePic}" />
                 </RelativeLayout>
 
@@ -119,7 +119,7 @@
             <RelativeLayout
                 android:id="@+id/imageLayout"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="200dp"
                 android:visibility="gone">
 
                 <ProgressBar
@@ -130,7 +130,7 @@
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="200dp"
                     android:onClick="@{()->adapter.onImageClick(model)}"
                     android:scaleType="centerCrop" />
 
@@ -177,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:lines="1"
-                        android:text="Audio file Name"
+                        android:text="Audio file"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp" />
 
@@ -280,7 +280,7 @@
             <RelativeLayout
                 android:id="@+id/audioVideoImgLayout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 android:layout_margin="16dp"
                 android:layout_marginBottom="5dp"
                 android:onClick="@{()->adapter.onArticleClick(model)}"
@@ -325,7 +325,7 @@
             <LinearLayout
                 android:id="@+id/documentLayout"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="85dp"
                 android:layout_margin="16dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="5dp"

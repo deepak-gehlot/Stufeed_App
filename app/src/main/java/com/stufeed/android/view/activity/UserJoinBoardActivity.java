@@ -24,6 +24,7 @@ public class UserJoinBoardActivity extends AppCompatActivity {
 
     private ActivityUserJoinBoardBinding mBinding;
     private String userId = "";
+    private String loginUserId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class UserJoinBoardActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_join_board);
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("user_id");
+        loginUserId = bundle.getString("login_user_id");
         getBoardList();
 
         mBinding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -50,7 +52,7 @@ public class UserJoinBoardActivity extends AppCompatActivity {
         mBinding.recyclerView.setVisibility(View.GONE);
         mBinding.progressBar.setVisibility(View.VISIBLE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(userId);
+        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(userId, loginUserId);
         responseCall.enqueue(new Callback<GetJoinBoardListResponse>() {
             @Override
             public void onResponse(Call<GetJoinBoardListResponse> call, Response<GetJoinBoardListResponse> response) {
@@ -78,8 +80,12 @@ public class UserJoinBoardActivity extends AppCompatActivity {
 
     private void setRecyclerView(ArrayList<GetJoinBoardListResponse.Board> boardArrayList) {
         if (boardArrayList != null) {
+            boolean isAdmin = false;
+            if (userId.equals(loginUserId)) {
+                isAdmin = true;
+            }
             mBinding.recyclerView.setLayoutManager(new GridLayoutManager(UserJoinBoardActivity.this, 2));
-            JoinBoardListAdapter adapter = new JoinBoardListAdapter(UserJoinBoardActivity.this, boardArrayList);
+            JoinBoardListAdapter adapter = new JoinBoardListAdapter(UserJoinBoardActivity.this, boardArrayList, isAdmin);
             mBinding.recyclerView.setAdapter(adapter);
         }
     }

@@ -61,6 +61,7 @@ public class StudentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
         loginUserCollegeId = "1";
+        setRecyclerView();
         getStudents();
         SearchReceiver searchReceiver = new SearchReceiver();
         getActivity().registerReceiver(searchReceiver, new IntentFilter("com.stufeed.android.search"));
@@ -93,11 +94,11 @@ public class StudentFragment extends Fragment {
             Utility.showErrorMsg(getActivity());
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
             userArrayList = response.getUserArrayList();
-            setRecyclerView(response.getUserArrayList());
+            setRecyclerView();
         }
     }
 
-    private void setRecyclerView(ArrayList<GetCollegeUserResponse.User> userArrayList) {
+    private void setRecyclerView() {
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         facultyListAdapter = new FacultyListAdapter(getActivity(), "Student", userArrayList);
         binding.recyclerView.setAdapter(facultyListAdapter);
@@ -125,7 +126,9 @@ public class StudentFragment extends Fragment {
                             userArrayListNew.add(s);
                         }
                     }
-                    facultyListAdapter.filterList(userArrayListNew);
+                    if (facultyListAdapter != null) {
+                        facultyListAdapter.filterList(userArrayListNew);
+                    }
                 }
             }
         }

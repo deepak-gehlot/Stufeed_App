@@ -43,7 +43,7 @@ public class FcmService extends FirebaseMessagingService {
 
             }
             GetSettingResponse.Setting setting = Utility.getUserSetting(this);
-            if (setting.getIsNotification().equals("1")) {
+            if (setting != null && setting.getIsNotification().equals("1")) {
                 Intent intent = new Intent(this, HomeActivity.class);
                 showNotification(setting, data, intent);
             }

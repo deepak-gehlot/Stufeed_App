@@ -64,7 +64,7 @@ public class JoinBoardFragment extends Fragment {
         mBinding.recyclerView.setVisibility(View.GONE);
         mBinding.progressBar.setVisibility(View.VISIBLE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(mLoginUserId);
+        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(mLoginUserId,mLoginUserId);
         responseCall.enqueue(new Callback<GetJoinBoardListResponse>() {
             @Override
             public void onResponse(Call<GetJoinBoardListResponse> call, Response<GetJoinBoardListResponse> response) {
@@ -93,7 +93,7 @@ public class JoinBoardFragment extends Fragment {
     private void setRecyclerView(ArrayList<GetJoinBoardListResponse.Board> boardArrayList) {
         if (boardArrayList != null) {
             mBinding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-            JoinBoardListAdapter adapter = new JoinBoardListAdapter(getActivity(), boardArrayList);
+            JoinBoardListAdapter adapter = new JoinBoardListAdapter(getActivity(), boardArrayList,true);
             mBinding.recyclerView.setAdapter(adapter);
         }
     }

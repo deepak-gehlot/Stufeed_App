@@ -1,12 +1,15 @@
 package com.stufeed.android.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by HP on 1/27/2018.
@@ -15,20 +18,20 @@ import java.util.Locale;
 public class TimeUtil {
 
     /*
- * Copyright 2012 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+     * Copyright 2012 Google Inc.
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     *      http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     */
 
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
@@ -75,7 +78,12 @@ public class TimeUtil {
         long time = 0;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(formate, Locale.getDefault());
-            time = sdf.parse(dateTime).getTime();
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = sdf.parse(dateTime);
+            sdf.setTimeZone(TimeZone.getDefault());
+            String formattedDate = sdf.format(date);
+            time = sdf.parse(formattedDate).getTime();
+            Log.e("time", dateTime + " converted : " + formattedDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }

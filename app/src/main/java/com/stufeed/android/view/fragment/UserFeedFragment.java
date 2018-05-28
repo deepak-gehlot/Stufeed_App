@@ -112,7 +112,6 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
                 binding.msgTxt.setVisibility(View.VISIBLE);
                 binding.msgTxt.setText(getString(R.string.wrong));
                 binding.pullToRefresh.setRefreshing(false);
-                Utility.showToast(getActivity(), getString(R.string.wrong));
             }
         });
     }
@@ -124,7 +123,6 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             } else {
                 binding.msgTxt.setVisibility(View.VISIBLE);
                 binding.msgTxt.setText("No post found.");
-                Utility.showToast(getActivity(), "No post found.");
             }
         } else {
             binding.msgTxt.setVisibility(View.VISIBLE);
@@ -134,11 +132,13 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     private void setRecyclerView(ArrayList<GetPostResponse.Post> postArrayList) {
-        binding.progressBar.setVisibility(View.GONE);
-        binding.msgTxt.setVisibility(View.GONE);
-        binding.recyclerView.setVisibility(View.VISIBLE);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FeedListAdapter adapter = new FeedListAdapter(UserFeedFragment.this, postArrayList);
-        binding.recyclerView.setAdapter(adapter);
+        if (getView() != null) {
+            binding.progressBar.setVisibility(View.GONE);
+            binding.msgTxt.setVisibility(View.GONE);
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            FeedListAdapter adapter = new FeedListAdapter(UserFeedFragment.this, postArrayList);
+            binding.recyclerView.setAdapter(adapter);
+        }
     }
 }

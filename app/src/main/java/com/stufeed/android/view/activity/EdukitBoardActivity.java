@@ -100,7 +100,7 @@ public class EdukitBoardActivity extends AppCompatActivity {
      */
     private void getJoinedBoardList() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(loginUserId);
+        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(loginUserId, loginUserId);
         responseCall.enqueue(new Callback<GetJoinBoardListResponse>() {
             @Override
             public void onResponse(Call<GetJoinBoardListResponse> call, Response<GetJoinBoardListResponse> response) {

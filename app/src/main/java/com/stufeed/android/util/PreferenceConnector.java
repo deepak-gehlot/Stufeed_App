@@ -14,44 +14,73 @@ public class PreferenceConnector {
     private static final String PREF_NAME = "stu";
 
     public static void writeBoolean(Context context, String key, boolean value) {
+        if (context == null){
+            return;
+        }
         getEditor(context).putBoolean(key, value).commit();
     }
 
     public static boolean readBoolean(Context context, String key, boolean defValue) {
+        if (context == null){
+            return defValue;
+        }
         return getPreferences(context).getBoolean(key, defValue);
     }
 
     public static void writeInteger(Context context, String key, int value) {
+        if (context == null){
+            return;
+        }
         getEditor(context).putInt(key, value).commit();
 
     }
 
     public static int readInteger(Context context, String key, int defValue) {
+        if (context == null){
+            return defValue;
+        }
         return getPreferences(context).getInt(key, defValue);
     }
 
     public static void writeString(Context context, String key, String value) {
+        if (context == null){
+            return;
+        }
         getEditor(context).putString(key, value).commit();
-
     }
 
     public static String readString(Context context, String key, String defValue) {
+        if (context == null){
+            return defValue;
+        }
         return getPreferences(context).getString(key, defValue);
     }
 
     public static void writeFloat(Context context, String key, float value) {
+        if (context == null){
+            return;
+        }
         getEditor(context).putFloat(key, value).commit();
     }
 
     public static float readFloat(Context context, String key, float defValue) {
+        if (context == null){
+            return defValue;
+        }
         return getPreferences(context).getFloat(key, defValue);
     }
 
     public static void writeLong(Context context, String key, long value) {
+        if (context == null){
+            return;
+        }
         getEditor(context).putLong(key, value).commit();
     }
 
     public static long readLong(Context context, String key, long defValue) {
+        if (context == null){
+            return defValue;
+        }
         return getPreferences(context).getLong(key, defValue);
 
     }
@@ -66,12 +95,13 @@ public class PreferenceConnector {
 
     public static void remove(Context context, String key) {
         getEditor(context).remove(key);
-
     }
 
     public static void clear(Context context) {
+        if (context == null){
+            return;
+        }
         getEditor(context).clear().commit();
         getEditor(context).clear().commit();
-
     }
 }

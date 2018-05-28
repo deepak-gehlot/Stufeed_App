@@ -115,21 +115,7 @@ public class AcademyFragment extends Fragment {
     }
 
     public void setUserType() {
-        UserDetail userDetail = Utility.getLoginUserDetail(getActivity());
-        switch (userDetail.getUserType()) {
-            case "1":
-                binding.txtType.setText("Student");
-                break;
-            case "2":
-                binding.txtType.setText("Department");
-                break;
-            case "3":
-                binding.txtType.setText("Faculty");
-                break;
-            case "4":
-                binding.txtType.setText("Institute");
-                break;
-        }
+        binding.txtType.setText("Institute");
     }
 
     public void onClickDownArrow() {
@@ -172,7 +158,8 @@ public class AcademyFragment extends Fragment {
      */
     private void getBasicDetails() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetUserDetailsResponse> responseCall = api.getUserDetails(Utility.getLoginUserId(getActivity()), mLoginUserId);
+        Call<GetUserDetailsResponse> responseCall = api.getUserDetails(
+                mLoginUserId, mLoginUserId);
         responseCall.enqueue(new Callback<GetUserDetailsResponse>() {
             @Override
             public void onResponse(Call<GetUserDetailsResponse> call, Response<GetUserDetailsResponse> response) {
@@ -184,27 +171,6 @@ public class AcademyFragment extends Fragment {
             public void onFailure(Call<GetUserDetailsResponse> call, Throwable t) {
                 ProgressDialog.getInstance().dismissDialog();
                 handleUserResponse(null);
-            }
-        });
-    }
-
-    /**
-     * Get User Skills
-     */
-    private void getSkills() {
-        Api api = APIClient.getClient().create(Api.class);
-        Call<GetAllSkillsResponse> responseCall = api.getUserSkills(mLoginUserId);
-        responseCall.enqueue(new Callback<GetAllSkillsResponse>() {
-            @Override
-            public void onResponse(Call<GetAllSkillsResponse> call, retrofit2.Response<GetAllSkillsResponse> response) {
-                ProgressDialog.getInstance().dismissDialog();
-                handleGetUserSkillResponse(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<GetAllSkillsResponse> call, Throwable t) {
-                ProgressDialog.getInstance().dismissDialog();
-                handleGetUserSkillResponse(null);
             }
         });
     }
@@ -228,31 +194,6 @@ public class AcademyFragment extends Fragment {
             }
         });
     }
-
-    /**
-     * Get About
-     */
-    private void getAbout() {
-        Api api = APIClient.getClient().create(Api.class);
-        Call<GetUserDescriptionResponse> responseCall = api.getUserDescription(mLoginUserId);
-        responseCall.enqueue(new Callback<GetUserDescriptionResponse>() {
-            @Override
-            public void onResponse(Call<GetUserDescriptionResponse> call,
-                                   retrofit2.Response<GetUserDescriptionResponse> response) {
-                GetUserDescriptionResponse response1 = response.body();
-                if (response1 != null && response1.getResponseCode().equals(Api.SUCCESS)) {
-                    String description = response1.getDescription();
-                    binding.textAboutMe.setText(description);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GetUserDescriptionResponse> call, Throwable t) {
-
-            }
-        });
-    }
-
 
     /**
      * User details response
@@ -286,33 +227,6 @@ public class AcademyFragment extends Fragment {
             }
         }
         getAchievement();
-    }
-
-    /**
-     * Get all skills response
-     */
-    private void handleGetUserSkillResponse(GetAllSkillsResponse response) {
-        tagList.clear();
-        if (response != null) {
-            if (response.getResponseCode().equals(Api.SUCCESS)) {
-                String allSkills = response.getAllSkills();
-                String skills[] = allSkills.split(",");
-                for (int i = 0; i < skills.length; i++) {
-                    if (!TextUtils.isEmpty(skills[i])) {
-                        Tag tag = new Tag(skills[i]);
-                        tagList.add(tag);
-                    }
-                }
-            }
-        }
-        if (tagList.size() == 0) {
-            isHaveSkills = false;
-            binding.textSkill.setVisibility(View.GONE);
-        } else {
-            isHaveSkills = true;
-            binding.textSkill.setVisibility(View.VISIBLE);
-        }
-        showHideArrow();
     }
 
     /**

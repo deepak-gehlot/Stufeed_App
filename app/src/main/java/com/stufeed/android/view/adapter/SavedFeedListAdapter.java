@@ -24,6 +24,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
+import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetSavedPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
@@ -203,10 +204,6 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<SavedFeedListAdap
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     context.startActivity(browserIntent);
-                } else {
-                    context.startActivity(PlayerActivity.getVideoPlayerIntent(context,
-                            videoURL,
-                            "Video title"));
                 }
             }
         }
@@ -265,7 +262,37 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<SavedFeedListAdap
 
     public void onCommentBtnClick(GetSavedPostResponse.Post post) {
         Intent intent = new Intent(context, CommentPostActivity.class);
-        intent.putExtra(CommentPostActivity.TAG_POST, post);
+        GetPostResponse.Post post1 = new GetPostResponse.Post();
+        post1.setTitle(post.getTitle());
+        post1.setAllowComment(post.getAllowComment());
+        post1.setAllowRePost(post.getAllowRePost());
+        post1.setArticleThumbUrl(post.getTitle());
+        post1.setArticleTitle(post.getArticleTitle());
+        post1.setAudioFile(post.getAudioFile());
+        post1.setBoardId(post.getBoardId());
+        post1.setBoardName(post.getBoardName());
+        post1.setDateTime(post.getDateTime());
+        post1.setDescription(post.getDescription());
+        post1.setEmail(post.getEmail());
+        post1.setFile(post.getFile());
+        post1.setFilePath(post.getFilePath());
+        post1.setFullName(post.getFullName());
+        post1.setImage(post.getImage());
+        post1.setIsBookmark(post.getIsBookmark());
+        post1.setIsLike(post.getIsLike());
+        post1.setOptionArrayList(post.getOptionArrayList());
+        post1.setPostId(post.getPostId());
+        post1.setPostType(post.getPostType());
+        post1.setVideoUrl(post.getVideoUrl());
+        post1.setUserType(post.getUserType());
+        post1.setUserId(post.getUserId());
+        post1.setTotalLike(post.getTotalLike());
+        post1.setTotalComment(post.getTotalComment());
+        post1.setSelectedId(post.getSelectedId());
+        post1.setQuestionId(post.getQuestionId());
+        post1.setQuestion(post.getQuestion());
+        post1.setProfilePic(post.getProfilePic());
+        intent.putExtra(CommentPostActivity.TAG_POST, post1);
         context.startActivity(intent);
     }
 
@@ -343,14 +370,51 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<SavedFeedListAdap
      * @param post
      */
     private void savePost(GetSavedPostResponse.Post post) {
+        onRemovePostBtnClick(post);
+    }
+
+    /**
+     * show remove saved post confirmation dialog
+     *
+     * @param post {@link GetPostResponse.Post}
+     */
+    private void onRemovePostBtnClick(final GetSavedPostResponse.Post post) {
+        if (!TextUtils.isEmpty(post.getIsBookmark())) {
+            if (post.getIsBookmark().equals("0")) {
+                return;
+            }
+        }
+        Utility.setDialog(context, "Message", "Do you want to unbookmark this post.", "No", "Yes",
+                new DialogListener() {
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onPositive(DialogInterface dialog) {
+                        dialog.dismiss();
+                        removePost(post);
+                    }
+                });
+    }
+
+    /**
+     * Call service for save post
+     *
+     * @param post
+     */
+    private void removePost(final GetSavedPostResponse.Post post) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<SavePostResponse> responseCall = api.savePost(loginUserId, post.getPostId());
+        Call<SavePostResponse> responseCall = api.removePost(loginUserId, post.getPostId());
         ProgressDialog.getInstance().showProgressDialog(context);
         responseCall.enqueue(new Callback<SavePostResponse>() {
             @Override
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showToast(context, "Bookmark Post successfully.");
+                int index = postArrayList.indexOf(post);
+                postArrayList.remove(index);
+                notifyItemRemoved(index);
             }
 
             @Override

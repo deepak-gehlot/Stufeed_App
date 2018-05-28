@@ -142,6 +142,7 @@ public class UserProfileActivity extends AppCompatActivity {
     public void onBoardJoinCountClick() {
         Intent intent = new Intent(UserProfileActivity.this, UserJoinBoardActivity.class);
         intent.putExtra("user_id", user.getUserId());
+        intent.putExtra("login_user_id", mLoginUserId);
         startActivity(intent);
     }
 
@@ -181,6 +182,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void setRecyclerView(ArrayList<GetBoardListResponse.Board> boardArrayList) {
         if (boardArrayList != null) {
+            mBinding.container.recyclerView.setHasFixedSize(true);
             mBinding.container.recyclerView.setLayoutManager(new GridLayoutManager(UserProfileActivity.this, 2));
             UserBoardListAdapter adapter = new UserBoardListAdapter(UserProfileActivity.this, boardArrayList);
             mBinding.container.recyclerView.setAdapter(adapter);
@@ -263,7 +265,6 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * User details response
      */
@@ -297,7 +298,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
         getAchievement();
     }
-
 
 
     /**
@@ -406,11 +406,11 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void followUnFollowClick() {
-        if (mBinding.container.getModel().getIsFollow().equals("1")) {
+       /* if (mBinding.container.getModel().getIsFollow().equals("1")) {
             setUnFollowConfirmation(mBinding.container.getModel());
         } else {
             setFollowConfirmation(mBinding.container.getModel());
-        }
+        }*/
     }
 
 

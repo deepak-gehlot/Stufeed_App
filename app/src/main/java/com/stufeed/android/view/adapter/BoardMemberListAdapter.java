@@ -34,14 +34,14 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
     private String mLoginUserId = "";
     private String boardId = "";
 
-    public BoardMemberListAdapter(Context context,
+    public BoardMemberListAdapter(Context context, String loginUserId,
                                   ArrayList<GetBoardMemberListResponse.User> userArrayList,
                                   String boardId, boolean isAdmin) {
         this.context = context;
         this.userArrayList = userArrayList;
         this.isAdmin = isAdmin;
         this.boardId = boardId;
-        mLoginUserId = Utility.getLoginUserId(context);
+        mLoginUserId = loginUserId;
     }
 
     @Override
@@ -80,12 +80,12 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
                     @Override
                     public void onNegative(DialogInterface dialog) {
                         dialog.dismiss();
-                        removeUser(user);
                     }
 
                     @Override
                     public void onPositive(DialogInterface dialog) {
                         dialog.dismiss();
+                        removeUser(user);
                     }
                 });
     }

@@ -171,6 +171,7 @@ public class PostActivity extends AppCompatActivity {
                         binding.selectedImgLayout.setVisibility(View.VISIBLE);
                         aQuery.id(binding.selectedImg).image(file, 300);
                         binding.getModel().setFile(file);
+                        binding.getModel().setType(3);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -200,6 +201,36 @@ public class PostActivity extends AppCompatActivity {
                 break;
             default:
                 binding.docImg.setImageResource(R.drawable.icon_file_unknown);
+        }
+    }
+
+    public void onCloseClick(int type) {
+        switch (type) {
+            case 1: // document
+                binding.docImgLayout.setVisibility(View.GONE);
+                binding.getModel().setFile(null);
+                binding.getModel().setType(0);
+                break;
+            case 2: // audio/ video url
+                binding.audioVideoImgLayout.setVisibility(View.GONE);
+                binding.getModel().setFile(null);
+                binding.getModel().setType(0);
+                break;
+            case 3: // image
+                binding.selectedImgLayout.setVisibility(View.GONE);
+                binding.getModel().setFile(null);
+                binding.getModel().setType(0);
+                break;
+            case 4: // image
+                binding.pollLayout.setVisibility(View.GONE);
+                binding.getModel().setFile(null);
+                binding.getModel().setType(0);
+                break;
+            case 5: // image
+                binding.audioCardLayout.setVisibility(View.GONE);
+                binding.getModel().setFile(null);
+                binding.getModel().setType(0);
+                break;
         }
     }
 
@@ -522,7 +553,7 @@ public class PostActivity extends AppCompatActivity {
                         if (permissions.length == 2) {
                             audioFilePath = Environment.getExternalStorageDirectory() + "/recorded_audio" + System
                                     .currentTimeMillis() + "" +
-                                    ".wav";
+                                    ".mp3";
                             int color = getResources().getColor(R.color.colorPrimaryDark);
                             AndroidAudioRecorder.with(PostActivity.this)
                                     // Required
@@ -593,6 +624,9 @@ public class PostActivity extends AppCompatActivity {
         } else if (postModel.getType() == 5 && postModel.getFile() == null) {
             Utility.showToast(PostActivity.this, "Audio file not found.");
             return false;
+        } else if (postModel.getType() == 0) {
+            Utility.showToast(PostActivity.this, "Select any post type.");
+            return false;
         } else if (!extension.executeStrategy(PostActivity.this, "", ValidationTemplate.INTERNET)) {
             Utility.setNoInternetPopup(PostActivity.this);
             return false;
@@ -620,6 +654,10 @@ public class PostActivity extends AppCompatActivity {
             return;
         } else if (postModel.getType() == 2 || postModel.getType() == 7) {
             postUrlType(postModel);
+            return;
+        }
+        if (postModel.getFile() == null) {
+            Utility.showToast(PostActivity.this, "Select file.");
             return;
         }
         Api api = APIClient.getClient().create(Api.class);

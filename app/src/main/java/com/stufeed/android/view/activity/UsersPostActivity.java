@@ -11,6 +11,7 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.databinding.ActivityUsersPostBinding;
+import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.adapter.UserFeedListAdapter;
@@ -51,6 +52,7 @@ public class UsersPostActivity extends AppCompatActivity {
     }
 
     private void getPostList() {
+        ProgressDialog.getInstance().showProgressDialog(UsersPostActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<GetPostResponse> responseCall = api.getUserAllPost(userId);
         responseCall.enqueue(new Callback<GetPostResponse>() {
@@ -67,6 +69,7 @@ public class UsersPostActivity extends AppCompatActivity {
     }
 
     private void handleResponse(GetPostResponse getPostResponse) {
+        ProgressDialog.getInstance().dismissDialog();
         if (getPostResponse == null) {
             Utility.showErrorMsg(UsersPostActivity.this);
         } else if (getPostResponse.getResponseCode().equals(Api.SUCCESS)) {

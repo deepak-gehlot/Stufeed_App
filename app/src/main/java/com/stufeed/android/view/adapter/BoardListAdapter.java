@@ -61,13 +61,13 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         if (board.getIsPrivate().equals("1")) {
             holder.rowBoardBinding.iconLock.setVisibility(View.VISIBLE);
         } else {
-            holder.rowBoardBinding.iconLock.setVisibility(View.GONE);
+            holder.rowBoardBinding.iconLock.setVisibility(View.INVISIBLE);
         }
 
         if (board.getIsCircle().equals("1")) {
             holder.rowBoardBinding.iconCircle.setVisibility(View.VISIBLE);
         } else {
-            holder.rowBoardBinding.iconCircle.setVisibility(View.GONE);
+            holder.rowBoardBinding.iconCircle.setVisibility(View.INVISIBLE);
         }
 
         Utility.setUserTypeColor(context, board.getUserType(), holder.rowBoardBinding.titleText);

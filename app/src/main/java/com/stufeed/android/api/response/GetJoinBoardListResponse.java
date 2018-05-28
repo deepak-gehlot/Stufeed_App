@@ -74,7 +74,7 @@ public class GetJoinBoardListResponse {
         private String joinType;
         @SerializedName("totaljoinboard")
         private String totalJoinBoard;
-        @SerializedName("memberCount")
+        @SerializedName("joinCount")
         private String joinCount = "";
         @SerializedName("postCount")
         private String postCount = "";
