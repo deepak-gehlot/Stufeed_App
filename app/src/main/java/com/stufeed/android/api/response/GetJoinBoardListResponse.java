@@ -76,6 +76,8 @@ public class GetJoinBoardListResponse {
         private String totalJoinBoard;
         @SerializedName("joinCount")
         private String joinCount = "";
+        @SerializedName("memberCount")
+        private String memberCount = "";
         @SerializedName("postCount")
         private String postCount = "";
 
@@ -197,6 +199,14 @@ public class GetJoinBoardListResponse {
 
         public void setPostCount(String postCount) {
             this.postCount = postCount;
+        }
+
+        public String getMemberCount() {
+            return memberCount;
+        }
+
+        public void setMemberCount(String memberCount) {
+            this.memberCount = memberCount;
         }
     }
 

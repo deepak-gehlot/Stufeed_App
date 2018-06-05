@@ -29,7 +29,8 @@ public class NotificationListItemAdapter extends RecyclerView.Adapter<Notificati
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowNotiItemBinding mBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_noti_item, parent, false);
+        RowNotiItemBinding mBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(context), R.layout.row_noti_item, parent, false);
         return new ViewHolder(mBinding);
     }
 

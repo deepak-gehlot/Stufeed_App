@@ -231,6 +231,15 @@ public class PostActivity extends AppCompatActivity {
                 binding.getModel().setFile(null);
                 binding.getModel().setType(0);
                 break;
+            case 6: // Remove all type
+                binding.docImgLayout.setVisibility(View.GONE);
+                binding.audioVideoImgLayout.setVisibility(View.GONE);
+                binding.selectedImgLayout.setVisibility(View.GONE);
+                binding.pollLayout.setVisibility(View.GONE);
+                binding.audioCardLayout.setVisibility(View.GONE);
+                binding.getModel().setFile(null);
+                binding.getModel().setType(0);
+                break;
         }
     }
 
@@ -391,6 +400,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                onCloseClick(6);
                 switch (v.getId()) {
                     case R.id.cameraButtonLayout:
                         openCamera();
@@ -652,7 +662,7 @@ public class PostActivity extends AppCompatActivity {
         if (postModel.getType() == 4) {
             postPoll(postModel);
             return;
-        } else if (postModel.getType() == 2 || postModel.getType() == 7) {
+        } else if (postModel.getType() == 2) {
             postUrlType(postModel);
             return;
         }

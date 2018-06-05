@@ -23,6 +23,7 @@ import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.BlockedUserListActivity;
 import com.stufeed.android.view.activity.BoardDetailsMainActivity;
 import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.InstitutePostActivity;
 import com.stufeed.android.view.activity.PostActivity;
 
 import java.util.ArrayList;
@@ -36,11 +37,13 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
     private Activity context;
     private ArrayList<GetBoardListResponse.Board> boardArrayList;
     private String mLoginUserId = "";
+    private String userType = "";
 
     public BoardListAdapter(Activity context, ArrayList<GetBoardListResponse.Board> boardArrayList) {
         this.context = context;
         this.boardArrayList = boardArrayList;
         mLoginUserId = Utility.getLoginUserId(context);
+        userType = Utility.getLoginUserDetail(context).getUserType();
     }
 
     @Override
@@ -106,7 +109,11 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
      * On Post button click method
      */
     public void onJoinClick(GetBoardListResponse.Board board) {
-        context.startActivity(new Intent(context, PostActivity.class));
+        if (userType.equals("4")) {
+            context.startActivity(new Intent(context, InstitutePostActivity.class));
+        } else {
+            context.startActivity(new Intent(context, PostActivity.class));
+        }
     }
 
     /**

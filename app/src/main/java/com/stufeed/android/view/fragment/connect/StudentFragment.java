@@ -90,11 +90,13 @@ public class StudentFragment extends Fragment {
     }
 
     private void handleStudentResponse(GetCollegeUserResponse response) {
-        if (response == null) {
-            Utility.showErrorMsg(getActivity());
-        } else if (response.getResponseCode().equals(Api.SUCCESS)) {
-            userArrayList = response.getUserArrayList();
-            setRecyclerView();
+        if (getView() != null) {
+            if (response == null) {
+                Utility.showErrorMsg(getActivity());
+            } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+                userArrayList = response.getUserArrayList();
+                setRecyclerView();
+            }
         }
     }
 

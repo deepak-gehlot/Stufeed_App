@@ -19,6 +19,8 @@ import com.stufeed.android.databinding.RowJoinBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.BoardDetailsMainActivity;
+import com.stufeed.android.view.activity.InstitutePostActivity;
+import com.stufeed.android.view.activity.PostActivity;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,7 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
     private ArrayList<GetJoinBoardListResponse.Board> list;
     private String loginUserId = "";
     private boolean isLoginUser = false;
+    private String userType = "";
 
     public JoinBoardListAdapter(Context context, ArrayList<GetJoinBoardListResponse.Board> list,
                                 boolean isLoginUser) {
@@ -43,6 +46,7 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
         this.list = list;
         loginUserId = Utility.getLoginUserId(context);
         this.isLoginUser = isLoginUser;
+        userType = Utility.getLoginUserDetail(context).getUserType();
     }
 
     @Override
@@ -79,6 +83,12 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
                 break;
         }
 
+        if (loginUserId.equals(board.getUserId())) {
+            holder.binding.btnJoin.setText("Post");
+        } else if (isLoginUser) {
+            holder.binding.btnJoin.setText("UnJoin");
+        }
+
         if (board.getIsPrivate().equals("1")) {
             holder.binding.iconLock.setVisibility(View.VISIBLE);
         } else {
@@ -93,7 +103,7 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
 
         Utility.setUserTypeColor(context, board.getUserType(), holder.binding.titleText);
 
-        holder.binding.memberCount.setText(board.getJoinCount());
+        holder.binding.memberCount.setText(board.getMemberCount());
         holder.binding.postCount.setText(board.getPostCount());
 
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -127,7 +137,13 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
      * unJoin public board
      */
     public void unJoinBoard(final GetJoinBoardListResponse.Board board) {
-        if (board.getIsPrivate().equals("1")) {  // private board
+        if (loginUserId.equals(board.getUserId())) {
+            if (userType.equals("4")) {
+                context.startActivity(new Intent(context, InstitutePostActivity.class));
+            } else {
+                context.startActivity(new Intent(context, PostActivity.class));
+            }
+        } else if (board.getIsPrivate().equals("1")) {  // private board
             requestJoinBoard(board);
         } else {  // public board
             ProgressDialog.getInstance().showProgressDialog(context);
@@ -147,7 +163,7 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
                         } else {
                             board.setJoinType("1");
                         }
-                        list.add(position, board);
+                        //list.add(position, board);
                         notifyItemChanged(position);
                     }
                 }

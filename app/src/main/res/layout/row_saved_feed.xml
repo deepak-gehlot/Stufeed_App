@@ -41,9 +41,9 @@
                         android:layout_centerInParent="true" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        app:profileImageUrl="@{model.profilePic}" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -52,6 +52,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:onClick="@{()->adapter.onClickName(model)}"
                     android:orientation="vertical">
 
                     <TextView
@@ -61,6 +62,16 @@
                         android:text="@{model.fullName}"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/boardName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@{model.boardName}"
+                        android:textColor="@color/text_color"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/time"
@@ -73,6 +84,13 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/userTypeIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_verified_user" />
+
+                <ImageView
                     android:id="@+id/actionIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -83,7 +101,7 @@
 
             </LinearLayout>
             <!--    Title Layout End  -->
-            <TextView
+            <com.stufeed.android.util.ExpandableTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
@@ -94,13 +112,14 @@
                 android:maxLines="3"
                 android:text="@{model.description}"
                 android:textColor="@color/text_color"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:maxCollapsedLines="3" />
 
             <!--    Image Layout Start  -->
             <RelativeLayout
                 android:id="@+id/imageLayout"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="200dp"
                 android:visibility="gone">
 
                 <ProgressBar
@@ -111,7 +130,7 @@
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="200dp"
                     android:onClick="@{()->adapter.onImageClick(model)}"
                     android:scaleType="centerCrop" />
 
@@ -158,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:lines="1"
-                        android:text="Audio file Name"
+                        android:text="Audio file"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp" />
 
@@ -256,6 +275,82 @@
             </LinearLayout>
             <!--    Poll Layout End   -->
 
+            <!--Audio & Video url Start-->
+
+            <RelativeLayout
+                android:id="@+id/audioVideoImgLayout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="@{()->adapter.onArticleClick(model)}"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/audioVideoImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/transparent_black"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_10dp">
+
+                    <TextView
+                        android:id="@+id/textAVTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textAVUrl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="2"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!--Audio & Video url End-->
+
+            <!--document row start-->
+            <LinearLayout
+                android:id="@+id/documentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="85dp"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:background="@color/grey_color"
+                android:onClick="@{()->adapter.onArticleClick(model)}"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/documentImg"
+                    android:layout_width="@dimen/dimen_100dp"
+                    android:layout_height="match_parent"
+                    android:padding="16dp"
+                    android:src="@drawable/icon_file_doc"/>
+
+                <TextView
+                    android:id="@+id/doctextAVUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="2"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+            <!--document row end-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -343,8 +438,7 @@
                     android:layout_gravity="end"
                     android:onClick="@{()->adapter.onSavePostBtnClick(model)}"
                     android:padding="10dp"
-                    android:src="@drawable/bookmark_icon"
-                    android:visibility="visible" />
+                    android:src="@drawable/ic_bookmark_border" />
             </RelativeLayout>
             <!--    Like Comment Re post end  -->
 

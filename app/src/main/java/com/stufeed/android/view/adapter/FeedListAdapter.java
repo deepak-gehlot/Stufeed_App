@@ -58,7 +58,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Fragment context;
     private ArrayList<GetPostResponse.Post> postArrayList;
     private String loginUserId;
-    private String videoURL = "";
     private AQuery aQuery;
     private static final int TYPE_AD = 1;
     private static final int TYPE_VIEW = 2;
@@ -204,8 +203,10 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
                             }
                             total = firstValue + secondValue;
-                            int firstPer = (firstValue / total) * 100;
-
+                            int firstPer = 0;
+                            if (total != 0) {
+                                firstPer = (firstValue / total) * 100;
+                            }
                             holder.rowBinding.totalCount1.setText("" + firstPer + " %");
                         } else if (i == 1) {
                             if (!TextUtils.isEmpty(select) && select.equals("1")) {
@@ -227,8 +228,10 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
                             }
                             total = firstValue + secondValue;
-                            int firstPer = (secondValue / total) * 100;
-
+                            int firstPer = 0;
+                            if (total != 0) {
+                                firstPer = (secondValue / total) * 100;
+                            }
                             holder.rowBinding.totalCount2.setText("" + firstPer + " %");
                         }
                     }
@@ -295,56 +298,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
-       /* ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
-        if (arrayList.size() != 0) {
-            videoURL = arrayList.get(0);
-            if (Utility.isValidUrl(videoURL)) {
-                holder.rowBinding.playBtn.setVisibility(View.VISIBLE);
-                try {
-                    if (videoURL.contains("www.youtube.com")) {
-                        String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
-                        *//*Glide.with(context)
-                                .load(url)
-                                .into(holder.rowBinding.image);*//*
-
-                        aQuery.id(holder.rowBinding.image).image(
-                                url, true, true, 160, R.drawable.image_placeholder);
-                    } else {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    final Bitmap bitmap = Utility.retriveVideoFrameFromVideo(videoURL);
-                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Glide.with(context)
-                                                    .load(bitmap)
-                                                    .into(holder.rowBinding.image);
-                                        }
-                                    });
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    holder.rowBinding.playBtn.setVisibility(View.GONE);
-                }
-            } else {
-                holder.rowBinding.playBtn.setVisibility(View.GONE);
-            }
-        } else {*/
         holder.rowBinding.playBtn.setVisibility(View.GONE);
-            /*Glide.with(context)
-                    .load(post.getFilePath() + post.getImage())
-                    .into(holder.rowBinding.image);*/
-
         aQuery.id(holder.rowBinding.image).image(
                 post.getFilePath() + post.getImage(), true, true, 160, R.drawable.image_placeholder);
-        //}
     }
 
     //http://techslides.com/demos/sample-videos/small.mp4
@@ -357,13 +313,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * On click user name
      */
     public void onClickName(GetPostResponse.Post post) {
-        GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
-        user.setUserId(post.getUserId());
-        user.setFullName(post.getFullName());
-        user.setIsFollow("0");
-        Intent intent = new Intent(context.getActivity(), UserProfileActivity.class);
-        intent.putExtra(UserProfileActivity.USER, user);
-        context.startActivity(intent);
+        if (!TextUtils.isEmpty(post.getUserId()) && !loginUserId.equals(post.getUserId())) {
+            GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
+            user.setUserId(post.getUserId());
+            user.setFullName(post.getFullName());
+            user.setIsFollow("0");
+            Intent intent = new Intent(context.getActivity(), UserProfileActivity.class);
+            intent.putExtra(UserProfileActivity.USER, user);
+            context.startActivity(intent);
+        }
     }
 
     public void onImageClick(GetPostResponse.Post post) {
@@ -374,11 +332,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     context.startActivity(browserIntent);
-                } /*else {
-                    context.startActivity(PlayerActivity.getVideoPlayerIntent(context.getActivity(),
-                            videoURL,
-                            "Video title"));
-                }*/
+                }
             }
         } else {
             String imageUrl = post.getFilePath() + post.getImage();
@@ -713,36 +667,45 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         String totalVote2 = post.getOptionArrayList().get(1).getTotalVote();
         switch (option) {
             case 1:
-                post.getOptionArrayList().get(0).setIsSelect("1");
-                post.getOptionArrayList().get(1).setIsSelect("0");
-                post.setSelectedId(post.getOptionArrayList().get(0).getId());
+                if (TextUtils.isEmpty(post.getOptionArrayList().get(0).getIsSelect()) || post.getOptionArrayList().get(0).getIsSelect().equals("0")) {
+                    post.getOptionArrayList().get(0).setIsSelect("1");
+                    post.getOptionArrayList().get(1).setIsSelect("0");
+                    post.setSelectedId(post.getOptionArrayList().get(0).getId());
 
-                if (!TextUtils.isEmpty(totalVote1)) {
-                    totalVote1 = "" + (Integer.parseInt(totalVote1) + 1);
-                } else {
-                    totalVote1 = "0";
+                    if (!TextUtils.isEmpty(totalVote1)) {
+                        totalVote1 = "" + (Integer.parseInt(totalVote1) + 1);
+                    } else {
+                        totalVote1 = "1";
+                    }
+
+                    if (!TextUtils.isEmpty(totalVote2)) {
+                        totalVote2 = "" + (Integer.parseInt(totalVote2) - 1);
+                        if (Integer.parseInt(totalVote2) < 0) {
+                            totalVote2 = "0";
+                        }
+                    }
+
+                    addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(0).getId());
                 }
-
-                if (!TextUtils.isEmpty(totalVote2)) {
-                    totalVote2 = "" + (Integer.parseInt(totalVote2) - 1);
-                }
-
-                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(0).getId());
                 break;
             case 2:
-                post.getOptionArrayList().get(1).setIsSelect("1");
-                post.getOptionArrayList().get(0).setIsSelect("0");
-                post.setSelectedId(post.getOptionArrayList().get(1).getId());
-                if (!TextUtils.isEmpty(totalVote2)) {
-                    totalVote2 = "" + (Integer.parseInt(totalVote2) + 1);
-                } else {
-                    totalVote2 = "0";
+                if (TextUtils.isEmpty(post.getOptionArrayList().get(1).getIsSelect()) || post.getOptionArrayList().get(1).getIsSelect().equals("0")) {
+                    post.getOptionArrayList().get(1).setIsSelect("1");
+                    post.getOptionArrayList().get(0).setIsSelect("0");
+                    post.setSelectedId(post.getOptionArrayList().get(1).getId());
+                    if (!TextUtils.isEmpty(totalVote2)) {
+                        totalVote2 = "" + (Integer.parseInt(totalVote2) + 1);
+                    } else {
+                        totalVote2 = "1";
+                    }
+                    if (!TextUtils.isEmpty(totalVote1)) {
+                        totalVote1 = "" + (Integer.parseInt(totalVote1) - 1);
+                        if (Integer.parseInt(totalVote1) < 0) {
+                            totalVote1 = "0";
+                        }
+                    }
+                    addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(1).getId());
                 }
-                if (!TextUtils.isEmpty(totalVote1)) {
-                    totalVote1 = "" + (Integer.parseInt(totalVote1) - 1);
-                }
-                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(1).getId());
-
                 break;
         }
         post.getOptionArrayList().get(0).setTotalVote(totalVote1);
