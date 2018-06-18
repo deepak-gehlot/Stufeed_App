@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:padding="@dimen/dimen_16dp"
-                android:text="About Me :"
                 android:textColor="@color/colorPrimaryDark" />
 
 
@@ -41,8 +40,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dimen_16dp"
-                android:text="Lorem ipsum dolor sit amet, ut sed omnis viris doctus. Ne pri saperet alienum, tractatos elaboraret ea quo, pri at laoreet tacimates. Vis tempor philosophia ex. Aeterno feugait has ut. Eum in prima essent inimicus, in eos intellegebat conclusionemque.
-Lorem ipsum dolor sit amet, ut sed omnis viris doctus. Ne pri saperet alienum, tractatos elaboraret ea quo, pri at laoreet tacimates. Vis tempor philosophia ex. Aeterno feugait has ut. Eum in prima essent inimicus, in eos intellegebat conclusionemque."
                 android:textColor="@color/text_color" />
 
         </LinearLayout>

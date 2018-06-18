@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dip"
-    android:background="#00000000"
+    android:background="@drawable/edit_text"
     android:orientation="vertical">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,9 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|left"
-            android:padding="12dip"
-            android:text="testjseoisg"
-            android:textColor="@color/colorPrimary"
+            android:padding="12dp"
+            android:textColor="@color/text_color"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -32,7 +31,7 @@
             android:layout_below="@+id/title"
             android:padding="15sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/text_color" />
 
         <LinearLayout
             android:id="@+id/linLayBottom"
@@ -47,14 +46,14 @@
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/text_color" />
 
             <Button
                 android:id="@+id/send_action"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/text_color" />
         </LinearLayout>
 
     </RelativeLayout>

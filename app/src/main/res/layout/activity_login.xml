@@ -38,7 +38,6 @@
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_margin="8dp"
                     android:src="@mipmap/ic_launcher_round" />
 
                 <android.support.design.widget.TextInputLayout
@@ -79,15 +78,25 @@
                         android:paddingBottom="12dp"
                         android:paddingEnd="16dp"
                         android:paddingStart="16dp"
-                        android:paddingTop="12dp"
+                        android:paddingTop="10dp"
                         android:text="@={model.password}" />
 
                 </android.support.design.widget.TextInputLayout>
 
-                <View
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/forget_password"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="16dp" />
+                    android:layout_height="wrap_content"
 
+                    android:gravity="right"
+                    android:layout_weight="0"
+                    android:onClick="@{()->activity.onForgotPasswordBtnClick()}"
+                    android:text="@string/forget_password"
+                    android:textAllCaps="false"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/dimen_16sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -104,7 +113,10 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:onClick="@{()->activity.onRegisterBtnClick()}"
                         android:text="@string/register"
+                        android:background="@drawable/button2"
                         android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:layout_margin="@dimen/dimen_5dp"
                         android:textColor="@color/white" />
 
                     <android.support.v7.widget.AppCompatButton
@@ -116,44 +128,22 @@
                         android:foreground="?attr/selectableItemBackgroundBorderless"
                         android:onClick="@{()->activity.onLoginBtnClick(model)}"
                         android:text="@string/login"
+                        android:background="@drawable/button2"
+                        android:layout_margin="@dimen/dimen_5dp"
+                        android:textStyle="bold"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />
                 </LinearLayout>
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/forget_password"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:onClick="@{()->activity.onForgotPasswordBtnClick()}"
-                    android:text="@string/forget_password"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/register_institute_btn"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:onClick="@{()->activity.onRegisterInstituteBtnClick()}"
-                    android:text="@string/register_college_info"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Or Register using "
+                    android:text="@string/or_register_using"
                     android:textColor="@color/text_color"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/dimen_10dp"/>
 
 
                 <LinearLayout
@@ -161,7 +151,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_16dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/dimen_10dp">
 
                     <ImageButton
                         android:id="@+id/buttonGoogle"
@@ -181,6 +172,19 @@
                         android:onClick="@{()->activity.onFacebookBtnClick()}"
                         android:src="@drawable/facebook" />
                 </LinearLayout>
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/register_institute_btn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|bottom"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    android:onClick="@{()->activity.onRegisterInstituteBtnClick()}"
+                    android:text="@string/register_college_info"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    android:textColor="@color/light_grey"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </RelativeLayout>

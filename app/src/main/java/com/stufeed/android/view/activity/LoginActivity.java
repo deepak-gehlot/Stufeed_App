@@ -237,8 +237,13 @@ public class LoginActivity extends AppCompatActivity {
                 PreferenceConnector.writeBoolean(LoginActivity.this, PreferenceConnector.IS_LOGIN, true);
                 finish();
             } else if (loginResponse.getResponseMessage().equals("Account not verified.")) {
-                startActivity(new Intent(LoginActivity.this, VerifyAccountActivity.class));
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                PreferenceConnector.writeString(LoginActivity.this, PreferenceConnector.USER_DATA, new Gson()
+                        .toJson(loginResponse.getUser()));
+                PreferenceConnector.writeBoolean(LoginActivity.this, PreferenceConnector.IS_LOGIN, true);
                 finish();
+                /*startActivity(new Intent(LoginActivity.this, VerifyAccountActivity.class));
+                finish();*/
             } else {
                 Utility.showToast(LoginActivity.this, loginResponse.getResponseMessage());
             }

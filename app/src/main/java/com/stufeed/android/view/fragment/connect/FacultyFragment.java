@@ -59,8 +59,8 @@ public class FacultyFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
-        loginUserCollegeId = "1";
-        setRecyclerView();
+        loginUserCollegeId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
+
         SearchReceiver searchReceiver = new SearchReceiver();
         getActivity().registerReceiver(searchReceiver, new IntentFilter("com.stufeed.android.search"));
         getStudents();

@@ -26,6 +26,7 @@ import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.databinding.ActivityUserProfileBinding;
@@ -33,7 +34,10 @@ import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
+import com.stufeed.android.view.adapter.BoardPostCombineAdapter;
+import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.adapter.UserBoardListAdapter;
+import com.stufeed.android.view.fragment.YouFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +58,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private boolean isHaveAchivment = false;
     private boolean isHaveAbout = false;
     private String mLoginUserId = "";
+    private GetUserDetailsResponse userDetailsResponse = new GetUserDetailsResponse();
+    private GetPostResponse getPostResponse = new GetPostResponse();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +73,7 @@ public class UserProfileActivity extends AppCompatActivity {
         mLoginUserId = Utility.getLoginUserId(UserProfileActivity.this);
         setTitleBackClick();
         getDataFromBundle();
-        getBoardList();
-
-
         getBasicDetails();
-
-
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -153,7 +154,6 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void getBoardList() {
-        ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
         String userId = Utility.getLoginUserId(UserProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<GetBoardListResponse> responseCall = api.getAllBoardList(user.getUserId(), userId);
@@ -170,14 +170,17 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    private GetBoardListResponse response;
+
     private void handleResponse(GetBoardListResponse response) {
-        ProgressDialog.getInstance().dismissDialog();
         if (response == null) {
             Utility.showErrorMsg(UserProfileActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
-            setRecyclerView(response.getBoardArrayList());
-            mBinding.container.setCountModel(response.getAllCount());
+            this.response = response;
+            /*setRecyclerView(response.getBoardArrayList());
+            mBinding.container.setCountModel(response.getAllCount());*/
         }
+        getAllPost();
     }
 
     private void setRecyclerView(ArrayList<GetBoardListResponse.Board> boardArrayList) {
@@ -189,7 +192,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickDownArrow() {
+    /*public void onClickDownArrow() {
         if (mBinding.container.detailsLayout.getVisibility() == View.GONE) {
             mBinding.container.detailsLayout.setVisibility(View.VISIBLE);
             new Handler().postDelayed(new Runnable() {
@@ -203,9 +206,9 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             mBinding.container.detailsLayout.setVisibility(View.GONE);
         }
-    }
+    }*/
 
-    public void setUserType(String type) {
+    /*public void setUserType(String type) {
         switch (type) {
             case "1":
                 mBinding.container.txtType.setText("Student");
@@ -220,34 +223,32 @@ public class UserProfileActivity extends AppCompatActivity {
                 mBinding.container.txtType.setText("Institute");
                 break;
         }
-    }
+    }*/
 
     /**
      * Get User basic details
      */
     private void getBasicDetails() {
+        ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<GetUserDetailsResponse> responseCall = api.getUserDetails(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<GetUserDetailsResponse>() {
             @Override
             public void onResponse(Call<GetUserDetailsResponse> call, Response<GetUserDetailsResponse> response) {
-                ProgressDialog.getInstance().dismissDialog();
                 handleUserResponse(response.body());
             }
 
             @Override
             public void onFailure(Call<GetUserDetailsResponse> call, Throwable t) {
-                ProgressDialog.getInstance().dismissDialog();
                 handleUserResponse(null);
             }
         });
     }
 
-
     /**
      * Get User Achievement list
      */
-    private void getAchievement() {
+    /*private void getAchievement() {
         Api api = APIClient.getClient().create(Api.class);
         Call<GetAchievementListResponse> responseCall = api.getAllAchievements(user.getUserId());
         responseCall.enqueue(new Callback<GetAchievementListResponse>() {
@@ -262,48 +263,26 @@ public class UserProfileActivity extends AppCompatActivity {
                 handleAchievementResponse(null);
             }
         });
-    }
-
+    }*/
 
     /**
      * User details response
      */
     private void handleUserResponse(GetUserDetailsResponse response) {
-        mBinding.container.topPanel.setVisibility(View.VISIBLE);
+        //mBinding.container.topPanel.setVisibility(View.VISIBLE);
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
-                mBinding.container.setModel(response.getAllDetails());
-                setUserType(response.getAllDetails().getUserType());
-                String description = response.getAllDetails().getAbout();
-                mBinding.container.textAboutMeData.setText(description);
-                mBinding.container.txtUserName.setText(mBinding.container.getModel().getFullName());
-                String allSkills = response.getAllDetails().getSkills();
-                String skills[] = allSkills.split(",");
-                for (int i = 0; i < skills.length; i++) {
-                    if (!TextUtils.isEmpty(skills[i])) {
-                        Tag tag = new Tag(skills[i]);
-                        tagList.add(tag);
-                    }
-                }
-                if (tagList.size() == 0) {
-                    isHaveSkills = false;
-                    mBinding.container.textSkill.setVisibility(View.GONE);
-                } else {
-                    isHaveSkills = true;
-                    mBinding.container.textSkill.setVisibility(View.VISIBLE);
-                }
-                refreshFollowUnfollow();
+                userDetailsResponse = response;
             }
         }
-
-        getAchievement();
+        getBoardList();
+        //getAchievement();
     }
-
 
     /**
      * Get achievement response
      */
-    private void handleAchievementResponse(GetAchievementListResponse response) {
+   /* private void handleAchievementResponse(GetAchievementListResponse response) {
         if (response != null) {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 setAchievementRecyclerView(response.getAchievementArrayList());
@@ -314,12 +293,12 @@ public class UserProfileActivity extends AppCompatActivity {
             }
             showHideArrow();
         }
-    }
+    }*/
 
     /**
      * Get Achievement response
      */
-    private void setAchievementRecyclerView(ArrayList<GetAchievementListResponse.Achievement> achievementArrayList) {
+   /* private void setAchievementRecyclerView(ArrayList<GetAchievementListResponse.Achievement> achievementArrayList) {
         if (achievementArrayList != null && achievementArrayList.size() != 0) {
             AchivementFragmentListAdapter adapter = new AchivementFragmentListAdapter(UserProfileActivity.this,
                     achievementArrayList);
@@ -334,15 +313,15 @@ public class UserProfileActivity extends AppCompatActivity {
             Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
         }
         showHideArrow();
-    }
+    }*/
 
-    private void showHideArrow() {
-        if (isHaveAchivment || isHaveAchivment || isHaveAbout) {
+   /* private void showHideArrow() {
+        if (isHaveAchivment || isHaveAbout) {
             mBinding.container.imageDownIcon.setVisibility(View.VISIBLE);
         } else {
             mBinding.container.imageDownIcon.setVisibility(View.GONE);
         }
-    }
+    }*/
 
     /**
      * unblock user
@@ -406,13 +385,12 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void followUnFollowClick() {
-       /* if (mBinding.container.getModel().getIsFollow().equals("1")) {
+        if (mBinding.container.getModel().getIsFollow().equals("1")) {
             setUnFollowConfirmation(mBinding.container.getModel());
         } else {
             setFollowConfirmation(mBinding.container.getModel());
-        }*/
+        }
     }
-
 
     private void follow() {
         if (mBinding.container.getModel().getIsFollow().equals("1")) {
@@ -420,7 +398,7 @@ public class UserProfileActivity extends AppCompatActivity {
         } else {
             mBinding.container.getModel().setIsFollow("1");
         }
-        refreshFollowUnfollow();
+        //refreshFollowUnfollow();
         Api api = APIClient.getClient().create(Api.class);
         Call<FollowResponse> responseCall = api.follow(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<FollowResponse>() {
@@ -435,7 +413,6 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void setUnFollowConfirmation(final GetUserDetailsResponse.Details user) {
         Utility.setDialog(UserProfileActivity.this, "Message", "Do you want to un-follow this.", "No", "Yes",
@@ -469,11 +446,40 @@ public class UserProfileActivity extends AppCompatActivity {
                 });
     }
 
-    private void refreshFollowUnfollow() {
-        if (mBinding.container.getModel().getIsFollow().equals("1")) {
-            mBinding.container.btnFollowStatus.setText("Un Follow");
-        } else {
-            mBinding.container.btnFollowStatus.setText("Follow");
+    private void getAllPost() {
+        //  binding.progressBar.setVisibility(View.VISIBLE);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetPostResponse> responseCall = api.getUserAllPost(user.getUserId());
+        responseCall.enqueue(new Callback<GetPostResponse>() {
+            @Override
+            public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {
+                //         binding.progressBar.setVisibility(View.GONE);
+                handleGetAllPostResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetPostResponse> call, Throwable t) {
+                //       binding.progressBar.setVisibility(View.GONE);
+                Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
+            }
+        });
+    }
+
+    private void handleGetAllPostResponse(GetPostResponse getPostResponse) {
+        if (getPostResponse != null) {
+            if (getPostResponse.getResponseCode().equals(Api.SUCCESS)) {
+                this.getPostResponse = getPostResponse;
+            }
         }
+        mBinding.container.recyclerView.setLayoutManager(new LinearLayoutManager(UserProfileActivity.this));
+        BoardPostCombineAdapter adapter = new BoardPostCombineAdapter(UserProfileActivity.this, user,
+                response.getAllCount(), userDetailsResponse.getAllDetails(), response.getBoardArrayList(), this.getPostResponse.getPost());
+        mBinding.container.recyclerView.setAdapter(adapter);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ProgressDialog.getInstance().dismissDialog();
+            }
+        }, 500);
     }
 }

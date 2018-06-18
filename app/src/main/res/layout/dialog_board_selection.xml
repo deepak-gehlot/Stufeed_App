@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:padding="16dp"
-            android:text="Select Board"
+            android:text="@string/select_board"
             android:textColor="@color/text_color"
             android:textSize="16sp" />
 
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="10dp"
+            android:background="@color/icon_color"
             android:src="@drawable/send_icon"
             android:tint="@color/white" />
 

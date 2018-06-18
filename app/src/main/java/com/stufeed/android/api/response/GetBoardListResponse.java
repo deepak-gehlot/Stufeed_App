@@ -11,9 +11,9 @@ public class GetBoardListResponse {
     private String responseMessage;
     private String responseCode;
     @SerializedName("allboard")
-    private ArrayList<Board> boardArrayList;
+    private ArrayList<Board> boardArrayList = new ArrayList<>();
     @SerializedName("allcount")
-    private Count allCount;
+    private Count allCount = new Count();
 
     public String getResponseMessage() {
         return responseMessage;

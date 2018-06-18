@@ -1,15 +1,19 @@
 package com.stufeed.android.view.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 
 import com.stufeed.android.R;
@@ -94,6 +98,29 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickYearOfEstablishment() {
+        final NumberPicker numberPicker;
+        final Dialog graduation_dialog = new Dialog(RegisterInstituteActivity.this);
+        graduation_dialog.setContentView(R.layout.graduation_year_layout);
+        graduation_dialog.setTitle("Select Year");
+        //graduation_dialog.setCancelable(false);
+        numberPicker = (NumberPicker) graduation_dialog.findViewById(R.id.numberPicker);
+        numberPicker.setMinValue(1960);
+        numberPicker.setMaxValue(2027);
+
+        final Button done = (Button) graduation_dialog.findViewById(R.id.done);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerInstituteModel.setYearOfEstablishment(Integer.toString(numberPicker.getValue()));
+                graduation_dialog.dismiss();
+
+            }
+        });
+        graduation_dialog.show();
+    }
+
     public void onRegisterButtonClick() {
         if (stepTag == 2) {
             registerService(mBinding.mainContent.getModel());
@@ -159,6 +186,8 @@ public class RegisterInstituteActivity extends AppCompatActivity {
     }
 
     public void setInstituteTypeRadioGroup() {
+        mBinding.mainContent.getModel().setInstitutionType("1");
+        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
         mBinding.mainContent.rdx.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -169,7 +198,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                         break;
                     case R.id.school_radio:
                         mBinding.mainContent.getModel().setInstitutionType("2");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
                         break;
                     case R.id.university_radio:
                         mBinding.mainContent.getModel().setInstitutionType("3");
@@ -177,7 +206,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                         break;
                     case R.id.coaching_radio:
                         mBinding.mainContent.getModel().setInstitutionType("4");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.VISIBLE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -244,38 +273,58 @@ public class RegisterInstituteActivity extends AppCompatActivity {
             }
 
             ArrayAdapter<String> adapterCity = new ArrayAdapter<String>
-                    (this, android.R.layout.select_dialog_item, collegesStrList);
+                    (this, R.layout.dropdown, collegesStrList);
             mBinding.mainContent.searchCollegeEdt.setAdapter(adapterCity);
         }
     }
 
+    private boolean validate(RegisterInstituteModel model) {
+        if (TextUtils.isEmpty(model.getCollegeName())) {
+            Utility.showToast(RegisterInstituteActivity.this, "Enter Institute.");
+            return false;
+        } else if (TextUtils.isEmpty(model.getEmail())) {
+            Utility.showToast(RegisterInstituteActivity.this, "Enter Email.");
+            return false;
+        } else if (TextUtils.isEmpty(model.getContactNo())) {
+            Utility.showToast(RegisterInstituteActivity.this, "Enter Contact Number.");
+            return false;
+        } else if (TextUtils.isEmpty(model.getPassword())) {
+            Utility.showToast(RegisterInstituteActivity.this, "Enter Password.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private void registerService(RegisterInstituteModel registerInstituteModel) {
-        Api api = APIClient.getClient().create(Api.class);
-        Call<GetInstituteRegistrationResponse> responseCall = api.registerInstitute(
-                registerInstituteModel.getCollegeId(), registerInstituteModel.getCollegeName(),
-                registerInstituteModel.getEmail(), registerInstituteModel.getPassword(),
-                registerInstituteModel.getUserType(), registerInstituteModel.getContactNo(),
-                registerInstituteModel.getInstitutionType(), registerInstituteModel.getUniversityName(),
-                registerInstituteModel.getAddress(), registerInstituteModel.getInstituteId(), registerInstituteModel
-                        .getCity(), registerInstituteModel.getState(), registerInstituteModel.getWebsite(),
-                registerInstituteModel.getSpecialisedIn(), registerInstituteModel.getYearOfEstablishment(),
-                registerInstituteModel.getManagedBy(), registerInstituteModel.getLocation());
-        ProgressDialog.getInstance().showProgressDialog(RegisterInstituteActivity.this);
+        if (validate(registerInstituteModel)) {
+            Api api = APIClient.getClient().create(Api.class);
+            Call<GetInstituteRegistrationResponse> responseCall = api.registerInstitute(
+                    registerInstituteModel.getCollegeId(), registerInstituteModel.getCollegeName(),
+                    registerInstituteModel.getEmail(), registerInstituteModel.getPassword(),
+                    registerInstituteModel.getUserType(), registerInstituteModel.getContactNo(),
+                    registerInstituteModel.getInstitutionType(), registerInstituteModel.getUniversityName(),
+                    registerInstituteModel.getAddress(), registerInstituteModel.getInstituteId(), registerInstituteModel
+                            .getCity(), registerInstituteModel.getState(), registerInstituteModel.getWebsite(),
+                    registerInstituteModel.getSpecialisedIn(), registerInstituteModel.getYearOfEstablishment(),
+                    registerInstituteModel.getManagedBy(), registerInstituteModel.getLocation());
+            ProgressDialog.getInstance().showProgressDialog(RegisterInstituteActivity.this);
 
-        responseCall.enqueue(new Callback<GetInstituteRegistrationResponse>() {
-            @Override
-            public void onResponse(Call<GetInstituteRegistrationResponse> call,
-                                   Response<GetInstituteRegistrationResponse> response) {
-                ProgressDialog.getInstance().dismissDialog();
-                handleRegisterResponse(response.body());
-            }
+            responseCall.enqueue(new Callback<GetInstituteRegistrationResponse>() {
+                @Override
+                public void onResponse(Call<GetInstituteRegistrationResponse> call,
+                                       Response<GetInstituteRegistrationResponse> response) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    handleRegisterResponse(response.body());
+                }
 
-            @Override
-            public void onFailure(Call<GetInstituteRegistrationResponse> call, Throwable t) {
-                ProgressDialog.getInstance().dismissDialog();
-                handleRegisterResponse(null);
-            }
-        });
+                @Override
+                public void onFailure(Call<GetInstituteRegistrationResponse> call, Throwable t) {
+                    ProgressDialog.getInstance().dismissDialog();
+                    handleRegisterResponse(null);
+                }
+            });
+        }
     }
 
     private void handleRegisterResponse(GetInstituteRegistrationResponse response) {

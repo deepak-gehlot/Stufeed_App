@@ -34,6 +34,7 @@ import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
 import com.stufeed.android.api.response.SavePostResponse;
+import com.stufeed.android.customui.TextViewExpandableAnimation;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
@@ -98,7 +99,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         } else {
             final ViewHolder holder = (ViewHolder) rowHolder;
-            final GetPostResponse.Post post = postArrayList.get(position);
+            GetPostResponse.Post post = postArrayList.get(position);
             holder.rowBinding.setModel(post);
             holder.rowBinding.setAdapter(this);
             holder.rowBinding.documentLayout.setVisibility(View.GONE);
@@ -107,12 +108,31 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder.rowBinding.imageLayout.setVisibility(View.GONE);
             holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
 
+            holder.rowBinding.tvExpand.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                @Override
+                public void onStateChange(boolean isShrink) {
+                    GetPostResponse.Post post = postArrayList.get(holder.getAdapterPosition());
+                    post.setShirnk(isShrink);
+                    postArrayList.set(holder.getAdapterPosition(), post);
+                }
+            });
+            holder.rowBinding.tvExpand.setText(post.getDescription());
+            //important! reset its state as where it left
+            holder.rowBinding.tvExpand.resetState(post.isShirnk());
+
+
             Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeIcon);
 
             if (!TextUtils.isEmpty(post.getBoardId())) {
                 holder.rowBinding.boardName.setVisibility(View.VISIBLE);
             } else {
                 holder.rowBinding.boardName.setVisibility(View.GONE);
+            }
+
+            if (!TextUtils.isEmpty(post.getTitle())) {
+                holder.rowBinding.txtTitle.setVisibility(View.VISIBLE);
+            } else {
+                holder.rowBinding.txtTitle.setVisibility(View.GONE);
             }
 
             if (!TextUtils.isEmpty(post.getIsLike())) {
@@ -313,7 +333,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * On click user name
      */
     public void onClickName(GetPostResponse.Post post) {
-        if (!TextUtils.isEmpty(post.getUserId()) && !loginUserId.equals(post.getUserId())) {
+       // if (!TextUtils.isEmpty(post.getUserId()) && !loginUserId.equals(post.getUserId())) {
             GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
             user.setUserId(post.getUserId());
             user.setFullName(post.getFullName());
@@ -321,7 +341,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Intent intent = new Intent(context.getActivity(), UserProfileActivity.class);
             intent.putExtra(UserProfileActivity.USER, user);
             context.startActivity(intent);
-        }
+       // }
     }
 
     public void onImageClick(GetPostResponse.Post post) {
@@ -392,25 +412,29 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void onLikeClick(GetPostResponse.Post post) {
         String like = post.getTotalLike();
+        String type = "";
         if (post.getIsLike().equals("1")) {
             if (!TextUtils.isEmpty(like)) {
                 int likeCount = Integer.parseInt(like) - 1;
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("0");
+            type = "2";
         } else {
             if (!TextUtils.isEmpty(like)) {
                 int likeCount = Integer.parseInt(like) + 1;
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("1");
+            type = "1";
         }
 
         int position = postArrayList.indexOf(post);
         postArrayList.set(position, post);
         notifyItemChanged(position);
         Api api = APIClient.getClient().create(Api.class);
-        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId());
+        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId(),
+                type);
         responseCall.enqueue(new Callback<LikeResponse>() {
             @Override
             public void onResponse(Call<LikeResponse> call, Response<LikeResponse> response) {
@@ -606,7 +630,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         dialog.dismiss();
                         int position = postArrayList.indexOf(post);
                         postArrayList.remove(position);
-                        notifyItemChanged(position);
+                        notifyItemRemoved(position);
                         deletePost(post);
                     }
                 });

@@ -5,7 +5,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
 
 
@@ -13,13 +14,12 @@
             android:id="@+id/textViewBoardName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dimen_10dp"
+            android:padding="@dimen/dimen_20dp"
             android:drawablePadding="@dimen/dimen_16dp"
-            android:drawableStart="@drawable/ic_check_box_uncheck"
+            android:drawableEnd="@drawable/ic_check_box_uncheck"
             android:textColor="@color/text_color"
-            android:textSize="18sp" />
-
-
+            android:textSize="18sp"
+            android:textStyle="bold"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.05dp"

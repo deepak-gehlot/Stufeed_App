@@ -13,9 +13,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/topheader"
             app:title="Select Board"
-            app:titleTextColor="@color/white">
+            android:elevation="@dimen/dimen_4dp"
+            app:titleTextColor="@color/topheader_text">
 
             <Button
                 android:id="@+id/buttonPost"
@@ -23,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:text="Post"
+                android:text="@string/post"
                 android:textColor="@color/white" />
 
         </android.support.v7.widget.Toolbar>

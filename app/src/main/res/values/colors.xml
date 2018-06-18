@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#FD8172</color>
+    <color name="colorPrimary">#f9f9f9</color>
     <color name="colorPrimaryDark">#df6354</color>
     <color name="colorAccent">#ff8b7d</color>
 
@@ -9,9 +9,10 @@
     <color name="grey_color">#CAd4e2</color>
     <color name="edit_text_color">#768692</color>
     <color name="text_color">#575f6f</color>
-    <color name="bg_color">#E0E0E0</color>
+    <color name="bg_color">#fafafa</color>
     <color name="common_color">#F9F9F9</color><!--#F9F9F9-->
-    <color name="button_color">#5F7D8C</color>
+    <color name="button_color">#8c9197</color>
+    <color name="icon_color">#8c9197</color>
     <color name="orange_color">#FA8072</color>
     <color name="ic_launcher_background">#FA8072</color>
     <color name="light_grey">#a6b0b7</color>
@@ -20,9 +21,10 @@
     <color name="view_color">#727272</color>
     <color name="divider">#bfbfbf</color>
     <color name="red">#ff3b3b</color>
-
-    <color name="student">#ff5b1f</color>
-    <color name="department">#ffbe44</color>
-    <color name="faculty">#1fff93</color>
-    <color name="institute">#ce1fff</color>
+    <color name="topheader">#f7f7f7</color>
+    <color name="topheader_text">#786e6e</color>
+    <color name="student">#65a7f2</color>
+    <color name="department">#a869ec</color>
+    <color name="faculty">#a0cf69</color>
+    <color name="institute">#f67474</color>
 </resources>

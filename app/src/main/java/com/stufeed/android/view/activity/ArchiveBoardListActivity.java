@@ -36,6 +36,13 @@ public class ArchiveBoardListActivity extends AppCompatActivity {
                 getString(R.string.ad_mob_id));
         loginUserId = Utility.getLoginUserId(ArchiveBoardListActivity.this);
 
+        mBinding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         getBoardList();
 
         AdView mAdView = findViewById(R.id.adView);

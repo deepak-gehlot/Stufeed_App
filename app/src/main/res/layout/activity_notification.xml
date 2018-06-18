@@ -14,10 +14,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorAccent"
+            android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
             app:title="Notification"
-            app:titleTextColor="@color/white" />
+            android:elevation="@dimen/dimen_4dp"
+            app:titleTextColor="@color/topheader_text" />
 
         <LinearLayout
             android:id="@+id/layoutRequest"
@@ -46,7 +47,6 @@
                     android:background="@drawable/circle_red"
                     android:gravity="center"
                     android:padding="3dp"
-                    android:text="2"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
 
@@ -62,7 +62,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Join Request"
+                    android:text="@string/join_request"
                     android:textColor="@color/text_color"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Approve or ignore request to join."
+                    android:text="@string/approve_or_ignore_request_to_join"
                     android:textColor="@color/text_color"
                     android:textSize="14sp" />
 

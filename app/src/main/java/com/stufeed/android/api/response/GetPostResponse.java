@@ -12,7 +12,7 @@ public class GetPostResponse {
     private String responseMessage;
     private String responseCode;
     @SerializedName("getpost")
-    private ArrayList<Post> post;
+    private ArrayList<Post> post = new ArrayList<>();
 
     public String getResponseMessage() {
         return responseMessage;
@@ -39,6 +39,8 @@ public class GetPostResponse {
     }
 
     public static class Post implements Parcelable {
+        private boolean isShirnk = true;
+
         @SerializedName("Userid")
         private String userId = "";
         @SerializedName("Postid")
@@ -98,6 +100,14 @@ public class GetPostResponse {
         private String videoUrl = "";
 
         public Post() {
+        }
+
+        public boolean isShirnk() {
+            return isShirnk;
+        }
+
+        public void setShirnk(boolean shirnk) {
+            isShirnk = shirnk;
         }
 
         public String getUserType() {

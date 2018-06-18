@@ -10,11 +10,13 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_16dp"
+            android:layout_margin="@dimen/dimen_10dp"
             android:background="@drawable/edit_text"
-            android:hint="pin"
+            android:hint="Enter Pass Code"
             android:inputType="number"
             android:lines="1"
+            android:textSize="@dimen/dimen_16sp"
+            android:textColor="@color/text_color"
             android:padding="@dimen/dimen_10dp" />
 
         <LinearLayout
@@ -24,22 +26,28 @@
             android:orientation="horizontal">
 
             <Button
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:id="@+id/buttonCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginBottom="@dimen/dimen_16dp"
+                android:layout_marginBottom="@dimen/dimen_10dp"
                 android:layout_marginEnd="@dimen/dimen_10dp"
-                android:text="Cancel" />
+                android:text="@string/cancel"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"/>
 
             <Button
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:id="@+id/buttonSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginBottom="@dimen/dimen_16dp"
+                android:layout_marginBottom="@dimen/dimen_10dp"
                 android:layout_marginEnd="@dimen/dimen_10dp"
-                android:text="Save" />
+                android:text="@string/save"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"/>
 
 
         </LinearLayout>

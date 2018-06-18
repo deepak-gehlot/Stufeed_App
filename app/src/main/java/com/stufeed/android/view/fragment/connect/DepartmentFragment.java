@@ -65,7 +65,7 @@ public class DepartmentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
-        loginUserCollegeId = "1";
+        loginUserCollegeId = "1";//Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         setRecyclerView();
         SearchReceiver searchReceiver = new SearchReceiver();
         getActivity().registerReceiver(searchReceiver, new IntentFilter("com.stufeed.android.search"));

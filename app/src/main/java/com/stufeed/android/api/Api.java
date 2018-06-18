@@ -123,7 +123,8 @@ public interface Api {
     @FormUrlEncoded
     @POST("likepost")
     Call<LikeResponse> likePost(@Field("userid") String userId,
-                                @Field("postid") String postId);
+                                @Field("postid") String postId,
+                                @Field("type") String type);
 
     @FormUrlEncoded
     @POST("postdelete")
@@ -180,7 +181,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("updateboard")
-    Call<CreateBoardResponse> updateBoard(@Field("userid") String userId,
+    Call<CreateBoardResponse> updateBoard(@Field("boardid") String boardId,
                                           @Field("boardname") String title,
                                           @Field("boarddescription") String description,
                                           @Field("isprivate") int isPrivate,
@@ -446,11 +447,21 @@ public interface Api {
                                             @Field("boardid") String boardId,
                                             @Field("joinerid") String joinUserId);
 
-
     @FormUrlEncoded
     @POST("rejectJoinboard")
     Call<JoinBoardResponse> rejectJoinBoard(@Field("userid") String userId,
                                             @Field("boardid") String boardId,
                                             @Field("joinerid") String joinUserId);
+
+    @FormUrlEncoded
+    @POST("deleteComment")
+    Call<Response> deleteComment(@Field("userId") String userId,
+                                 @Field("commentId") String commentId,
+                                 @Field("postid") String postId);
+
+    @FormUrlEncoded
+    @POST("deleteInstitutePost")
+    Call<Response> deleteInstitutePost(@Field("user_id") String userId,
+                                       @Field("post_id") String postId);
 
 }

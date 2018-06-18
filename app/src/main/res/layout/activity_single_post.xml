@@ -26,10 +26,11 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
             app:title="Post"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/topheader_text"
+            android:elevation="@dimen/dimen_4dp"/>
 
 
         <!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -69,16 +70,19 @@
                             android:layout_centerInParent="true" />
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            app:civ_border_width="2dp"
+                            android:elevation="@dimen/dimen_3dp"
+                            app:civ_border_color="@color/bg_gray"
                             app:profileImageUrl="@{model.profilePic}" />
                     </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
+                        android:paddingStart="@dimen/dimen_10dp"
+                        android:paddingTop="@dimen/dimen_5dp"
                         android:layout_weight="1"
                         android:onClick="@{()->activity.onClickName(model)}"
                         android:orientation="vertical">
@@ -89,7 +93,8 @@
                             android:singleLine="true"
                             android:text="@{model.fullName}"
                             android:textColor="@color/text_color"
-                            android:textSize="16sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/boardName"
@@ -101,25 +106,23 @@
                             android:textSize="12sp"
                             android:visibility="gone" />
 
-                        <TextView
-                            android:id="@+id/time"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:textColor="@color/text_color"
-                            android:textSize="12sp" />
-                        <!--app:time="@{model.dateTime}"-->
+
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/userTypeIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_verified_user" />
 
                     <ImageView
                         android:id="@+id/actionIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:padding="10dp"
                         android:src="@drawable/arrow_down_icon"
-                        android:tint="@color/button_color"
-                        android:visibility="gone" />
+                        android:tint="@color/button_color" />
 
                 </LinearLayout>
                 <!--    Title Layout End  -->
@@ -297,6 +300,95 @@
                 </LinearLayout>
                 <!--    Poll Layout End   -->
 
+                <!--Audio & Video url Start-->
+
+                <RelativeLayout
+                    android:id="@+id/audioVideoImgLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_margin="16dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/borderstyle1"
+                    android:onClick="@{()->activity.onArticleClick(model)}"
+                    android:visibility="gone"
+                    >
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dimen_80dp"
+                        android:layout_height="@dimen/dimen_80dp"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dimen_10dp">
+
+                        <ImageView
+                            android:id="@+id/audioVideoImg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_80dp"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/dimen_80dp"
+                        android:padding="@dimen/dimen_10dp">
+
+                        <TextView
+                            android:id="@+id/textAVTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:textColor="@color/text_color"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textAVUrl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lines="2"
+                            android:textColor="@color/text_color"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <!--Audio & Video url End-->
+
+                <!--document row start-->
+                <LinearLayout
+                    android:id="@+id/documentLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/borderstyle1"
+                    android:onClick="@{()->activity.onArticleClick(model)}"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/documentImg"
+                        android:layout_width="@dimen/dimen_80dp"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:src="@drawable/icon_file_doc"/>
+
+                    <TextView
+                        android:id="@+id/doctextAVUrl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="2"
+                        android:gravity="center"
+                        android:layout_margin="@dimen/dimen_5dp"
+                        android:textColor="@color/text_color"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+                <!--document row end-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -306,7 +398,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="16dp"
-                        android:drawableStart="@drawable/favorite_icon"
+                        android:drawableStart="@drawable/mini_favorite_icon"
                         android:lines="1"
                         android:padding="10dp"
                         android:text="@{model.totalLike}"
@@ -317,7 +409,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="16dp"
-                        android:drawableStart="@drawable/comment_icon"
+                        android:drawableStart="@drawable/mini_comment_icon"
                         android:lines="1"
                         android:padding="10dp"
                         android:text="@{model.totalComment}"
@@ -333,7 +425,8 @@
                         android:padding="10dp"
                         android:text="0"
                         android:textColor="@color/text_color"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <View
@@ -415,26 +508,30 @@
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:visibility="gone">
+            android:padding="5dp"
+            android:visibility="visible">
 
             <EditText
                 android:id="@+id/edtComment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/edit_text"
-                android:hint="Type your comment..."
+                android:hint="Enter Your Comment"
                 android:imeOptions="actionSend"
-                android:inputType="textCapSentences"
-                android:maxLines="2"
-                android:padding="12dp" />
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="5"
+                android:minLines="1"
+                android:textSize="15sp"
+                android:singleLine="false"
+                android:padding="12dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/text_color"/>
 
             <Button
                 android:id="@+id/btnSendComment"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->activity.onSendButtonClick()}"
                 android:text="Send"

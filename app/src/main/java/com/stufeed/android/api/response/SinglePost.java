@@ -44,6 +44,7 @@ public class SinglePost {
         private String userId = "";
         @SerializedName("Postid")
         private String postId = "";
+        private String userType = "";
         @SerializedName("Fullname")
         private String fullName = "";
         @SerializedName("Email")
@@ -66,6 +67,8 @@ public class SinglePost {
         private String profilePic = "";
         @SerializedName("Image")
         private String image = "";
+        @SerializedName("File")
+        private String file = "";
         @SerializedName("Totallike")
         private String totalLike = "0";
         @SerializedName("Totalcomment")
@@ -75,7 +78,7 @@ public class SinglePost {
         @SerializedName("Questionid")
         private String questionId;
         @SerializedName("Options")
-        private ArrayList<Option> optionArrayList;
+        private ArrayList<GetPostResponse.Option> optionArrayList;
         @SerializedName("optionid ")
         private String selectedId;
         @SerializedName("audiofile")
@@ -88,6 +91,12 @@ public class SinglePost {
         private String isLike = "";
         @SerializedName("is_bookmark")
         private String isBookmark = "";
+        @SerializedName("article_title")
+        private String articleTitle = "";
+        @SerializedName("article_thumbnail")
+        private String articleThumbUrl = "";
+        @SerializedName("Videourl")
+        private String videoUrl = "";
 
         public Post() {
         }
@@ -106,6 +115,14 @@ public class SinglePost {
 
         public void setPostId(String postId) {
             this.postId = postId;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
         }
 
         public String getFullName() {
@@ -196,6 +213,14 @@ public class SinglePost {
             this.image = image;
         }
 
+        public String getFile() {
+            return file;
+        }
+
+        public void setFile(String file) {
+            this.file = file;
+        }
+
         public String getTotalLike() {
             return totalLike;
         }
@@ -228,11 +253,11 @@ public class SinglePost {
             this.questionId = questionId;
         }
 
-        public ArrayList<Option> getOptionArrayList() {
+        public ArrayList<GetPostResponse.Option> getOptionArrayList() {
             return optionArrayList;
         }
 
-        public void setOptionArrayList(ArrayList<Option> optionArrayList) {
+        public void setOptionArrayList(ArrayList<GetPostResponse.Option> optionArrayList) {
             this.optionArrayList = optionArrayList;
         }
 
@@ -284,77 +309,29 @@ public class SinglePost {
             this.isBookmark = isBookmark;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
+        public String getArticleTitle() {
+            return articleTitle;
         }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.userId);
-            dest.writeString(this.postId);
-            dest.writeString(this.fullName);
-            dest.writeString(this.email);
-            dest.writeString(this.title);
-            dest.writeString(this.description);
-            dest.writeString(this.allowComment);
-            dest.writeString(this.allowRePost);
-            dest.writeString(this.postType);
-            dest.writeString(this.dateTime);
-            dest.writeString(this.filePath);
-            dest.writeString(this.profilePic);
-            dest.writeString(this.image);
-            dest.writeString(this.totalLike);
-            dest.writeString(this.totalComment);
-            dest.writeString(this.question);
-            dest.writeString(this.questionId);
-            dest.writeTypedList(this.optionArrayList);
-            dest.writeString(this.selectedId);
-            dest.writeString(this.audioFile);
-            dest.writeString(this.boardId);
-            dest.writeString(this.boardName);
-            dest.writeString(this.isLike);
-            dest.writeString(this.isBookmark);
+        public void setArticleTitle(String articleTitle) {
+            this.articleTitle = articleTitle;
         }
 
-        protected Post(Parcel in) {
-            this.userId = in.readString();
-            this.postId = in.readString();
-            this.fullName = in.readString();
-            this.email = in.readString();
-            this.title = in.readString();
-            this.description = in.readString();
-            this.allowComment = in.readString();
-            this.allowRePost = in.readString();
-            this.postType = in.readString();
-            this.dateTime = in.readString();
-            this.filePath = in.readString();
-            this.profilePic = in.readString();
-            this.image = in.readString();
-            this.totalLike = in.readString();
-            this.totalComment = in.readString();
-            this.question = in.readString();
-            this.questionId = in.readString();
-            this.optionArrayList = in.createTypedArrayList(Option.CREATOR);
-            this.selectedId = in.readString();
-            this.audioFile = in.readString();
-            this.boardId = in.readString();
-            this.boardName = in.readString();
-            this.isLike = in.readString();
-            this.isBookmark = in.readString();
+        public String getArticleThumbUrl() {
+            return articleThumbUrl;
         }
 
-        public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
-            @Override
-            public Post createFromParcel(Parcel source) {
-                return new Post(source);
-            }
+        public void setArticleThumbUrl(String articleThumbUrl) {
+            this.articleThumbUrl = articleThumbUrl;
+        }
 
-            @Override
-            public Post[] newArray(int size) {
-                return new Post[size];
-            }
-        };
+        public String getVideoUrl() {
+            return videoUrl;
+        }
+
+        public void setVideoUrl(String videoUrl) {
+            this.videoUrl = videoUrl;
+        }
 
         public static class Option implements Parcelable {
             @SerializedName("id")
@@ -445,5 +422,87 @@ public class SinglePost {
                 }
             };
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.userId);
+            dest.writeString(this.postId);
+            dest.writeString(this.userType);
+            dest.writeString(this.fullName);
+            dest.writeString(this.email);
+            dest.writeString(this.title);
+            dest.writeString(this.description);
+            dest.writeString(this.allowComment);
+            dest.writeString(this.allowRePost);
+            dest.writeString(this.postType);
+            dest.writeString(this.dateTime);
+            dest.writeString(this.filePath);
+            dest.writeString(this.profilePic);
+            dest.writeString(this.image);
+            dest.writeString(this.file);
+            dest.writeString(this.totalLike);
+            dest.writeString(this.totalComment);
+            dest.writeString(this.question);
+            dest.writeString(this.questionId);
+            dest.writeTypedList(this.optionArrayList);
+            dest.writeString(this.selectedId);
+            dest.writeString(this.audioFile);
+            dest.writeString(this.boardId);
+            dest.writeString(this.boardName);
+            dest.writeString(this.isLike);
+            dest.writeString(this.isBookmark);
+            dest.writeString(this.articleTitle);
+            dest.writeString(this.articleThumbUrl);
+            dest.writeString(this.videoUrl);
+        }
+
+        protected Post(Parcel in) {
+            this.userId = in.readString();
+            this.postId = in.readString();
+            this.userType = in.readString();
+            this.fullName = in.readString();
+            this.email = in.readString();
+            this.title = in.readString();
+            this.description = in.readString();
+            this.allowComment = in.readString();
+            this.allowRePost = in.readString();
+            this.postType = in.readString();
+            this.dateTime = in.readString();
+            this.filePath = in.readString();
+            this.profilePic = in.readString();
+            this.image = in.readString();
+            this.file = in.readString();
+            this.totalLike = in.readString();
+            this.totalComment = in.readString();
+            this.question = in.readString();
+            this.questionId = in.readString();
+            this.optionArrayList = in.createTypedArrayList(GetPostResponse.Option.CREATOR);
+            this.selectedId = in.readString();
+            this.audioFile = in.readString();
+            this.boardId = in.readString();
+            this.boardName = in.readString();
+            this.isLike = in.readString();
+            this.isBookmark = in.readString();
+            this.articleTitle = in.readString();
+            this.articleThumbUrl = in.readString();
+            this.videoUrl = in.readString();
+        }
+
+        public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
+            @Override
+            public Post createFromParcel(Parcel source) {
+                return new Post(source);
+            }
+
+            @Override
+            public Post[] newArray(int size) {
+                return new Post[size];
+            }
+        };
     }
 }

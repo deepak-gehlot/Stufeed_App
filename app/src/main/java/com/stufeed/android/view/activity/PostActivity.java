@@ -627,8 +627,7 @@ public class PostActivity extends AppCompatActivity {
      */
     private boolean validatePost(PostModel postModel) {
         Extension extension = Extension.getInstance();
-        if (TextUtils.isEmpty(postModel.getTitle()) ||
-                TextUtils.isEmpty(postModel.getDescription())) {
+        if (TextUtils.isEmpty(postModel.getDescription())) {
             Utility.showToast(PostActivity.this, getString(R.string.all_required));
             return false;
         } else if (postModel.getType() == 5 && postModel.getFile() == null) {

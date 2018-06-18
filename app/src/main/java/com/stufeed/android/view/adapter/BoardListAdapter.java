@@ -25,6 +25,7 @@ import com.stufeed.android.view.activity.BoardDetailsMainActivity;
 import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.activity.InstitutePostActivity;
 import com.stufeed.android.view.activity.PostActivity;
+import com.stufeed.android.view.fragment.BoardFragment;
 
 import java.util.ArrayList;
 
@@ -213,7 +214,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         board.setBoardDescription(description);
 
         Api api = APIClient.getClient().create(Api.class);
-        Call<CreateBoardResponse> responseCall = api.updateBoard(mLoginUserId, title,
+        Call<CreateBoardResponse> responseCall = api.updateBoard(board.getBoardId(), title,
                 description, boardPrivate, boardCircle);
         ProgressDialog.getInstance().showProgressDialog(context);
         responseCall.enqueue(new Callback<CreateBoardResponse>() {
@@ -285,6 +286,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
                         boardArrayList.remove(position);
                         notifyItemRemoved(position);
                         Utility.showToast(context, response1.getResponseMessage());
+                        BoardFragment.boardCount = boardArrayList.size();
                     } else {
                         Utility.showToast(context, response1.getResponseMessage());
                     }

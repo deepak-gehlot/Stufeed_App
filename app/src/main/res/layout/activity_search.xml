@@ -11,8 +11,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/topheader"
             android:gravity="center_vertical"
+            android:elevation="@dimen/dimen_4dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -21,14 +22,14 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dimen_10dp"
                 android:src="@drawable/back_icon"
-                android:tint="@color/colorPrimary" />
+                android:tint="@color/button_color" />
 
             <EditText
                 android:id="@+id/editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@color/bg_color"
                 android:hint="Search"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
@@ -44,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Done"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/text_color" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

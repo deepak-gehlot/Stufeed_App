@@ -15,78 +15,98 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_5dp">
+            android:layout_margin="@dimen/dimen_5dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_5dp"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dimen_5dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/achievement_title"
+                        android:layout_marginTop="@dimen/dimen_5dp"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:layout_marginRight="@dimen/dimen_5dp"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:textColor="@color/topheader_text"/>
 
                     <TextView
                         android:id="@+id/textView13"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/dimen_10dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/dimen_5dp"
                         android:paddingRight="@dimen/dimen_5dp"
-                        android:paddingTop="@dimen/dimen_5dp"
                         android:text="@{model.title}"
                         android:textColor="@color/text_color"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton"
-                        android:layout_width="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@color/common_color"
-                        android:onClick="@{()->adapter.onEditButtonClick(model)}"
-                        android:padding="@dimen/dimen_10dp"
-                        app:srcCompat="@drawable/edit_icon" />
+                        android:text="@string/description"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:layout_marginRight="@dimen/dimen_5dp"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:textColor="@color/topheader_text"/>
 
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dimen_5dp"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:text="@{model.description}"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dimen_5dp"
                     android:layout_marginLeft="@dimen/dimen_5dp"
                     android:layout_marginRight="@dimen/dimen_5dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:layout_weight="7">
 
-                    <TextView
-                        android:id="@+id/textView16"
-                        android:layout_width="0dp"
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/dimen_50dp"
-                        android:layout_weight="1"
-                        android:maxLines="3"
-                        android:padding="@dimen/dimen_5dp"
-                        android:text="@{model.description}"
-                        android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:layout_gravity="center"
+                        android:background="@color/white"
+                        android:onClick="@{()->adapter.onEditButtonClick(model)}"
+                        android:padding="@dimen/dimen_10dp"
+                        app:srcCompat="@drawable/edit_icon" />
 
                     <ImageButton
                         android:id="@+id/imageButtonDelete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/common_color"
+                        android:background="@color/white"
                         android:onClick="@{()->adapter.onDeleteButtonClick(model)}"
                         android:padding="@dimen/dimen_10dp"
                         app:srcCompat="@drawable/delete_icon" />

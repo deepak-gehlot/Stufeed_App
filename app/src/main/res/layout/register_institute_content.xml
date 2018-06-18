@@ -19,12 +19,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/register_part1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:visibility="visible">
 
@@ -34,16 +34,6 @@
                     android:layout_height="match_parent"
                     android:padding="5dp">
 
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/register_institute"
-                        android:textColor="@color/text_color"
-                        android:textSize="25dp"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView7"
@@ -51,10 +41,12 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/textView6"
                         android:layout_marginTop="14dp"
+                        android:background="@drawable/edit_text"
                         android:gravity="center"
                         android:text="@string/institute_detail"
                         android:textColor="@color/text_color"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:visibility="gone" />
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/textView8"
@@ -63,6 +55,7 @@
                         android:layout_alignLeft="@+id/textView7"
                         android:layout_alignStart="@+id/textView7"
                         android:layout_below="@+id/textView7"
+                        android:background="@drawable/edit_text"
                         android:visibility="gone">
 
                         <EditText
@@ -72,7 +65,7 @@
                             android:hint="@string/institute_name"
                             android:singleLine="true"
                             android:textColor="@color/text_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <AutoCompleteTextView
@@ -80,11 +73,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/textView7"
-                        android:background="@android:color/transparent"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:background="@drawable/edit_text"
                         android:hint="Enter Institute Name"
-                        android:padding="8dp"
+                        android:paddingBottom="@dimen/dimen_14sp"
+                        android:paddingLeft="@dimen/dimen_5dp"
+                        android:paddingRight="@dimen/dimen_5dp"
+                        android:paddingTop="@dimen/dimen_14sp"
                         android:singleLine="true"
-                        android:textColor="@color/text_color" />
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/dimen_14sp" />
 
 
                     <TextView
@@ -92,9 +90,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/searchCollegeEdt"
+                        android:layout_marginLeft="@dimen/dimen_10dp"
+                        android:layout_marginRight="@dimen/dimen_10dp"
+                        android:paddingLeft="@dimen/dimen_10dp"
                         android:text="@string/institute_type"
                         android:textColor="@color/text_color"
-                        android:textSize="16dp" />
+                        android:textSize="12sp" />
 
                     <RadioGroup
                         android:id="@+id/rdx"
@@ -102,7 +103,13 @@
                         android:layout_height="match_parent"
                         android:layout_below="@+id/textView11"
                         android:layout_centerHorizontal="true"
-                        android:gravity="left">
+                        android:layout_marginBottom="@dimen/dimen_5dp"
+                        android:layout_marginLeft="@dimen/dimen_10dp"
+                        android:layout_marginRight="@dimen/dimen_10dp"
+                        android:background="@drawable/edit_text"
+                        android:gravity="left"
+                        android:orientation="vertical"
+                        android:padding="@dimen/dimen_10dp">
 
                         <RadioButton
                             android:id="@+id/college_radio"
@@ -138,7 +145,7 @@
                     <View
                         android:id="@+id/regi_view"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="0dp"
                         android:layout_below="@id/rdx"
                         android:background="@color/view_color" />
 
@@ -147,10 +154,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/regi_view"
+                        android:layout_margin="@dimen/dimen_10dp"
+                        android:background="@drawable/edit_text"
+                        android:capitalize="sentences"
                         android:hint="@string/select_university"
+                        android:inputType="textCapSentences"
+                        android:padding="10dp"
                         android:singleLine="true"
                         android:textColor="@color/text_color"
-                        android:textSize="16dp"
+                        android:textSize="@dimen/dimen_16sp"
                         android:visibility="gone" />
 
                     <android.support.design.widget.TextInputLayout
@@ -163,10 +175,18 @@
                             android:id="@+id/institute_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_10dp"
+                            android:background="@drawable/edit_text"
+                            android:capitalize="sentences"
+                            android:gravity="top"
                             android:hint="@string/address"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:maxLines="5"
+                            android:minLines="3"
+                            android:padding="@dimen/dimen_10dp"
                             android:text="@={model.address}"
                             android:textColor="@color/text_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
@@ -175,6 +195,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/textView12"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/dimen_5dp"
+                        android:layout_marginLeft="@dimen/dimen_10dp"
+                        android:layout_marginRight="@dimen/dimen_10dp"
+                        android:layout_marginTop="@dimen/dimen_5dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
 
@@ -182,21 +206,33 @@
                             android:id="@+id/autocomplete_city"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/dimen_10dp"
                             android:layout_weight="1"
+                            android:background="@drawable/edit_text"
+                            android:capitalize="sentences"
                             android:hint="@string/city"
+                            android:inputType="textCapSentences"
+                            android:padding="@dimen/dimen_10dp"
+                            android:singleLine="true"
                             android:text="@={model.city}"
                             android:textColor="@color/text_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
 
                         <EditText
                             android:id="@+id/autocomplete_state"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/dimen_10dp"
                             android:layout_weight="1"
+                            android:background="@drawable/edit_text"
+                            android:capitalize="sentences"
                             android:hint="@string/state"
+                            android:inputType="textCapSentences"
+                            android:padding="@dimen/dimen_10dp"
+                            android:singleLine="true"
                             android:text="@={model.state}"
                             android:textColor="@color/text_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
                     </LinearLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -205,28 +241,33 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-
-
                         android:layout_below="@+id/linearLayout4"
-                        android:layout_marginTop="5dp">
+                        android:layout_marginBottom="@dimen/dimen_5dp"
+                        android:layout_marginLeft="@dimen/dimen_10dp"
+                        android:layout_marginRight="@dimen/dimen_10dp"
+                        android:layout_marginTop="@dimen/dimen_5dp">
 
                         <EditText
                             android:id="@+id/institute_id_no"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text"
                             android:hint="@string/inst_number"
+                            android:padding="10dp"
+                            android:singleLine="true"
                             android:text="@={model.instituteId}"
                             android:textColor="@color/text_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <Button
                         android:id="@+id/next_button"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/textView15"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="@dimen/dimen_5dp"
+                        android:layout_marginRight="@dimen/dimen_5dp"
                         android:backgroundTint="@color/button_color"
                         android:onClick="@{()->activity.onNextButtonClick()}"
                         android:text="Next"
@@ -239,15 +280,16 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/register_part2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:layout_margin="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/dimen_10dp">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -257,13 +299,14 @@
                             android:id="@+id/email_address"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/edit_text"
                             android:hint="@string/email_address"
                             android:inputType="textEmailAddress"
-                            android:paddingLeft="5dp"
+                            android:padding="@dimen/dimen_10dp"
                             android:text="@={model.email}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -274,15 +317,17 @@
                             android:id="@+id/password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/edit_text"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_"
                             android:hint="@string/password"
                             android:inputType="textPassword"
                             android:maxLength="30"
+                            android:padding="@dimen/dimen_10dp"
                             android:paddingLeft="5dp"
                             android:text="@={model.password}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <View
@@ -298,13 +343,14 @@
                             android:id="@+id/mobile_number"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/edit_text"
                             android:hint="@string/mobile_number"
                             android:inputType="number"
-                            android:paddingLeft="5dp"
+                            android:padding="@dimen/dimen_10dp"
                             android:text="@={model.contactNo}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <View
@@ -320,14 +366,38 @@
                             android:id="@+id/website"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/edit_text"
                             android:hint="@string/website"
                             android:inputType="textWebEmailAddress"
                             android:maxLength="60"
-                            android:paddingLeft="5dp"
+                            android:padding="@dimen/dimen_10dp"
                             android:text="@={model.website}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
-                            android:textSize="16dp" />
+                            android:textSize="@dimen/dimen_16sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="16dp"
+                        android:visibility="gone" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/specialist"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/specialist"
+                            android:padding="@dimen/dimen_10dp"
+                            android:text="@={model.specialisedIn}"
+                            android:background="@drawable/edit_text"
+                            android:textColor="@color/text_color"
+                            android:textColorHint="@color/text_hint_color"
+                            android:textSize="16dp"
+                            android:visibility="visible" />
                     </android.support.design.widget.TextInputLayout>
 
                     <View
@@ -336,45 +406,43 @@
                         android:visibility="gone" />
 
                     <TextView
-                        android:id="@+id/specialist"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="@string/specialist"
-                        android:paddingLeft="5dp"
-                        android:text="@={model.specialisedIn}"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:inputType="number"
+                        android:text="Year Of Establishment"
                         android:textColor="@color/text_color"
-                        android:textColorHint="@color/text_hint_color"
-                        android:textSize="16dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="16dp"
-                        android:visibility="gone" />
+                        android:textSize="@dimen/dimen_16sp" />
 
                     <TextView
                         android:id="@+id/year_os_established"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:hint="@string/year_of_stablished"
                         android:inputType="number"
+                        android:onClick="@{()->activity.onClickYearOfEstablishment()}"
                         android:text="@={model.yearOfEstablishment}"
                         android:textColor="@color/text_color"
-                        android:textSize="16dp" />
+                        android:textSize="@dimen/dimen_16sp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:backgroundTint="@color/button_color"
                         android:gravity="center|left"
                         android:text="@string/managed_by"
                         android:textAppearance="@style/TextAppearance.AppCompat.Menu"
                         android:textColor="@color/view_color"
-                        android:textSize="16dp" />
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -384,7 +452,9 @@
                             android:id="@+id/managed_rg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal">
+                            android:background="@drawable/edit_text"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/dimen_10dp">
 
                             <RadioButton
                                 android:id="@+id/private_radio"
@@ -393,7 +463,7 @@
                                 android:layout_weight="1"
                                 android:hint="Private"
                                 android:textColorHint="@color/text_color"
-                                android:textSize="16dp" />
+                                android:textSize="16sp" />
 
                             <RadioButton
                                 android:id="@+id/goverment_radio"
@@ -402,7 +472,7 @@
                                 android:layout_weight="2"
                                 android:hint="Government"
                                 android:textColorHint="@color/text_color"
-                                android:textSize="16dp" />
+                                android:textSize="16sp" />
 
                         </RadioGroup>
 
@@ -410,26 +480,27 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_margin="5dp"
+                        android:layout_height="0dp"
                         android:background="@color/view_color" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="15dp"
                         android:backgroundTint="@color/button_color"
                         android:gravity="center|left"
                         android:text="Location"
                         android:textAppearance="@style/TextAppearance.AppCompat.Menu"
                         android:textColor="@color/view_color"
-                        android:textSize="16dp" />
+                        android:textSize="@dimen/dimen_12sp" />
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text"
+                        android:padding="@dimen/dimen_10dp">
 
                         <RadioGroup
                             android:id="@+id/location_rg"
@@ -444,7 +515,7 @@
                                 android:layout_weight="1"
                                 android:hint="Urban"
                                 android:textColorHint="@color/text_color"
-                                android:textSize="16dp" />
+                                android:textSize="@dimen/dimen_16sp" />
 
                             <RadioButton
                                 android:id="@+id/rural"
@@ -453,7 +524,7 @@
                                 android:layout_weight="2"
                                 android:hint="Rural"
                                 android:textColorHint="@color/text_color"
-                                android:textSize="16dp" />
+                                android:textSize="@dimen/dimen_16sp" />
 
                         </RadioGroup>
 
@@ -461,7 +532,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="0dp"
                         android:layout_margin="5dp"
                         android:background="@color/view_color" />
 
@@ -469,13 +540,15 @@
                         android:id="@+id/part2_register_btn"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        android:layout_marginBottom="@dimen/dimen_10dp"
                         android:layout_marginTop="10dp"
                         android:backgroundTint="@color/button_color"
                         android:onClick="@{()->activity.onRegisterButtonClick()}"
+                        android:singleLine="true"
                         android:text="@string/register"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@android:color/white"
-                        android:textSize="16dp"
+                        android:textSize="@dimen/dimen_16sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>

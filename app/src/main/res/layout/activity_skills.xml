@@ -22,10 +22,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
             app:title="Skills / Specialities"
-            app:titleTextColor="@color/white">
+            app:titleTextColor="@color/topheader_text"
+            android:elevation="@dimen/dimen_4dp">
 
             <Button
                 android:id="@+id/buttonSave"
@@ -35,7 +36,7 @@
                 android:layout_gravity="end"
                 android:onClick="@{()->activity.onSaveButtonClick()}"
                 android:text="save"
-                android:textColor="@color/white" />
+                android:textColor="@color/text_color" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -43,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="@dimen/dimen_16dp"
+            android:layout_margin="@dimen/dimen_5dp"
             android:orientation="vertical"
             android:padding="@dimen/dimen_16dp">
 
@@ -65,17 +66,17 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text"
                 android:completionThreshold="1"
-                android:hint="Skills / Specialities"
-                android:padding="16dp" />
+                android:hint="@string/skills_specialities"
+                android:padding="10dp" />
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:onClick="@{()->activity.onClickAdd()}"
-                android:text="Add"
+                android:text="@string/add"
                 android:textColor="@color/colorPrimary" />
 
         </LinearLayout>

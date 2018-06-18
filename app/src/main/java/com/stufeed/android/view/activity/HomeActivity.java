@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.google.android.gms.ads.MobileAds;
@@ -150,7 +152,21 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
-        finish();
+        int selectedId = binding.bottomNavigation.getSelectedItemId();
+        switch (selectedId) {
+            case R.id.navigation_connect:
+            case R.id.navigation_person:
+            case R.id.navigation_post:
+            case R.id.navigation_board:
+                binding.bottomNavigation.setSelectedItemId(R.id.navigation_feed);
+                String userId = Utility.getLoginUserId(HomeActivity.this);
+                Utility.addFragment(this, FeedFragment.newInstance(userId), "FeedFragment", binding.frame.getId());
+                break;
+            case R.id.navigation_feed:
+                finish();
+                break;
+
+        }
     }
 
     @Override
@@ -164,7 +180,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.navigation_post:  // PostActivity
                 if (userType.equals("4")) {
-                    startActivity(new Intent(HomeActivity.this, InstitutePostActivity.class));
+                    onClickInstitutePost();
                 } else {
                     startActivity(new Intent(HomeActivity.this, PostActivity.class));
                 }
@@ -179,6 +195,49 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
         return true;
     }
+
+    public void onClickInstitutePost() {
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(HomeActivity.this);
+        bottomSheetDialog.setContentView(R.layout.dialog_type_selection);
+        TextView boardTxt = bottomSheetDialog.findViewById(R.id.txtBoard);
+        TextView edukitTxt = bottomSheetDialog.findViewById(R.id.txtEdukit);
+        boardTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+                onClickBoard();
+            }
+        });
+        edukitTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+                onClickEdukit();
+            }
+        });
+        bottomSheetDialog.show();
+    }
+
+    /**
+     * Select board click
+     */
+    public void onClickBoard() {
+        Intent intent = new Intent(HomeActivity.this, InstitutePostActivity.class);
+        intent.putExtra("code", InstitutePostActivity.SELECT_BOARD);
+        startActivity(intent);
+        // mBinding.postSelectionLayout.setVisibility(View.GONE);
+    }
+
+    /**
+     * Select Edukit click
+     */
+    public void onClickEdukit() {
+        Intent intent = new Intent(HomeActivity.this, InstitutePostActivity.class);
+        intent.putExtra("code", InstitutePostActivity.SELECT_EDUKIT);
+        startActivity(intent);
+        //  mBinding.postSelectionLayout.setVisibility(View.GONE);
+    }
+
 
     private void setResult(String searchTxt) {
         Intent intent = new Intent();
@@ -217,6 +276,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             binding.searchImg.setVisibility(View.VISIBLE);
         } else {
             binding.searchImg.setVisibility(View.GONE);
+            binding.toolBar.setVisibility(View.VISIBLE);
+            binding.searchLayout.setVisibility(View.GONE);
         }
     }
 

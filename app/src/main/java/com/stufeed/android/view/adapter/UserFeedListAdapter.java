@@ -9,7 +9,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 
+import com.androidquery.AQuery;
 import com.appunite.appunitevideoplayer.PlayerActivity;
 import com.bumptech.glide.Glide;
 import com.stufeed.android.R;
@@ -31,6 +34,7 @@ import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
 import com.stufeed.android.api.response.SavePostResponse;
+import com.stufeed.android.customui.TextViewExpandableAnimation;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.databinding.RowUserFeedBinding;
 import com.stufeed.android.listener.DialogListener;
@@ -41,6 +45,8 @@ import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.activity.FullImageActivity;
 import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
+
+import org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
 
@@ -54,11 +60,13 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
     private ArrayList<GetPostResponse.Post> postArrayList;
     private String loginUserId;
     private String videoURL = "";
+    private AQuery aQuery;
 
     public UserFeedListAdapter(Activity context, ArrayList<GetPostResponse.Post> postArrayList) {
         this.context = context;
         this.postArrayList = postArrayList;
         loginUserId = Utility.getLoginUserDetail(context).getUserId();
+        aQuery = new AQuery(context);
     }
 
     @Override
@@ -76,6 +84,20 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
         holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
         holder.rowBinding.pollLayout.setVisibility(View.GONE);
         holder.rowBinding.imageLayout.setVisibility(View.GONE);
+
+
+        holder.rowBinding.tvExpand.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+            @Override
+            public void onStateChange(boolean isShrink) {
+                GetPostResponse.Post post = postArrayList.get(holder.getAdapterPosition());
+                post.setShirnk(isShrink);
+                postArrayList.set(holder.getAdapterPosition(), post);
+            }
+        });
+        holder.rowBinding.tvExpand.setText(post.getDescription());
+        //important! reset its state as where it left
+        holder.rowBinding.tvExpand.resetState(post.isShirnk());
+
 
         if (!TextUtils.isEmpty(post.getBoardId())) {
             holder.rowBinding.boardName.setVisibility(View.VISIBLE);
@@ -104,14 +126,40 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
         }
 
         switch (post.getPostType()) {
+            case "1":
+
+                holder.rowBinding.documentLayout.setVisibility(View.VISIBLE);
+                /*aQuery.id(holder.rowBinding.audioVideoImg).image(
+                        post.getFilePath() + post.getFile(), true, true, 200, R.drawable.user_default);
+                */
+                String ext = FilenameUtils.getExtension(post.getFile());
+                setFileAsExtension(holder, ext);
+                holder.rowBinding.doctextAVUrl.setText(post.getFile());
+                break;
+            case "2": // aartical url
+                holder.rowBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+/*
+                Glide.with(context)
+                        .load(post.getArticleThumbUrl())
+                        .into(holder.rowBinding.audioVideoImg);
+*/
+
+                aQuery.id(holder.rowBinding.audioVideoImg).image(
+                        post.getArticleThumbUrl(), true, true, 160, R.drawable.image_placeholder);
+
+                holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
+                holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
+
+                break;
             case "5":  // for audio
                 holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
-                String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
-                holder.rowBinding.audioText.setText(fileName);
+                // String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
+                //holder.rowBinding.audioText.setText(fileName);
                 break;
             case "4":  // for poll
                 holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
                 holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
+
                 holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
                 holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
                 for (int i = 0; i < post.getOptionArrayList().size(); i++) {
@@ -134,7 +182,22 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                             holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
                         }
-                        holder.rowBinding.totalCount1.setText(post.getOptionArrayList().get(i).getTotalVote());
+
+                        int firstValue = 0, secondValue = 0;
+                        int total = 0;
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                            firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                        }
+
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                            secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                        }
+                        total = firstValue + secondValue;
+                        int firstPer = 0;
+                        if (total != 0) {
+                            firstPer = (firstValue / total) * 100;
+                        }
+                        holder.rowBinding.totalCount1.setText("" + firstPer + " %");
                     } else if (i == 1) {
                         if (!TextUtils.isEmpty(select) && select.equals("1")) {
                             holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
@@ -145,7 +208,21 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                             holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
                                     .ic_radio_button_unchecked, 0, 0, 0);
                         }
-                        holder.rowBinding.totalCount2.setText(post.getOptionArrayList().get(i).getTotalVote());
+                        int firstValue = 0, secondValue = 0;
+                        int total = 0;
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                            firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                        }
+
+                        if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                            secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                        }
+                        total = firstValue + secondValue;
+                        int firstPer = 0;
+                        if (total != 0) {
+                            firstPer = (secondValue / total) * 100;
+                        }
+                        holder.rowBinding.totalCount2.setText("" + firstPer + " %");
                     }
                 }
 
@@ -175,51 +252,34 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
         });
     }
 
-    private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
-        ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
-        if (arrayList.size() != 0) {
-            videoURL = arrayList.get(0);
-            if (Utility.isValidUrl(videoURL)) {
-                holder.rowBinding.playBtn.setVisibility(View.VISIBLE);
-                try {
-                    if (videoURL.contains("www.youtube.com")) {
-                        String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
-                        Glide.with(context)
-                                .load(url)
-                                .into(holder.rowBinding.image);
-                    } else {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    final Bitmap bitmap = Utility.retriveVideoFrameFromVideo(videoURL);
-                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Glide.with(context)
-                                                    .load(bitmap)
-                                                    .into(holder.rowBinding.image);
-                                        }
-                                    });
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    holder.rowBinding.playBtn.setVisibility(View.GONE);
-                }
-            } else {
-                holder.rowBinding.playBtn.setVisibility(View.GONE);
-            }
-        } else {
-            holder.rowBinding.playBtn.setVisibility(View.GONE);
-            Glide.with(context)
-                    .load(post.getFilePath() + post.getImage())
-                    .into(holder.rowBinding.image);
+    private void setFileAsExtension(ViewHolder holder, String extension) {
+        switch (extension) {
+            case "pdf":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_pdf);
+                break;
+            case "doc":
+            case "docx":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_doc);
+                break;
+            case "xlsx":
+            case "xls":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_xls);
+                break;
+            case "txt":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_unknown);
+                break;
+            case "ppt":
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_ppt);
+                break;
+            default:
+                holder.rowBinding.documentImg.setImageResource(R.drawable.icon_file_unknown);
         }
+    }
+
+    private void imageOrVideoRow(ViewHolder holder, GetPostResponse.Post post) {
+        holder.rowBinding.playBtn.setVisibility(View.GONE);
+        aQuery.id(holder.rowBinding.image).image(
+                post.getFilePath() + post.getImage(), true, true, 160, R.drawable.image_placeholder);
     }
 
     //http://techslides.com/demos/sample-videos/small.mp4
@@ -249,11 +309,7 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     context.startActivity(browserIntent);
-                } /*else {
-                    context.startActivity(PlayerActivity.getVideoPlayerIntent(context,
-                            videoURL,
-                            "Video title"));
-                }*/
+                }
             }
         } else {
             String imageUrl = post.getFilePath() + post.getImage();
@@ -262,6 +318,22 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                 intent.putExtra("image", imageUrl);
                 context.startActivity(intent);
             }
+        }
+    }
+
+    public void onArticleClick(GetPostResponse.Post post) {
+        if (post.getPostType().equals("1")) {
+            String url = post.getFilePath() + post.getFile();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context, Uri.parse(url));
+        } else {
+            String url = post.getVideoUrl();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(context, Uri.parse(url));
         }
     }
 
@@ -293,6 +365,7 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
     }
 
     public void onLikeClick(GetPostResponse.Post post) {
+        String type = "";
         String like = post.getTotalLike();
         if (post.getIsLike().equals("1")) {
             if (!TextUtils.isEmpty(like)) {
@@ -300,19 +373,21 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("0");
+            type = "2";
         } else {
             if (!TextUtils.isEmpty(like)) {
                 int likeCount = Integer.parseInt(like) + 1;
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("1");
+            type = "1";
         }
 
         int position = postArrayList.indexOf(post);
         postArrayList.add(position, post);
         notifyItemChanged(position);
         Api api = APIClient.getClient().create(Api.class);
-        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId());
+        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId(),type);
         responseCall.enqueue(new Callback<LikeResponse>() {
             @Override
             public void onResponse(Call<LikeResponse> call, Response<LikeResponse> response) {
@@ -454,7 +529,7 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                         dialog.dismiss();
                         int position = postArrayList.indexOf(post);
                         postArrayList.remove(position);
-                        notifyItemChanged(position);
+                        notifyItemRemoved(position);
                         deletePost(post);
                     }
                 });
@@ -515,42 +590,52 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
         String totalVote2 = post.getOptionArrayList().get(1).getTotalVote();
         switch (option) {
             case 1:
-                post.getOptionArrayList().get(0).setIsSelect("1");
-                post.getOptionArrayList().get(1).setIsSelect("0");
-                post.setSelectedId(post.getOptionArrayList().get(0).getId());
+                if (TextUtils.isEmpty(post.getOptionArrayList().get(0).getIsSelect()) || post.getOptionArrayList().get(0).getIsSelect().equals("0")) {
+                    post.getOptionArrayList().get(0).setIsSelect("1");
+                    post.getOptionArrayList().get(1).setIsSelect("0");
+                    post.setSelectedId(post.getOptionArrayList().get(0).getId());
 
-                if (!TextUtils.isEmpty(totalVote1)) {
-                    totalVote1 = "" + (Integer.parseInt(totalVote1) + 1);
-                } else {
-                    totalVote1 = "0";
+                    if (!TextUtils.isEmpty(totalVote1)) {
+                        totalVote1 = "" + (Integer.parseInt(totalVote1) + 1);
+                    } else {
+                        totalVote1 = "1";
+                    }
+
+                    if (!TextUtils.isEmpty(totalVote2)) {
+                        totalVote2 = "" + (Integer.parseInt(totalVote2) - 1);
+                        if (Integer.parseInt(totalVote2) < 0) {
+                            totalVote2 = "0";
+                        }
+                    }
+
+                    addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(0).getId());
                 }
-
-                if (!TextUtils.isEmpty(totalVote2)) {
-                    totalVote2 = "" + (Integer.parseInt(totalVote2) - 1);
-                }
-
-                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(0).getId());
                 break;
             case 2:
-                post.getOptionArrayList().get(1).setIsSelect("1");
-                post.getOptionArrayList().get(0).setIsSelect("0");
-                post.setSelectedId(post.getOptionArrayList().get(1).getId());
-                if (!TextUtils.isEmpty(totalVote2)) {
-                    totalVote2 = "" + (Integer.parseInt(totalVote2) + 1);
-                } else {
-                    totalVote2 = "0";
+                if (TextUtils.isEmpty(post.getOptionArrayList().get(1).getIsSelect()) || post.getOptionArrayList().get(1).getIsSelect().equals("0")) {
+                    post.getOptionArrayList().get(1).setIsSelect("1");
+                    post.getOptionArrayList().get(0).setIsSelect("0");
+                    post.setSelectedId(post.getOptionArrayList().get(1).getId());
+                    if (!TextUtils.isEmpty(totalVote2)) {
+                        totalVote2 = "" + (Integer.parseInt(totalVote2) + 1);
+                    } else {
+                        totalVote2 = "1";
+                    }
+                    if (!TextUtils.isEmpty(totalVote1)) {
+                        totalVote1 = "" + (Integer.parseInt(totalVote1) - 1);
+                        if (Integer.parseInt(totalVote1) < 0) {
+                            totalVote1 = "0";
+                        }
+                    }
+                    addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(1).getId());
                 }
-                if (!TextUtils.isEmpty(totalVote1)) {
-                    totalVote1 = "" + (Integer.parseInt(totalVote1) - 1);
-                }
-                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(1).getId());
-
                 break;
         }
         post.getOptionArrayList().get(0).setTotalVote(totalVote1);
         post.getOptionArrayList().get(1).setTotalVote(totalVote2);
         notifyItemChanged(postArrayList.indexOf(post));
     }
+
 
     /**
      * update poll answer on server

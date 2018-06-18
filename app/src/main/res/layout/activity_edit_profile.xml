@@ -20,10 +20,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
             app:title="Edit Profile"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/topheader_text"
+            android:elevation="@dimen/dimen_4dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -32,7 +33,9 @@
             android:drawableEnd="@drawable/next_icon"
             android:onClick="@{()->activity.onClickBasicInfo()}"
             android:padding="@dimen/dimen_16dp"
-            android:text="Basic Information"
+            android:text="@string/basic_information"
+            android:textStyle="bold"
+            android:textSize="@dimen/dimen_16sp"
             android:textColor="@color/text_color" />
 
         <View
@@ -46,8 +49,10 @@
             android:drawableEnd="@drawable/next_icon"
             android:onClick="@{()->activity.onClickAchievement()}"
             android:padding="16dp"
-            android:text="Achievements"
-            android:textColor="@color/text_color" />
+            android:textStyle="bold"
+            android:text="@string/achievements"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/dimen_16sp"/>
 
         <View
             android:layout_width="match_parent"
@@ -60,7 +65,9 @@
             android:drawableEnd="@drawable/next_icon"
             android:onClick="@{()->activity.onClickSkill()}"
             android:padding="16dp"
-            android:text="Skills/Speciality"
+            android:textSize="@dimen/dimen_16sp"
+            android:textStyle="bold"
+            android:text="@string/skills_speciality"
             android:textColor="@color/text_color" />
 
         <View
@@ -74,7 +81,9 @@
             android:drawableEnd="@drawable/next_icon"
             android:onClick="@{()->activity.onClickAbout()}"
             android:padding="16dp"
-            android:text="About Me"
+            android:textSize="@dimen/dimen_16sp"
+            android:textStyle="bold"
+            android:text="@string/about_me"
             android:textColor="@color/text_color" />
 
         <View

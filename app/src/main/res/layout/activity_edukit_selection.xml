@@ -13,9 +13,10 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
-            app:title="Select Type"
-            app:titleTextColor="@color/white" />
+            android:background="@color/topheader"
+            app:title="Select Edukit"
+            app:titleTextColor="@color/topheader_text"
+            android:elevation="@dimen/dimen_4dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

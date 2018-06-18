@@ -93,23 +93,25 @@ public class CommentPostActivity extends AppCompatActivity {
      * @param commentModel @CommentModel
      */
     public void onSendButtonClick(CommentModel commentModel) {
-        Api api = APIClient.getClient().create(Api.class);
-        Call<CommentResponse> responseCall = api.postComment(commentModel.getUserId(), commentModel.getPostId(),
-                commentModel.getComment());
-        addNewComment(binding.getModel());
-        binding.getModel().setComment("");
+        if (!TextUtils.isEmpty(commentModel.getComment())) {
+            Api api = APIClient.getClient().create(Api.class);
+            Call<CommentResponse> responseCall = api.postComment(commentModel.getUserId(), commentModel.getPostId(),
+                    commentModel.getComment());
+            addNewComment(binding.getModel());
+            binding.getModel().setComment("");
 
-        responseCall.enqueue(new Callback<CommentResponse>() {
-            @Override
-            public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
-                handleCommentResponse(response.body());
-            }
+            responseCall.enqueue(new Callback<CommentResponse>() {
+                @Override
+                public void onResponse(Call<CommentResponse> call, Response<CommentResponse> response) {
+                    handleCommentResponse(response.body());
+                }
 
-            @Override
-            public void onFailure(Call<CommentResponse> call, Throwable t) {
-                Utility.showErrorMsg(CommentPostActivity.this);
-            }
-        });
+                @Override
+                public void onFailure(Call<CommentResponse> call, Throwable t) {
+                    Utility.showErrorMsg(CommentPostActivity.this);
+                }
+            });
+        }
     }
 
     /**
@@ -173,6 +175,12 @@ public class CommentPostActivity extends AppCompatActivity {
             scrollToBottom();
         } else {
             setCommentRecyclerView();
+        }
+    }
+
+    public void manageCount() {
+        if (!TextUtils.isEmpty(post.getTotalComment())) {
+            post.setTotalComment("" + (Integer.parseInt(post.getTotalComment()) - 1));
         }
     }
 

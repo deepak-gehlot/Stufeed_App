@@ -17,7 +17,11 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tool_bar_height"
+                android:background="@color/topheader"
                 app:navigationIcon="@drawable/back_icon"
+                app:title="Profile"
+                app:titleTextColor="@color/topheader_text"
+                android:elevation="@dimen/dimen_4dp"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>

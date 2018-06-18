@@ -16,34 +16,38 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_5dp">
+            android:layout_margin="2dp"
+            app:cardElevation="@dimen/dimen_3dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_5dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/dimen_5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dimen_5dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/dimen_10dp"
-                        android:layout_weight="1"
+                        android:textSize="@dimen/dimen_10sp"
+                        android:text="@string/achievement_title"/>
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/dimen_5dp"
                         android:paddingRight="@dimen/dimen_5dp"
-                        android:paddingTop="@dimen/dimen_5dp"
                         android:text="@{model.title}"
                         android:textColor="@color/text_color"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <ImageButton
@@ -64,16 +68,21 @@
                     android:layout_marginBottom="@dimen/dimen_5dp"
                     android:layout_marginLeft="@dimen/dimen_5dp"
                     android:layout_marginRight="@dimen/dimen_5dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/dimen_10sp"
+                        android:text="@string/issued_date"/>
 
                     <TextView
                         android:id="@+id/textView16"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/dimen_50dp"
-                        android:layout_weight="1"
                         android:maxLines="3"
-                        android:padding="@dimen/dimen_5dp"
+                        android:paddingLeft="@dimen/dimen_5dp"
+                        android:paddingRight="@dimen/dimen_5dp"
                         android:text="@{model.issuedDate}"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />
@@ -95,15 +104,19 @@
                     android:layout_marginBottom="@dimen/dimen_5dp"
                     android:layout_marginLeft="@dimen/dimen_5dp"
                     android:layout_marginRight="@dimen/dimen_5dp"
-                    android:orientation="horizontal">
-
+                    android:orientation="vertical">
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/dimen_10sp"
+                        android:text="@string/issued_by"/>
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dimen_50dp"
-                        android:layout_weight="1"
                         android:maxLines="3"
-                        android:padding="@dimen/dimen_5dp"
+                        android:paddingLeft="@dimen/dimen_5dp"
+                        android:paddingRight="@dimen/dimen_5dp"
                         android:text="@{model.issuedBy}"
                         android:textColor="@color/text_color"
                         android:textSize="16sp" />

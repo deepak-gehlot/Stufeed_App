@@ -13,19 +13,17 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_color"
+        android:background="@color/bg_color"
         android:orientation="vertical"
+        android:gravity="center"
         tools:context="com.stufeed.android.view.activity.VerifyAccountActivity">
 
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
-            android:src="@mipmap/ic_launcher_round"
-            app:civ_border_width="0.05dp" />
-
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,6 +32,7 @@
             android:text="Hello Friend!"
             android:textColor="@color/text_color"
             android:textSize="18sp"
+            android:layout_marginTop="@dimen/dimen_10dp"
             android:textStyle="bold" />
 
 
@@ -54,13 +53,20 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:hint="Enter OTP"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:textColor="@color/text_color"
+            android:padding="@dimen/dimen_10dp"
+            android:background="@drawable/edit_text"
             android:singleLine="true" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/dimen_20dp"
+            android:layout_marginRight="@dimen/dimen_20dp"
             android:backgroundTint="@color/button_color"
             android:onClick="@{()->activity.onVerifyClick()}"
             android:text="Verify"

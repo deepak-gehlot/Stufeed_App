@@ -20,7 +20,9 @@
                 android:layout_height="@dimen/tool_bar_height"
                 app:navigationIcon="@drawable/back_icon"
                 app:title="Register Institute"
-                app:titleTextColor="@color/white" />
+                app:titleTextColor="@color/topheader_text"
+                android:background="@color/topheader"
+                android:elevation="@dimen/dimen_4dp"/>
 
         </android.support.design.widget.AppBarLayout>
 

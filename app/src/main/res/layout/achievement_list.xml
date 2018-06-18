@@ -18,10 +18,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
             app:title="Achievement"
-            app:titleTextColor="@color/white" />
+            android:elevation="@dimen/dimen_4dp"
+            app:titleTextColor="@color/topheader_text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,14 +39,14 @@
                 android:paddingLeft="@dimen/dimen_20dp"
                 android:paddingRight="@dimen/dimen_20dp"
                 android:text="Add Achievement"
-                android:textColor="@color/orange_color" />
+                android:textColor="@color/topheader_text" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/dimen_10dp" />
+             />
 
     </LinearLayout>
 </layout>

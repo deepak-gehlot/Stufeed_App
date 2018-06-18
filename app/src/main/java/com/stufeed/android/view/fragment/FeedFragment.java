@@ -25,6 +25,7 @@ import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;

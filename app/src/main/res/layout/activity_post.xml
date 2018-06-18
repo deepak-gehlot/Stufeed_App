@@ -29,7 +29,10 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tool_bar_height"
-                android:background="?attr/colorPrimary"
+                app:title="@string/title_post"
+                android:elevation="@dimen/dimen_4dp"
+                android:background="@color/topheader"
+                app:titleTextColor="@color/topheader_text"
                 app:navigationIcon="@drawable/back_icon"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
@@ -50,7 +53,7 @@
                     android:id="@+id/inputLayoutTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_margin="10dp"
                     android:hint="@string/title">
 
                     <android.support.design.widget.TextInputEditText
@@ -60,10 +63,12 @@
                         android:background="@drawable/edit_text"
                         android:drawablePadding="16dp"
                         android:inputType="textCapWords"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:paddingTop="12dp"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/dimen_15sp"
                         android:singleLine="true"
                         android:text="@={model.title}" />
                 </android.support.design.widget.TextInputLayout>
@@ -73,8 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
                     android:hint="@string/description">
 
                     <android.support.design.widget.TextInputEditText
@@ -85,6 +90,8 @@
                         android:background="@drawable/edit_text"
                         android:drawablePadding="16dp"
                         android:gravity="start"
+                        android:textSize="@dimen/dimen_15sp"
+                        android:textColor="@color/text_color"
                         android:inputType="textCapSentences|textMultiLine"
                         android:linksClickable="true"
                         android:paddingBottom="12dp"
@@ -269,7 +276,7 @@
                                 android:layout_marginStart="16dp"
                                 android:layout_weight="1"
                                 android:lines="2"
-                                android:text="Audio file Name"
+                                android:text="@string/audio_file_name"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="14sp" />
 
@@ -317,7 +324,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_weight="1"
-                                android:text="Poll" />
+                                android:text="@string/poll" />
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -331,7 +338,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:hint="Write poll question"
+                            android:hint="@string/write_poll_question"
                             android:inputType="textMultiLine"
                             android:padding="10dp"
                             android:text="@={model.pollQuestion}" />
@@ -345,7 +352,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:hint="Option 1"
+                            android:hint="@string/option_1"
                             android:imeOptions="actionNext"
                             android:inputType="text"
                             android:lines="1"
@@ -396,6 +403,7 @@
                 android:layout_centerVertical="true"
                 android:onClick="@{()->activity.onAttachmentButtonClick()}"
                 android:padding="10dp"
+                android:layout_marginLeft="@dimen/dimen_5dp"
                 android:src="@drawable/attachment_icon"
                 android:tint="@color/button_color" />
 
@@ -415,7 +423,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginBottom="@dimen/dimen_5dp"
                 android:onClick="@{()->activity.onPostButtonClick(model)}"
                 android:src="@drawable/send_icon"
                 android:tint="@color/white" />

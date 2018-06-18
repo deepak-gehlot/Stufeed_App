@@ -17,10 +17,12 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tool_bar_height"
+                android:background="@color/topheader"
                 app:navigationIcon="@drawable/back_icon"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:title="Saved"
-                app:titleTextColor="@color/white" />
+                app:titleTextColor="@color/topheader_text"
+                android:elevation="@dimen/dimen_4dp"/>
 
         </android.support.design.widget.AppBarLayout>
 

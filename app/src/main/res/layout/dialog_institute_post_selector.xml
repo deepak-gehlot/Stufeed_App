@@ -27,6 +27,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/camera_icon"
                     android:tint="@color/white"
+                    android:background="@color/icon_color"
                     app:useCompatPadding="true" />
 
                 <TextView

@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 
+import com.androidquery.AQuery;
 import com.appunite.appunitevideoplayer.PlayerActivity;
 import com.bumptech.glide.Glide;
 import com.stufeed.android.R;
@@ -26,7 +29,6 @@ import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
-import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.SinglePost;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
@@ -40,6 +42,8 @@ import com.stufeed.android.view.adapter.CommentListAdapter;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 import com.stufeed.android.view.viewmodel.CommentModel;
+
+import org.apache.commons.io.FilenameUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,6 +62,7 @@ public class ViewPostActivity extends AppCompatActivity {
     private ActivitySinglePostBinding mBinding;
     private String videoURL = "";
     private ArrayList<GetAllCommentResponse.Comment> commentArrayList = new ArrayList<>();
+    private AQuery aQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,15 @@ public class ViewPostActivity extends AppCompatActivity {
         loginUserId = Utility.getLoginUserId(this);
         mBinding.setActivity(this);
         getDataFromBundle();
+
+        aQuery = new AQuery(this);
+
+        mBinding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -190,11 +204,21 @@ public class ViewPostActivity extends AppCompatActivity {
     }
 
     private void setView(final SinglePost.Post post) {
+
         mBinding.setModel(post);
         mBinding.setActivity(this);
+
         mBinding.audioCardLayout.setVisibility(View.GONE);
         mBinding.pollLayout.setVisibility(View.GONE);
         mBinding.imageLayout.setVisibility(View.GONE);
+
+        mBinding.documentLayout.setVisibility(View.GONE);
+        mBinding.audioCardLayout.setVisibility(View.GONE);
+        mBinding.pollLayout.setVisibility(View.GONE);
+        mBinding.imageLayout.setVisibility(View.GONE);
+        mBinding.audioVideoImgLayout.setVisibility(View.GONE);
+
+        Utility.setUserTypeIconColor(ViewPostActivity.this, post.getUserType(), mBinding.userTypeIcon);
 
         if (!TextUtils.isEmpty(post.getBoardId())) {
             mBinding.boardName.setVisibility(View.VISIBLE);
@@ -223,10 +247,35 @@ public class ViewPostActivity extends AppCompatActivity {
         }
 
         switch (post.getPostType()) {
+            case "1":
+
+                mBinding.documentLayout.setVisibility(View.VISIBLE);
+                /*aQuery.id(mBinding.audioVideoImg).image(
+                        post.getFilePath() + post.getFile(), true, true, 200, R.drawable.user_default);
+                */
+                String ext = FilenameUtils.getExtension(post.getFile());
+                setFileAsExtension(ext);
+                mBinding.doctextAVUrl.setText(post.getFile());
+                break;
+            case "2": // aartical url
+                mBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+/*
+                Glide.with(context)
+                        .load(post.getArticleThumbUrl())
+                        .into(mBinding.audioVideoImg);
+*/
+
+                aQuery.id(mBinding.audioVideoImg).image(
+                        post.getArticleThumbUrl(), true, true, 160, R.drawable.image_placeholder);
+
+                mBinding.textAVTitle.setText(post.getArticleTitle());
+                mBinding.textAVUrl.setText(post.getVideoUrl());
+
+                break;
             case "5":  // for audio
                 mBinding.audioCardLayout.setVisibility(View.VISIBLE);
-                String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
-                mBinding.audioText.setText(fileName);
+                // String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
+                //mBinding.audioText.setText(fileName);
                 break;
             case "4":  // for poll
                 mBinding.pollLayout.setVisibility(View.VISIBLE);
@@ -265,9 +314,11 @@ public class ViewPostActivity extends AppCompatActivity {
                             secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
                         }
                         total = firstValue + secondValue;
-                        int firstPer = (firstValue / total) * 100;
-
-                        mBinding.totalCount1.setText("" + firstPer);
+                        int firstPer = 0;
+                        if (total != 0) {
+                            firstPer = (firstValue / total) * 100;
+                        }
+                        mBinding.totalCount1.setText("" + firstPer + " %");
                     } else if (i == 1) {
                         if (!TextUtils.isEmpty(select) && select.equals("1")) {
                             mBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
@@ -288,9 +339,11 @@ public class ViewPostActivity extends AppCompatActivity {
                             secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
                         }
                         total = firstValue + secondValue;
-                        int firstPer = (secondValue / total) * 100;
-
-                        mBinding.totalCount2.setText("" + firstPer);
+                        int firstPer = 0;
+                        if (total != 0) {
+                            firstPer = (secondValue / total) * 100;
+                        }
+                        mBinding.totalCount2.setText("" + firstPer + " %");
                     }
                 }
 
@@ -305,73 +358,76 @@ public class ViewPostActivity extends AppCompatActivity {
             if (post.getAllowRePost().equals("1")) {
                 mBinding.imgRepost.setVisibility(View.VISIBLE);
             } else {
-                mBinding.imgRepost.setVisibility(View.GONE);
+                mBinding.imgRepost.setVisibility(View.INVISIBLE);
             }
         } else {
             mBinding.imgRepost.setVisibility(View.VISIBLE);
         }
 
+        if (!TextUtils.isEmpty(post.getAllowComment())) {
+            if (post.getAllowComment().equals("1")) {
+                mBinding.imgComment.setVisibility(View.VISIBLE);
+            } else {
+                mBinding.imgComment.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            mBinding.imgComment.setVisibility(View.VISIBLE);
+        }
+
+        mBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            /*    showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
+                        .rowBinding.actionIcon);*/
+            }
+        });
+
     }
 
 
-    private void imageOrVideoRow(SinglePost.Post post) {
-        ArrayList<String> arrayList = Utility.extractUrls(post.getDescription());
-        if (arrayList.size() != 0) {
-            videoURL = arrayList.get(0);
-            if (Utility.isValidUrl(videoURL)) {
-                mBinding.playBtn.setVisibility(View.VISIBLE);
-                try {
-                    if (videoURL.contains("www.youtube.com")) {
-                        String url = "https://img.youtube.com/vi/" + videoURL.split("\\=")[1] + "/0.jpg";
-                        Glide.with(ViewPostActivity.this)
-                                .load(url)
-                                .into(mBinding.image);
-                    } else {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    final Bitmap bitmap = Utility.retriveVideoFrameFromVideo(videoURL);
-                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Glide.with(ViewPostActivity.this)
-                                                    .load(bitmap)
-                                                    .into(mBinding.image);
-                                        }
-                                    });
-                                } catch (Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                            }
-                        }).start();
-                    }
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    mBinding.playBtn.setVisibility(View.GONE);
-                }
-            } else {
-                mBinding.playBtn.setVisibility(View.GONE);
-            }
-        } else {
-            mBinding.playBtn.setVisibility(View.GONE);
-            Glide.with(ViewPostActivity.this)
-                    .load(post.getFilePath() + post.getImage())
-                    .into(mBinding.image);
+    private void setFileAsExtension(String extension) {
+        switch (extension) {
+            case "pdf":
+                mBinding.documentImg.setImageResource(R.drawable.icon_file_pdf);
+                break;
+            case "doc":
+            case "docx":
+                mBinding.documentImg.setImageResource(R.drawable.icon_file_doc);
+                break;
+            case "xlsx":
+            case "xls":
+                mBinding.documentImg.setImageResource(R.drawable.icon_file_xls);
+                break;
+            case "txt":
+                mBinding.documentImg.setImageResource(R.drawable.icon_file_unknown);
+                break;
+            case "ppt":
+                mBinding.documentImg.setImageResource(R.drawable.icon_file_ppt);
+                break;
+            default:
+                mBinding.documentImg.setImageResource(R.drawable.icon_file_unknown);
         }
+    }
+
+    private void imageOrVideoRow(SinglePost.Post post) {
+        mBinding.playBtn.setVisibility(View.GONE);
+        aQuery.id(mBinding.image).image(
+                post.getFilePath() + post.getImage(), true, true, 160, R.drawable.image_placeholder);
     }
 
     /**
      * On click user name
      */
     public void onClickName(SinglePost.Post post) {
-        GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
-        user.setUserId(post.getUserId());
-        user.setFullName(post.getFullName());
-        user.setIsFollow("0");
-        Intent intent = new Intent(ViewPostActivity.this, UserProfileActivity.class);
-        intent.putExtra(UserProfileActivity.USER, user);
-        startActivity(intent);
+        if (!TextUtils.isEmpty(post.getUserId()) && !loginUserId.equals(post.getUserId())) {
+            GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
+            user.setUserId(post.getUserId());
+            user.setFullName(post.getFullName());
+            user.setIsFollow("0");
+            Intent intent = new Intent(ViewPostActivity.this, UserProfileActivity.class);
+            intent.putExtra(UserProfileActivity.USER, user);
+            startActivity(intent);
+        }
     }
 
     public void onImageClick(SinglePost.Post post) {
@@ -382,11 +438,7 @@ public class ViewPostActivity extends AppCompatActivity {
                 if (videoURL.contains("www.youtube.com")) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(videoURL));
                     startActivity(browserIntent);
-                } /*else {
-                    startActivity(PlayerActivity.getVideoPlayerIntent(ViewPostActivity.this,
-                            videoURL,
-                            "Video title"));
-                }*/
+                }
             }
         } else {
             String imageUrl = post.getFilePath() + post.getImage();
@@ -395,6 +447,22 @@ public class ViewPostActivity extends AppCompatActivity {
                 intent.putExtra("image", imageUrl);
                 startActivity(intent);
             }
+        }
+    }
+
+    public void onArticleClick(SinglePost.Post post) {
+        if (post.getPostType().equals("1")) {
+            String url = post.getFilePath() + post.getFile();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(ViewPostActivity.this, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(ViewPostActivity.this, Uri.parse(url));
+        } else {
+            String url = post.getVideoUrl();
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(ViewPostActivity.this, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(ViewPostActivity.this, Uri.parse(url));
         }
     }
 
@@ -430,22 +498,26 @@ public class ViewPostActivity extends AppCompatActivity {
 
     public void onLikeClick(SinglePost.Post post) {
         String like = post.getTotalLike();
+        String type = "";
         if (post.getIsLike().equals("1")) {
             if (!TextUtils.isEmpty(like)) {
                 int likeCount = Integer.parseInt(like) - 1;
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("0");
+            type = "2";
         } else {
             if (!TextUtils.isEmpty(like)) {
                 int likeCount = Integer.parseInt(like) + 1;
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("1");
+            type = "1";
         }
 
+        setView(post);
         Api api = APIClient.getClient().create(Api.class);
-        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId());
+        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId(), type);
         responseCall.enqueue(new Callback<LikeResponse>() {
             @Override
             public void onResponse(Call<LikeResponse> call, Response<LikeResponse> response) {
@@ -466,9 +538,6 @@ public class ViewPostActivity extends AppCompatActivity {
         startActivityForResult(intent, 114);
     }
 
-    public void refreshItem(int position, SinglePost.Post post) {
-        onResume();
-    }
 
     /**
      * show re post confirmation dialog
@@ -585,7 +654,7 @@ public class ViewPostActivity extends AppCompatActivity {
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
                 post.setIsBookmark("1");
-                // notifyItemChanged(postArrayList.indexOf(post));
+                setView(post);
                 Utility.showToast(ViewPostActivity.this, "Bookmark Post successfully.");
             }
 
@@ -611,7 +680,7 @@ public class ViewPostActivity extends AppCompatActivity {
             public void onResponse(Call<SavePostResponse> call, Response<SavePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
                 post.setIsBookmark("0");
-                //   notifyItemChanged(postArrayList.indexOf(post));
+                setView(post);
                 Utility.showToast(ViewPostActivity.this, "Bookmark Post successfully.");
             }
 
@@ -624,7 +693,8 @@ public class ViewPostActivity extends AppCompatActivity {
     }
 
     private void showDeleteConfirmatinDialog(final SinglePost.Post post) {
-        Utility.setDialog(ViewPostActivity.this, getString(R.string.alert), "Are you sure, You want to delete" +
+        Utility.setDialog(ViewPostActivity.this, getString(R.string.alert),
+                "Are you sure, You want to delete" +
                         " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
@@ -635,6 +705,7 @@ public class ViewPostActivity extends AppCompatActivity {
                     @Override
                     public void onPositive(DialogInterface dialog) {
                         dialog.dismiss();
+                        setView(post);
                         deletePost(post);
                     }
                 });
@@ -657,7 +728,8 @@ public class ViewPostActivity extends AppCompatActivity {
     }
 
     private void showReportConfirmatinDialog(final SinglePost.Post post) {
-        Utility.setDialog(ViewPostActivity.this, getString(R.string.alert), "Are you sure, You want to report" +
+        Utility.setDialog(ViewPostActivity.this, getString(R.string.alert),
+                "Are you sure, You want to report" +
                         " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
@@ -681,7 +753,7 @@ public class ViewPostActivity extends AppCompatActivity {
         // Show DialogFragment
         PlayerDialogFragment.newInstance(
                 post.getFilePath() + post.getAudioFile()
-        ).show(getFragmentManager(), "Dialog Fragment");
+        ).show(ViewPostActivity.this.getFragmentManager(), "Dialog Fragment");
     }
 
     /**
@@ -695,41 +767,50 @@ public class ViewPostActivity extends AppCompatActivity {
         String totalVote2 = post.getOptionArrayList().get(1).getTotalVote();
         switch (option) {
             case 1:
-                post.getOptionArrayList().get(0).setIsSelect("1");
-                post.getOptionArrayList().get(1).setIsSelect("0");
-                post.setSelectedId(post.getOptionArrayList().get(0).getId());
+                if (TextUtils.isEmpty(post.getOptionArrayList().get(0).getIsSelect()) || post.getOptionArrayList().get(0).getIsSelect().equals("0")) {
+                    post.getOptionArrayList().get(0).setIsSelect("1");
+                    post.getOptionArrayList().get(1).setIsSelect("0");
+                    post.setSelectedId(post.getOptionArrayList().get(0).getId());
 
-                if (!TextUtils.isEmpty(totalVote1)) {
-                    totalVote1 = "" + (Integer.parseInt(totalVote1) + 1);
-                } else {
-                    totalVote1 = "0";
+                    if (!TextUtils.isEmpty(totalVote1)) {
+                        totalVote1 = "" + (Integer.parseInt(totalVote1) + 1);
+                    } else {
+                        totalVote1 = "1";
+                    }
+
+                    if (!TextUtils.isEmpty(totalVote2)) {
+                        totalVote2 = "" + (Integer.parseInt(totalVote2) - 1);
+                        if (Integer.parseInt(totalVote2) < 0) {
+                            totalVote2 = "0";
+                        }
+                    }
+
+                    addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(0).getId());
                 }
-
-                if (!TextUtils.isEmpty(totalVote2)) {
-                    totalVote2 = "" + (Integer.parseInt(totalVote2) - 1);
-                }
-
-                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(0).getId());
                 break;
             case 2:
-                post.getOptionArrayList().get(1).setIsSelect("1");
-                post.getOptionArrayList().get(0).setIsSelect("0");
-                post.setSelectedId(post.getOptionArrayList().get(1).getId());
-                if (!TextUtils.isEmpty(totalVote2)) {
-                    totalVote2 = "" + (Integer.parseInt(totalVote2) + 1);
-                } else {
-                    totalVote2 = "0";
+                if (TextUtils.isEmpty(post.getOptionArrayList().get(1).getIsSelect()) || post.getOptionArrayList().get(1).getIsSelect().equals("0")) {
+                    post.getOptionArrayList().get(1).setIsSelect("1");
+                    post.getOptionArrayList().get(0).setIsSelect("0");
+                    post.setSelectedId(post.getOptionArrayList().get(1).getId());
+                    if (!TextUtils.isEmpty(totalVote2)) {
+                        totalVote2 = "" + (Integer.parseInt(totalVote2) + 1);
+                    } else {
+                        totalVote2 = "1";
+                    }
+                    if (!TextUtils.isEmpty(totalVote1)) {
+                        totalVote1 = "" + (Integer.parseInt(totalVote1) - 1);
+                        if (Integer.parseInt(totalVote1) < 0) {
+                            totalVote1 = "0";
+                        }
+                    }
+                    addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(1).getId());
                 }
-                if (!TextUtils.isEmpty(totalVote1)) {
-                    totalVote1 = "" + (Integer.parseInt(totalVote1) - 1);
-                }
-                addPollAnswer(post.getQuestionId(), post.getOptionArrayList().get(1).getId());
-
                 break;
         }
         post.getOptionArrayList().get(0).setTotalVote(totalVote1);
         post.getOptionArrayList().get(1).setTotalVote(totalVote2);
-        //notifyItemChanged(postArrayList.indexOf(post));
+        setView(post);
     }
 
     /**
@@ -753,6 +834,7 @@ public class ViewPostActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void getAllCommentList() {
         Api api = APIClient.getClient().create(Api.class);

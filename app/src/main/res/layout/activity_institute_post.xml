@@ -31,10 +31,12 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tool_bar_height"
-                android:background="?attr/colorPrimary"
+                android:background="@color/topheader"
+                android:elevation="@dimen/dimen_4dp"
                 app:navigationIcon="@drawable/back_icon"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="Post" />
+                app:title="Post"
+                app:titleTextColor="@color/topheader_text" />
 
         </android.support.design.widget.AppBarLayout>
 
@@ -53,20 +55,22 @@
                     android:id="@+id/inputLayoutTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_margin="10dp"
                     android:hint="@string/title">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edtTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:background="@drawable/edit_text"
-                        android:drawablePadding="16dp"
+                        android:drawablePadding="10dp"
                         android:inputType="textCapWords"
-                        android:paddingBottom="12dp"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:paddingTop="12dp"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="10dp"
                         android:singleLine="true"
                         android:text="@={model.title}" />
                 </android.support.design.widget.TextInputLayout>
@@ -76,14 +80,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
                     android:hint="@string/description">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/edtDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:autoLink="web|email"
                         android:background="@drawable/edit_text"
                         android:drawablePadding="16dp"
@@ -204,24 +210,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="@dimen/dimen_5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
                 android:onClick="@{()->activity.onPostButtonClick(model)}"
                 android:src="@drawable/send_icon"
                 android:tint="@color/white" />
 
         </RelativeLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:id="@+id/postSelectionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/adView"
-            android:layout_alignParentBottom="true"
             android:background="@color/bg_color"
             android:orientation="vertical"
-
             android:padding="16dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="match_parent"
@@ -248,7 +254,7 @@
                 android:textColor="#000000"
                 android:textSize="@dimen/dimen_14sp" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"

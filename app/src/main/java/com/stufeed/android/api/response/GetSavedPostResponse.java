@@ -39,6 +39,7 @@ public class GetSavedPostResponse {
     }
 
     public static class Post implements Parcelable {
+        private boolean setShirnk = true;
         @SerializedName("Userid")
         private String userId = "";
         @SerializedName("Postid")
@@ -98,6 +99,14 @@ public class GetSavedPostResponse {
         private String videoUrl = "";
 
         public Post() {
+        }
+
+        public boolean isSetShirnk() {
+            return setShirnk;
+        }
+
+        public void setSetShirnk(boolean setShirnk) {
+            this.setShirnk = setShirnk;
         }
 
         public String getUserId() {

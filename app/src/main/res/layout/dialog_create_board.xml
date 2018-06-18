@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="#00000000"
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="16dp">
-
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -144,7 +149,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:backgroundTint="#8C9197"
+                android:backgroundTint="@color/button_color"
                 android:gravity="center"
                 android:text="Cancel"
                 android:textColor="@android:color/white"
@@ -161,11 +166,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:backgroundTint="#8C9197"
+                android:backgroundTint="@color/button_color"
                 android:text="Done"
                 android:textSize="16sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
         </LinearLayout>
-    </LinearLayout>
+       </LinearLayout>
+    </RelativeLayout>
 </layout>

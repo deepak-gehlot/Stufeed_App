@@ -1,6 +1,7 @@
 package com.stufeed.android.binding;
 
 import android.databinding.BindingAdapter;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.stufeed.android.util.Constant;
@@ -12,7 +13,9 @@ import com.stufeed.android.util.TimeUtil;
 public class TimeBinding {
     @BindingAdapter({"time"})
     public static void setTimeAgo(TextView textView, String time) {
-        String timeAgo = TimeUtil.getTimeAgo(textView.getContext(), time, Constant.FORMAT_DATE_TIME);
-        textView.setText(timeAgo);
+        if (!TextUtils.isEmpty(time)) {
+            String timeAgo = TimeUtil.getTimeAgo(textView.getContext(), time, Constant.FORMAT_DATE_TIME);
+            textView.setText(timeAgo);
+        }
     }
 }

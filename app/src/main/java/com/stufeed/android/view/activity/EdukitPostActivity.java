@@ -73,7 +73,7 @@ public class EdukitPostActivity extends AppCompatActivity {
      */
     private void setRecyclerView(ArrayList<GetEdukitResponse.EdukitPost> arrayList) {
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(EdukitPostActivity.this));
-        EdukitPostAdapter edukitPostAdapter = new EdukitPostAdapter(this, arrayList);
+        EdukitPostAdapter edukitPostAdapter = new EdukitPostAdapter(this, arrayList, mCollegeId);
         mBinding.recyclerView.setAdapter(edukitPostAdapter);
     }
 

@@ -1,6 +1,7 @@
 package com.stufeed.android.view.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
@@ -13,25 +14,35 @@ import android.view.ViewGroup;
 
 import com.androidquery.AQuery;
 import com.stufeed.android.R;
+import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetEdukitResponse;
+import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.RowEdukitItemBinding;
+import com.stufeed.android.listener.DialogListener;
+import com.stufeed.android.util.ProgressDialog;
+import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.viewmodel.EdukitPostModel;
 
 import org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class EdukitPostAdapter extends RecyclerView.Adapter<EdukitPostAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<GetEdukitResponse.EdukitPost> postArrayList;
     private AQuery aQuery;
+    private String collegeId = "";
 
-    public EdukitPostAdapter(Context context, ArrayList<GetEdukitResponse.EdukitPost> postArrayList) {
+    public EdukitPostAdapter(Context context, ArrayList<GetEdukitResponse.EdukitPost> postArrayList, String collegeId) {
         this.context = context;
         this.postArrayList = postArrayList;
         aQuery = new AQuery(context);
+        this.collegeId = collegeId;
     }
 
     @Override
@@ -45,6 +56,7 @@ public class EdukitPostAdapter extends RecyclerView.Adapter<EdukitPostAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         final GetEdukitResponse.EdukitPost model = postArrayList.get(position);
         holder.binding.setModel(model);
+        holder.binding.setAdapter(this);
 
         String url = "";
         if (TextUtils.isEmpty(model.getImage())) {
@@ -122,5 +134,48 @@ public class EdukitPostAdapter extends RecyclerView.Adapter<EdukitPostAdapter.Vi
                 }
             });
         }
+    }
+
+    public void onClickDeletePost(final GetEdukitResponse.EdukitPost post) {
+        Utility.setDialog(context, context.getString(R.string.alert), "Do you want to delete this post?",
+                "No", "Yes", new DialogListener() {
+                    @Override
+                    public void onNegative(DialogInterface dialog) {
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onPositive(DialogInterface dialog) {
+                        dialog.dismiss();
+                        callDeletePostApi(post);
+                    }
+                });
+    }
+
+    private void callDeletePostApi(final GetEdukitResponse.EdukitPost post) {
+        Api api = APIClient.getClient().create(Api.class);
+        ProgressDialog.getInstance().showProgressDialog(context);
+        Call<Response> call = api.deleteInstitutePost(collegeId, post.getId());
+        call.enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                Response response1 = response.body();
+                if (response1 != null && response1.getResponseCode().equals(Api.SUCCESS)) {
+                    int index = postArrayList.indexOf(post);
+                    postArrayList.remove(index);
+                    notifyItemRemoved(index);
+                    Utility.showToast(context, "delete successfully.");
+                } else {
+                    Utility.showToast(context, context.getString(R.string.wrong));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showToast(context, context.getString(R.string.wrong));
+            }
+        });
     }
 }

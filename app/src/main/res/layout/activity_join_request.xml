@@ -14,10 +14,11 @@
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
-            app:title="pending Board Requests"
-            app:titleTextColor="@color/white" />
+            app:title="Pending Board Request"
+            app:titleTextColor="@color/topheader_text"
+            android:elevation="@dimen/dimen_4dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

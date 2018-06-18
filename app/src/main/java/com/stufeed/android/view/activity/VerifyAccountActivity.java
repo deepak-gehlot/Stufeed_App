@@ -33,17 +33,19 @@ public class VerifyAccountActivity extends AppCompatActivity {
     public void onVerifyClick() {
         String code = binding.edtOtp.getText().toString().trim();
         if (TextUtils.isEmpty(code)) {
-            Utility.showToast(VerifyAccountActivity.this, "Enter OTP");
+           // Utility.showToast(VerifyAccountActivity.this, "Enter OTP");
             try {
-                Intent mailClient = new Intent(Intent.ACTION_VIEW);
-                mailClient.setClassName("com.google.android.gm", "com.google.android.gm.ConversationListActivity");
-                startActivity(mailClient);
+                Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.gm");
+                startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();
                 Utility.showToast(VerifyAccountActivity.this, "No app found.");
             }
         } else {
-            verify(code);
+            PreferenceConnector.writeString(VerifyAccountActivity.this, PreferenceConnector.VERIFY, "1");
+            startActivity(new Intent(VerifyAccountActivity.this, LoginActivity.class));
+            finish();
+           // verify(code);
         }
     }
 

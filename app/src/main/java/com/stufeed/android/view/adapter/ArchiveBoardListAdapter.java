@@ -193,7 +193,7 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
         board.setBoardDescription(description);
 
         Api api = APIClient.getClient().create(Api.class);
-        Call<CreateBoardResponse> responseCall = api.updateBoard(mLoginUserId, title,
+        Call<CreateBoardResponse> responseCall = api.updateBoard(board.getBoardId(), title,
                 description, boardPrivate, boardCircle);
         ProgressDialog.getInstance().showProgressDialog(context);
         responseCall.enqueue(new Callback<CreateBoardResponse>() {

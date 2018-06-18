@@ -33,7 +33,12 @@ public class FolloweListActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_followe_list);
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getString("user_id");
-
+        mBinding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         getFollowerList();
     }
 

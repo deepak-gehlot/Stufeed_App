@@ -60,7 +60,7 @@ public class StudentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
-        loginUserCollegeId = "1";
+        loginUserCollegeId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         setRecyclerView();
         getStudents();
         SearchReceiver searchReceiver = new SearchReceiver();

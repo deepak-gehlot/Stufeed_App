@@ -6,12 +6,14 @@ import android.databinding.Bindable;
 import com.google.gson.annotations.SerializedName;
 import com.stufeed.android.BR;
 
+import java.util.ArrayList;
+
 public class GetUserDetailsResponse {
 
     private String responseMessage;
     private String responseCode;
     @SerializedName("alldetails")
-    private Details allDetails;
+    private Details allDetails = new Details();
 
     public String getResponseMessage() {
         return responseMessage;
@@ -96,6 +98,8 @@ public class GetUserDetailsResponse {
         private String isBlock = "";
         @SerializedName("description")
         private String about = "";
+        @SerializedName("achivment")
+        private ArrayList<GetAchievementListResponse.Achievement> achievementArrayList = new ArrayList<>();
 
         @Bindable
         public String getUserId() {
@@ -373,6 +377,14 @@ public class GetUserDetailsResponse {
 
         public void setAbout(String about) {
             this.about = about;
+        }
+
+        public ArrayList<GetAchievementListResponse.Achievement> getAchievementArrayList() {
+            return achievementArrayList;
+        }
+
+        public void setAchievementArrayList(ArrayList<GetAchievementListResponse.Achievement> achievementArrayList) {
+            this.achievementArrayList = achievementArrayList;
         }
     }
 }

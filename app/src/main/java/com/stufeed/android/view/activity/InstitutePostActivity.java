@@ -51,9 +51,9 @@ import retrofit2.Response;
 public class InstitutePostActivity extends AppCompatActivity {
 
     private ActivityInstitutePostBinding mBinding;
-    private final int SELECT_DOC = 101;
-    private final int SELECT_BOARD = 102;
-    private final int SELECT_EDUKIT = 103;
+    private int code;
+    public static final int SELECT_BOARD = 102;
+    public static final int SELECT_EDUKIT = 103;
     private AQuery aQuery;
 
     @Override
@@ -79,6 +79,17 @@ public class InstitutePostActivity extends AppCompatActivity {
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        getDataFromBundle();
+
+    }
+
+    private void getDataFromBundle() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            finish();
+        } else {
+            code = bundle.getInt("code");
+        }
     }
 
     @Override
@@ -176,7 +187,14 @@ public class InstitutePostActivity extends AppCompatActivity {
     public void onPostButtonClick(EdukitPostModel edukitPostModel) {
         // need to validate post
         if (validate(edukitPostModel)) {
-            mBinding.postSelectionLayout.setVisibility(View.VISIBLE);
+            if (code == SELECT_BOARD) {
+                Intent intent = new Intent(InstitutePostActivity.this, EdukitBoardActivity.class);
+                startActivityForResult(intent, InstitutePostActivity.SELECT_BOARD);
+            } else {
+                Intent intent = new Intent(InstitutePostActivity.this, EdukitSelectionActivity.class);
+                startActivityForResult(intent, InstitutePostActivity.SELECT_EDUKIT);
+            }
+            //mBinding.postSelectionLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -200,24 +218,6 @@ public class InstitutePostActivity extends AppCompatActivity {
         } else {
             return true;
         }
-    }
-
-    /**
-     * Select board click
-     */
-    public void onClickBoard() {
-        Intent intent = new Intent(InstitutePostActivity.this, EdukitBoardActivity.class);
-        startActivityForResult(intent, SELECT_BOARD);
-        mBinding.postSelectionLayout.setVisibility(View.GONE);
-    }
-
-    /**
-     * Select Edukit click
-     */
-    public void onClickEdukit() {
-        Intent intent = new Intent(InstitutePostActivity.this, EdukitSelectionActivity.class);
-        startActivityForResult(intent, SELECT_EDUKIT);
-        mBinding.postSelectionLayout.setVisibility(View.GONE);
     }
 
     /**

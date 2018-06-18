@@ -35,6 +35,7 @@ import com.stufeed.android.api.response.GetSavedPostResponse;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
 import com.stufeed.android.api.response.SavePostResponse;
+import com.stufeed.android.customui.TextViewExpandableAnimation;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.databinding.RowSavedFeedBinding;
 import com.stufeed.android.listener.DialogListener;
@@ -108,6 +109,18 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
             holder.rowBinding.pollLayout.setVisibility(View.GONE);
             holder.rowBinding.imageLayout.setVisibility(View.GONE);
             holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
+
+            holder.rowBinding.tvExpand.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                @Override
+                public void onStateChange(boolean isShrink) {
+                    GetSavedPostResponse.Post post = postArrayList.get(holder.getAdapterPosition());
+                    post.setSetShirnk(isShrink);
+                    postArrayList.set(holder.getAdapterPosition(), post);
+                }
+            });
+            holder.rowBinding.tvExpand.setText(post.getDescription());
+            //important! reset its state as where it left
+            holder.rowBinding.tvExpand.resetState(post.isSetShirnk());
 
             Utility.setUserTypeIconColor(context, post.getUserType(), holder.rowBinding.userTypeIcon);
 
@@ -320,7 +333,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             String imageUrl = post.getFilePath() + post.getImage();
             if (!TextUtils.isEmpty(imageUrl)) {
-                Intent intent = new Intent(context , FullImageActivity.class);
+                Intent intent = new Intent(context, FullImageActivity.class);
                 intent.putExtra("image", imageUrl);
                 context.startActivity(intent);
             }
@@ -331,20 +344,20 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (post.getPostType().equals("1")) {
             String url = post.getFilePath() + post.getFile();
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(context , R.color.colorPrimary));
+            builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context , Uri.parse(url));
+            customTabsIntent.launchUrl(context, Uri.parse(url));
         } else {
             String url = post.getVideoUrl();
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(context , R.color.colorPrimary));
+            builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context , Uri.parse(url));
+            customTabsIntent.launchUrl(context, Uri.parse(url));
         }
     }
 
     private void showActionMenu(final GetSavedPostResponse.Post post, int position, View view) {
-        PopupMenu popup = new PopupMenu(context , view);
+        PopupMenu popup = new PopupMenu(context, view);
 
         if (post.getUserId().equals(loginUserId)) {
             popup.inflate(R.menu.post_user_row_menu);
@@ -356,7 +369,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuEdit:
-                        Intent intent = new Intent(context , EditPostActivity.class);
+                        Intent intent = new Intent(context, EditPostActivity.class);
                         intent.putExtra("item", post);
                         context.startActivityForResult(intent, 192);
                         break;
@@ -375,25 +388,28 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void onLikeClick(GetSavedPostResponse.Post post) {
         String like = post.getTotalLike();
+        String type = "";
         if (post.getIsLike().equals("1")) {
             if (!TextUtils.isEmpty(like)) {
                 int likeCount = Integer.parseInt(like) - 1;
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("0");
+            type = "2";
         } else {
             if (!TextUtils.isEmpty(like)) {
                 int likeCount = Integer.parseInt(like) + 1;
                 post.setTotalLike("" + likeCount);
             }
             post.setIsLike("1");
+            type = "1";
         }
 
         int position = postArrayList.indexOf(post);
         postArrayList.set(position, post);
         notifyItemChanged(position);
         Api api = APIClient.getClient().create(Api.class);
-        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId());
+        Call<LikeResponse> responseCall = api.likePost(loginUserId, post.getPostId(), type);
         responseCall.enqueue(new Callback<LikeResponse>() {
             @Override
             public void onResponse(Call<LikeResponse> call, Response<LikeResponse> response) {
@@ -421,7 +437,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
      * @param post {@link GetSavedPostResponse.Post}
      */
     public void onRePostBtnClick(final GetSavedPostResponse.Post post) {
-        Utility.setDialog(context , "Message", "Do you want to repost this.", "No", "Yes",
+        Utility.setDialog(context, "Message", "Do you want to repost this.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -431,7 +447,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     @Override
                     public void onPositive(DialogInterface dialog) {
                         dialog.dismiss();
-                        Intent intent = new Intent(context , BoardSelectionActivity.class);
+                        Intent intent = new Intent(context, BoardSelectionActivity.class);
                         intent.putExtra("post_id", post.getPostId());
                         context.startActivityForResult(intent, 231);
                         //rePost(post);
@@ -450,7 +466,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onResponse(Call<RePostResponse> call, Response<RePostResponse> response) {
                 ProgressDialog.getInstance().dismissDialog();
-                Utility.showToast(context , "Post successfully.");
+                Utility.showToast(context, "Post successfully.");
             }
 
             @Override
@@ -478,7 +494,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
      * @param post {@link GetSavedPostResponse.Post}
      */
     private void onRemovePostBtnClick(final GetSavedPostResponse.Post post) {
-        Utility.setDialog(context , "Message", "Do you want to unbookmark this post.", "No", "Yes",
+        Utility.setDialog(context, "Message", "Do you want to unbookmark this post.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -508,7 +524,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ProgressDialog.getInstance().dismissDialog();
                 post.setIsBookmark("1");
                 notifyItemChanged(postArrayList.indexOf(post));
-                Utility.showToast(context , "Bookmark Post successfully.");
+                Utility.showToast(context, "Bookmark Post successfully.");
             }
 
             @Override
@@ -534,7 +550,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ProgressDialog.getInstance().dismissDialog();
                 post.setIsBookmark("0");
                 notifyItemChanged(postArrayList.indexOf(post));
-                Utility.showToast(context , "Bookmark Post successfully.");
+                Utility.showToast(context, "Bookmark Post successfully.");
             }
 
             @Override
@@ -546,7 +562,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void showDeleteConfirmatinDialog(final GetSavedPostResponse.Post post) {
-        Utility.setDialog(context , context.getString(R.string.alert), "Are you sure, You want to delete" +
+        Utility.setDialog(context, context.getString(R.string.alert), "Are you sure, You want to delete" +
                         " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
@@ -582,7 +598,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void showReportConfirmatinDialog(final GetSavedPostResponse.Post post) {
-        Utility.setDialog(context , context.getString(R.string.alert), "Are you sure, You want to report" +
+        Utility.setDialog(context, context.getString(R.string.alert), "Are you sure, You want to report" +
                         " this post?",
                 "No", "Yes", new DialogListener() {
                     @Override
@@ -606,7 +622,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Show DialogFragment
         PlayerDialogFragment.newInstance(
                 post.getFilePath() + post.getAudioFile()
-        ).show(context .getFragmentManager(), "Dialog Fragment");
+        ).show(context.getFragmentManager(), "Dialog Fragment");
     }
 
     /**

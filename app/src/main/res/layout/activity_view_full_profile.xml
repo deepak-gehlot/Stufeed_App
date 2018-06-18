@@ -14,15 +14,16 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
-            android:background="@color/colorPrimary"
+            android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
-            app:title="Full Profile"
-            app:titleTextColor="@color/white" />
+            app:title="Profile"
+            app:titleTextColor="@color/topheader_text"
+            android:elevation="@dimen/dimen_4dp"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             app:tabGravity="fill"
             app:tabMode="fixed"
             app:tabTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
