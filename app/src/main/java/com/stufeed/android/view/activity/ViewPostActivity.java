@@ -218,7 +218,7 @@ public class ViewPostActivity extends AppCompatActivity {
         mBinding.imageLayout.setVisibility(View.GONE);
         mBinding.audioVideoImgLayout.setVisibility(View.GONE);
 
-        Utility.setUserTypeIconColor(ViewPostActivity.this, post.getUserType(), mBinding.userTypeIcon);
+        Utility.setUserTypeIconColor(ViewPostActivity.this, post.getUserType(), mBinding.userTypeView);
 
         if (!TextUtils.isEmpty(post.getBoardId())) {
             mBinding.boardName.setVisibility(View.VISIBLE);

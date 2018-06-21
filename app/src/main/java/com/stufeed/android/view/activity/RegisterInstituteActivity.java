@@ -26,6 +26,7 @@ import com.stufeed.android.databinding.RegisterInstituteBinding;
 import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.adapter.CollegeListAdapter;
 import com.stufeed.android.view.viewmodel.RegisterInstituteModel;
 
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ public class RegisterInstituteActivity extends AppCompatActivity {
 
     private RegisterInstituteBinding mBinding;
     private GetAllCollegeResponse.College college;
-    private ArrayList<String> collegesStrList = new ArrayList<>();
     private ArrayList<GetAllCollegeResponse.College> colleges = new ArrayList<>();
     private RegisterInstituteModel registerInstituteModel = new RegisterInstituteModel();
     private int stepTag = 1;
@@ -266,14 +266,14 @@ public class RegisterInstituteActivity extends AppCompatActivity {
             Utility.showErrorMsg(RegisterInstituteActivity.this);
         } else if (getAllCollegeResponse.getResponseCode().equals(Api.SUCCESS)) {
             colleges = getAllCollegeResponse.getCollegeArrayList();
-            int size = colleges.size();
+           /* int size = colleges.size();
             collegesStrList.clear();
             for (int i = 0; i < size; i++) {
                 collegesStrList.add(colleges.get(i).getCollegeName());
-            }
+            }*/
 
-            ArrayAdapter<String> adapterCity = new ArrayAdapter<String>
-                    (this, R.layout.dropdown, collegesStrList);
+            CollegeListAdapter adapterCity = new CollegeListAdapter
+                    (this, colleges);
             mBinding.mainContent.searchCollegeEdt.setAdapter(adapterCity);
         }
     }

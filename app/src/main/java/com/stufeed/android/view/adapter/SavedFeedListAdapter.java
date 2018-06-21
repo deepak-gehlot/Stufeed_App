@@ -122,7 +122,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
             //important! reset its state as where it left
             holder.rowBinding.tvExpand.resetState(post.isSetShirnk());
 
-            Utility.setUserTypeIconColor(context, post.getUserType(), holder.rowBinding.userTypeIcon);
+            Utility.setUserTypeIconColor(context, post.getUserType(), holder.rowBinding.userTypeView);
 
             if (!TextUtils.isEmpty(post.getBoardId())) {
                 holder.rowBinding.boardName.setVisibility(View.VISIBLE);

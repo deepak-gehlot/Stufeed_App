@@ -54,17 +54,6 @@ public class TextViewExpandableAnimation extends LinearLayout
     private RelativeLayout rlToggleLayout;
 
     /**
-     * 提示折叠的图片资源
-     * <br>shrink drawable
-     */
-    private Drawable drawableShrink;
-    /**
-     * 提示显示全部的图片资源
-     * <br>expand drawable
-     */
-    private Drawable drawableExpand;
-
-    /**
      * 全部/收起文本的字体颜色
      * <br>color of shrink/expand text
      */
@@ -173,23 +162,10 @@ public class TextViewExpandableAnimation extends LinearLayout
         expandLines = ta.getInteger(
                 R.styleable.TextViewExpandableAnimation_tvea_expandLines, 5);
 
-        drawableShrink = ta
-                .getDrawable(R.styleable.TextViewExpandableAnimation_tvea_shrinkBitmap);
-        drawableExpand = ta
-                .getDrawable(R.styleable.TextViewExpandableAnimation_tvea_expandBitmap);
-
         textViewStateColor = ta.getColor(R.styleable.TextViewExpandableAnimation_tvea_textStateColor, ContextCompat.getColor(context, R.color.colorPrimary));
 
         textShrink = ta.getString(R.styleable.TextViewExpandableAnimation_tvea_textShrink);
         textExpand = ta.getString(R.styleable.TextViewExpandableAnimation_tvea_textExpand);
-
-        if (null == drawableShrink) {
-            drawableShrink = ContextCompat.getDrawable(context, R.drawable.icon_green_arrow_up);
-        }
-
-        if (null == drawableExpand) {
-            drawableExpand = ContextCompat.getDrawable(context, R.drawable.icon_green_arrow_down);
-        }
 
         if (TextUtils.isEmpty(textShrink)) {
             textShrink = context.getString(R.string.shrink);
@@ -349,10 +325,8 @@ public class TextViewExpandableAnimation extends LinearLayout
     private void changeExpandState(int endIndex) {
         rlToggleLayout.setVisibility(View.VISIBLE);
         if (endIndex < textLines) {
-            ivExpandOrShrink.setBackgroundDrawable(drawableExpand);
             tvState.setText(textExpand);
         } else {
-            ivExpandOrShrink.setBackgroundDrawable(drawableShrink);
             tvState.setText(textShrink);
         }
 
@@ -370,13 +344,11 @@ public class TextViewExpandableAnimation extends LinearLayout
         if (endIndex < textLines) {
             isShrink = true;
             rlToggleLayout.setVisibility(View.VISIBLE);
-            ivExpandOrShrink.setBackgroundDrawable(drawableExpand);
             textView.setOnClickListener(this);
             tvState.setText(textExpand);
         } else {
             isShrink = false;
             rlToggleLayout.setVisibility(View.GONE);
-            ivExpandOrShrink.setBackgroundDrawable(drawableShrink);
             textView.setOnClickListener(null);
             tvState.setText(textShrink);
         }
@@ -424,13 +396,11 @@ public class TextViewExpandableAnimation extends LinearLayout
         if (textLines > expandLines) {
             if (isShrink) {
                 rlToggleLayout.setVisibility(View.VISIBLE);
-                ivExpandOrShrink.setBackgroundDrawable(drawableExpand);
                 textView.setOnClickListener(this);
                 textView.setMaxLines(expandLines);
                 tvState.setText(textExpand);
             } else {
                 rlToggleLayout.setVisibility(View.VISIBLE);
-                ivExpandOrShrink.setBackgroundDrawable(drawableShrink);
                 textView.setOnClickListener(this);
                 textView.setMaxLines(textLines);
                 tvState.setText(textShrink);
@@ -438,22 +408,6 @@ public class TextViewExpandableAnimation extends LinearLayout
         } else {
             doNotExpand();
         }
-    }
-
-    public Drawable getDrawableShrink() {
-        return drawableShrink;
-    }
-
-    public void setDrawableShrink(Drawable drawableShrink) {
-        this.drawableShrink = drawableShrink;
-    }
-
-    public Drawable getDrawableExpand() {
-        return drawableExpand;
-    }
-
-    public void setDrawableExpand(Drawable drawableExpand) {
-        this.drawableExpand = drawableExpand;
     }
 
     public int getExpandLines() {

@@ -115,6 +115,7 @@ public class AcademyFragment extends Fragment {
     }
 
     public void setUserType() {
+        Utility.setUserTypeTagColor(getActivity(), "4", binding.txtType);
         binding.txtType.setText("Institute");
     }
 

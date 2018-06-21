@@ -25,78 +25,92 @@
             android:orientation="vertical">
 
             <!--    Title Layout Start  -->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ProgressBar
-                        style="?android:progressBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:elevation="@dimen/dimen_3dp"
-                        app:civ_border_color="@color/bg_gray"
-                        app:civ_border_width="2dp"
-                        app:profileImageUrl="@{model.profilePic}" />
-                </RelativeLayout>
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="@{()->adapter.onClickName(model)}"
-                    android:orientation="vertical"
-                    android:paddingStart="@dimen/dimen_10dp"
-                    android:paddingTop="@dimen/dimen_5dp">
+                    android:orientation="horizontal"
+                    android:padding="5dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ProgressBar
+                            style="?android:progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:elevation="@dimen/dimen_3dp"
+                            app:civ_border_color="@color/bg_gray"
+                            app:civ_border_width="2dp"
+                            app:profileImageUrl="@{model.profilePic}" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="@{model.fullName}"
-                        android:textColor="@color/text_color"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:onClick="@{()->adapter.onClickName(model)}"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/dimen_10dp"
+                        android:paddingTop="@dimen/dimen_5dp">
 
-                    <TextView
-                        android:id="@+id/boardName"
-                        android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@{model.fullName}"
+                            android:textColor="@color/text_color"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/boardName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@{model.boardName}"
+                            android:textColor="@color/text_color"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/userTypeIcon"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="@{model.boardName}"
-                        android:textColor="@color/text_color"
-                        android:textSize="12sp"
-                        android:visibility="gone" />
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_verified_user" />
 
+                    <ImageView
+                        android:id="@+id/actionIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:src="@drawable/arrow_down_icon"
+                        android:tint="@color/button_color" />
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/userTypeIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_verified_user" />
-
-                <ImageView
-                    android:id="@+id/actionIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:src="@drawable/arrow_down_icon"
-                    android:tint="@color/button_color" />
-
-            </LinearLayout>
+                <com.stufeed.android.customui.TriangleShapeView
+                    android:id="@+id/userTypeView"
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end" />
+            </RelativeLayout>
             <!--    Title Layout End  -->
             <!-- <com.stufeed.android.util.ExpandableTextView
                  android:id="@+id/expandText"
@@ -119,7 +133,7 @@
                 android:layout_marginStart="10dp"
                 android:text="@{model.title}"
                 android:textColor="@color/text_color"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <com.stufeed.android.customui.TextViewExpandableAnimation xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -129,14 +143,12 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp"
-                app:tvea_expandBitmap="@drawable/icon_green_arrow_down"
                 app:tvea_expandLines="3"
-                app:tvea_shrinkBitmap="@drawable/icon_green_arrow_up"
                 app:tvea_textContentColor="@color/text_color"
                 app:tvea_textContentSize="14sp"
                 app:tvea_textExpand="@string/expand"
                 app:tvea_textShrink="@string/shrink"
-                app:tvea_textStateColor="@color/colorPrimary" />
+                app:tvea_textStateColor="@color/red" />
 
             <!--    Image Layout Start  -->
             <RelativeLayout
@@ -341,7 +353,7 @@
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -384,7 +396,7 @@
                     android:gravity="center"
                     android:lines="2"
                     android:textColor="@color/text_color"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
             <!--document row end-->
@@ -403,7 +415,6 @@
                     android:drawableStart="@drawable/mini_favorite_icon"
                     android:lines="1"
                     android:padding="5dp"
-
                     android:text="@{model.totalLike}"
                     android:textColor="@color/text_color"
                     android:textSize="12sp" />

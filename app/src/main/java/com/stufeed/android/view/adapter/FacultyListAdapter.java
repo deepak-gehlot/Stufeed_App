@@ -55,6 +55,9 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final GetCollegeUserResponse.User user = userArrayList.get(position);
+
+        Utility.setUserTypeIconColor(context, userType, holder.rowBinding.userTypeView);
+
         holder.rowBinding.txtName.setText(user.getFullName());
         if (user.getIsFollow().equals("1")) {
             holder.rowBinding.txtFollow.setText(context.getString(R.string.un_follow));

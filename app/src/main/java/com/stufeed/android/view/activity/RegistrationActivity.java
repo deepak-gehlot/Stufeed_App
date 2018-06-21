@@ -96,6 +96,10 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickLogin(){
+        onBackPressed();
+    }
+
     /**
      * On Submit button click
      *

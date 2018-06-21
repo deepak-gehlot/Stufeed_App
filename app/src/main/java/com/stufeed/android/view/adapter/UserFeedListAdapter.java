@@ -98,6 +98,7 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
         //important! reset its state as where it left
         holder.rowBinding.tvExpand.resetState(post.isShirnk());
 
+        Utility.setUserTypeIconColor(context, post.getUserType(), holder.rowBinding.userTypeView);
 
         if (!TextUtils.isEmpty(post.getBoardId())) {
             holder.rowBinding.boardName.setVisibility(View.VISIBLE);

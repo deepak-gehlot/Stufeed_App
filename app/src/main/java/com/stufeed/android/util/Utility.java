@@ -58,6 +58,7 @@ import com.google.gson.Gson;
 import com.stufeed.android.R;
 import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.api.response.UserDetail;
+import com.stufeed.android.customui.TriangleShapeView;
 import com.stufeed.android.listener.DialogListener;
 
 import java.io.ByteArrayOutputStream;
@@ -967,19 +968,40 @@ aq.id(R.id.image).image(url, options);*/
         }
     }
 
-    public static void setUserTypeIconColor(Context context, String userType, ImageView imageView) {
+    public static void setUserTypeIconColor(Context context, String userType, TriangleShapeView imageView) {
         switch (userType) {
             case "1": //Student
-                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.student)));
+            case "Student":
+                imageView.setColor(ContextCompat.getColor(context, R.color.student));
                 break;
-            case "2": //Department
-                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.department)));
+            case "2": //Faculty
+            case "Faculty":
+                imageView.setColor(ContextCompat.getColor(context, R.color.faculty));
                 break;
-            case "3": //Faculty
-                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.faculty)));
+            case "3": //Department
+            case "Department":
+                imageView.setColor(ContextCompat.getColor(context, R.color.department));
                 break;
             case "4": //Institute
-                ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.institute)));
+            case "Institute":
+                imageView.setColor(ContextCompat.getColor(context, R.color.institute));
+                break;
+        }
+    }
+
+    public static void setUserTypeTagColor(Context context, String userType, TextView textView) {
+        switch (userType) {
+            case "1": //Student
+                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_student));
+                break;
+            case "2": //Department
+                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_department));
+                break;
+            case "3": //Faculty
+                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_faculty));
+                break;
+            case "4": //Institute
+                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_institute));
                 break;
         }
     }

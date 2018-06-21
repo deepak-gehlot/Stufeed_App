@@ -12,6 +12,7 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.databinding.RowMyFollowerBinding;
+import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.UserProfileActivity;
 
 import java.util.ArrayList;
@@ -28,14 +29,18 @@ public class FollowerListAdapter extends RecyclerView.Adapter<FollowerListAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowMyFollowerBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_my_follower, parent, false);
+        RowMyFollowerBinding binding = DataBindingUtil.inflate(
+                LayoutInflater.from(context), R.layout.row_my_follower, parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        GetFollowerListResponse.User user = userArrayList.get(position);
         holder.binding.setAdapter(this);
-        holder.binding.setUser(userArrayList.get(position));
+        holder.binding.setUser(user);
+
+        Utility.setUserTypeIconColor(context, user.getUserType(), holder.binding.userTypeView);
     }
 
     @Override

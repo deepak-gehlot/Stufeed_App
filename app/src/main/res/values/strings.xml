@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">StufeedApp</string>
-    <string name="facebook_app_id">461479544286608</string>
-    <string name="fb_login_protocol_scheme">fb461479544286608</string>
+    <string name="facebook_app_id">605147293204668</string>
+    <string name="fb_login_protocol_scheme">fb605147293204668</string>
     <string name="ad_mob_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="expand">expand</string>
-    <string name="shrink">shrink</string>
+    <string name="expand">More</string>
+    <string name="shrink">Less</string>
     <string name="alert">Alert!</string>
     <string name="wrong">Something went wrong, Try again later.</string>
     <string name="expand_string">more</string>

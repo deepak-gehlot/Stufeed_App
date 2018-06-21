@@ -103,8 +103,12 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == 454) {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            if (resultCode == RESULT_OK) {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                handleSignInResult(task);
+            } else {
+                Utility.showToast(LoginActivity.this, getString(R.string.wrong));
+            }
         }
     }
 

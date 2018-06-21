@@ -145,6 +145,7 @@ public class YouFragment extends Fragment {
 
     public void setUserType() {
         UserDetail userDetail = Utility.getLoginUserDetail(getActivity());
+        Utility.setUserTypeTagColor(getActivity(), userDetail.getUserType(), binding.txtType);
         switch (userDetail.getUserType()) {
             case "1":
                 binding.txtType.setText("Student");

@@ -123,6 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:background="#19000000"
+                        android:onClick="@{()->activity.onCloseClick(1)}"
                         android:padding="5dp"
                         android:src="@drawable/close_icon" />
                 </RelativeLayout>
@@ -152,6 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:background="#19000000"
+                        android:onClick="@{()->activity.onCloseClick(2)}"
                         android:padding="5dp"
                         android:src="@drawable/close_icon" />
 

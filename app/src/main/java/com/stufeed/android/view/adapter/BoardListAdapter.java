@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.stufeed.android.R;
@@ -124,6 +125,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         final DialogEditBoardBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context)
                 , R.layout.dialog_edit_board, null, false);
         final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(dialogBinding.getRoot());
         dialog.setTitle("Edit Board");
 

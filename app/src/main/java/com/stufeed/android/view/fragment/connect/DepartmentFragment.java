@@ -77,7 +77,7 @@ public class DepartmentFragment extends Fragment {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetCollegeUserResponse> responseCall = api.getCollegeUsers(loginUserId, loginUserCollegeId, "2");
+        Call<GetCollegeUserResponse> responseCall = api.getCollegeUsers(loginUserId, loginUserCollegeId, "3");
         responseCall.enqueue(new Callback<GetCollegeUserResponse>() {
             @Override
             public void onResponse(Call<GetCollegeUserResponse> call, Response<GetCollegeUserResponse> response) {

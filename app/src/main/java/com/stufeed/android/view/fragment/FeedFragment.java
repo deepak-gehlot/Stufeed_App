@@ -142,11 +142,13 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         }
 
-        binding.progressBar.setVisibility(View.GONE);
-        binding.msgTxt.setVisibility(View.GONE);
-        binding.recyclerView.setVisibility(View.VISIBLE);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FeedListAdapter adapter = new FeedListAdapter(FeedFragment.this, postArrayList);
-        binding.recyclerView.setAdapter(adapter);
+        if (getView() != null) {
+            binding.progressBar.setVisibility(View.GONE);
+            binding.msgTxt.setVisibility(View.GONE);
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            FeedListAdapter adapter = new FeedListAdapter(FeedFragment.this, postArrayList);
+            binding.recyclerView.setAdapter(adapter);
+        }
     }
 }

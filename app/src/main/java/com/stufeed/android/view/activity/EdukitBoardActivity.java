@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.stufeed.android.R;
@@ -30,7 +31,8 @@ public class EdukitBoardActivity extends AppCompatActivity {
     private ActivityEdukitBoardBinding mBinding;
     private ArrayList<EdukitItem> edukitItems;
     private String loginUserId = "";
-    ArrayList<GetBoardListResponse.Board> mBoardArrayList = new ArrayList<>();
+    private String ids = "";
+    private ArrayList<GetBoardListResponse.Board> mBoardArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,18 @@ public class EdukitBoardActivity extends AppCompatActivity {
         });
         loginUserId = Utility.getLoginUserId(this);
         getBoardList();
+
+        mBinding.buttonPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(ids)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("board_id", ids);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        });
 
     }
 
@@ -144,6 +158,7 @@ public class EdukitBoardActivity extends AppCompatActivity {
             adapter.setItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onClick(int position, Object obj) {
+                    ids = ((String) obj);
                     String boardId = "";
                     if (position == 0) {
                         boardId = "0";

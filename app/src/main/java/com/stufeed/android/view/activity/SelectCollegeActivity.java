@@ -22,6 +22,7 @@ import com.stufeed.android.databinding.ActivitySelectCollegeBinding;
 import com.stufeed.android.databinding.DialogInstituteCodeBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.adapter.CollegeListAdapter;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -35,7 +36,7 @@ public class SelectCollegeActivity extends AppCompatActivity {
 
     private ActivitySelectCollegeBinding binding;
     private GetAllCollegeResponse.College college;
-    private ArrayList<String> collegesStrList = new ArrayList<>();
+    //private ArrayList<String> collegesStrList = new ArrayList<>();
     private ArrayList<GetAllCollegeResponse.College> colleges = new ArrayList<>();
 
     @Override
@@ -157,16 +158,16 @@ public class SelectCollegeActivity extends AppCompatActivity {
             Utility.showErrorMsg(SelectCollegeActivity.this);
         } else if (getAllCollegeResponse.getResponseCode().equals(Api.SUCCESS)) {
             colleges.clear();
-            collegesStrList.clear();
+           // collegesStrList.clear();
             colleges = getAllCollegeResponse.getCollegeArrayList();
-            int size = colleges.size();
+            /*int size = colleges.size();
             collegesStrList.clear();
             for (int i = 0; i < size; i++) {
                 collegesStrList.add(colleges.get(i).getCollegeName());
-            }
+            }*/
 
-            ArrayAdapter<String> adapterCity = new ArrayAdapter<String>
-                    (this, android.R.layout.select_dialog_item, collegesStrList);
+            CollegeListAdapter adapterCity = new CollegeListAdapter
+                    (this, colleges);
             binding.searchCollegeEdt.setAdapter(adapterCity);
         }
     }

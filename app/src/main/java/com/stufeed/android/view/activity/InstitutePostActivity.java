@@ -157,6 +157,21 @@ public class InstitutePostActivity extends AppCompatActivity {
         }
     }
 
+    public void onCloseClick(int type) {
+        switch (type) {
+            case 1: // image
+                mBinding.getModel().setPostValue("");
+                mBinding.getModel().setFile(null);
+                mBinding.docImgLayout.setVisibility(View.GONE);
+                break;
+            case 2: // document
+                mBinding.getModel().setPostValue("");
+                mBinding.getModel().setFile(null);
+                mBinding.docImgLayout.setVisibility(View.GONE);
+                break;
+        }
+    }
+
     private void setFileAsExtension(String extension) {
         switch (extension) {
             case "pdf":

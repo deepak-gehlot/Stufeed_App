@@ -41,6 +41,7 @@ public class GetAllCollegeResponse {
 
     public static class College {
 
+        private String followerCount = "";
         private String collegeId = "";
         private String collegeName = "";
         @SerializedName("institutiontype")
@@ -73,6 +74,14 @@ public class GetAllCollegeResponse {
         private String website = "";
         @SerializedName("year_of_establishment")
         private String yearOfEstablishment = "";
+
+        public String getFollowerCount() {
+            return followerCount;
+        }
+
+        public void setFollowerCount(String followerCount) {
+            this.followerCount = followerCount;
+        }
 
         public String getCollegeId() {
             return collegeId;

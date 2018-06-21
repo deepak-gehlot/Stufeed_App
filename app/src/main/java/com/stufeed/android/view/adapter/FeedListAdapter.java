@@ -121,7 +121,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             holder.rowBinding.tvExpand.resetState(post.isShirnk());
 
 
-            Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeIcon);
+            Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeView);
 
             if (!TextUtils.isEmpty(post.getBoardId())) {
                 holder.rowBinding.boardName.setVisibility(View.VISIBLE);
@@ -333,7 +333,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
      * On click user name
      */
     public void onClickName(GetPostResponse.Post post) {
-       // if (!TextUtils.isEmpty(post.getUserId()) && !loginUserId.equals(post.getUserId())) {
+        if (!TextUtils.isEmpty(post.getUserId()) && !loginUserId.equals(post.getUserId())) {
             GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
             user.setUserId(post.getUserId());
             user.setFullName(post.getFullName());
@@ -341,7 +341,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Intent intent = new Intent(context.getActivity(), UserProfileActivity.class);
             intent.putExtra(UserProfileActivity.USER, user);
             context.startActivity(intent);
-       // }
+        }
     }
 
     public void onImageClick(GetPostResponse.Post post) {

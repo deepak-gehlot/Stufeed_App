@@ -216,6 +216,7 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
     }
 
     public void setUserType(ViewHolder viewHolder, String type) {
+        Utility.setUserTypeTagColor(context, type, viewHolder.binding.txtType);
         switch (type) {
             case "1":
                 viewHolder.binding.txtType.setText("Student");
