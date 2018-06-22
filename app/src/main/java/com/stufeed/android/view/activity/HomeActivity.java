@@ -1,5 +1,6 @@
 package com.stufeed.android.view.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -56,83 +57,90 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobileAds.initialize(this, getString(R.string.ad_mob_id));
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
-        disableShiftMode(binding.bottomNavigation);
-        binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
-        setSupportActionBar(binding.toolBar);
-        binding.toolBar.setNavigationIcon(R.drawable.menu_icon);
-        binding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.drawerLayout.openDrawer(Gravity.START);
-            }
-        });
+        if (Utility.getLoginUserDetail(HomeActivity.this) != null) {
+            handleIntent();
 
-        binding.notificationImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
-            }
-        });
+            MobileAds.initialize(this, getString(R.string.ad_mob_id));
+            binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+            disableShiftMode(binding.bottomNavigation);
+            binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
+            setSupportActionBar(binding.toolBar);
+            binding.toolBar.setNavigationIcon(R.drawable.menu_icon);
+            binding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.drawerLayout.openDrawer(Gravity.START);
+                }
+            });
 
-        binding.searchImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (searchType != 0) {
-                    binding.toolBar.setVisibility(View.GONE);
-                    binding.searchLayout.setVisibility(View.VISIBLE);
-                    binding.editText.requestFocus();
-                    Utility.openKeyboard(HomeActivity.this);
+            binding.notificationImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
+                }
+            });
+
+            binding.searchImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (searchType != 0) {
+                        binding.toolBar.setVisibility(View.GONE);
+                        binding.searchLayout.setVisibility(View.VISIBLE);
+                        binding.editText.requestFocus();
+                        Utility.openKeyboard(HomeActivity.this);
                     /*Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
                     intent.putExtra("type", searchType);
                     startActivity(intent);*/
+                    }
                 }
-            }
-        });
+            });
 
 
-        binding.closeSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (searchType != 0) {
-                    binding.toolBar.setVisibility(View.VISIBLE);
-                    binding.searchLayout.setVisibility(View.GONE);
-                    binding.editText.getText().clear();
-                    setResult("");
-                    Utility.closeKeyboard(HomeActivity.this, binding.editText);
+            binding.closeSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (searchType != 0) {
+                        binding.toolBar.setVisibility(View.VISIBLE);
+                        binding.searchLayout.setVisibility(View.GONE);
+                        binding.editText.getText().clear();
+                        setResult("");
+                        Utility.closeKeyboard(HomeActivity.this, binding.editText);
+                    }
                 }
-            }
-        });
+            });
 
-        binding.editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            binding.editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+                }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                String searchTxt = binding.editText.getText().toString().trim();
-                setResult(searchTxt);
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable s) {
+                    String searchTxt = binding.editText.getText().toString().trim();
+                    setResult(searchTxt);
+                }
+            });
 
 
-        String userId = Utility.getLoginUserId(this);
+            String userId = Utility.getLoginUserId(this);
 
-        Utility.addFragment(this, FeedFragment.newInstance(userId), "FeedFragment", binding.frame.getId());
+            Utility.addFragment(this, FeedFragment.newInstance(userId), "FeedFragment", binding.frame.getId());
 
-        UserDetail userDetail = Utility.getLoginUserDetail(this);
-        userType = userDetail.getUserType();
-        setNavigationList();
+            UserDetail userDetail = Utility.getLoginUserDetail(this);
+            userType = userDetail.getUserType();
+            setNavigationList();
 
-        getSettings();
+            getSettings();
+        } else {
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            finish();
+        }
     }
 
     @Override
@@ -194,6 +202,27 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 break;
         }
         return true;
+    }
+
+    private void handleIntent() {
+        if (Utility.getLoginUserDetail(HomeActivity.this) != null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                String value1 = extras.getString(Intent.EXTRA_TEXT);
+                if (!TextUtils.isEmpty(value1)) {
+                    if (userType.equals("4")) {
+                        onClickInstitutePost();
+                    } else {
+                        Intent intent = new Intent(HomeActivity.this, PostActivity.class);
+                        intent.putExtra(Intent.EXTRA_TEXT, value1);
+                        startActivity(intent);
+                    }
+                }
+            }
+        } else {
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            finish();
+        }
     }
 
     public void onClickInstitutePost() {

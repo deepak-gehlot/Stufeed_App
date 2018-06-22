@@ -61,6 +61,9 @@ import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
 import id.zelory.compressor.Compressor;
+import io.github.ponnamkarthik.richlinkpreview.MetaData;
+import io.github.ponnamkarthik.richlinkpreview.ResponseListener;
+import io.github.ponnamkarthik.richlinkpreview.RichPreview;
 import okhttp3.MultipartBody;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -113,6 +116,8 @@ public class PostActivity extends AppCompatActivity {
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        getDataFromBundle();
     }
 
 
@@ -177,6 +182,21 @@ public class PostActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+    }
+
+    private void getDataFromBundle() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String link = extras.getString(Intent.EXTRA_TEXT);
+            if (!TextUtils.isEmpty(link) && Utility.isValidUrl(link)) {
+                // only work for video from youtube
+                getImageTitleFromVideoUrl(link);
+                binding.getModel().setType(2);
+                binding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+            } else {
+                Utility.showToast(PostActivity.this, "Invalid Url.");
+            }
         }
     }
 
@@ -545,10 +565,25 @@ public class PostActivity extends AppCompatActivity {
                 binding.getModel().setArticle_thumbnail(url);
                 binding.getModel().setArticle_title("YouTube");
             } else {
-                Utility.showToast(PostActivity.this, "Invalid Url.");
+                RichPreview richPreview = new RichPreview(new ResponseListener() {
+                    @Override
+                    public void onData(MetaData metaData) {
+                        //Implement your Layout
+                        getImageTitleFromVideoUrl(metaData.getUrl());
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        //handle error
+                        e.printStackTrace();
+                        Utility.showToast(PostActivity.this, "Invalid Url.");
+                    }
+                });
+                richPreview.getPreview(videoURL);
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+            Utility.showToast(PostActivity.this, "Invalid Url.");
         }
     }
 

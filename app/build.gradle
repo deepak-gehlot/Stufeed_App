@@ -101,5 +101,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:11.8.0'
     implementation 'com.google.android.exoplayer:exoplayer:r2.4.2'
     implementation 'com.github.shts:TriangleLabelView:1.1.2'
+    implementation 'io.github.ponnamkarthik:richlinkpreview:1.0.8'
 }
 apply plugin: 'com.google.gms.google-services'

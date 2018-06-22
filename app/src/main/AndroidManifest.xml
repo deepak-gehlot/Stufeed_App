@@ -39,7 +39,13 @@
             android:name=".view.activity.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:host="www.youtube.com" android:mimeType="text/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.activity.PostActivity"
             android:label="@string/title_activity_post"
