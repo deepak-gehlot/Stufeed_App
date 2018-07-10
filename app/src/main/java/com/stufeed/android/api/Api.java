@@ -464,4 +464,7 @@ public interface Api {
     Call<Response> deleteInstitutePost(@Field("user_id") String userId,
                                        @Field("post_id") String postId);
 
+    @FormUrlEncoded
+    @POST("userDeleted")
+    Call<Response> deleteuser(@Field("userId") String userId);
 }

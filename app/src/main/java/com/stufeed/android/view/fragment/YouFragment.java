@@ -92,6 +92,7 @@ public class YouFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         AQuery aQuery = new AQuery(getActivity());
         String profilePic = Utility.getLoginUserDetail(getActivity()).getProfilePic();
         aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.drawable.user_default);
@@ -156,7 +157,7 @@ public class YouFragment extends Fragment {
                 getAllPost();
                 break;
             case "2":
-                binding.txtType.setText("Department");
+                binding.txtType.setText("Faculty");
                 binding.recyclerViewBoard.setVisibility(View.VISIBLE);
                 binding.recyclerViewPost.setVisibility(View.VISIBLE);
                 binding.tabContainer.setVisibility(View.GONE);
@@ -164,7 +165,7 @@ public class YouFragment extends Fragment {
                 getAllPost();
                 break;
             case "3":
-                binding.txtType.setText("Faculty");
+                binding.txtType.setText("Department");
                 binding.recyclerViewBoard.setVisibility(View.VISIBLE);
                 binding.recyclerViewPost.setVisibility(View.VISIBLE);
                 binding.tabContainer.setVisibility(View.GONE);

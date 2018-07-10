@@ -65,7 +65,7 @@ public class DepartmentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
-        loginUserCollegeId = "1";//Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
+        loginUserCollegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
         setRecyclerView();
         SearchReceiver searchReceiver = new SearchReceiver();
         getActivity().registerReceiver(searchReceiver, new IntentFilter("com.stufeed.android.search"));
@@ -96,14 +96,14 @@ public class DepartmentFragment extends Fragment {
 
     private void handleStudentResponse(GetCollegeUserResponse response) {
         if (response == null) {
-            Utility.showErrorMsg(getActivity());
+            //  Utility.showErrorMsg(getActivity());
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
             if (response.getUserArrayList() != null) {
                 userArrayList = response.getUserArrayList();
                 setRecyclerView();
             }
         } else {
-            Utility.showToast(getActivity(), response.getResponseMessage());
+            //   Utility.showToast(getActivity(), response.getResponseMessage());
         }
     }
 

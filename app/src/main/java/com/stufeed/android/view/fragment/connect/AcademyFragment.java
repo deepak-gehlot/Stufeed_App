@@ -80,14 +80,29 @@ public class AcademyFragment extends Fragment {
         } else {
             mLoginUserId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         }
-        setupViewPager(binding.viewpager);
-        binding.setFragment(this);
-        binding.tabLayout.setupWithViewPager(binding.viewpager);
-        binding.viewpager.setOffscreenPageLimit(3);
 
+        ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
 
-        getBasicDetails();
-        setUserType();
+        if (TextUtils.isEmpty(mLoginUserId) || mLoginUserId.equals("0")) {
+            binding.progressBar.setVisibility(View.GONE);
+            binding.topPanel.setVisibility(View.GONE);
+            binding.profilePic.setVisibility(View.GONE);
+            binding.mainContent.setVisibility(View.GONE);
+            binding.textNotRegister.setVisibility(View.VISIBLE);
+        } else {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.topPanel.setVisibility(View.VISIBLE);
+            binding.profilePic.setVisibility(View.VISIBLE);
+            binding.mainContent.setVisibility(View.VISIBLE);
+            binding.textNotRegister.setVisibility(View.GONE);
+            setupViewPager(binding.viewpager);
+            binding.setFragment(this);
+            binding.tabLayout.setupWithViewPager(binding.viewpager);
+            binding.viewpager.setOffscreenPageLimit(3);
+
+            getBasicDetails();
+            setUserType();
+        }
     }
 
     @Override

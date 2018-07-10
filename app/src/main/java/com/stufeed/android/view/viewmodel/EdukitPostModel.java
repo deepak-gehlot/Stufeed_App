@@ -27,6 +27,16 @@ public class EdukitPostModel extends BaseObservable {
     private String boardId = "0";
     private String edukitId = "0";
 
+    /*For post in board*/
+    private int postType = 3;       // type of post in {@link PostModel}
+    private String videoUrl = "";
+    private String pollQuestion = "";
+    private String pollOption1 = "";
+    private String pollOption2 = "";
+    private String pollOption = "";
+    private String article_title = "";
+    private String article_thumbnail = "";
+
     @Bindable
     public String getUserId() {
         return userId;
@@ -116,6 +126,69 @@ public class EdukitPostModel extends BaseObservable {
         notifyPropertyChanged(BR.edukitId);
     }
 
+    public int getPostType() {
+        return postType;
+    }
+
+    public void setPostType(int postType) {
+        this.postType = postType;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public String getPollQuestion() {
+        return pollQuestion;
+    }
+
+    public void setPollQuestion(String pollQuestion) {
+        this.pollQuestion = pollQuestion;
+    }
+
+    public String getPollOption1() {
+        return pollOption1;
+    }
+
+    public void setPollOption1(String pollOption1) {
+        this.pollOption1 = pollOption1;
+    }
+
+    public String getPollOption2() {
+        return pollOption2;
+    }
+
+    public void setPollOption2(String pollOption2) {
+        this.pollOption2 = pollOption2;
+    }
+
+    public String getPollOption() {
+        return pollOption;
+    }
+
+    public void setPollOption(String pollOption) {
+        this.pollOption = pollOption;
+    }
+
+    public String getArticle_title() {
+        return article_title;
+    }
+
+    public void setArticle_title(String article_title) {
+        this.article_title = article_title;
+    }
+
+    public String getArticle_thumbnail() {
+        return article_thumbnail;
+    }
+
+    public void setArticle_thumbnail(String article_thumbnail) {
+        this.article_thumbnail = article_thumbnail;
+    }
 
     public String getPostValue() {
         return postValue;
@@ -151,6 +224,28 @@ public class EdukitPostModel extends BaseObservable {
         requestBodyMap.put("post_value", RequestBody.create(mediaTypeText, String.valueOf(getPostValue())));
         requestBodyMap.put("edukit_id", RequestBody.create(mediaTypeText, getEdukitId()));
         requestBodyMap.put("board_id", RequestBody.create(mediaTypeText, getBoardId()));
+        return requestBodyMap;
+    }
+
+    public Map<String, RequestBody> getBoardPostBody() {
+        MediaType mediaTypeText = MediaType.parse("text/plain");
+        MediaType mediaTypeImage = MediaType.parse("image/*");
+
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        requestBodyMap.put("userid", RequestBody.create(mediaTypeText, getUserId()));
+        requestBodyMap.put("title", RequestBody.create(mediaTypeText, getTitle()));
+        requestBodyMap.put("description", RequestBody.create(mediaTypeText, getDescription()));
+        requestBodyMap.put("alowcomment", RequestBody.create(mediaTypeText, String.valueOf(getAllowComment
+                ())));
+        requestBodyMap.put("alowrepost", RequestBody.create(mediaTypeText, String.valueOf(getAllowRePost()
+        )));
+        requestBodyMap.put("type", RequestBody.create(mediaTypeText, String.valueOf(getPostType())));
+        requestBodyMap.put("videourl", RequestBody.create(mediaTypeText, getVideoUrl()));
+        requestBodyMap.put("article_title", RequestBody.create(mediaTypeText, getArticle_title()));
+        requestBodyMap.put("article_thumbnail", RequestBody.create(mediaTypeText, getArticle_thumbnail()));
+        requestBodyMap.put("pollquestion", RequestBody.create(mediaTypeText, getPollQuestion()));
+        requestBodyMap.put("polloption", RequestBody.create(mediaTypeText, getPollOption()));
+        requestBodyMap.put("boardid", RequestBody.create(mediaTypeText, getBoardId()));
         return requestBodyMap;
     }
 

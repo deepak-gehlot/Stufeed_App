@@ -50,7 +50,8 @@ public class SelectCollegeActivity extends AppCompatActivity {
         binding.searchCollegeEdt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                college = colleges.get(position);
+                college = (GetAllCollegeResponse.College) parent.getItemAtPosition(position);
+                binding.searchCollegeEdt.setText(college.getCollegeName());
             }
         });
     }
@@ -158,7 +159,7 @@ public class SelectCollegeActivity extends AppCompatActivity {
             Utility.showErrorMsg(SelectCollegeActivity.this);
         } else if (getAllCollegeResponse.getResponseCode().equals(Api.SUCCESS)) {
             colleges.clear();
-           // collegesStrList.clear();
+            // collegesStrList.clear();
             colleges = getAllCollegeResponse.getCollegeArrayList();
             /*int size = colleges.size();
             collegesStrList.clear();

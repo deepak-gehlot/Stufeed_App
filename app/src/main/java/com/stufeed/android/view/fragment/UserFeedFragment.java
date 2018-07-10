@@ -65,7 +65,7 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         getAllPost();
         binding.pullToRefresh.setOnRefreshListener(this);
 
-        ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
+//        ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
     }
 
     @Override

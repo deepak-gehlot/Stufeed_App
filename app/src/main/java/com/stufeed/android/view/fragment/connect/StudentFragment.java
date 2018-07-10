@@ -60,7 +60,7 @@ public class StudentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginUserId = Utility.getLoginUserId(getActivity());
-        loginUserCollegeId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
+        loginUserCollegeId = Utility.getLoginUserDetail(getActivity()).getCollegeId();
         setRecyclerView();
         getStudents();
         SearchReceiver searchReceiver = new SearchReceiver();
@@ -92,7 +92,7 @@ public class StudentFragment extends Fragment {
     private void handleStudentResponse(GetCollegeUserResponse response) {
         if (getView() != null) {
             if (response == null) {
-                Utility.showErrorMsg(getActivity());
+              //  Utility.showErrorMsg(getActivity());
             } else if (response.getResponseCode().equals(Api.SUCCESS)) {
                 userArrayList = response.getUserArrayList();
                 setRecyclerView();

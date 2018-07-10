@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -66,6 +67,13 @@ public class EditInstituteActivity extends AppCompatActivity {
             }
         });
         init();
+
+        UserDetail details = Utility.getLoginUserDetail(EditInstituteActivity
+                .this);
+        String profilePic = details.getProfilePic();
+        if (!TextUtils.isEmpty(profilePic)) {
+            aQuery.id(mBinding.studentImg).image(profilePic, true, true, 150, R.mipmap.ic_launcher);
+        }
     }
 
     @Override
@@ -90,7 +98,7 @@ public class EditInstituteActivity extends AppCompatActivity {
         context = this;
         aQuery = new AQuery(this);
         loginUserId = Utility.getLoginUserId(this);
-        collageId = Utility.getLoginUserDetail(this).getUserInstituteId();
+        collageId = Utility.getLoginUserDetail(this).getCollegeId();
 
 
         getCollegeDetails();

@@ -956,11 +956,11 @@ aq.id(R.id.image).image(url, options);*/
             case "1": //Student
                 textView.setTextColor(ContextCompat.getColor(context, R.color.student));
                 break;
-            case "2": //Department
-                textView.setTextColor(ContextCompat.getColor(context, R.color.department));
-                break;
-            case "3": //Faculty
+            case "2": //Faculty
                 textView.setTextColor(ContextCompat.getColor(context, R.color.faculty));
+                break;
+            case "3": //Department
+                textView.setTextColor(ContextCompat.getColor(context, R.color.department));
                 break;
             case "4": //Institute
                 textView.setTextColor(ContextCompat.getColor(context, R.color.institute));
@@ -994,11 +994,11 @@ aq.id(R.id.image).image(url, options);*/
             case "1": //Student
                 textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_student));
                 break;
-            case "2": //Department
-                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_department));
-                break;
-            case "3": //Faculty
+            case "2": //Faculty
                 textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_faculty));
+                break;
+            case "3": //Department
+                textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_department));
                 break;
             case "4": //Institute
                 textView.setBackground(ContextCompat.getDrawable(context, R.drawable.user_type_institute));

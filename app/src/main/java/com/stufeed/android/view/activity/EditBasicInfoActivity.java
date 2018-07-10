@@ -348,7 +348,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case "2":   // Department
+            case "3":   // Department
                 mBinding.autoComplete1.setHint("department");
                 if (details != null) {
                     mBinding.autoComplete1.setText(details.getDepartment());
@@ -369,7 +369,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
                     }
                 });
                 break;
-            case "3":   // Faculty
+            case "2":   // Faculty
                 mBinding.autoComplete1.setHint("designation");
                 mBinding.autoComplete2.setHint("department");
 
@@ -389,7 +389,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
 
                 ArrayAdapter<String> adapterDesignation = new ArrayAdapter<String>
                         (this, android.R.layout.select_dialog_item, departmentList);
-                mBinding.autoComplete1.setAdapter(adapterDesignation);
+                mBinding.autoComplete2.setAdapter(adapterDesignation);
 
                 mBinding.autoComplete1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -424,7 +424,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
     }
 
     private void getDepartmentsList() {
-        String json = AssetsUtil.ReadFromfile("stufeed-dev-degrees-export.json", EditBasicInfoActivity.this);
+        String json = AssetsUtil.ReadFromfile("stufeed-dev-departments-export.json", EditBasicInfoActivity.this);
         Department[] departments = new Gson().fromJson(json, Department[].class);
         for (Department department : departments) {
             departmentList.add(department.getDepartment());
@@ -432,7 +432,7 @@ public class EditBasicInfoActivity extends AppCompatActivity {
     }
 
     private void getDesignationList() {
-        String json = AssetsUtil.ReadFromfile("stufeed-dev-degrees-export.json", EditBasicInfoActivity.this);
+        String json = AssetsUtil.ReadFromfile("stufeed-dev-designations-export.json", EditBasicInfoActivity.this);
         Designation[] designations = new Gson().fromJson(json, Designation[].class);
 
         for (Designation designation : designations) {

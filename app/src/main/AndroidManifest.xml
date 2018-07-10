@@ -42,8 +42,12 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="www.youtube.com" android:mimeType="text/*" />
+
+                <data
+                    android:host="www.youtube.com"
+                    android:mimeType="text/*" />
             </intent-filter>
         </activity>
         <activity
@@ -198,7 +202,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".view.activity.JoinRequestActivity"></activity>
+        <activity android:name=".view.activity.JoinRequestActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -224,6 +228,18 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="11952c15e28f87420ce29a2b4c3042b2f7b20ccf" />
+
+        <activity
+            android:name=".view.activity.MyProfileMainActivity"
+            android:label="@string/title_activity_my_profile_main"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".view.activity.MyProfileActivity"
+            android:label="@string/title_activity_my_profile_main"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

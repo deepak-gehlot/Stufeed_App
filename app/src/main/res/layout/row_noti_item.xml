@@ -61,7 +61,6 @@
                     android:paddingBottom="@dimen/dimen_10dp"
                     android:paddingEnd="@dimen/dimen_10dp"
                     android:paddingStart="@dimen/dimen_10dp"
-                    android:text="@{model.unMsg}"
                     android:textColor="@color/text_color"
                     android:textSize="13sp" />
             </LinearLayout>

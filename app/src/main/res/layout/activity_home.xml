@@ -29,6 +29,16 @@
                     android:layout_height="@dimen/tool_bar_height">
 
                     <ImageView
+                        android:id="@+id/profileImg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:src="@drawable/person_icon"
+                        android:visibility="visible" />
+
+                    <ImageView
                         android:id="@+id/searchImg"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -47,6 +57,7 @@
                         android:paddingStart="16dp"
                         android:src="@drawable/ic_notifications_black_24dp"
                         android:visibility="visible" />
+
 
 
                 </android.support.v7.widget.Toolbar>

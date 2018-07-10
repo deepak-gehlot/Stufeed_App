@@ -69,7 +69,8 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         mBinding.mainContent.searchCollegeEdt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                college = colleges.get(position);
+                college = (GetAllCollegeResponse.College) parent.getItemAtPosition(position);
+                mBinding.mainContent.searchCollegeEdt.setText(college.getCollegeName());
                 registerInstituteModel.setAddress(college.getAddress());
                 registerInstituteModel.setInstituteId(college.getAffiliationNo());
                 registerInstituteModel.setCollegeId(college.getCollegeId());

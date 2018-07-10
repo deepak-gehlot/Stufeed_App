@@ -112,7 +112,9 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
      */
     public void onJoinClick(GetBoardListResponse.Board board) {
         if (userType.equals("4")) {
-            context.startActivity(new Intent(context, InstitutePostActivity.class));
+            Intent intent = new Intent(context, InstitutePostActivity.class);
+            intent.putExtra("code", InstitutePostActivity.SELECT_BOARD);
+            context.startActivity(intent);
         } else {
             context.startActivity(new Intent(context, PostActivity.class));
         }
@@ -131,7 +133,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);

@@ -7,12 +7,12 @@
 
         <LinearLayout
             android:layout_width="250dp"
-            android:layout_gravity="center"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="@color/white"
             android:orientation="vertical"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:text="When user ON this feature everyone need permission to join this board"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -151,9 +151,10 @@
                     android:layout_weight="1"
                     android:background="@drawable/round_button"
                     android:gravity="center"
-                    android:padding="13sp"
+                    android:padding="10sp"
                     android:text="Archive Board"
-                    android:textColor="@color/text_color" />
+                    android:textColor="@color/text_color"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/textViewDeleteBoard"
@@ -163,9 +164,10 @@
                     android:layout_weight="1"
                     android:background="@drawable/round_button"
                     android:gravity="center"
-                    android:padding="13sp"
+                    android:padding="10sp"
                     android:text="Delete Board"
-                    android:textColor="@color/text_color" />
+                    android:textColor="@color/text_color"
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -188,9 +190,9 @@
                     android:layout_weight="5"
                     android:backgroundTint="#8C9197"
                     android:gravity="center"
-                    android:textSize="13sp"
                     android:text="Cancel"
                     android:textColor="@android:color/white"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <View
@@ -201,12 +203,12 @@
                 <Button
                     android:id="@+id/done_board"
                     android:layout_width="0dp"
-                    android:textSize="13sp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
                     android:backgroundTint="#8C9197"
                     android:text="Done"
                     android:textColor="@android:color/white"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

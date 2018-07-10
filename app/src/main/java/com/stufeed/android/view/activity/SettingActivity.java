@@ -2,7 +2,9 @@ package com.stufeed.android.view.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +21,7 @@ import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.ActivitySettingBinding;
 import com.stufeed.android.databinding.DialogInstituteCodeBinding;
 import com.stufeed.android.listener.DialogListener;
+import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 
@@ -32,6 +35,7 @@ public class SettingActivity extends AppCompatActivity {
     private String mSearch = "1", mSound = "1", mNotification = "1";
     private String mLoginUserId = "", mCollegeId = "";
     private String code = "";
+    private boolean isStart = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +65,22 @@ public class SettingActivity extends AppCompatActivity {
         binding.switchInstituteCode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+                if (isChecked && !isStart) {
                     showCodeDialog();
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isStart = false;
+            }
+        }, 50);
     }
 
     private void showCodeDialog() {
@@ -114,6 +129,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onPositive(DialogInterface dialog) {
                 dialog.dismiss();
+                deleteApi();
             }
         });
     }
@@ -221,6 +237,41 @@ public class SettingActivity extends AppCompatActivity {
             } else {
                 binding.switchInstituteCode.setChecked(false);
             }
+        }
+    }
+
+    private void deleteApi() {
+        ProgressDialog.getInstance().showProgressDialog(SettingActivity.this);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<com.stufeed.android.api.response.Response> responseCall = api.deleteuser(Utility.getLoginUserId(SettingActivity.this));
+        responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
+            @Override
+            public void onResponse(Call<com.stufeed.android.api.response.Response> call, Response<com.stufeed.android.api.response.Response> response) {
+                handleDeleteResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<com.stufeed.android.api.response.Response> call, Throwable t) {
+                handleDeleteResponse(null);
+            }
+        });
+    }
+
+    private void handleDeleteResponse(com.stufeed.android.api.response.Response response) {
+        ProgressDialog.getInstance().dismissDialog();
+        if (response != null) {
+            if (response.getResponseCode().equals(Api.SUCCESS)) {
+                Utility.showToast(SettingActivity.this, "Your account has been deleted.");
+                PreferenceConnector.clear(SettingActivity.this);
+                Intent intent = new Intent(SettingActivity.this, SplashActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // call this to finish the current activity
+            } else {
+                Utility.showErrorMsg(SettingActivity.this);
+            }
+        } else {
+            Utility.showErrorMsg(SettingActivity.this);
         }
     }
 }

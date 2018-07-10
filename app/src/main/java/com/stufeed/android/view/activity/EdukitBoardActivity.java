@@ -159,7 +159,8 @@ public class EdukitBoardActivity extends AppCompatActivity {
                 @Override
                 public void onClick(int position, Object obj) {
                     ids = ((String) obj);
-                    String boardId = "";
+
+                    /*String boardId = "";
                     if (position == 0) {
                         boardId = "0";
                     } else {
@@ -169,7 +170,7 @@ public class EdukitBoardActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.putExtra("board_id", boardId);
                     setResult(RESULT_OK, intent);
-                    finish();
+                    finish();*/
                 }
             });
         }

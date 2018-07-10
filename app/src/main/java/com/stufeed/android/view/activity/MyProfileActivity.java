@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,22 +21,18 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.FollowResponse;
-import com.stufeed.android.api.response.GetAchievementListResponse;
-import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
-import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
+import com.stufeed.android.databinding.ActivityMyProfileBinding;
 import com.stufeed.android.databinding.ActivityUserProfileBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 import com.stufeed.android.view.adapter.BoardPostCombineAdapter;
-import com.stufeed.android.view.adapter.FeedListAdapter;
+import com.stufeed.android.view.adapter.MyBoardPostCombineAdapter;
 import com.stufeed.android.view.adapter.UserBoardListAdapter;
-import com.stufeed.android.view.fragment.YouFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +41,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class MyProfileActivity extends AppCompatActivity {
 
     public static final String USER = "user";
-    public static final String TYPE = "type";
 
-    private ActivityUserProfileBinding mBinding;
+    private ActivityMyProfileBinding mBinding;
     private GetCollegeUserResponse.User user;
-    private List<Tag> tagList = new ArrayList<>();
-    private boolean isHaveSkills = false;
-    private boolean isHaveAchivment = false;
-    private boolean isHaveAbout = false;
     private String mLoginUserId = "";
     private GetUserDetailsResponse userDetailsResponse = new GetUserDetailsResponse();
     private GetPostResponse getPostResponse = new GetPostResponse();
@@ -64,55 +54,19 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_profile);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_my_profile);
         MobileAds.initialize(this,
                 getString(R.string.ad_mob_id));
         setSupportActionBar(mBinding.toolbar);
         mBinding.container.setActivity(this);
 
-        mLoginUserId = Utility.getLoginUserId(UserProfileActivity.this);
+        mLoginUserId = Utility.getLoginUserId(MyProfileActivity.this);
         setTitleBackClick();
         getDataFromBundle();
         getBasicDetails();
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_user_profile, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menuBlocked:
-                if (mBinding.container.getModel().getIsBlock().equals("1")) {
-                    unBlock();
-                } else {
-                    block();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.findItem(R.id.menuBlocked);
-        if (mBinding.container.getModel() != null) {
-            if (mBinding.container.getModel().getIsBlock().equals("1")) {
-                menuItem.setTitle("Un Block");
-            } else {
-                menuItem.setTitle("Block");
-            }
-        }
-        return true;
     }
 
     private void setTitleBackClick() {
@@ -127,7 +81,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private void getDataFromBundle() {
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
-            Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
+            Utility.showToast(MyProfileActivity.this, getString(R.string.wrong));
             finish();
         } else {
             user = bundle.getParcelable(USER);
@@ -135,26 +89,26 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void onPostCountClick() {
-        Intent intent = new Intent(UserProfileActivity.this, UsersPostActivity.class);
+        Intent intent = new Intent(MyProfileActivity.this, UsersPostActivity.class);
         intent.putExtra("user_id", user.getUserId());
         startActivity(intent);
     }
 
     public void onBoardJoinCountClick() {
-        Intent intent = new Intent(UserProfileActivity.this, UserJoinBoardActivity.class);
+        Intent intent = new Intent(MyProfileActivity.this, UserJoinBoardActivity.class);
         intent.putExtra("user_id", user.getUserId());
         intent.putExtra("login_user_id", mLoginUserId);
         startActivity(intent);
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(UserProfileActivity.this, FolloweListActivity.class);
+        Intent intent = new Intent(MyProfileActivity.this, FolloweListActivity.class);
         intent.putExtra("user_id", user.getUserId());
         startActivity(intent);
     }
 
     private void getBoardList() {
-        String userId = Utility.getLoginUserId(UserProfileActivity.this);
+        String userId = Utility.getLoginUserId(MyProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<GetBoardListResponse> responseCall = api.getAllBoardList(user.getUserId(), userId);
         responseCall.enqueue(new Callback<GetBoardListResponse>() {
@@ -174,7 +128,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void handleResponse(GetBoardListResponse response) {
         if (response == null) {
-            Utility.showErrorMsg(UserProfileActivity.this);
+            Utility.showErrorMsg(MyProfileActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
             this.response = response;
             /*setRecyclerView(response.getBoardArrayList());
@@ -186,8 +140,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<GetBoardListResponse.Board> boardArrayList) {
         if (boardArrayList != null) {
             mBinding.container.recyclerView.setHasFixedSize(true);
-            mBinding.container.recyclerView.setLayoutManager(new GridLayoutManager(UserProfileActivity.this, 2));
-            UserBoardListAdapter adapter = new UserBoardListAdapter(UserProfileActivity.this, boardArrayList);
+            mBinding.container.recyclerView.setLayoutManager(new GridLayoutManager(MyProfileActivity.this, 2));
+            UserBoardListAdapter adapter = new UserBoardListAdapter(MyProfileActivity.this, boardArrayList);
             mBinding.container.recyclerView.setAdapter(adapter);
         }
     }
@@ -229,7 +183,7 @@ public class UserProfileActivity extends AppCompatActivity {
      * Get User basic details
      */
     private void getBasicDetails() {
-        ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
+        ProgressDialog.getInstance().showProgressDialog(MyProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<GetUserDetailsResponse> responseCall = api.getUserDetails(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<GetUserDetailsResponse>() {
@@ -328,7 +282,7 @@ public class UserProfileActivity extends AppCompatActivity {
      * unblock user
      */
     private void unBlock() {
-        ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
+        ProgressDialog.getInstance().showProgressDialog(MyProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<com.stufeed.android.api.response.Response> responseCall = api.unblockUser(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
@@ -349,7 +303,7 @@ public class UserProfileActivity extends AppCompatActivity {
      * block user
      */
     private void block() {
-        ProgressDialog.getInstance().showProgressDialog(UserProfileActivity.this);
+        ProgressDialog.getInstance().showProgressDialog(MyProfileActivity.this);
         Api api = APIClient.getClient().create(Api.class);
         Call<com.stufeed.android.api.response.Response> responseCall = api.blockUser(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<com.stufeed.android.api.response.Response>() {
@@ -372,16 +326,16 @@ public class UserProfileActivity extends AppCompatActivity {
     private void handleResponseBlockUnblock(com.stufeed.android.api.response.Response response) {
         ProgressDialog.getInstance().dismissDialog();
         if (response == null) {
-            Utility.showErrorMsg(UserProfileActivity.this);
+            Utility.showErrorMsg(MyProfileActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
-            Utility.showToast(UserProfileActivity.this, response.getResponseMessage());
+            Utility.showToast(MyProfileActivity.this, response.getResponseMessage());
             if (mBinding.container.getModel().getIsBlock().equals("1")) {
                 mBinding.container.getModel().setIsBlock("0");
             } else {
                 mBinding.container.getModel().setIsBlock("1");
             }
         } else {
-            Utility.showToast(UserProfileActivity.this, response.getResponseMessage());
+            Utility.showToast(MyProfileActivity.this, response.getResponseMessage());
         }
     }
 
@@ -416,7 +370,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void setUnFollowConfirmation(final GetUserDetailsResponse.Details user) {
-        Utility.setDialog(UserProfileActivity.this, "Message", "Do you want to un-follow this.", "No", "Yes",
+        Utility.setDialog(MyProfileActivity.this, "Message", "Do you want to un-follow this.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -432,7 +386,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void setFollowConfirmation(final GetUserDetailsResponse.Details user) {
-        Utility.setDialog(UserProfileActivity.this, "Message", "Do you want to follow this.", "No", "Yes",
+        Utility.setDialog(MyProfileActivity.this, "Message", "Do you want to follow this.", "No", "Yes",
                 new DialogListener() {
                     @Override
                     public void onNegative(DialogInterface dialog) {
@@ -461,7 +415,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<GetPostResponse> call, Throwable t) {
                 //       binding.progressBar.setVisibility(View.GONE);
-                Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
+                Utility.showToast(MyProfileActivity.this, getString(R.string.wrong));
             }
         });
     }
@@ -472,8 +426,8 @@ public class UserProfileActivity extends AppCompatActivity {
                 this.getPostResponse = getPostResponse;
             }
         }
-        mBinding.container.recyclerView.setLayoutManager(new LinearLayoutManager(UserProfileActivity.this));
-        BoardPostCombineAdapter adapter = new BoardPostCombineAdapter(UserProfileActivity.this, user,
+        mBinding.container.recyclerView.setLayoutManager(new LinearLayoutManager(MyProfileActivity.this));
+        MyBoardPostCombineAdapter adapter = new MyBoardPostCombineAdapter(MyProfileActivity.this, user,
                 response.getAllCount(), userDetailsResponse.getAllDetails(), response.getBoardArrayList(), this.getPostResponse.getPost());
         mBinding.container.recyclerView.setAdapter(adapter);
         new Handler().postDelayed(new Runnable() {

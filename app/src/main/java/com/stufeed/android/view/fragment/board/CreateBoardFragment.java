@@ -81,6 +81,8 @@ public class CreateBoardFragment extends Fragment {
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
             BoardFragment.boardCount = response.getBoardArrayList() != null ? response.getBoardArrayList().size() : 0;
             setRecyclerView(response.getBoardArrayList());
+        } else {
+            BoardFragment.boardCount = 0;
         }
     }
 

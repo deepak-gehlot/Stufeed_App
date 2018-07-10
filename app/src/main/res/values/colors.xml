@@ -6,6 +6,7 @@
     <color name="colorAccent">#ff8b7d</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
     <color name="grey_color">#CAd4e2</color>
     <color name="edit_text_color">#768692</color>
     <color name="text_color">#575f6f</color>

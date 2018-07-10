@@ -1,7 +1,6 @@
 package com.stufeed.android.view.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -25,11 +24,12 @@ import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.databinding.RowBoardPostCombineBinding;
+import com.stufeed.android.databinding.RowMyBoardPostCombineBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.EditProfileActivity;
 import com.stufeed.android.view.activity.FolloweListActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
-import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombineAdapter.ViewHolder> {
+public class MyBoardPostCombineAdapter extends RecyclerView.Adapter<MyBoardPostCombineAdapter.ViewHolder> {
 
     private final int TYPE_PROFILE = 11;
     private final int TYPE_BOARD = 12;
@@ -54,11 +54,11 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
     private String mLoginUserId = "";
     private List<Tag> tagList = new ArrayList<>();
 
-    public BoardPostCombineAdapter(Activity context, GetCollegeUserResponse.User user,
-                                   GetBoardListResponse.Count count,
-                                   GetUserDetailsResponse.Details userDetailsResponse,
-                                   ArrayList<GetBoardListResponse.Board> boardArrayList,
-                                   ArrayList<GetPostResponse.Post> postArrayList) {
+    public MyBoardPostCombineAdapter(Activity context, GetCollegeUserResponse.User user,
+                                     GetBoardListResponse.Count count,
+                                     GetUserDetailsResponse.Details userDetailsResponse,
+                                     ArrayList<GetBoardListResponse.Board> boardArrayList,
+                                     ArrayList<GetPostResponse.Post> postArrayList) {
         this.context = context;
         mLoginUserId = Utility.getLoginUserId(context);
         this.user = user;
@@ -78,8 +78,8 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowBoardPostCombineBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.row_board_post_combine, parent, false);
+        RowMyBoardPostCombineBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.row_my_board_post_combine, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -169,9 +169,9 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private RowBoardPostCombineBinding binding;
+        private RowMyBoardPostCombineBinding binding;
 
-        public ViewHolder(final RowBoardPostCombineBinding binding) {
+        public ViewHolder(final RowMyBoardPostCombineBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
@@ -194,6 +194,10 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
                 }
             });
         }
+    }
+
+    public void onEditButtonClick() {
+        context.startActivity(new Intent(context, EditProfileActivity.class));
     }
 
     public void onPostCountClick() {

@@ -368,6 +368,7 @@
                 app:profileImageUrl="@{model.profilePic}" />
 
             <LinearLayout
+                android:id="@+id/mainContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/topPanel"
@@ -379,9 +380,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_30dp"
                     android:layout_below="@+id/topPanel"
+                    android:elevation="@dimen/dimen_3dp"
                     app:tabIndicatorColor="@color/text_color"
-                    app:tabTextColor="@color/text_color"
-                    android:elevation="@dimen/dimen_3dp">
+                    app:tabTextColor="@color/text_color">
 
                     <android.support.design.widget.TabItem
                         android:layout_width="wrap_content"
@@ -406,6 +407,18 @@
                     android:layout_below="@+id/tabLayout"
                     android:layout_weight="1" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textNotRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/dimen_30dp"
+                android:gravity="center"
+                android:text="Your institute is not premium user."
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/dimen_30dp" />
+
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

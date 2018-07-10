@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.bean.DrawerItem;
@@ -77,6 +78,23 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
+                }
+            });
+
+            binding.profileImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (userType.equals("4")) {
+                        startActivity(new Intent(HomeActivity.this, MyProfileMainActivity.class));
+                    } else {
+                        GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
+                        user.setUserId(Utility.getLoginUserId(HomeActivity.this));
+                        user.setFullName(Utility.getLoginUserDetail(HomeActivity.this).getFullName());
+                        user.setIsFollow("0");
+                        Intent intent = new Intent(HomeActivity.this, MyProfileActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                    }
                 }
             });
 
@@ -163,7 +181,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         int selectedId = binding.bottomNavigation.getSelectedItemId();
         switch (selectedId) {
             case R.id.navigation_connect:
-            case R.id.navigation_person:
+            /*case R.id.navigation_person:*/
             case R.id.navigation_post:
             case R.id.navigation_board:
                 binding.bottomNavigation.setSelectedItemId(R.id.navigation_feed);
@@ -180,9 +198,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.navigation_person:
+            /*case R.id.navigation_person:
                 Utility.addFragment(this, YouFragment.newInstance(), "YouFragment", binding.frame.getId());
-                break;
+                break;*/
             case R.id.navigation_connect:
                 Utility.addFragment(this, ConnectFragment.newInstance(), "ConnectFragment", binding.frame.getId());
                 break;

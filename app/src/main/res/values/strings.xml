@@ -181,4 +181,5 @@
     <string name="skills">Skills</string>
     <string name="lbl_forgot_password">Forget Password</string>
     <string name="forgot_password_msg">We Need to Your Registered Email Address To Send Your Password Reset Instructions</string>
+    <string name="title_activity_my_profile_main">MyProfileMainActivity</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,9 @@ public class NotificationListItemAdapter extends RecyclerView.Adapter<Notificati
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.mBinding.setModel(notiItems.get(position));
+
+        String text = notiItems.get(position).getUnMsg();
+        holder.mBinding.textView.setText(Html.fromHtml(text));
     }
 
     @Override

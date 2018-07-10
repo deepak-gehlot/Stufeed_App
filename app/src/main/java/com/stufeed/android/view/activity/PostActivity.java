@@ -120,7 +120,6 @@ public class PostActivity extends AppCompatActivity {
         getDataFromBundle();
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,8 +189,14 @@ public class PostActivity extends AppCompatActivity {
         if (extras != null) {
             String link = extras.getString(Intent.EXTRA_TEXT);
             if (!TextUtils.isEmpty(link) && Utility.isValidUrl(link)) {
-                // only work for video from youtube
-                getImageTitleFromVideoUrl(link);
+
+//https://youtu.be/K7U8qZHGdxI
+                if (link.contains("youtu.be")) {
+                    // only work for video from youtube
+                    getImageTitleFromVideoUrl(link);
+                } else {
+                    getImageTitleFromUrl(link);
+                }
                 binding.getModel().setType(2);
                 binding.audioVideoImgLayout.setVisibility(View.VISIBLE);
             } else {
@@ -524,9 +529,6 @@ public class PostActivity extends AppCompatActivity {
                     // Locate the src attribute
                     final String imgSrc = img.absUrl("src");
                     final String title = document.title();
-                    InputStream input = new java.net.URL(imgSrc).openStream();
-                    // Decode Bitmap
-                    final Bitmap bitmap = BitmapFactory.decodeStream(input);
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
