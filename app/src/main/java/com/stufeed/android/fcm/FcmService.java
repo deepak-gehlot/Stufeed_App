@@ -12,9 +12,12 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.stufeed.android.R;
+import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetSettingResponse;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.UserProfileActivity;
+import com.stufeed.android.view.activity.ViewPostActivity;
 
 import java.util.Map;
 
@@ -26,25 +29,35 @@ public class FcmService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Map<String, String> data = remoteMessage.getData();
-
+        Intent intent = null;
         if (data.size() > 0) {
             String type = data.get("type");
             switch (type) {
                 case "like":
+                    String postIdLike = data.get("postId");
+                    intent = new Intent(FcmService.this, ViewPostActivity.class);
+                    intent.putExtra("post_id", postIdLike);
+                    intent.putExtra("for", "like");
                     break;
                 case "comment":
+                    String postIdComment = data.get("postId");
+                    intent = new Intent(FcmService.this, ViewPostActivity.class);
+                    intent.putExtra("post_id", postIdComment);
+                    intent.putExtra("for", "like");
                     break;
                 case "follow":
-                    break;
                 case "add_board":
-                    break;
                 case "board":
+                    GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
+                    user.setUserId(data.get("userId"));
+                    user.setIsFollow("0");
+                    intent = new Intent(FcmService.this, UserProfileActivity.class);
+                    intent.putExtra(UserProfileActivity.USER, user);
                     break;
 
             }
             GetSettingResponse.Setting setting = Utility.getUserSetting(this);
             if (setting != null && setting.getIsNotification().equals("1")) {
-                Intent intent = new Intent(this, HomeActivity.class);
                 showNotification(setting, data, intent);
             }
         }

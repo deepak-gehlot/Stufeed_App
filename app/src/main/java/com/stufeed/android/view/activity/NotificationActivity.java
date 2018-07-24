@@ -58,6 +58,13 @@ public class NotificationActivity extends AppCompatActivity {
             }
         });
 
+        binding.layoutVerifyRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onVerifyClick();
+            }
+        });
+
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -65,6 +72,10 @@ public class NotificationActivity extends AppCompatActivity {
 
     public void onRequestClick() {
         startActivity(new Intent(this, JoinRequestActivity.class));
+    }
+
+    public void onVerifyClick() {
+        startActivity(new Intent(this, VerificationRequestActivity.class));
     }
 
     private void setRecyclerView(ArrayList<GetNotificationResponse.NotiItem> notiItems) {

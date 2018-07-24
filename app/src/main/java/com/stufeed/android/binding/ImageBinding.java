@@ -13,9 +13,9 @@ public class ImageBinding {
     public static void setImage(ImageView imageView, String url) {
         AQuery aQuery = new AQuery(imageView.getContext());
         if (TextUtils.isEmpty(url)) {
-            aQuery.id(imageView).image(R.drawable.person_icon);
+            aQuery.id(imageView).image(R.mipmap.ic_launcher_round);
         } else {
-            aQuery.id(imageView).image(url, true, true, 60, R.drawable.person_icon);
+            aQuery.id(imageView).image(url, true, true, 60, R.mipmap.ic_launcher_round);//R.drawable.person_icon
         }
     }
 

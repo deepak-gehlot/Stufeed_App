@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cunoraz.tagview.Constants;
 import com.cunoraz.tagview.Tag;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -113,11 +116,12 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
                     holder.binding.textSkill.setVisibility(View.GONE);
                 } else {
                     //isHaveSkills = true;
+                    holder.binding.tagGroup.addTags(tagList);
                     holder.binding.textSkill.setVisibility(View.VISIBLE);
                 }
 
                 if (userDetailsResponse.getIsFollow().equals("1")) {
-                    holder.binding.btnFollowStatus.setText("Un Follow");
+                    holder.binding.btnFollowStatus.setText("UnFollow");
                 } else {
                     holder.binding.btnFollowStatus.setText("Follow");
                 }

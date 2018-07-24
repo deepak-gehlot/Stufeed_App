@@ -75,6 +75,7 @@ public class AcademyFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         if (Utility.getLoginUserDetail(getActivity()).getUserType().equals("4")) {
             mLoginUserId = Utility.getLoginUserId(getActivity());
         } else {
@@ -87,13 +88,13 @@ public class AcademyFragment extends Fragment {
             binding.progressBar.setVisibility(View.GONE);
             binding.topPanel.setVisibility(View.GONE);
             binding.profilePic.setVisibility(View.GONE);
-            binding.mainContent.setVisibility(View.GONE);
+            binding.appbar.setVisibility(View.GONE);
             binding.textNotRegister.setVisibility(View.VISIBLE);
         } else {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.topPanel.setVisibility(View.VISIBLE);
             binding.profilePic.setVisibility(View.VISIBLE);
-            binding.mainContent.setVisibility(View.VISIBLE);
+            binding.appbar.setVisibility(View.VISIBLE);
             binding.textNotRegister.setVisibility(View.GONE);
             setupViewPager(binding.viewpager);
             binding.setFragment(this);

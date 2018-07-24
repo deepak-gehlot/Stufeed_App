@@ -11,10 +11,11 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dimen_10dp"
             android:padding="@dimen/dimen_10dp"
             android:text="Test"
             android:textColor="@color/text_color"
-            android:textSize="14sp" />
+            android:textSize="@dimen/dimen_14sp" />
 
         <View
             android:layout_width="match_parent"

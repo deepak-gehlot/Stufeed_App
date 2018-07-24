@@ -113,6 +113,7 @@ public class MyBoardPostCombineAdapter extends RecyclerView.Adapter<MyBoardPostC
                     holder.binding.textSkill.setVisibility(View.GONE);
                 } else {
                     //isHaveSkills = true;
+                    holder.binding.tagGroup.addTags(tagList);
                     holder.binding.textSkill.setVisibility(View.VISIBLE);
                 }
 

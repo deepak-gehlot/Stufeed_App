@@ -15,6 +15,7 @@
             android:layout_height="@dimen/tool_bar_height"
             android:background="@color/topheader"
             app:title="Select Board"
+            app:navigationIcon="@drawable/back_icon"
             android:elevation="@dimen/dimen_4dp"
             app:titleTextColor="@color/topheader_text">
 
@@ -25,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="@string/post"
+                android:textStyle="bold"
                 android:textColor="@color/white" />
 
         </android.support.v7.widget.Toolbar>
@@ -33,7 +35,8 @@
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

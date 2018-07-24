@@ -66,10 +66,10 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
         }
 
         if (TextUtils.isEmpty(user.getProfilePic())) {
-            aQuery.id(holder.rowBinding.imageView).image(R.drawable.person_icon);
+            aQuery.id(holder.rowBinding.imageView).image(R.mipmap.ic_launcher_round);
         } else {
             aQuery.id(holder.rowBinding.imageView).image(
-                    user.getProfilePic(), true, true, 60, R.drawable.person_icon
+                    user.getProfilePic(), true, true, 60, R.mipmap.ic_launcher_round
             );
         }
 

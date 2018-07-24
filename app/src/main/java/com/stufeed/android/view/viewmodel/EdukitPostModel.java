@@ -28,7 +28,7 @@ public class EdukitPostModel extends BaseObservable {
     private String edukitId = "0";
 
     /*For post in board*/
-    private int postType = 3;       // type of post in {@link PostModel}
+    private int postType = 6;       // type of post in {@link PostModel}
     private String videoUrl = "";
     private String pollQuestion = "";
     private String pollOption1 = "";

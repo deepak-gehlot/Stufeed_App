@@ -150,6 +150,8 @@
     <string name="todo">TODO</string>
     <string name="join_request">Join Request</string>
     <string name="approve_or_ignore_request_to_join">Approve or ignore request to join.</string>
+    <string name="verification_request">Verification Request</string>
+    <string name="verify_ignore_request">Verify or ignore request.</string>
     <string name="audio_file_name">Audio file Name</string>
     <string name="poll">Poll</string>
     <string name="write_poll_question">Write poll question</string>

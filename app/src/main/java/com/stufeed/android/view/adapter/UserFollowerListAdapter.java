@@ -15,6 +15,7 @@ import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.databinding.RowFollowerBinding;
+import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.UserProfileActivity;
 
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ public class UserFollowerListAdapter extends RecyclerView.Adapter<UserFollowerLi
         GetFollowerListResponse.User user = userArrayList.get(position);
         holder.binding.setUser(user);
         holder.binding.setAdapter(this);
+
+        Utility.setUserTypeIconColor(context, user.getUserType(), holder.binding.userTypeView);
     }
 
     @Override

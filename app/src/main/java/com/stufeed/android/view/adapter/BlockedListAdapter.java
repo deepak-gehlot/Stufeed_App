@@ -16,6 +16,7 @@ import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.RowBlockedUserBinding;
+import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.UserProfileActivity;
 
@@ -48,8 +49,11 @@ public class BlockedListAdapter extends RecyclerView.Adapter<BlockedListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.binding.setUser(userArrayList.get(position));
+        BlockedUserListResponse.User user = userArrayList.get(position);
+        holder.binding.setUser(user);
         holder.binding.setAdapter(this);
+
+        Utility.setUserTypeIconColor(context, user.getUserType(), holder.binding.userTypeView);
     }
 
     @Override
@@ -85,11 +89,13 @@ public class BlockedListAdapter extends RecyclerView.Adapter<BlockedListAdapter.
      * Unblock user
      */
     public void onUnBlockClick(final BlockedUserListResponse.User user) {
+        ProgressDialog.getInstance().showProgressDialog(context);
         Api api = APIClient.getClient().create(Api.class);
         Call<Response> responseCall = api.unblockUser(mLoginUserId, user.getUserId());
         responseCall.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                ProgressDialog.getInstance().dismissDialog();
                 Response response1 = response.body();
                 if (response1 != null) {
                     if (response1.getResponseCode().equals(Api.SUCCESS)) {
@@ -109,6 +115,7 @@ public class BlockedListAdapter extends RecyclerView.Adapter<BlockedListAdapter.
 
             @Override
             public void onFailure(Call<Response> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
                 Utility.showToast(context, context.getString(R.string.wrong));
             }
         });

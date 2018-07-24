@@ -21,6 +21,7 @@ import com.stufeed.android.databinding.FragmentFeedBinding;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.MyProfileActivity;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.msgTxt.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(collegeId);
+        Call<GetPostResponse> responseCall = api.getUserAllPost(collegeId,"0");
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {

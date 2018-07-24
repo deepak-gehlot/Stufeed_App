@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
             android:layout_above="@+id/adView"
+            android:padding="@dimen/dimen_3dp"
              />
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"

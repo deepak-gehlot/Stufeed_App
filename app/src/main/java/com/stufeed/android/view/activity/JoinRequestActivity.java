@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -29,6 +30,13 @@ public class JoinRequestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_join_request);
         mLoginUserId = Utility.getLoginUserId(this);
+
+        mBinding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         getJoinBoardList();
     }
 

@@ -228,7 +228,7 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
                 }
 
                 break;
-            default:
+            case "3":
                 holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
                 imageOrVideoRow(holder, post);
                 break;

@@ -19,13 +19,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/register_part1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
+                android:backgroundTint="@color/common_color"
                 android:visibility="visible">
 
                 <RelativeLayout
@@ -76,10 +78,10 @@
                         android:layout_margin="@dimen/dimen_10dp"
                         android:background="@drawable/edit_text"
                         android:hint="Enter Institute Name"
-                        android:paddingBottom="@dimen/dimen_14sp"
+                        android:paddingBottom="@dimen/dimen_14dp"
                         android:paddingLeft="@dimen/dimen_5dp"
                         android:paddingRight="@dimen/dimen_5dp"
-                        android:paddingTop="@dimen/dimen_14sp"
+                        android:paddingTop="@dimen/dimen_14dp"
                         android:singleLine="true"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/dimen_14sp" />
@@ -212,7 +214,7 @@
                             android:capitalize="sentences"
                             android:hint="@string/city"
                             android:inputType="textCapSentences"
-                            android:padding="@dimen/dimen_10dp"
+                            android:padding="@dimen/dimen_14dp"
                             android:singleLine="true"
                             android:text="@={model.city}"
                             android:textColor="@color/text_color"
@@ -228,7 +230,7 @@
                             android:capitalize="sentences"
                             android:hint="@string/state"
                             android:inputType="textCapSentences"
-                            android:padding="@dimen/dimen_10dp"
+                            android:padding="@dimen/dimen_14dp"
                             android:singleLine="true"
                             android:text="@={model.state}"
                             android:textColor="@color/text_color"
@@ -241,6 +243,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
+                        android:visibility="gone"
                         android:layout_below="@+id/linearLayout4"
                         android:layout_marginBottom="@dimen/dimen_5dp"
                         android:layout_marginLeft="@dimen/dimen_10dp"
@@ -283,6 +286,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
+                android:backgroundTint="@color/common_color"
                 android:layout_margin="10dp">
 
                 <LinearLayout
@@ -302,7 +306,7 @@
                             android:background="@drawable/edit_text"
                             android:hint="@string/email_address"
                             android:inputType="textEmailAddress"
-                            android:padding="@dimen/dimen_10dp"
+                            android:padding="@dimen/dimen_14dp"
                             android:text="@={model.email}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
@@ -322,7 +326,7 @@
                             android:hint="@string/password"
                             android:inputType="textPassword"
                             android:maxLength="30"
-                            android:padding="@dimen/dimen_10dp"
+                            android:padding="@dimen/dimen_14dp"
                             android:paddingLeft="5dp"
                             android:text="@={model.password}"
                             android:textColor="@color/text_color"
@@ -346,7 +350,7 @@
                             android:background="@drawable/edit_text"
                             android:hint="@string/mobile_number"
                             android:inputType="number"
-                            android:padding="@dimen/dimen_10dp"
+                            android:padding="@dimen/dimen_14dp"
                             android:text="@={model.contactNo}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
@@ -370,7 +374,7 @@
                             android:hint="@string/website"
                             android:inputType="textWebEmailAddress"
                             android:maxLength="60"
-                            android:padding="@dimen/dimen_10dp"
+                            android:padding="@dimen/dimen_14dp"
                             android:text="@={model.website}"
                             android:textColor="@color/text_color"
                             android:textColorHint="@color/text_hint_color"
@@ -391,7 +395,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:hint="@string/specialist"
-                            android:padding="@dimen/dimen_10dp"
+                            android:padding="@dimen/dimen_14dp"
                             android:text="@={model.specialisedIn}"
                             android:background="@drawable/edit_text"
                             android:textColor="@color/text_color"
@@ -408,35 +412,39 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:inputType="number"
                         android:text="Year Of Establishment"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/dimen_16sp" />
+                        android:textSize="@dimen/dimen_12sp" />
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/year_os_established"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="5dp"
                         android:cursorVisible="false"
                         android:focusable="false"
+                        android:padding="@dimen/dimen_14dp"
+                        android:background="@drawable/edit_text"
                         android:hint="@string/year_of_stablished"
                         android:inputType="number"
                         android:onClick="@{()->activity.onClickYearOfEstablishment()}"
                         android:text="@={model.yearOfEstablishment}"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/dimen_16sp" />
+                    </android.support.design.widget.TextInputLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="@dimen/dimen_14dp"
                         android:backgroundTint="@color/button_color"
                         android:gravity="center|left"
                         android:text="@string/managed_by"

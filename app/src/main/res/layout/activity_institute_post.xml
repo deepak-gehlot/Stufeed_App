@@ -17,7 +17,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:backgroundTint="@color/white"
         tools:context=".view.activity.InstitutePostActivity">
 
 
@@ -98,6 +98,7 @@
                         android:linksClickable="true"
                         android:paddingBottom="12dp"
                         android:paddingEnd="16dp"
+                        android:minLines="3"
                         android:paddingStart="16dp"
                         android:paddingTop="12dp"
                         android:text="@={model.description}" />
@@ -453,11 +454,12 @@
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="center_horizontal"
-            ads:adSize="SMART_BANNER"
+            android:layout_gravity="center"
+            ads:adSize="BANNER"
+            android:backgroundTintMode="multiply"
             ads:adUnitId="@string/ad_unit_id" />
 
     </RelativeLayout>

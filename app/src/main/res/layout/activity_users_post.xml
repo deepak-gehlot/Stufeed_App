@@ -40,7 +40,8 @@
             android:id="@+id/pullToRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar">
+            android:layout_below="@+id/toolbar"
+            android:padding="@dimen/dimen_3dp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
@@ -49,6 +50,14 @@
                 android:background="@color/bg_color"
                 android:visibility="gone" />
         </android.support.v4.widget.SwipeRefreshLayout>
-
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            ads:adSize="BANNER"
+            android:backgroundTint="@color/bg_color"
+            ads:adUnitId="@string/ad_unit_id" />
     </RelativeLayout>
 </layout>

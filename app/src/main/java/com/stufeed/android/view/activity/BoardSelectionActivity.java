@@ -72,7 +72,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
         mBinding.progressBar.setVisibility(View.VISIBLE);
         mBinding.recyclerView.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetBoardListResponse> responseCall = api.getBoardList(loginUserId);
+        Call<GetBoardListResponse> responseCall = api.getBoardList(loginUserId, Utility.getLoginUserId(BoardSelectionActivity.this));
         responseCall.enqueue(new Callback<GetBoardListResponse>() {
             @Override
             public void onResponse(Call<GetBoardListResponse> call, Response<GetBoardListResponse> response) {
@@ -101,7 +101,7 @@ public class BoardSelectionActivity extends AppCompatActivity {
      */
     private void getJoinedBoardList() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(loginUserId,loginUserId);
+        Call<GetJoinBoardListResponse> responseCall = api.getJoinBoardList(loginUserId, loginUserId);
         responseCall.enqueue(new Callback<GetJoinBoardListResponse>() {
             @Override
             public void onResponse(Call<GetJoinBoardListResponse> call, Response<GetJoinBoardListResponse> response) {

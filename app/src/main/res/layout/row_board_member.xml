@@ -21,27 +21,28 @@
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
         android:layout_marginLeft="@dimen/dimen_5dp"
         android:layout_marginRight="@dimen/dimen_5dp"
-        android:layout_marginTop="@dimen/dimen_3dp"
-        android:layout_marginBottom="@dimen/dimen_3dp">
+        android:layout_marginTop="@dimen/dimen_5dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/dimen_3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/dimen_10dp">
+            android:paddingLeft="@dimen/dimen_5dp"
+            android:paddingRight="@dimen/dimen_5dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="55dp"
                 android:layout_height="55dp"
+                android:layout_margin="@dimen/dimen_5dp"
                 android:src="@drawable/person_icon"
                 app:profileImageUrl="@{user.profilePic}"
-                app:civ_border_width="2dp"
-                app:civ_border_color="@color/grey_color"/>
+                />
 
             <TextView
                 android:layout_width="0dp"
@@ -67,6 +68,14 @@
                 android:textColor="@color/white"
                 android:visibility="@{remove ? View.VISIBLE : View.GONE}" />
         </LinearLayout>
+
+            <com.stufeed.android.customui.TriangleShapeView
+                android:id="@+id/userTypeView"
+                android:layout_width="@dimen/dimen_40dp"
+                android:layout_height="@dimen/dimen_40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                app:view_color="@color/text_color" />
 
     </android.support.v7.widget.CardView>
 </layout>

@@ -368,12 +368,6 @@ public class InstitutePostActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(postModel.getDescription())) {
             Utility.showToast(InstitutePostActivity.this, getString(R.string.all_required));
             return false;
-        } else if (postModel.getPostType() == 5 && postModel.getFile() == null) {
-            Utility.showToast(InstitutePostActivity.this, "Audio file not found.");
-            return false;
-        } else if (postModel.getPostType() == 0) {
-            Utility.showToast(InstitutePostActivity.this, "Select any post type.");
-            return false;
         } else if (!extension.executeStrategy(InstitutePostActivity.this, "", ValidationTemplate.INTERNET)) {
             Utility.setNoInternetPopup(InstitutePostActivity.this);
             return false;
@@ -516,7 +510,7 @@ public class InstitutePostActivity extends AppCompatActivity {
                     public void onPermissionsGranted(String[] permissions) throws SecurityException {
                         FilePickerBuilder.getInstance().setMaxCount(1)
                                 .setSelectedFiles(new ArrayList<String>())
-                                .setActivityTheme(R.style.AppTheme)
+                                .setActivityTheme(R.style.FilePickerTheme)
                                 .pickFile(InstitutePostActivity.this);
                     }
                 }).whenPermissionsRefused(new PermissionsRefusedListener() {
@@ -692,6 +686,19 @@ public class InstitutePostActivity extends AppCompatActivity {
             postPoll(postModel);
             return;
         } else if (postModel.getPostType() == 2) {
+            if (!TextUtils.isEmpty(postModel.getVideoUrl())) {
+                postUrlType(postModel);
+            } else {
+                Utility.showToast(InstitutePostActivity.this, "Enter Url.");
+            }
+            return;
+        } else if (postModel.getPostType() == 0) {
+            postModel.setType("6");
+            postModel.setPostType(6);
+            postUrlType(postModel);
+            return;
+        } else if (postModel.getPostType() == 6) {
+            postModel.setType("6");
             postUrlType(postModel);
             return;
         }
@@ -763,25 +770,23 @@ public class InstitutePostActivity extends AppCompatActivity {
     }
 
     public void postUrlType(EdukitPostModel postModel) {
-        if (!TextUtils.isEmpty(postModel.getVideoUrl())) {
-            Api api = APIClient.getClient().create(Api.class);
+        Api api = APIClient.getClient().create(Api.class);
 
-            Call<PostResponse> responseCall = api.post(postModel.getPostBody());
-            ProgressDialog.getInstance().showProgressDialog(InstitutePostActivity.this);
-            responseCall.enqueue(new Callback<PostResponse>() {
-                @Override
-                public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    handlePostResponse(response.body());
-                }
+        Call<PostResponse> responseCall = api.post(postModel.getBoardPostBody());
+        ProgressDialog.getInstance().showProgressDialog(InstitutePostActivity.this);
+        responseCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handlePostResponse(response.body());
+            }
 
-                @Override
-                public void onFailure(Call<PostResponse> call, Throwable t) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    Utility.showErrorMsg(InstitutePostActivity.this);
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(InstitutePostActivity.this);
+            }
+        });
     }
 
     /**

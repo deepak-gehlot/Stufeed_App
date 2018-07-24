@@ -234,12 +234,12 @@
             android:label="@string/title_activity_my_profile_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".view.activity.MyProfileActivity"
             android:label="@string/title_activity_my_profile_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.activity.VerificationRequestActivity"></activity>
     </application>
 
 </manifest>

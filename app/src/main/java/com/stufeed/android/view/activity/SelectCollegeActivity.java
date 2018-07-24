@@ -101,7 +101,7 @@ public class SelectCollegeActivity extends AppCompatActivity {
 
     private void setTextChangeListener() {
         binding.searchCollegeEdt.addTextChangedListener(new TextWatcher() {
-            private final long DELAY = 500; // milliseconds
+            private final long DELAY = 800; // milliseconds
             private Timer timer = new Timer();
 
             @Override
@@ -154,6 +154,8 @@ public class SelectCollegeActivity extends AppCompatActivity {
         });
     }
 
+    private CollegeListAdapter adapterCity;
+
     private void handleSearchResult(GetAllCollegeResponse getAllCollegeResponse) {
         if (getAllCollegeResponse == null) {
             Utility.showErrorMsg(SelectCollegeActivity.this);
@@ -167,9 +169,12 @@ public class SelectCollegeActivity extends AppCompatActivity {
                 collegesStrList.add(colleges.get(i).getCollegeName());
             }*/
 
-            CollegeListAdapter adapterCity = new CollegeListAdapter
+
+            adapterCity = new CollegeListAdapter
                     (this, colleges);
             binding.searchCollegeEdt.setAdapter(adapterCity);
+            binding.searchCollegeEdt.showDropDown();
+            //binding.searchCollegeEdt.setShowAlways(true);
         }
     }
 

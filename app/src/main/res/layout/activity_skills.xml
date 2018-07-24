@@ -34,9 +34,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:textSize="@dimen/dimen_16sp"
                 android:onClick="@{()->activity.onSaveButtonClick()}"
                 android:text="save"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/topheader_text" />
 
         </android.support.v7.widget.Toolbar>
 
@@ -55,6 +56,7 @@
                 android:layout_margin="10dp"
                 tagview:lineMargin="5dp"
                 tagview:tagMargin="5dp"
+                android:background="@color/topheader"
                 tagview:textPaddingBottom="5dp"
                 tagview:textPaddingLeft="16dp"
                 tagview:textPaddingRight="16dp"

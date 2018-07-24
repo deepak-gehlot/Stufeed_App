@@ -35,7 +35,7 @@
             android:layout_toLeftOf="@+id/iv_expand_text_view_animation_toggle"
             android:textColor="@color/colorPrimary"
             android:textSize="13sp"
-            tools:text="全部" />
+            tools:text="" />
 
         <View
             android:layout_width="match_parent"

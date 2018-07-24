@@ -39,8 +39,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp">
+                    android:layout_height="wrap_content">
 
                     <Button
                         android:id="@+id/btnFollowStatus"
@@ -66,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="52dp"
+                        android:layout_marginTop="55dp"
                         android:background="@drawable/button2"
                         android:ellipsize="end"
                         android:lines="1"
@@ -285,7 +284,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtAbout"
                         android:layout_centerHorizontal="true"
-                        android:padding="@dimen/dimen_5dp"
+                        android:padding="@dimen/dimen_3dp"
                         android:src="@drawable/arrow_down_icon"
                         android:tint="@color/button_color" />
 
@@ -312,7 +311,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:background="@color/icon_color"
                             tagview:lineMargin="2dp"
                             tagview:tagMargin="2dp"
                             tagview:textPaddingBottom="5dp"
@@ -377,6 +375,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/topPanel"
             android:layout_marginTop="@dimen/dimen_5dp"
+            android:layout_marginBottom="@dimen/dimen_5dp"
             android:padding="@dimen/dimen_5dp" />
 
     </RelativeLayout>

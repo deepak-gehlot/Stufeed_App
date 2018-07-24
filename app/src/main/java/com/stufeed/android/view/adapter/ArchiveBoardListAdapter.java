@@ -69,6 +69,8 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
             holder.binding.iconCircle.setVisibility(View.GONE);
         }
 
+        Utility.setUserTypeColor(context, board.getUserType(), holder.binding.titleText);
+
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +110,7 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -250,7 +252,7 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
     /**
      * Move to profile board
      */
-    private void moveToProfileBoard(final GetArchiveBoardListResponse.Board board) {
+    public void moveToProfileBoard(final GetArchiveBoardListResponse.Board board) {
         Api api = APIClient.getClient().create(Api.class);
         ProgressDialog.getInstance().showProgressDialog(context);
         Call<com.stufeed.android.api.response.Response> responseCall = api.unarchiveBoard(board.getBoardId());

@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dimen_10dp"
                 android:src="@drawable/back_icon"
-                android:tint="@color/button_color" />
+                android:tint="@color/white" />
 
             <EditText
                 android:id="@+id/editText"
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Done"
-                android:textColor="@color/text_color" />
+                android:textColor="@color/topheader_text" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

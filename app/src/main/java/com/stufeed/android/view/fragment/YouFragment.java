@@ -33,6 +33,7 @@ import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
 import com.stufeed.android.view.activity.FolloweListActivity;
 import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.MyProfileActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
@@ -382,7 +383,7 @@ public class YouFragment extends Fragment {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.recyclerViewBoard.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetBoardListResponse> responseCall = api.getBoardList(mLoginUserId);
+        Call<GetBoardListResponse> responseCall = api.getBoardList(mLoginUserId, Utility.getLoginUserId(getActivity()));
         responseCall.enqueue(new Callback<GetBoardListResponse>() {
             @Override
             public void onResponse(Call<GetBoardListResponse> call, Response<GetBoardListResponse> response) {
@@ -417,8 +418,9 @@ public class YouFragment extends Fragment {
     private void getAllPost() {
         binding.progressBar.setVisibility(View.VISIBLE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(Utility.getLoginUserId(getActivity()
-        ));
+
+        Call<GetPostResponse> responseCall = api.getUserAllPost(Utility.getLoginUserId(getActivity()), "1"
+        );
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {

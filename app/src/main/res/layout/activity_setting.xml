@@ -40,6 +40,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:onClick="@{()->activity.onSaveButtonClick()}"
                 android:text="Save"
+                android:textSize="@dimen/dimen_16sp"
                 android:textColor="@color/topheader_text" />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
@@ -74,7 +75,7 @@
                         android:layout_marginRight="@dimen/dimen_10dp"
                         android:layout_marginTop="@dimen/dimen_5dp"
                         android:checked="false"
-                        android:text=" Pass Code"
+                        android:text="Set Pass Code"
                         android:textColor="@color/text_color"
                         android:textStyle="bold"
                         android:theme="@style/SwitchButtonColor" />
@@ -87,7 +88,7 @@
                         android:layout_marginRight="@dimen/dimen_30dp"
                         android:gravity="top"
                         android:paddingRight="@dimen/dimen_40dp"
-                        android:text="If you on this feature your follower need pass code to inter on Your institute "
+                        android:text="Passcode"
                         android:textSize="12sp" />
 
                     <View
@@ -271,7 +272,9 @@
 
 
             </LinearLayout>
+
         </android.support.v7.widget.CardView>
+
 
         <!--<RelativeLayout
             android:visibility="visible"

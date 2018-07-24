@@ -47,7 +47,7 @@
                         android:layout_marginRight="@dimen/dimen_5dp"
                         android:layout_weight="1"
                         android:textSize="12sp"
-                        android:textColor="@color/topheader_text"/>
+                        android:textColor="@color/text_color"/>
 
                     <TextView
                         android:id="@+id/textView13"
@@ -71,7 +71,7 @@
                         android:layout_marginTop="@dimen/dimen_10dp"
                         android:layout_marginRight="@dimen/dimen_5dp"
                         android:layout_marginLeft="@dimen/dimen_5dp"
-                        android:textColor="@color/topheader_text"/>
+                        android:textColor="@color/text_color"/>
 
                     <TextView
                         android:id="@+id/textView16"

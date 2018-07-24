@@ -21,7 +21,7 @@ public class PostModel extends BaseObservable {
     private File file;
     private int allowComment = 1;
     private int allowRePost = 1;
-    private int type = 3;
+    private int type = 6;
     private String videoUrl = "";
     private String pollQuestion = "";
     private String pollOption1 = "";

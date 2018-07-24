@@ -18,6 +18,8 @@ import com.stufeed.android.databinding.RowBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.BoardDetailsMainActivity;
+import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.InstitutePostActivity;
 
 import java.util.ArrayList;
 
@@ -74,7 +76,7 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
         switch (board.getJoinType()) {
             case "0":   // not join
                 if (board.getIsPrivate().equals("1")) {
-                    holder.rowBoardBinding.btnJoin.setText("Join");
+                    holder.rowBoardBinding.btnJoin.setText("Request");
                 } else {
                     holder.rowBoardBinding.btnJoin.setText("Join");
                 }
@@ -87,6 +89,10 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
             case "2":   //join request
                 holder.rowBoardBinding.btnJoin.setText("Requested");
                 break;
+        }
+
+        if (board.getUserId().equals(loginUserId)) {
+            holder.rowBoardBinding.btnJoin.setText("Post");
         }
 
         holder.rowBoardBinding.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -123,7 +129,9 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
      * On Join Button click
      */
     public void onJoinClick(GetBoardListResponse.Board board) {
-        if (board.getIsPrivate().equals("1")) {  // private board
+        if (board.getUserId().equals(loginUserId)) {
+            onClickPostInBoard();
+        } else if (board.getIsPrivate().equals("1")) {  // private board
             requestJoinBoard(board);
         } else {  // public board
             joinBoard(board);
@@ -181,5 +189,14 @@ public class UserBoardListAdapter extends RecyclerView.Adapter<UserBoardListAdap
                 ProgressDialog.getInstance().dismissDialog();
             }
         });
+    }
+
+    /**
+     * Select board click
+     */
+    public void onClickPostInBoard() {
+        Intent intent = new Intent(context, InstitutePostActivity.class);
+        intent.putExtra("code", InstitutePostActivity.SELECT_BOARD);
+        context.startActivity(intent);
     }
 }

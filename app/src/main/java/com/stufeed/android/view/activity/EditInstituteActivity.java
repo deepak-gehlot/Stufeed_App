@@ -281,7 +281,7 @@ public class EditInstituteActivity extends AppCompatActivity {
             CollegeDetails.Data data = details.getData();
             model.setAddress(data.getAddress());
             model.setAffiliation_no(data.getAffiliationNo());
-            model.setCity(data.getCity());
+            model.setCity(data.getDistrict());
             model.setCollegeId(data.getCollegeId());
             model.setCollegeName(data.getCollegeName());
             model.setContactNo(Utility.getLoginUserDetail(context).getContactNo());
@@ -368,6 +368,12 @@ public class EditInstituteActivity extends AppCompatActivity {
         if (response == null) {
             Utility.showErrorMsg(EditInstituteActivity.this);
         } else if (response.getResponseCode().equals(Api.SUCCESS)) {
+            UserDetail details = Utility.getLoginUserDetail(EditInstituteActivity
+                    .this);
+            details.setContactNo(mBinding.getModel().getContactNo());
+            String json = new Gson().toJson(details);
+            PreferenceConnector.writeString(EditInstituteActivity.this, PreferenceConnector.USER_DATA,
+                    json);
             Utility.showToast(EditInstituteActivity.this, "Update Successfully.");
             finish();
         } else {

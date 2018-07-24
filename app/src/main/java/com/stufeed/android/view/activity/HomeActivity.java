@@ -166,7 +166,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         super.onResume();
         AQuery aQuery = new AQuery(HomeActivity.this);
         String profilePic = Utility.getLoginUserDetail(HomeActivity.this).getProfilePic();
-        aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.drawable.person_icon);
+        aQuery.id(binding.profilePic).image(profilePic, true, true, 100, R.mipmap.ic_launcher_round);
 
         if (searchType != 0) {
             binding.toolBar.setVisibility(View.VISIBLE);
@@ -354,12 +354,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     case 3:
                         startActivity(new Intent(HomeActivity.this, BlockedUserListActivity.class));
                         break;
+                   /* case 4:
+                        break;*/
                     case 4:
-                        break;
-                    case 5:
                         startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                         break;
-                    case 6:
+                    case 5:
                         showLogoutConfirmation();
                         break;
                 }
@@ -406,7 +406,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         drawerItems.add(drawerItem2);
         drawerItems.add(drawerItem3);
         drawerItems.add(drawerItem4);
-        drawerItems.add(drawerItem5);
+      //  drawerItems.add(drawerItem5);
         drawerItems.add(drawerItem6);
         drawerItems.add(drawerItem7);
         return drawerItems;

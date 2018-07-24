@@ -14,9 +14,11 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
             android:background="@color/topheader"
+            android:elevation="@dimen/dimen_4dp"
+            app:navigationIcon="@drawable/back_icon"
             app:title="Board"
-            app:titleTextColor="@color/topheader_text"
-            android:elevation="@dimen/dimen_4dp">
+            app:titleTextColor="@color/topheader_text">
+
             <Button
                 android:id="@+id/buttonPost"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
@@ -24,8 +26,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="@string/post"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="@dimen/dimen_16sp" />
         </android.support.v7.widget.Toolbar>
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -36,8 +40,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolBar"
-            android:padding="@dimen/dimen_10dp" />
+            android:layout_below="@+id/toolBar" />
 
     </RelativeLayout>
 </layout>

@@ -72,16 +72,6 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isStart = false;
-            }
-        }, 50);
-    }
 
     private void showCodeDialog() {
         final DialogInstituteCodeBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(SettingActivity.this),
@@ -213,6 +203,13 @@ public class SettingActivity extends AppCompatActivity {
             code = setting.getInstituteCode();
             setUi();
         }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isStart = false;
+            }
+        }, 50);
     }
 
     private void setUi() {

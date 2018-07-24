@@ -15,20 +15,19 @@
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        app:cardElevation="3dp"
         app:cardCornerRadius="@dimen/dimen_4dp"
-        >
+        app:cardElevation="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_margin="5dp"
-            android:background="#f9f9f9">
+            android:background="#f9f9f9"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,10 +39,10 @@
                     android:id="@+id/iconLock"
                     android:layout_width="@dimen/dimen_18dp"
                     android:layout_height="@dimen/dimen_18dp"
-                    android:background="@null"
                     android:adjustViewBounds="true"
+                    android:background="@null"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_lock" />
+                    android:src="@drawable/board_lock" />
 
                 <ImageButton
                     android:id="@+id/iconCircle"
@@ -51,8 +50,8 @@
                     android:layout_height="@dimen/dimen_18dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerInParent="true"
-                    android:background="@null"
                     android:adjustViewBounds="true"
+                    android:background="@null"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_group_work" />
 
@@ -61,58 +60,60 @@
                     android:layout_width="@dimen/dimen_30dp"
                     android:layout_height="@dimen/dimen_30dp"
                     android:layout_alignParentEnd="true"
-                    android:background="@null"
-                    android:paddingLeft="@dimen/dimen_10dp"
-                    android:paddingBottom="@dimen/dimen_10dp"
-                    android:onClick="@{()->adapter.onSettingClick(model)}"
                     android:adjustViewBounds="true"
+                    android:background="@null"
+                    android:onClick="@{()->adapter.onSettingClick(model)}"
+                    android:paddingBottom="@dimen/dimen_10dp"
+                    android:paddingLeft="@dimen/dimen_10dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/settings_icon" />
+                    android:src="@drawable/board_settings_icon" />
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/titleText"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:gravity="center"
-                android:lines="2"
                 android:layout_marginLeft="@dimen/dimen_3dp"
                 android:layout_marginRight="@dimen/dimen_3dp"
-                android:maxLines="2"
-                android:text="@{model.boardName}"
-                android:textSize="15sp"
+                android:gravity="center"
+                android:lines="2"
                 android:maxLength="30"
+                android:maxLines="2"
                 android:padding="@dimen/dimen_4dp"
+                android:text="@{model.boardName}"
                 android:textColor="@color/text_color"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_20dp"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/dimen_5dp"
                 android:layout_gravity="bottom"
-                android:gravity="bottom">
+                android:layout_marginBottom="@dimen/dimen_5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
-               <ImageView
-                 android:layout_width="18dp"
-                 android:layout_height="@dimen/dimen_18dp"
-                 android:src="@drawable/person_icon"
-                 android:adjustViewBounds="true"
-                 android:scaleType="fitXY"  />
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="@dimen/dimen_18dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/person_icon_board" />
 
 
-                <TextView
-                    android:id="@+id/memberCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity= "bottom"
-                    android:textSize="12sp"
-                    />
+                    <TextView
+                        android:id="@+id/memberCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:textSize="12sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,21 +121,21 @@
                     android:layout_weight="1"
                     android:gravity="right">
 
-                <TextView
-                    android:id="@+id/postCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:gravity="bottom"
-                     />
-                <ImageView
-                    android:layout_width="@dimen/dimen_18dp"
-                    android:layout_height="@dimen/dimen_18dp"
-                    android:src="@drawable/feed_icon"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
+                    <TextView
+                        android:id="@+id/postCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:textSize="12sp" />
 
-                    android:layout_gravity="end"/>
+                    <ImageView
+                        android:layout_width="@dimen/dimen_18dp"
+                        android:layout_height="@dimen/dimen_18dp"
+                        android:layout_gravity="end"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+
+                        android:src="@drawable/feed_icon" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -145,10 +146,12 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/button2"
                 android:backgroundTint="@color/light_grey2"
+                android:gravity="center"
+                android:onClick="@{()->adapter.moveToProfileBoard(model)}"
+                android:padding="@dimen/dimen_5dp"
+                android:text="UnArchive"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                android:gravity="center"
-                android:padding="@dimen/dimen_5dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

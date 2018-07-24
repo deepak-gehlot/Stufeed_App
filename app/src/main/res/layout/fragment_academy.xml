@@ -11,414 +11,442 @@
             type="com.stufeed.android.view.fragment.connect.AcademyFragment" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tagview="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <RelativeLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg_color"
-            android:clickable="true"
-            android:focusable="true"
-            tools:context="com.stufeed.android.view.fragment.connect.AcademyFragment">
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
+            android:visibility="visible">
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
-
-            <RelativeLayout
-                android:id="@+id/topPanel"
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:visibility="gone">
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
 
-                <android.support.v7.widget.CardView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardUseCompatPadding="true">
+                    android:background="@color/bg_color"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingBottom="35dp"
+                    android:visibility="visible"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    tools:context="com.stufeed.android.view.fragment.connect.AcademyFragment">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true" />
 
                     <RelativeLayout
+                        android:id="@+id/topPanel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp">
+                        android:layout_marginTop="50dp"
+                        android:visibility="visible">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="false"
-                            android:padding="10dp"
-                            android:tint="@color/button_color"
-                            android:visibility="gone"
-                            app:srcCompat="@drawable/view_icon" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:padding="10dp"
-                            android:tint="@color/button_color"
-                            android:visibility="gone"
-                            app:srcCompat="@drawable/edit_icon" />
-
-                        <TextView
-                            android:id="@+id/txtType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="42dp"
-                            android:background="@drawable/button"
-                            android:ellipsize="end"
-                            android:lines="1"
-                            android:paddingBottom="3dp"
-                            android:paddingEnd="16dp"
-                            android:paddingStart="16dp"
-                            android:paddingTop="3dp"
-                            android:text=""
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            android:id="@+id/txtUserName"
+                        <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtType"
-                            android:layout_marginTop="5dp"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:textColor="@color/text_color"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            app:setTextValue="@{model.fullName}" />
+                            app:cardUseCompatPadding="true">
 
-                        <TextView
-                            android:id="@+id/txtCourse"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtUserName"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:textColor="@color/text_color"
-                            android:textSize="13sp"
-                            app:setTextValue="@{model.degree}" />
-
-                        <TextView
-                            android:id="@+id/txtBranch"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtCourse"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:textColor="@color/text_color"
-                            android:textSize="13sp"
-                            app:setTextValue="@{model.branch}" />
-
-                        <TextView
-                            android:id="@+id/txtCollageName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtBranch"
-                            android:layout_marginTop="3dp"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:lines="1"
-                            android:maxLines="1"
-                            android:textColor="@color/button_color"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            app:setTextValue="@{model.collegeName}" />
-
-                        <LinearLayout
-                            android:id="@+id/countLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtCollageName"
-                            android:layout_marginTop="3dp"
-                            android:baselineAligned="false"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
+                            <RelativeLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:onClick="@{()->fragment.onPostCountClick()}"
-                                android:orientation="vertical"
                                 android:padding="5dp">
 
-                                <TextView
-                                    android:layout_width="match_parent"
+                                <ImageView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:gravity="center"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:text="@{model.postCount}"
-                                    android:textColor="@color/text_color"
-                                    android:textSize="13sp" />
+                                    android:layout_alignParentEnd="false"
+                                    android:padding="10dp"
+                                    android:tint="@color/button_color"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/view_icon" />
 
-                                <TextView
-                                    android:layout_width="match_parent"
+                                <ImageView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:gravity="center"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:text="@string/post"
-                                    android:textColor="@color/text_color"
-                                    android:textSize="13sp" />
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginTop="5dp"
-                                android:background="@color/grey_color" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:onClick="@{()->fragment.onFollowerCountClick()}"
-                                android:orientation="vertical"
-                                android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:gravity="center"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:text="@{model.followerCount}"
-                                    android:textColor="@color/text_color"
-                                    android:textSize="13sp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:gravity="center"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:text="@string/followers"
-                                    android:textColor="@color/text_color"
-                                    android:textSize="13sp" />
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginTop="5dp"
-                                android:background="@color/grey_color" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:onClick="@{()->fragment.onBoardJoinCountClick()}"
-                                android:orientation="vertical"
-                                android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:gravity="center"
-                                    android:lines="1"
-                                    android:maxLines="1"
-                                    android:text="@{model.joinCount}"
-                                    android:textColor="@color/text_color"
-                                    android:textSize="13sp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_above="@+id/txtAbout"
                                     android:layout_alignParentEnd="true"
+                                    android:padding="10dp"
+                                    android:tint="@color/button_color"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/edit_icon" />
+
+                                <TextView
+                                    android:id="@+id/txtType"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="42dp"
+                                    android:background="@drawable/button"
+                                    android:ellipsize="end"
+                                    android:lines="1"
+                                    android:paddingBottom="3dp"
+                                    android:paddingEnd="16dp"
+                                    android:paddingStart="16dp"
+                                    android:paddingTop="3dp"
+                                    android:text=""
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:id="@+id/txtUserName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txtType"
+                                    android:layout_marginTop="5dp"
                                     android:ellipsize="end"
                                     android:gravity="center"
                                     android:lines="1"
                                     android:maxLines="1"
-                                    android:text="@string/join_board"
                                     android:textColor="@color/text_color"
-                                    android:textSize="13sp" />
-                            </LinearLayout>
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    app:setTextValue="@{model.fullName}" />
 
-                        </LinearLayout>
+                                <TextView
+                                    android:id="@+id/txtCourse"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txtUserName"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp"
+                                    app:setTextValue="@{model.degree}" />
 
-                        <TextView
-                            android:id="@+id/txtAbout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/countLayout"
-                            android:layout_marginTop="3dp"
-                            android:ellipsize="end"
-                            android:gravity="center"
-                            android:maxLines="2"
-                            android:textColor="@color/text_color"
-                            android:textSize="13sp"
-                            android:textStyle="bold"
-                            app:setTextValue="@{model.aboutUs}" />
+                                <TextView
+                                    android:id="@+id/txtBranch"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txtCourse"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp"
+                                    app:setTextValue="@{model.branch}" />
 
-                        <ImageView
-                            android:id="@+id/imageDownIcon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/txtAbout"
-                            android:layout_centerHorizontal="true"
-                            android:onClick="@{()->fragment.onClickDownArrow()}"
-                            android:padding="5dp"
-                            android:src="@drawable/arrow_down_icon"
-                            android:tint="@color/button_color" />
+                                <TextView
+                                    android:id="@+id/txtCollageName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txtBranch"
+                                    android:layout_marginTop="3dp"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:maxLines="1"
+                                    android:textColor="@color/button_color"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    app:setTextValue="@{model.collegeName}" />
 
-                        <LinearLayout
-                            android:id="@+id/detailsLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/imageDownIcon"
-                            android:orientation="vertical"
-                            android:visibility="gone">
+                                <LinearLayout
+                                    android:id="@+id/countLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txtCollageName"
+                                    android:layout_marginTop="3dp"
+                                    android:baselineAligned="false"
+                                    android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/textSkill"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/skills"
-                                android:textColor="@color/text_color"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:onClick="@{()->fragment.onPostCountClick()}"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
 
-                            <com.cunoraz.tagview.TagView
-                                android:id="@+id/tag_group"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                tagview:lineMargin="2dp"
-                                tagview:tagMargin="2dp"
-                                tagview:textPaddingBottom="5dp"
-                                tagview:textPaddingLeft="10dp"
-                                tagview:textPaddingRight="10dp"
-                                tagview:textPaddingTop="5dp" />
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:ellipsize="end"
+                                            android:gravity="center"
+                                            android:lines="1"
+                                            android:maxLines="1"
+                                            android:text="@{model.postCount}"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="13sp" />
 
-                            <TextView
-                                android:id="@+id/textAchievement"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/achievement"
-                                android:textColor="@color/text_color"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:ellipsize="end"
+                                            android:gravity="center"
+                                            android:lines="1"
+                                            android:maxLines="1"
+                                            android:text="@string/post"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="13sp" />
 
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/recyclerViewAchievement"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp" />
+                                    </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_me"
-                                android:textColor="@color/text_color"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginBottom="5dp"
+                                        android:layout_marginTop="5dp"
+                                        android:background="@color/grey_color" />
 
-                            <TextView
-                                android:id="@+id/textAboutMe"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_me"
-                                android:textColor="#000000"
-                                android:textSize="16sp" />
-                        </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:onClick="@{()->fragment.onFollowerCountClick()}"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
 
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:ellipsize="end"
+                                            android:gravity="center"
+                                            android:lines="1"
+                                            android:maxLines="1"
+                                            android:text="@{model.followerCount}"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="13sp" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:ellipsize="end"
+                                            android:gravity="center"
+                                            android:lines="1"
+                                            android:maxLines="1"
+                                            android:text="@string/followers"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="13sp" />
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginBottom="5dp"
+                                        android:layout_marginTop="5dp"
+                                        android:background="@color/grey_color" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:onClick="@{()->fragment.onBoardJoinCountClick()}"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:ellipsize="end"
+                                            android:gravity="center"
+                                            android:lines="1"
+                                            android:maxLines="1"
+                                            android:text="@{model.joinCount}"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="13sp" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_above="@+id/txtAbout"
+                                            android:layout_alignParentEnd="true"
+                                            android:ellipsize="end"
+                                            android:gravity="center"
+                                            android:lines="1"
+                                            android:maxLines="1"
+                                            android:text="@string/join_board"
+                                            android:textColor="@color/text_color"
+                                            android:textSize="13sp" />
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/txtAbout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/countLayout"
+                                    android:layout_marginTop="3dp"
+                                    android:ellipsize="end"
+                                    android:gravity="center"
+                                    android:maxLines="2"
+                                    android:textColor="@color/text_color"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold"
+                                    app:setTextValue="@{model.aboutUs}" />
+
+                                <ImageView
+                                    android:id="@+id/imageDownIcon"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/txtAbout"
+                                    android:layout_centerHorizontal="true"
+                                    android:onClick="@{()->fragment.onClickDownArrow()}"
+                                    android:padding="3dp"
+                                    android:src="@drawable/arrow_down_icon"
+                                    android:tint="@color/button_color" />
+
+                                <LinearLayout
+                                    android:id="@+id/detailsLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/imageDownIcon"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <TextView
+                                        android:id="@+id/textSkill"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/skills"
+                                        android:textColor="@color/text_color"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <com.cunoraz.tagview.TagView
+                                        android:id="@+id/tag_group"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="10dp"
+                                        tagview:lineMargin="2dp"
+                                        tagview:tagMargin="2dp"
+                                        tagview:textPaddingBottom="5dp"
+                                        tagview:textPaddingLeft="10dp"
+                                        tagview:textPaddingRight="10dp"
+                                        tagview:textPaddingTop="5dp" />
+
+                                    <TextView
+                                        android:id="@+id/textAchievement"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/achievement"
+                                        android:textColor="@color/text_color"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <android.support.v7.widget.RecyclerView
+                                        android:id="@+id/recyclerViewAchievement"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/about_me"
+                                        android:textColor="@color/text_color"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textAboutMe"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/about_me"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp" />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+                        </android.support.v7.widget.CardView>
 
                     </RelativeLayout>
-                </android.support.v7.widget.CardView>
 
-            </RelativeLayout>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profilePic"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="3dp"
+                        app:civ_border_color="@color/colorPrimary"
+                        app:civ_border_width="0.05dp"
+                        app:profileImageUrl="@{model.profilePic}" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilePic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="3dp"
-                app:civ_border_color="@color/colorPrimary"
-                app:civ_border_width="0.05dp"
-                app:profileImageUrl="@{model.profilePic}" />
+                    <!-- <LinearLayout
+                         android:id="@+id/mainContent"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/topPanel"
+                         android:orientation="vertical">-->
+                    <!--   </LinearLayout>-->
 
-            <LinearLayout
-                android:id="@+id/mainContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/topPanel"
-                android:minHeight="400dp"
-                android:orientation="vertical">
+                </RelativeLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/tab_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_30dp"
+                    android:layout_gravity="top"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_30dp"
-                    android:layout_below="@+id/topPanel"
-                    android:elevation="@dimen/dimen_3dp"
-                    app:tabIndicatorColor="@color/text_color"
-                    app:tabTextColor="@color/text_color">
+                    android:background="@color/white"
+                    android:layout_gravity="bottom"
+                    app:tabGravity="fill">
 
                     <android.support.design.widget.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="EDUKIT" />
+                        android:text="Edukit" />
 
                     <android.support.design.widget.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="POST" />
+                        android:text="Post" />
 
                     <android.support.design.widget.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="BOARD" />
+                        android:text="Board" />
                 </android.support.design.widget.TabLayout>
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_below="@+id/tabLayout"
-                    android:layout_weight="1" />
-            </LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <TextView
-                android:id="@+id/textNotRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_margin="@dimen/dimen_30dp"
-                android:gravity="center"
-                android:text="Your institute is not premium user."
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/dimen_30dp" />
-
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+        <TextView
+            android:id="@+id/textNotRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dimen_30dp"
+            android:gravity="center"
+            android:text="Your institute is not premium user."
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/dimen_30dp" />
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

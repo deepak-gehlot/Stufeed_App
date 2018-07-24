@@ -199,8 +199,6 @@ public class PostActivity extends AppCompatActivity {
                 }
                 binding.getModel().setType(2);
                 binding.audioVideoImgLayout.setVisibility(View.VISIBLE);
-            } else {
-                Utility.showToast(PostActivity.this, "Invalid Url.");
             }
         }
     }
@@ -474,7 +472,7 @@ public class PostActivity extends AppCompatActivity {
                     public void onPermissionsGranted(String[] permissions) throws SecurityException {
                         FilePickerBuilder.getInstance().setMaxCount(1)
                                 .setSelectedFiles(new ArrayList<String>())
-                                .setActivityTheme(R.style.AppTheme)
+                                .setActivityTheme(R.style.FilePickerTheme)
                                 .pickFile(PostActivity.this);
                     }
                 }).whenPermissionsRefused(new PermissionsRefusedListener() {
@@ -667,9 +665,6 @@ public class PostActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(postModel.getDescription())) {
             Utility.showToast(PostActivity.this, getString(R.string.all_required));
             return false;
-        } else if (postModel.getType() == 5 && postModel.getFile() == null) {
-            Utility.showToast(PostActivity.this, "Audio file not found.");
-            return false;
         } else if (postModel.getType() == 0) {
             Utility.showToast(PostActivity.this, "Select any post type.");
             return false;
@@ -699,6 +694,17 @@ public class PostActivity extends AppCompatActivity {
             postPoll(postModel);
             return;
         } else if (postModel.getType() == 2) {
+            if (!TextUtils.isEmpty(postModel.getVideoUrl())) {
+                postUrlType(postModel);
+            } else {
+                Utility.showToast(PostActivity.this, "Enter Url.");
+            }
+            return;
+        } else if (postModel.getType() == 0) {
+            postModel.setType(6);
+            postUrlType(postModel);
+            return;
+        } else if (postModel.getType() == 6) {
             postUrlType(postModel);
             return;
         }
@@ -770,25 +776,23 @@ public class PostActivity extends AppCompatActivity {
     }
 
     public void postUrlType(PostModel postModel) {
-        if (!TextUtils.isEmpty(postModel.getVideoUrl())) {
-            Api api = APIClient.getClient().create(Api.class);
+        Api api = APIClient.getClient().create(Api.class);
 
-            Call<PostResponse> responseCall = api.post(postModel.getPostBody());
-            ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
-            responseCall.enqueue(new Callback<PostResponse>() {
-                @Override
-                public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    handlePostResponse(response.body());
-                }
+        Call<PostResponse> responseCall = api.post(postModel.getPostBody());
+        ProgressDialog.getInstance().showProgressDialog(PostActivity.this);
+        responseCall.enqueue(new Callback<PostResponse>() {
+            @Override
+            public void onResponse(Call<PostResponse> call, Response<PostResponse> response) {
+                ProgressDialog.getInstance().dismissDialog();
+                handlePostResponse(response.body());
+            }
 
-                @Override
-                public void onFailure(Call<PostResponse> call, Throwable t) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    Utility.showErrorMsg(PostActivity.this);
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<PostResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+                Utility.showErrorMsg(PostActivity.this);
+            }
+        });
     }
 //https://medium.com/@princessdharmy/getting-started-with-jsoup-in-android-594e89dc891f
 

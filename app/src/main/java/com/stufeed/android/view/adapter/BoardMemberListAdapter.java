@@ -53,10 +53,11 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.binding.setUser(userArrayList.get(position));
+        GetBoardMemberListResponse.User user = userArrayList.get(position);
+        holder.binding.setUser(user);
         holder.binding.setAdapter(this);
         holder.binding.setRemove(isAdmin);
-
+        Utility.setUserTypeIconColor(context, user.getUserType(), holder.binding.userTypeView);
     }
 
     @Override

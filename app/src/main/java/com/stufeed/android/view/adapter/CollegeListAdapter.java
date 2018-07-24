@@ -14,7 +14,7 @@ import com.stufeed.android.api.response.GetAllCollegeResponse;
 
 import java.util.ArrayList;
 
-public class CollegeListAdapter extends BaseAdapter implements Filterable{
+public class CollegeListAdapter extends BaseAdapter implements Filterable {
 
     private Context context;
     private ListFilter listFilter = new ListFilter();
@@ -53,7 +53,7 @@ public class CollegeListAdapter extends BaseAdapter implements Filterable{
 
         GetAllCollegeResponse.College college = colleges.get(position);
         textAutoComplete.setText(college.getCollegeName());
-        count.setText("Follower Count : " + college.getFollowerCount());
+        count.setText("Follower : " + college.getFollowerCount());
 
         return view;
     }

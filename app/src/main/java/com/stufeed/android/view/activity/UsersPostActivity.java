@@ -54,7 +54,11 @@ public class UsersPostActivity extends AppCompatActivity {
     private void getPostList() {
         ProgressDialog.getInstance().showProgressDialog(UsersPostActivity.this);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(userId);
+        String isLoginUser = "0";
+        if (userId.equals(Utility.getLoginUserId(UsersPostActivity.this))) {
+            isLoginUser = "1";
+        }
+        Call<GetPostResponse> responseCall = api.getUserAllPost(userId, isLoginUser);
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {

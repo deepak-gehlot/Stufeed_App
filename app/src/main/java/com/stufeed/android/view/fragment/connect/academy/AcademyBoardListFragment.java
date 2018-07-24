@@ -65,7 +65,7 @@ public class AcademyBoardListFragment extends Fragment {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.recyclerView.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetBoardListResponse> responseCall = api.getBoardList(loginUserId);
+        Call<GetBoardListResponse> responseCall = api.getBoardList(loginUserId, Utility.getLoginUserId(getActivity()));
         responseCall.enqueue(new Callback<GetBoardListResponse>() {
             @Override
             public void onResponse(Call<GetBoardListResponse> call, Response<GetBoardListResponse> response) {

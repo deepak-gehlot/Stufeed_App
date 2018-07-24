@@ -48,7 +48,7 @@
             android:layout_height="@dimen/dimen_30dp"
             android:scrollbarSize="20dp"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/transparent_black"
+            app:tabIndicatorColor="@color/topheader"
             app:tabMode="scrollable"
             app:tabTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
@@ -62,7 +62,8 @@
             android:id="@+id/frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dimen_10dp" />
+            android:layout_marginTop="@dimen/dimen_10dp"
+            />
 
     </LinearLayout>
 </layout>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:background="@color/topheader"
     tools:context=".view.activity.SplashActivity">
 
     <TextView
@@ -13,8 +14,9 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Stufeed"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="36dp"
+        android:textColor="@color/common_color"
+        android:textSize="36sp"
+        android:textStyle="bold"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

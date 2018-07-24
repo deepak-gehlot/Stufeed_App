@@ -34,6 +34,7 @@ import com.stufeed.android.api.response.Response;
 import com.stufeed.android.api.response.SavePostResponse;
 import com.stufeed.android.api.response.SaveSettingResponse;
 import com.stufeed.android.api.response.SinglePost;
+import com.stufeed.android.api.response.UnVerifyUserListResponse;
 import com.stufeed.android.api.response.UpdateCollegeResponse;
 import com.stufeed.android.api.response.UpdateProfileResponse;
 import com.stufeed.android.api.response.VerifyResponse;
@@ -108,7 +109,8 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getuserpost")
-    Call<GetPostResponse> getUserAllPost(@Field("userid") String userId);
+    Call<GetPostResponse> getUserAllPost(@Field("userid") String userId,
+                                         @Field("loginUser") String loginUser); // 0 = not login user, 1= login user
 
     @FormUrlEncoded
     @POST("commentpost")
@@ -189,7 +191,8 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getalluserboard")
-    Call<GetBoardListResponse> getBoardList(@Field("userid") String userId);
+    Call<GetBoardListResponse> getBoardList(@Field("userid") String userId,
+                                            @Field("loginuserid") String loginUserId);
 
     @FormUrlEncoded
     @POST("getalluserbaordwithcount")
@@ -438,7 +441,7 @@ public interface Api {
                                         @Field("year_of_establishment") String yearOfEstablishment,
                                         @Field("managedby") String managedBy,
                                         @Field("location") String location,
-                                        @Field("Contactno") String contactNo
+                                        @Field("contactno") String contactNo
     );
 
     @FormUrlEncoded
@@ -467,4 +470,13 @@ public interface Api {
     @FormUrlEncoded
     @POST("userDeleted")
     Call<Response> deleteuser(@Field("userId") String userId);
+
+    @FormUrlEncoded
+    @POST("unVerifyList")
+    Call<UnVerifyUserListResponse> getUnVerifyUsers(@Field("collegeid") String collegeId);
+
+    @FormUrlEncoded
+    @POST("updateVerifyStatus")
+    Call<Response> updateVerifyStatus(@Field("userId") String userId,
+                                      @Field("status") String status);
 }

@@ -249,7 +249,7 @@ public class MyProfileMainActivity extends AppCompatActivity {
 
     private void getAllPost() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(mLoginUserId);
+        Call<GetPostResponse> responseCall = api.getUserAllPost(mLoginUserId,"1");
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {

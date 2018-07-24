@@ -39,7 +39,7 @@
                 android:paddingLeft="@dimen/dimen_20dp"
                 android:paddingRight="@dimen/dimen_20dp"
                 android:text="Add Achievement"
-                android:textColor="@color/topheader_text" />
+                android:textColor="@color/text_color" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

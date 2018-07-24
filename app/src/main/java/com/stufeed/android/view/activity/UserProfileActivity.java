@@ -450,7 +450,11 @@ public class UserProfileActivity extends AppCompatActivity {
     private void getAllPost() {
         //  binding.progressBar.setVisibility(View.VISIBLE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(user.getUserId());
+        String isLoginUser = "0";
+        if (user.getUserId().equals(Utility.getLoginUserId(UserProfileActivity.this))) {
+            isLoginUser = "1";
+        }
+        Call<GetPostResponse> responseCall = api.getUserAllPost(user.getUserId(), isLoginUser);
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {
@@ -461,6 +465,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<GetPostResponse> call, Throwable t) {
                 //       binding.progressBar.setVisibility(View.GONE);
+                handleGetAllPostResponse(null);
                 Utility.showToast(UserProfileActivity.this, getString(R.string.wrong));
             }
         });

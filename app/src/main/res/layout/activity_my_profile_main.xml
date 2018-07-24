@@ -313,7 +313,7 @@
                                     android:layout_below="@+id/txtAbout"
                                     android:layout_centerHorizontal="true"
                                     android:onClick="@{()->activity.onClickDownArrow()}"
-                                    android:padding="5dp"
+                                    android:padding="@dimen/dimen_3dp"
                                     android:src="@drawable/arrow_down_icon"
                                     android:tint="@color/button_color" />
 
@@ -391,10 +391,10 @@
                         android:layout_height="125dp"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="@dimen/dimen_5dp"
-                        android:elevation="@dimen/dimen_3dp"
-                        android:src="@drawable/person_icon"
-                        app:civ_border_color="@color/bg_gray"
+                        app:civ_border_color="@color/common_color"
                         app:civ_border_width="3dp"
+
+                        android:shadowColor="@color/icon_color"
                         app:profileImageUrl="@{model.profilePic}" />
                 </RelativeLayout>
 

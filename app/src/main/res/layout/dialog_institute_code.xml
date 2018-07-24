@@ -5,6 +5,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Enter Passcode"
+            android:textSize="24sp"
+            android:padding="@dimen/dimen_10dp"
+            android:textColor="@color/text_color"/>
 
         <EditText
             android:id="@+id/editText"
@@ -15,14 +22,14 @@
             android:hint="Enter Pass Code"
             android:inputType="number"
             android:lines="1"
-            android:textSize="@dimen/dimen_16sp"
+            android:textSize="18sp"
             android:textColor="@color/text_color"
             android:padding="@dimen/dimen_10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <Button
@@ -31,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_weight="1"
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 android:layout_marginEnd="@dimen/dimen_10dp"
                 android:text="@string/cancel"
@@ -43,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_weight="1"
                 android:layout_marginBottom="@dimen/dimen_10dp"
                 android:layout_marginEnd="@dimen/dimen_10dp"
                 android:text="@string/save"

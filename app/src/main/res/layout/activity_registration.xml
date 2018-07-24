@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -19,161 +19,185 @@
         android:fillViewport="true"
         android:gravity="center">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
+            android:background="@color/colorPrimary"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <ImageView
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="30dp"
-                android:src="@mipmap/ic_launcher_round" />
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/common_color"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_20dp"
+                android:layout_marginLeft="@dimen/dimen_15dp"
+                android:layout_marginRight="@dimen/dimen_15dp"
+                app:cardCornerRadius="@dimen/dimen_15dp"
+                app:cardElevation="@dimen/dimen_20dp"
+                >
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:hint="@string/full_name">
-
-                <android.support.design.widget.TextInputEditText
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_"
-                    android:drawablePadding="16dp"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords"
-                    android:maxLength="25"
-                    android:paddingBottom="12dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="12dp"
-                    android:text="@={model.fullName}"
-                    android:textColor="@color/text_color" />
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/dimen_10dp">
 
-            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email_address">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="@dimen/dimen_10dp"
+                        android:src="@mipmap/ic_launcher_round" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text"
-                    android:drawablePadding="16dp"
-                    android:inputType="textEmailAddress"
-                    android:paddingBottom="12dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="12dp"
-                    android:text="@={model.email}"
-                    android:textColor="@color/text_color" />
-            </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:hint="@string/full_name">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password">
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_ "
+                            android:drawablePadding="16dp"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords"
+                            android:maxLength="25"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingTop="12dp"
+                            android:text="@={model.fullName}"
+                            android:textColor="@color/text_color" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text"
-                    android:drawablePadding="16dp"
-                    android:inputType="textPassword"
-                    android:maxLength="60"
-                    android:paddingBottom="12dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="12dp"
-                    android:text="@={model.password}"
-                    android:textColor="@color/text_color" />
-            </android.support.design.widget.TextInputLayout>
+                    </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/contact_number">
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_address">
 
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text"
-                    android:drawablePadding="16dp"
-                    android:inputType="number"
-                    android:maxLength="14"
-                    android:paddingBottom="12dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="12dp"
-                    android:text="@={model.contactNo}"
-                    android:textColor="@color/text_color" />
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text"
+                            android:drawablePadding="16dp"
+                            android:inputType="textEmailAddress"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingTop="12dp"
+                            android:text="@={model.email}"
+                            android:textColor="@color/text_color" />
+                    </android.support.design.widget.TextInputLayout>
 
-            </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="10dp">
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text"
+                            android:drawablePadding="16dp"
+                            android:inputType="textPassword"
+                            android:maxLength="60"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingTop="12dp"
+                            android:text="@={model.password}"
+                            android:textColor="@color/text_color" />
+                    </android.support.design.widget.TextInputLayout>
 
-                <Spinner
-                    android:id="@+id/profileSpinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="@dimen/dimen_14sp" />
-            </LinearLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/contact_number">
 
-            <android.support.v7.widget.AppCompatButton
-                style="@style/AppTheme.RoundedCornerMaterialButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button2"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                android:onClick="@{()->activity.onSubmitClick(model)}"
-                android:padding="@dimen/dimen_10dp"
-                android:text="Submit"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edit_text"
+                            android:drawablePadding="16dp"
+                            android:inputType="number"
+                            android:maxLength="14"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingTop="12dp"
+                            android:text="@={model.contactNo}"
+                            android:textColor="@color/text_color" />
 
-            <android.support.v7.widget.AppCompatButton
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:gravity="center"
-                android:onClick="@{()->activity.onClickLogin()}"
-                android:text="@string/login"
-                android:textAllCaps="false"
-                android:textColor="@color/text_color"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                    </android.support.design.widget.TextInputLayout>
 
-            <RelativeLayout
-                android:id="@+id/signUpPrgressBar"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                android:gravity="center">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edit_text"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="12dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="10dp">
 
-                <!--<include layout="@layout/advertisement" />-->
-            </RelativeLayout>
+                        <Spinner
+                            android:id="@+id/profileSpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
 
+                    <android.support.v7.widget.AppCompatButton
+                        style="@style/AppTheme.RoundedCornerMaterialButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/themebutton"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{()->activity.onSubmitClick(model)}"
+                        android:padding="@dimen/dimen_10dp"
+                        android:text="Submit"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        android:gravity="center"
+                        android:onClick="@{()->activity.onClickLogin()}"
+                        android:text="@string/login"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:id="@+id/signUpPrgressBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/transparent"
+                        android:gravity="center">
+
+                        <!--<include layout="@layout/advertisement" />-->
+                    </RelativeLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 </layout>

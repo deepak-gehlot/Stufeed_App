@@ -44,6 +44,8 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/dividerView"
             android:layout_below="@+id/appbar"
+            android:paddingTop="@dimen/dimen_3dp"
+            android:paddingBottom="@dimen/dimen_3dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <View

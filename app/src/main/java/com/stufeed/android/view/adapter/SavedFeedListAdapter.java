@@ -234,7 +234,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
 
                     break;
-                default:
+                case "3":
                     holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
                     imageOrVideoRow(holder, post);
                     break;

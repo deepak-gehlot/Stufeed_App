@@ -42,7 +42,6 @@
                     android:layout_width="55dp"
                     android:layout_height="55dp"
                     android:layout_margin="@dimen/dimen_4dp"
-                    app:civ_border_color="@color/grey_color"
                     app:civ_border_width="2dp"
                     app:profileImageUrl="@{model.profilePic}" />
             </RelativeLayout>
@@ -65,7 +64,7 @@
                     android:lines="1"
                     android:paddingLeft="@dimen/dimen_5dp"
                     android:text="@{model.fullName}"
-                    android:textColor="@color/topheader_text"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -93,6 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="top"
+                    android:layout_weight="1"
                     android:singleLine="true"
                     android:textSize="11sp"
                     app:time="@{model.dateTime}" />
@@ -100,8 +100,10 @@
                 <ImageView
                     android:id="@+id/delete"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:padding="8dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="bottom"
                     android:src="@drawable/delete_icon"
                     android:visibility="visible" />
 

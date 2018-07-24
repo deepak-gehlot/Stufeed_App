@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.stufeed.android.R;
@@ -19,6 +20,7 @@ public class EdukitSelectionActivity extends AppCompatActivity {
 
     private ActivityEdukitSelectionBinding mBinding;
     private ArrayList<EdukitItem> edukitItems;
+    private String id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,18 @@ public class EdukitSelectionActivity extends AppCompatActivity {
         });
         createList();
         setRecyclerView();
+
+        mBinding.buttonPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(id)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("edukit_id", id);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+        });
     }
 
     private void setRecyclerView() {
@@ -41,10 +55,7 @@ public class EdukitSelectionActivity extends AppCompatActivity {
         adapter.onItemClick(new OnItemClickListener() {
             @Override
             public void onClick(int position, Object obj) {
-                Intent intent = new Intent();
-                intent.putExtra("edukit_id", edukitItems.get(position).getId());
-                setResult(RESULT_OK, intent);
-                finish();
+                id = edukitItems.get(position).getId();
             }
         });
     }

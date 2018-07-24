@@ -150,7 +150,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
 
     private void setTextChangeListener() {
         mBinding.mainContent.searchCollegeEdt.addTextChangedListener(new TextWatcher() {
-            private final long DELAY = 500; // milliseconds
+            private final long DELAY = 800; // milliseconds
             private Timer timer = new Timer();
 
             @Override
@@ -276,6 +276,7 @@ public class RegisterInstituteActivity extends AppCompatActivity {
             CollegeListAdapter adapterCity = new CollegeListAdapter
                     (this, colleges);
             mBinding.mainContent.searchCollegeEdt.setAdapter(adapterCity);
+            mBinding.mainContent.searchCollegeEdt.showDropDown();
         }
     }
 

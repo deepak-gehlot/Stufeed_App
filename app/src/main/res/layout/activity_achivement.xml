@@ -39,6 +39,7 @@
                 android:layout_gravity="end"
                 android:onClick="@{()->activity.saveAchievement(model)}"
                 android:text="save"
+                android:textStyle="bold"
                 android:textColor="@color/topheader_text" />
 
         </android.support.v7.widget.Toolbar>
@@ -46,7 +47,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:clipToPadding="true"
             app:cardUseCompatPadding="true">
 

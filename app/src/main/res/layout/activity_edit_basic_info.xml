@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:onClick="@{()->activity.onClickSaveButton(model)}"
-                android:text="Save"
+                android:text="@string/save"
+                android:textSize="@dimen/dimen_16sp"
                 android:textColor="@color/topheader_text" />
         </android.support.v7.widget.Toolbar>
 
@@ -83,6 +84,7 @@
                                 app:cardCornerRadius="@dimen/dimen_50dp"
                                 app:cardPreventCornerOverlap="true"
                                 android:shadowColor="@color/text_color"
+                                android:elevation="@dimen/dimen_3dp"
                                 >
 
                                 <de.hdodenhof.circleimageview.CircleImageView
