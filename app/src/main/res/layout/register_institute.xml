@@ -18,16 +18,17 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tool_bar_height"
+                android:background="@color/topheader"
+                android:elevation="@dimen/dimen_4dp"
                 app:navigationIcon="@drawable/back_icon"
                 app:title="Register Institute"
-                app:titleTextColor="@color/topheader_text"
-                android:background="@color/topheader"
-                android:elevation="@dimen/dimen_4dp"/>
+                app:titleTextColor="@color/topheader_text" />
 
         </android.support.design.widget.AppBarLayout>
 
         <include
             android:id="@+id/mainContent"
-            layout="@layout/register_institute_content" />
+            layout="@layout/register_institute_content"
+            />
     </android.support.design.widget.CoordinatorLayout>
 </layout>

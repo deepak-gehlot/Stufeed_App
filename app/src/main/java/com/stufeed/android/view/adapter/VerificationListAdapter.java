@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -55,6 +56,11 @@ public class VerificationListAdapter extends RecyclerView.Adapter<VerificationLi
 
         holder.binding.setPosition(position);
 
+        if (TextUtils.isEmpty(item.getProfilePic())) {
+            aQuery.id(holder.binding.profilePic).image(R.mipmap.ic_launcher_round);
+        } else {
+            aQuery.id(holder.binding.profilePic).image(item.getProfilePic(), true, true, 60, R.mipmap.ic_launcher_round);//R.drawable.person_icon
+        }
     }
 
     @Override

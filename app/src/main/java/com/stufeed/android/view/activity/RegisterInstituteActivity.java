@@ -199,15 +199,15 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                         break;
                     case R.id.school_radio:
                         mBinding.mainContent.getModel().setInstitutionType("2");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.university_radio:
                         mBinding.mainContent.getModel().setInstitutionType("3");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.coaching_radio:
                         mBinding.mainContent.getModel().setInstitutionType("4");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.INVISIBLE);
                         break;
                 }
             }

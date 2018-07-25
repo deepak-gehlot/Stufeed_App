@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -56,7 +57,11 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         holder.binding.textUserName.setText(request.getFullName());
         holder.binding.textMsg.setText(Html.fromHtml("Requested to join <b>" + request.getBoardName() + "</b> board"));
 
-        aQuery.id(holder.binding.profilePic).image(request.getProfilePic(), true, true, 80, R.mipmap.ic_launcher_round);
+        if (TextUtils.isEmpty(request.getProfilePic())) {
+            aQuery.id(holder.binding.profilePic).image(R.mipmap.ic_launcher_round);
+        } else {
+            aQuery.id(holder.binding.profilePic).image(request.getProfilePic(), true, true, 60, R.mipmap.ic_launcher_round);//R.drawable.person_icon
+        }
     }
 
     @Override
