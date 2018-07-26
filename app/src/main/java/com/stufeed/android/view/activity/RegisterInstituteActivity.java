@@ -16,17 +16,21 @@ import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
+import com.stufeed.android.api.response.LoginResponse;
 import com.stufeed.android.api.response.UpdateCollegeResponse;
 import com.stufeed.android.databinding.RegisterInstituteBinding;
 import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.CollegeListAdapter;
+import com.stufeed.android.view.viewmodel.LoginModel;
 import com.stufeed.android.view.viewmodel.RegisterInstituteModel;
 
 import java.util.ArrayList;
@@ -199,15 +203,15 @@ public class RegisterInstituteActivity extends AppCompatActivity {
                         break;
                     case R.id.school_radio:
                         mBinding.mainContent.getModel().setInstitutionType("2");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.university_radio:
                         mBinding.mainContent.getModel().setInstitutionType("3");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.coaching_radio:
                         mBinding.mainContent.getModel().setInstitutionType("4");
-                        mBinding.mainContent.autocompleUniversity.setVisibility(View.GONE);
+                        mBinding.mainContent.autocompleUniversity.setVisibility(View.INVISIBLE);
                         break;
                 }
             }

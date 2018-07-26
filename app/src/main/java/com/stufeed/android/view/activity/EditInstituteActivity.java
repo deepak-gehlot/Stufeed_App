@@ -2,17 +2,19 @@ package com.stufeed.android.view.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.RadioGroup;
 
 import com.androidquery.AQuery;
@@ -196,6 +198,36 @@ public class EditInstituteActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void selectEstablishYear() {
+        final NumberPicker numberPicker;
+        final Dialog graduation_dialog = new Dialog(EditInstituteActivity.this);
+        graduation_dialog.setContentView(R.layout.graduation_year_layout);
+        graduation_dialog.setTitle("Select Year");
+        numberPicker = (NumberPicker) graduation_dialog.findViewById(R.id.numberPicker);
+        numberPicker.setMinValue(1960);
+        numberPicker.setMaxValue(2027);
+
+        final Button done = (Button) graduation_dialog.findViewById(R.id.done);
+        final Button cancel = (Button) graduation_dialog.findViewById(R.id.graduation_cancel);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBinding.getModel().setYearOfEstablishment(Integer.toString(numberPicker.getValue()));
+                graduation_dialog.dismiss();
+
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                graduation_dialog.dismiss();
+            }
+        });
+        graduation_dialog.show();
     }
 
     public void openImagePicker() {

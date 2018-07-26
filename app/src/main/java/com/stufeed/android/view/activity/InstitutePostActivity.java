@@ -1,17 +1,18 @@
 package com.stufeed.android.view.activity;
 
 import android.Manifest;
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,6 @@ import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
-import com.stufeed.android.api.response.GetEdukitResponse;
 import com.stufeed.android.api.response.PostResponse;
 import com.stufeed.android.databinding.ActivityInstitutePostBinding;
 import com.stufeed.android.databinding.DialogInputBinding;
@@ -38,7 +38,6 @@ import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.util.ValidationTemplate;
 import com.stufeed.android.view.viewmodel.EdukitPostModel;
-import com.stufeed.android.view.viewmodel.PostModel;
 
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
@@ -72,6 +71,8 @@ public class InstitutePostActivity extends AppCompatActivity {
     public static final int SELECT_EDUKIT = 103;
     private final int RECORD_AUDIO = 101;
     private String audioFilePath = "";
+    private String settingStr[] = new String[]{"Allow Comment", "Allow Repost"};
+    private boolean settingBool[] = {true, true};
     private MediaPlayer mp;
     Runnable run = new Runnable() {
         @Override
@@ -117,6 +118,12 @@ public class InstitutePostActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if (code == SELECT_BOARD) {
+            mBinding.settingIcon.setVisibility(View.VISIBLE);
+        } else {
+            mBinding.settingIcon.setVisibility(View.GONE);
+        }
 
     }
 
@@ -459,6 +466,50 @@ public class InstitutePostActivity extends AppCompatActivity {
         dialogBinding.aarticalButtonLayout.setOnClickListener(onClickListener);
         dialogBinding.videoButtonLayout.setOnClickListener(onClickListener);
 
+        dialog.show();
+    }
+
+    /**
+     * Show setting dialog
+     */
+    public void showSettingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(InstitutePostActivity.this);
+        builder.setCancelable(false);
+        builder.setTitle("Settings");
+        builder.setMultiChoiceItems(settingStr, settingBool, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                settingBool[which] = isChecked;
+            }
+        });
+
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                for (int i = 0; i < settingBool.length; i++) {
+                    boolean checked = settingBool[i];
+                    switch (i) {
+                        case 0:
+                            if (checked) {
+                                mBinding.getModel().setAllowComment(1);
+                            } else {
+                                mBinding.getModel().setAllowComment(0);
+                            }
+                            break;
+                        case 1:
+                            if (checked) {
+                                mBinding.getModel().setAllowRePost(1);
+                            } else {
+                                mBinding.getModel().setAllowRePost(0);
+                            }
+                            break;
+                    }
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
         dialog.show();
     }
 

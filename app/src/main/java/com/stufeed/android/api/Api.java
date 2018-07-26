@@ -479,4 +479,8 @@ public interface Api {
     @POST("updateVerifyStatus")
     Call<Response> updateVerifyStatus(@Field("userId") String userId,
                                       @Field("status") String status);
+
+    @FormUrlEncoded
+    @POST("getLoginUserDetails")
+    Call<LoginResponse> getLoginUserDetails(@Field("userid") String userId);
 }

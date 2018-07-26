@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,8 +12,6 @@ import com.androidquery.AQuery;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
-import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
-import com.stufeed.android.api.response.JoinBoardResponse;
 import com.stufeed.android.api.response.Response;
 import com.stufeed.android.api.response.UnVerifyUserListResponse;
 import com.stufeed.android.databinding.RowVerifyRequestBinding;
@@ -51,10 +50,19 @@ public class VerificationListAdapter extends RecyclerView.Adapter<VerificationLi
         UnVerifyUserListResponse.Data item = dataArrayList.get(position);
         holder.binding.textUserName.setText(item.getFullName());
 
-        aQuery.id(holder.binding.profilePic).image(item.getProfilePic(), true, true, 80, R.mipmap.ic_launcher_round);
+        if (item.getUserType().equals("2")) {
+            holder.binding.textMsg.setText("Request to join institute as Faculty.");
+        } else if (item.getUserType().equals("3")) {
+            holder.binding.textMsg.setText("Request to join institute as Department.");
+        }
 
         holder.binding.setPosition(position);
 
+        if (TextUtils.isEmpty(item.getProfilePic())) {
+            aQuery.id(holder.binding.profilePic).image(R.mipmap.ic_launcher_round);
+        } else {
+            aQuery.id(holder.binding.profilePic).image(item.getProfilePic(), true, true, 60, R.mipmap.ic_launcher_round);//R.drawable.person_icon
+        }
     }
 
     @Override
@@ -121,6 +129,7 @@ public class VerificationListAdapter extends RecyclerView.Adapter<VerificationLi
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
                 ProgressDialog.getInstance().dismissDialog();
+                dataArrayList.remove(position);
                 notifyItemRemoved(position);
             }
 
