@@ -20,6 +20,7 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
     private ActivityBlockedDetailsMainBinding mBinding;
     private String boardId = "";
     private boolean isAdmin = false;
+    private String boardName="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,8 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
         getDataFromBundle();
         setupViewPager(mBinding.viewPager);
         mBinding.tabLayout.setupWithViewPager(mBinding.viewPager);
+        mBinding.toolbar.setTitle(boardName);
+
 
         mBinding.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +53,7 @@ public class BoardDetailsMainActivity extends AppCompatActivity {
         } else {
             boardId = bundle.getString("board_id");
             isAdmin = bundle.getBoolean("is_admin");
+            boardName=bundle.getString("BoardName");
         }
     }
 

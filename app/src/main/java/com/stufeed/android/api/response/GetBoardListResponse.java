@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class GetBoardListResponse {
+public class   GetBoardListResponse {
 
     private String responseMessage;
     private String responseCode;
@@ -76,8 +76,18 @@ public class GetBoardListResponse {
         private String totalJoinBoard;
         @SerializedName("joinCount")
         private String joinCount = "";
+        @SerializedName("memberCount")
+        private String memberCount = "";
         @SerializedName("postCount")
         private String postCount = "";
+
+        public String getMemberCount() {
+            return memberCount;
+        }
+
+        public void setMemberCount(String memberCount) {
+            this.memberCount = memberCount;
+        }
 
         public String getBoardId() {
             return boardId;

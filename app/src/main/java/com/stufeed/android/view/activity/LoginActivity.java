@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
         LoginModel loginModel = new LoginModel();
-        loginModel.setEmail("deepak@gmail.com");
+        loginModel.setEmail("student@gmail.com");
         loginModel.setPassword("123456");
         loginModel.setDeviceToken("123456");
         binding.setModel(loginModel);

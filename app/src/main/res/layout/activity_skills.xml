@@ -56,7 +56,6 @@
                 android:layout_margin="10dp"
                 tagview:lineMargin="5dp"
                 tagview:tagMargin="5dp"
-                android:background="@color/topheader"
                 tagview:textPaddingBottom="5dp"
                 tagview:textPaddingLeft="16dp"
                 tagview:textPaddingRight="16dp"

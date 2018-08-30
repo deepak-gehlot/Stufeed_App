@@ -383,10 +383,7 @@
                     android:layout_height="125dp"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="@dimen/dimen_5dp"
-                    android:elevation="@dimen/dimen_3dp"
                     android:src="@drawable/person_icon"
-                    app:civ_border_color="@color/bg_gray"
-                    app:civ_border_width="3dp"
                     app:profileImageUrl="@{model.profilePic}" />
 
                 <LinearLayout
@@ -401,7 +398,8 @@
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tabLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dimen_30dp"
+                        android:background="@color/white"
                         app:tabGravity="fill" />
 
                     <android.support.v4.view.ViewPager
@@ -418,6 +416,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/topPanel"
                     android:layout_marginTop="@dimen/dimen_5dp"
+                    android:paddingBottom="@dimen/dimen_5dp"
                     android:visibility="gone" />
 
                 <android.support.v7.widget.RecyclerView
@@ -426,6 +425,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/recyclerViewBoard"
                     android:layout_marginTop="@dimen/dimen_5dp"
+                    android:paddingBottom="@dimen/dimen_5dp"
                     android:visibility="gone" />
 
             </RelativeLayout>

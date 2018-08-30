@@ -96,6 +96,7 @@ public class GetUserDetailsResponse {
         private String isFollow = "";
         @SerializedName("is_block")
         private String isBlock = "";
+        private String verifyStatus = "";
         @SerializedName("description")
         private String about = "";
         @SerializedName("achivment")
@@ -377,6 +378,14 @@ public class GetUserDetailsResponse {
 
         public void setAbout(String about) {
             this.about = about;
+        }
+
+        public String getVerifyStatus() {
+            return verifyStatus;
+        }
+
+        public void setVerifyStatus(String verifyStatus) {
+            this.verifyStatus = verifyStatus;
         }
 
         public ArrayList<GetAchievementListResponse.Achievement> getAchievementArrayList() {

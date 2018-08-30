@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.ads.formats.UnifiedNativeAdView android:id="@+id/adView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    ads:adSize="360x100"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_100dp"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <com.google.android.gms.ads.formats.MediaView
+                android:id="@+id/imgAd"
+                android:layout_width="250dp"
+                android:layout_height="@dimen/dimen_100dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/dimen_10dp"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:padding="@dimen/dimen_10dp"
+
+                android:src="@drawable/ic_home_orange" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHeadlines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_10sp"
+                    android:layout_marginTop="@dimen/dimen_10sp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSubHeadlines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_10sp"
+                    android:layout_marginTop="@dimen/dimen_10sp"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/install_button"
+            android:gravity="center"
+            android:padding="@dimen/dimen_10dp"
+            android:paddingEnd="@dimen/dimen_10dp"
+            android:text="Install Now"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+</com.google.android.gms.ads.formats.UnifiedNativeAdView>

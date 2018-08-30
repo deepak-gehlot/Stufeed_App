@@ -30,6 +30,7 @@ public class EdukitPostActivity extends AppCompatActivity {
     private ActivityEdukitPostBinding mBinding;
     private String mCollegeId = "";
     private String edukitId = "";
+    private String name="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class EdukitPostActivity extends AppCompatActivity {
     private void getDataFromBundle() {
         Bundle bundle = getIntent().getExtras();
         edukitId = bundle.getString("edukit_id");
+        name=bundle.getString("Name");
+        mBinding.toolBar.setTitle(name);
     }
 
     /**

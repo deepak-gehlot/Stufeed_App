@@ -5,21 +5,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
-        >
-
+        android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/textViewBoardName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dimen_20dp"
-            android:drawablePadding="@dimen/dimen_16dp"
             android:drawableEnd="@drawable/ic_check_box_uncheck"
+            android:drawablePadding="@dimen/dimen_16dp"
+            android:padding="@dimen/dimen_15dp"
             android:textColor="@color/text_color"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layoutRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/dimen_10dp">
+
+            <TextView
+                android:id="@+id/textViewTotalPostCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:padding="@dimen/dimen_5dp"
+                android:textColor="@color/text_color"
+                android:textSize="12sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/textViewMemberCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_5dp"
+                android:padding="@dimen/dimen_5dp"
+                android:textColor="@color/text_color"
+                android:textSize="12sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.05dp"

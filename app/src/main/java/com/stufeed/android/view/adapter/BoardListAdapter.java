@@ -71,7 +71,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
             switch (board.getJoinType()) {
                 case "0":   // not join
                     if (board.getIsPrivate().equals("1")) {
-                        holder.rowBoardBinding.btnJoin.setText("Request");
+                        holder.rowBoardBinding.btnJoin.setText("Join");
                     } else {
                         holder.rowBoardBinding.btnJoin.setText("Join");
                     }
@@ -115,8 +115,10 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
             public void onClick(View v) {
                 Intent intent = new Intent(context, BoardDetailsMainActivity.class);
                 String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
+                String boardName=boardArrayList.get(holder.getAdapterPosition()).getBoardName();
                 intent.putExtra("board_id", boardId);
                 intent.putExtra("is_admin", true);
+                intent.putExtra("BoardName",boardName);
                 context.startActivity(intent);
             }
         });

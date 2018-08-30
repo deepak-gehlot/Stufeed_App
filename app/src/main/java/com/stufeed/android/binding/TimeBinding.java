@@ -18,4 +18,11 @@ public class TimeBinding {
             textView.setText(timeAgo);
         }
     }
+    @BindingAdapter({"times"})
+    public static void setTimeAgoString(TextView textView, String time) {
+        if (!TextUtils.isEmpty(time)) {
+            String timeAgo = TimeUtil.getTimeAgoString(textView.getContext(), time, Constant.FORMAT_DATE_TIME);
+            textView.setText(timeAgo);
+        }
+    }
 }

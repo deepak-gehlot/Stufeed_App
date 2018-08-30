@@ -16,19 +16,15 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        app:cardElevation="3dp"
-        app:cardCornerRadius="@dimen/dimen_4dp"
-        >
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/dimen_4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_margin="5dp"
-            android:background="#f9f9f9">
+            android:background="@color/white">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -109,7 +105,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity= "bottom"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/dimen_14sp"
+                    android:textColor="@color/text_hint_color"
+                    android:layout_marginLeft="@dimen/dimen_3dp"
                     />
                 </LinearLayout>
                 <LinearLayout
@@ -123,7 +121,9 @@
                     android:id="@+id/postCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/dimen_14sp"
+                    android:textColor="@color/text_hint_color"
+                    android:layout_marginRight="@dimen/dimen_3dp"
                     android:gravity="bottom"
                      />
                 <ImageView

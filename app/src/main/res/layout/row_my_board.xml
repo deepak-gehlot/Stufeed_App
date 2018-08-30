@@ -111,7 +111,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity= "bottom"
-                    android:textSize="12sp"
+                    android:textColor="@color/text_hint_color"
+                    android:layout_marginLeft="@dimen/dimen_3dp"
+                    android:textSize="@dimen/dimen_14sp"
                     />
                 </LinearLayout>
                 <LinearLayout
@@ -125,7 +127,9 @@
                     android:id="@+id/postCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/dimen_14sp"
+                    android:textColor="@color/text_hint_color"
+                    android:layout_marginRight="@dimen/dimen_3dp"
                     android:gravity="bottom"
                      />
                 <ImageView

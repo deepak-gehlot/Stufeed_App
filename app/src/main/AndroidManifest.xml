@@ -18,6 +18,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.stufeed.android"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path"/>
+        </provider>
         <activity
             android:name=".view.activity.SplashActivity"
             android:screenOrientation="portrait">
@@ -240,7 +249,13 @@
             android:label="@string/title_activity_my_profile_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activity.VerificationRequestActivity"></activity>
+        <activity android:name=".view.activity.VerificationRequestActivity" />
+        <activity android:name=".view.activity.TotalLikeActivity" />
+        <activity android:name=".view.activity.TotalCommentsListActivity" />
+        <activity android:name=".view.activity.UserTypeActivity" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -15,16 +15,22 @@
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_5dp"
         android:layout_marginTop="@dimen/dimen_3dp"
         android:clipToPadding="true"
-        app:cardElevation="@dimen/dimen_3dp"
-        android:layout_marginBottom="@dimen/dimen_5dp">
+        app:cardElevation="@dimen/dimen_3dp">
+
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical">
+
+
+
+
+
 
             <TextView
                 android:id="@+id/textViewTitle"
@@ -61,6 +67,7 @@
                         android:textSize="@dimen/dimen_14sp" />
 
                     <ImageView
+                        android:id="@+id/imgDelete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -92,36 +99,60 @@
                 <LinearLayout
                     android:id="@+id/documentLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@color/grey_color"
+                    android:background="@drawable/borderstyle1"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/documentImg"
-                    android:layout_width="@dimen/dimen_70dp"
-                    android:layout_height="match_parent"
-                    android:padding="5dp"
-                    android:src="@drawable/icon_file_doc" />
+                    <ImageView
+                        android:id="@+id/documentImg"
+                        android:layout_width="@dimen/dimen_70dp"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:src="@drawable/icon_file_doc" />
 
-                <TextView
-                    android:id="@+id/doctextAVUrl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_5dp"
-                    android:gravity="center|right"
-                    android:lines="2"
-                    android:textColor="@color/text_color"
-                    android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/doctextAVUrl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|left"
+                        android:lines="2"
+                        android:padding="@dimen/dimen_5dp"
+                        android:textColor="@color/text_color"
+                        android:textSize="14sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.05dp"
+                        android:background="@color/divider" />
+
 
 
                 </LinearLayout>
                 <!--document row end-->
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_5dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textSize="12sp"
+                        android:padding="@dimen/dimen_3dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/dimen_10dp"
+                        app:time="@{model.date}" />
+                </RelativeLayout>
+
             </LinearLayout>
+
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

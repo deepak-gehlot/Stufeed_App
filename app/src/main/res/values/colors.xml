@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#ff8b67</color>
-    <color name="colorPrimaryDark">#fd7950</color>
+    <!--<color name="colorPrimary">#ff8b67</color>-->
+    <color name="colorPrimary">#5693d4</color>
+    <color name="colorPrimaryDark">#5693d4</color>
     <color name="colorAccent">#f9f9f9</color>
     <color name="facebook">#4267b2</color>
     <color name="google">#db4437</color>
@@ -17,7 +18,7 @@
     <color name="icon_color">#818793</color>
     <!--<color name="icon_color">#8c9197</color>-->
     <color name="orange_color">#ff8b67</color>
-    <color name="ic_launcher_background">#fd7950</color>
+    <color name="ic_launcher_background">#5693d4</color>
     <color name="light_grey">#a6b0b7</color>
     <color name="light_grey2">#8C9195</color>
     <color name="text_hint_color">#C0C0C0</color>
@@ -27,10 +28,12 @@
     <!--<color name="topheader">#f7f7f7</color>-->
     <!--<color name="topheader_text">#786e6e</color>-->
     <color name="topheader_icon_color">#ffffff</color>
-    <color name="topheader">#ff8b67</color>
+    <color name="topheader">#5693d4</color>
+    <!--<color name="topheader">#ff8b67</color>-->
     <color name="topheader_text">#ffffff</color>
     <color name="student">#65a7f2</color>
     <color name="department">#a869ec</color>
     <color name="faculty">#a0cf69</color>
     <color name="institute">#f67474</color>
+    <color name="green">#008000</color>
 </resources>

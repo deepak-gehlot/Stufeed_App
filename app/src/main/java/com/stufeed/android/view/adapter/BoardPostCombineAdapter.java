@@ -1,13 +1,10 @@
 package com.stufeed.android.view.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cunoraz.tagview.Constants;
 import com.cunoraz.tagview.Tag;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -30,9 +26,8 @@ import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.databinding.RowBoardPostCombineBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.activity.FolloweListActivity;
+import com.stufeed.android.view.activity.UserFollowingActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
-import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 
 import java.util.ArrayList;
@@ -94,13 +89,28 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
                 holder.binding.recyclerView.setVisibility(View.GONE);
                 holder.binding.topPanel.setVisibility(View.VISIBLE);
                 holder.binding.profilePic.setVisibility(View.VISIBLE);
+                holder.binding.cardView.setVisibility(View.VISIBLE);
                 holder.binding.setModel(userDetailsResponse);
                 holder.binding.setCountModel(count);
                 holder.binding.setUser(user);
                 holder.binding.setActivity(this);
+
+                if (userDetailsResponse.getVerifyStatus().equals("1")) {
+                    holder.binding.verifyStatus.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.verifyStatus.setVisibility(View.GONE);
+                }
+
                 setUserType(holder, userDetailsResponse.getUserType());
                 String description = userDetailsResponse.getAbout();
-                holder.binding.textAboutMeData.setText(description);
+                if (TextUtils.isEmpty(description)) {
+                    holder.binding.textAboutMe.setVisibility(View.GONE);
+                    holder.binding.textAboutMeData.setVisibility(View.GONE);
+
+                } else {
+                    holder.binding.textAboutMe.setVisibility(View.VISIBLE);
+                    holder.binding.textAboutMeData.setText(description);
+                }
                 holder.binding.txtUserName.setText(userDetailsResponse.getFullName());
                 String allSkills = userDetailsResponse.getSkills();
                 String skills[] = allSkills.split(",");
@@ -131,6 +141,7 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
                 holder.binding.recyclerView.setVisibility(View.VISIBLE);
                 holder.binding.topPanel.setVisibility(View.GONE);
                 holder.binding.profilePic.setVisibility(View.GONE);
+                holder.binding.cardView.setVisibility(View.GONE);
                 holder.binding.recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
                 UserBoardListAdapter adapter = new UserBoardListAdapter(context, boardArrayList);
                 holder.binding.recyclerView.setAdapter(adapter);
@@ -139,6 +150,7 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
                 holder.binding.recyclerView.setVisibility(View.VISIBLE);
                 holder.binding.topPanel.setVisibility(View.GONE);
                 holder.binding.profilePic.setVisibility(View.GONE);
+                holder.binding.cardView.setVisibility(View.GONE);
                 holder.binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
                 UserFeedListAdapter adapterPost = new UserFeedListAdapter(context, postArrayList);
                 holder.binding.recyclerView.setAdapter(adapterPost);
@@ -214,7 +226,7 @@ public class BoardPostCombineAdapter extends RecyclerView.Adapter<BoardPostCombi
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(context, FolloweListActivity.class);
+        Intent intent = new Intent(context, UserFollowingActivity.class);
         intent.putExtra("user_id", user.getUserId());
         context.startActivity(intent);
     }

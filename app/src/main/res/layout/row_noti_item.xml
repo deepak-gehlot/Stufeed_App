@@ -21,20 +21,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardElevation="@dimen/dimen_3dp">
+            android:orientation="horizontal"
+            android:padding="@dimen/dimen_3dp">
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                app:civ_border_width="@dimen/dimen_3dp"
-                app:civ_border_color="@color/light_grey"
                 android:layout_margin="@dimen/dimen_5dp"
                 app:profileImageUrl="@{model.profilePic}" />
-            </android.support.v7.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +59,7 @@
                     android:singleLine="true"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/dimen_10sp"
-                    app:time="@{model.unDate}" />
+                    app:times="@{model.unDate}" />
             </LinearLayout>
         </LinearLayout>
 

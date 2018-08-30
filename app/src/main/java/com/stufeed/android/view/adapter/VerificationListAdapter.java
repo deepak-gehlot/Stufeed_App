@@ -2,6 +2,7 @@ package com.stufeed.android.view.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,12 +13,14 @@ import com.androidquery.AQuery;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.Response;
 import com.stufeed.android.api.response.UnVerifyUserListResponse;
 import com.stufeed.android.databinding.RowVerifyRequestBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.UserProfileActivity;
 
 import java.util.ArrayList;
 
@@ -138,5 +141,18 @@ public class VerificationListAdapter extends RecyclerView.Adapter<VerificationLi
                 ProgressDialog.getInstance().dismissDialog();
             }
         });
+    }
+
+    public void onClickUserName( int position) {
+        UnVerifyUserListResponse.Data item = dataArrayList.get(position);
+
+        GetCollegeUserResponse.User user = new GetCollegeUserResponse.User();
+        user.setUserId(item.getUserId());
+        user.setFullName(item.getFullName());
+        user.setIsFollow("0");
+        Intent intent = new Intent(context, UserProfileActivity.class);
+        intent.putExtra(UserProfileActivity.USER, user);
+
+        context.startActivity(intent);
     }
 }

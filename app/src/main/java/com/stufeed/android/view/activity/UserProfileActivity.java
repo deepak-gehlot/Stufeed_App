@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,22 +21,16 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.FollowResponse;
-import com.stufeed.android.api.response.GetAchievementListResponse;
-import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
-import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.databinding.ActivityUserProfileBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 import com.stufeed.android.view.adapter.BoardPostCombineAdapter;
-import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.adapter.UserBoardListAdapter;
-import com.stufeed.android.view.fragment.YouFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +62,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 getString(R.string.ad_mob_id));
         setSupportActionBar(mBinding.toolbar);
         mBinding.container.setActivity(this);
+
 
         mLoginUserId = Utility.getLoginUserId(UserProfileActivity.this);
         setTitleBackClick();
@@ -107,7 +101,7 @@ public class UserProfileActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.menuBlocked);
         if (mBinding.container.getModel() != null) {
             if (mBinding.container.getModel().getIsBlock().equals("1")) {
-                menuItem.setTitle("Un Block");
+                menuItem.setTitle("UnBlock");
             } else {
                 menuItem.setTitle("Block");
             }
@@ -148,7 +142,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(UserProfileActivity.this, FolloweListActivity.class);
+        Intent intent = new Intent(UserProfileActivity.this, UserFollowingActivity.class);
         intent.putExtra("user_id", user.getUserId());
         startActivity(intent);
     }
@@ -274,6 +268,11 @@ public class UserProfileActivity extends AppCompatActivity {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 userDetailsResponse = response;
                 mBinding.container.setModel(response.getAllDetails());
+               // if (!mLoginUserId.equals(mBinding.container.getModel().getUserId()) ) {
+                    mBinding.toolbar.setTitle(mBinding.container.getModel().getFullName());
+               // }
+
+
             }
         }
         getBoardList();

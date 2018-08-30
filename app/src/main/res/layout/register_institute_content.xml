@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
+                android:backgroundTint="@color/common_color"
                 android:visibility="visible">
 
                 <RelativeLayout
@@ -241,6 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
+                        android:visibility="gone"
                         android:layout_below="@+id/linearLayout4"
                         android:layout_marginBottom="@dimen/dimen_5dp"
                         android:layout_marginLeft="@dimen/dimen_10dp"
@@ -268,7 +270,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginLeft="@dimen/dimen_5dp"
                         android:layout_marginRight="@dimen/dimen_5dp"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/colorPrimary"
                         android:onClick="@{()->activity.onNextButtonClick()}"
                         android:text="Next"
                         android:textColor="@color/white"
@@ -283,6 +285,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
+                android:backgroundTint="@color/common_color"
                 android:layout_margin="10dp">
 
                 <LinearLayout
@@ -415,7 +418,7 @@
                         android:inputType="number"
                         android:text="Year Of Establishment"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/dimen_16sp" />
+                        android:visibility="gone"/>
 
                     <TextView
                         android:id="@+id/year_os_established"
@@ -430,7 +433,8 @@
                         android:onClick="@{()->activity.onClickYearOfEstablishment()}"
                         android:text="@={model.yearOfEstablishment}"
                         android:textColor="@color/text_color"
-                        android:textSize="@dimen/dimen_16sp" />
+                        android:textSize="@dimen/dimen_16sp"
+                        android:visibility="gone"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -542,7 +546,7 @@
                         android:layout_height="50dp"
                         android:layout_marginBottom="@dimen/dimen_10dp"
                         android:layout_marginTop="10dp"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/colorPrimary"
                         android:onClick="@{()->activity.onRegisterButtonClick()}"
                         android:singleLine="true"
                         android:text="@string/register"

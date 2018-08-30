@@ -2,8 +2,10 @@ package com.stufeed.android.view.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,11 +13,13 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetBoardMemberListResponse;
+import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.RowBoardMemberBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.UserProfileActivity;
 
 import java.util.ArrayList;
 
@@ -111,5 +115,17 @@ public class BoardMemberListAdapter extends RecyclerView.Adapter<BoardMemberList
 
             }
         });
+    }
+    public void onClickUserName(GetBoardMemberListResponse.User user){
+        if (!TextUtils.isEmpty(user.getUserId()) && !mLoginUserId.equals(user.getUserId())) {
+            GetCollegeUserResponse.User users = new GetCollegeUserResponse.User();
+            users.setUserId(user.getUserId());
+            users.setFullName(user.getFullName());
+            users.setIsFollow("0");
+            Intent intent = new Intent(context, UserProfileActivity.class);
+            intent.putExtra(UserProfileActivity.USER, users);
+            context.startActivity(intent);
+        }
+
     }
 }

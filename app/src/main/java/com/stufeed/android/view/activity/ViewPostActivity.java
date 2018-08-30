@@ -29,6 +29,7 @@ import com.stufeed.android.api.response.DeletePostResponse;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
+import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.SinglePost;
 import com.stufeed.android.api.response.LikeResponse;
 import com.stufeed.android.api.response.RePostResponse;
@@ -99,6 +100,8 @@ public class ViewPostActivity extends AppCompatActivity {
             commentModel.setComment(comment);
             commentModel.setPostId(postId);
             commentModel.setUserId(Utility.getLoginUserDetail(ViewPostActivity.this).getUserId());
+            commentModel.setUserType(Utility.getLoginUserDetail(ViewPostActivity.this).getUserType());
+
             Api api = APIClient.getClient().create(Api.class);
             Call<CommentResponse> responseCall = api.postComment(commentModel.getUserId(), commentModel.getPostId(),
                     commentModel.getComment());
@@ -139,12 +142,14 @@ public class ViewPostActivity extends AppCompatActivity {
         comment.setEmail(Utility.getLoginUserDetail(ViewPostActivity.this).getEmail());
         comment.setFullName(Utility.getLoginUserDetail(ViewPostActivity.this).getFullName());
         comment.setPostId(commentModel.getPostId());
+        comment.setUserType(commentModel.getUserType());
         comment.setProfilePic(Utility.getLoginUserDetail(ViewPostActivity.this).getProfilePic());
         comment.setDateTime(new SimpleDateFormat(Constant.FORMAT_DATE_TIME, Locale.US).format(new Date()));
         commentArrayList.add(comment);
         if (mBinding.recyclerViewComment.getAdapter() != null) {
             mBinding.recyclerViewComment.getAdapter().notifyDataSetChanged();
-            scrollToBottom();
+           // scrollToBottom();
+
         } else {
             setCommentRecyclerView();
         }
@@ -193,6 +198,7 @@ public class ViewPostActivity extends AppCompatActivity {
             Utility.showErrorMsg(ViewPostActivity.this);
         } else if (singlePost.getResponseCode().equals(Api.SUCCESS)) {
             setView(singlePost.getPost());
+            mBinding.tvExpand.setText(singlePost.getPost().getDescription());
             if (_for.equals("comment")) {
                 getAllCommentList();
                 mBinding.commentLayout.setVisibility(View.VISIBLE);
@@ -349,8 +355,15 @@ public class ViewPostActivity extends AppCompatActivity {
 
                 break;
             default:
-                mBinding.imageLayout.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(post.getImage())) {
+                    mBinding.imageLayout.setVisibility(View.GONE);
+                } else {
+                    mBinding.imageLayout.setVisibility(View.VISIBLE);
+
+                }
+
                 imageOrVideoRow(post);
+
                 break;
         }
 
@@ -863,7 +876,7 @@ public class ViewPostActivity extends AppCompatActivity {
             commentArrayList.addAll(allCommentResponse.getCommentArrayList());
             setCommentRecyclerView();
         } else {
-            Utility.showToast(ViewPostActivity.this, "No comment.");
+           // Utility.showToast(ViewPostActivity.this, "No comment.");
         }
     }
 
@@ -872,5 +885,12 @@ public class ViewPostActivity extends AppCompatActivity {
         CommentListAdapter adapter = new CommentListAdapter(ViewPostActivity.this, commentArrayList);
         mBinding.recyclerViewComment.setAdapter(adapter);
         mBinding.recyclerViewComment.setHasFixedSize(true);
+        //scrollToBottom();
     }
+    /*public void manageCount() {
+       SinglePost.Post post= mBinding.getModel();
+        if (!TextUtils.isEmpty(post.getTotalComment())) {
+            post.setTotalComment("" + (Integer.parseInt(post.getTotalComment()) - 1));
+        }
+    }*/
 }

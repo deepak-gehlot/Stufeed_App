@@ -27,8 +27,7 @@
                     android:id="@+id/toolBar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tool_bar_height"
-                    app:titleTextColor="@color/white"
-                    >
+                    app:titleTextColor="@color/white">
 
                     <ImageView
                         android:id="@+id/profileImg"
@@ -61,7 +60,6 @@
                         android:visibility="visible" />
 
 
-
                 </android.support.v7.widget.Toolbar>
 
                 <LinearLayout
@@ -69,8 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/editText"
@@ -117,6 +115,21 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:menu="@menu/navigation" />
 
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                ads:adSize="SMART_BANNER"
+                android:backgroundTint="@color/bg_color"
+                ads:adUnitId="@string/ad_unit_id"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:visibility="gone"
+                />
+
         </RelativeLayout>
 
         <LinearLayout
@@ -124,17 +137,27 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/white"
+            android:clickable="true"
             android:fitsSystemWindows="true"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profilePic"
+            <android.support.v7.widget.CardView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="16dp"
                 android:layout_marginTop="16dp"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:cardCornerRadius="47dp"
+                app:cardElevation="@dimen/dimen_10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profilePic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_launcher_background" />
+
+            </android.support.v7.widget.CardView>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewNavigation"

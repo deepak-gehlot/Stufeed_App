@@ -37,7 +37,7 @@ public class RegistrationActivity extends AppCompatActivity {
         binding.setModel(new RegistrationModel());
         binding.setActivity(this);
         getDataFromBundle();
-        setSpinner();
+        // setSpinner();
     }
 
     private void getDataFromBundle() {
@@ -52,7 +52,30 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private void setSpinner() {
+
+
+   /* @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                int userType = data.getIntExtra("userType", 0);
+                if (userType == 1) {
+                    binding.tvIam.setText("Student");
+                } else if (userType == 2) {
+                    binding.tvIam.setText("Faculty");
+                } else if (userType == 3) {
+                    binding.tvIam.setText("Department");
+                }
+
+                binding.getModel().setUserType(userType);
+
+            }
+        }
+
+    }*/
+
+    /*private void setSpinner() {
         String type[] = {"Student", "Faculty", "Department"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, R.layout
                 .row_spinner, type);
@@ -68,7 +91,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
     /**
      * Validate registration form
@@ -96,7 +119,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickLogin(){
+    public void onClickLogin() {
         onBackPressed();
     }
 
@@ -107,40 +130,10 @@ public class RegistrationActivity extends AppCompatActivity {
      */
     public void onSubmitClick(RegistrationModel registrationModel) {
         if (validate(registrationModel)) {
-            Api api = APIClient.getClient().create(Api.class);
-            Call<LoginResponse> responseCall = api.register(registrationModel.getFullName(), registrationModel.getEmail
-                    (), registrationModel.getPassword(), registrationModel.getContactNo(), registrationModel
-                    .getUserType());
-            ProgressDialog.getInstance().showProgressDialog(RegistrationActivity.this);
-            responseCall.enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    handleRegistrationResponse(response.body());
-                }
-
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    ProgressDialog.getInstance().dismissDialog();
-                    Utility.showErrorMsg(RegistrationActivity.this);
-                }
-            });
-        }
-    }
-
-    private void handleRegistrationResponse(LoginResponse loginResponse) {
-        if (loginResponse != null) {
-            if (loginResponse.getResponseCode().equals(Api.SUCCESS)) {
-                PreferenceConnector.writeString(RegistrationActivity.this, PreferenceConnector.USER_DATA, new Gson()
-                        .toJson(loginResponse.getUser()));
-                PreferenceConnector.writeString(RegistrationActivity.this, PreferenceConnector.VERIFY, "0");
-                startActivity(new Intent(RegistrationActivity.this, SelectCollegeActivity.class));
-                finish();
-            } else {
-                Utility.showToast(RegistrationActivity.this, loginResponse.getResponseMessage());
-            }
-        } else {
-            Utility.showErrorMsg(RegistrationActivity.this);
+            Intent intent = new Intent(RegistrationActivity.this, UserTypeActivity.class);
+            intent.putExtra("Model", registrationModel);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
     }
 }

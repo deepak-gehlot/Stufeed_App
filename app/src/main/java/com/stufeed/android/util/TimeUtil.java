@@ -70,6 +70,38 @@ public class TimeUtil {
         }
     }
 
+    public static String getTimeAgoString(Context ctx, String dateTime, String formate) {
+        long time = formateDateTime(dateTime, formate);
+
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = getCurrentTime();
+        if (time > now || time <= 0) {
+            return null;
+        }
+
+        // TODO: localize
+        final long diff = now - time;
+        if (diff < MINUTE_MILLIS) {
+            return "just now";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return "a m";
+        } else if (diff < 50 * MINUTE_MILLIS) {
+            return diff / MINUTE_MILLIS + "m";
+        } else if (diff < 90 * MINUTE_MILLIS) {
+            return "an h";
+        } else if (diff < 24 * HOUR_MILLIS) {
+            return diff / HOUR_MILLIS + "h";
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return "yesterday";
+        } else {
+            return diff / DAY_MILLIS + "d";
+        }
+    }
+
     private static long getCurrentTime() {
         return Calendar.getInstance().getTime().getTime();
     }

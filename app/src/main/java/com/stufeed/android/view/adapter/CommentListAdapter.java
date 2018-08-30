@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         GetAllCommentResponse.Comment comment = commentArrayList.get(position);
         holder.rowCommentBinding.setModel(comment);
+        Utility.setUserTypeIconColor(context, comment.getUserType(), holder.rowCommentBinding.userTypeView);
+
 
         if (mLoginUserId.equals(comment.getUserId())) {
             holder.rowCommentBinding.delete.setVisibility(View.VISIBLE);
@@ -106,7 +109,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         call.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-
+                Log.d("ERROR",response.message());
             }
 
             @Override

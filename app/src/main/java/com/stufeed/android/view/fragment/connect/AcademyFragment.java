@@ -19,20 +19,16 @@ import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAchievementListResponse;
-import com.stufeed.android.api.response.GetAllSkillsResponse;
-import com.stufeed.android.api.response.GetUserDescriptionResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
-import com.stufeed.android.api.response.UserDetail;
 import com.stufeed.android.databinding.FragmentAcademyBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.activity.FolloweListActivity;
 import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.UserFollowingActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
-import com.stufeed.android.view.fragment.FeedFragment;
 import com.stufeed.android.view.fragment.UserFeedFragment;
 import com.stufeed.android.view.fragment.connect.academy.AcademyBoardListFragment;
 import com.stufeed.android.view.fragment.connect.academy.EduKitFragment;
@@ -125,7 +121,7 @@ public class AcademyFragment extends Fragment {
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(getActivity(), FolloweListActivity.class);
+        Intent intent = new Intent(getActivity(), UserFollowingActivity.class);
         intent.putExtra("user_id", mLoginUserId);
         startActivity(intent);
     }
@@ -164,9 +160,9 @@ public class AcademyFragment extends Fragment {
             collegeId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(EduKitFragment.newInstance(), "EDUKIT");
-        adapter.addFragment(UserFeedFragment.newInstance(collegeId), "POST");
-        adapter.addFragment(AcademyBoardListFragment.newInstance(), "BOARD");
+        adapter.addFragment(EduKitFragment.newInstance(), "Edukit");
+        adapter.addFragment(UserFeedFragment.newInstance(collegeId), "Post");
+        adapter.addFragment(AcademyBoardListFragment.newInstance(), "Board");
         viewPager.setAdapter(adapter);
     }
 

@@ -51,6 +51,16 @@ public class GetAllCommentResponse {
         private String dateTime;
         @SerializedName("Profilepic")
         private String profilePic;
+        @SerializedName("usertype")
+        private String userType;
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public void setUserType(String userType) {
+            this.userType = userType;
+        }
 
         public String getId() {
             return id;

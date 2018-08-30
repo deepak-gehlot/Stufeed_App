@@ -11,6 +11,15 @@ public class CommentModel extends BaseObservable {
     private String userId = "";
     private String postId = "";
     private String comment = "";
+    private String userType="";
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
     @Bindable
     public String getUserId() {

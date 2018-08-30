@@ -6,9 +6,11 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private FragmentFeedBinding binding;
     private String collegeId = "";
 
+
+
     public UserFeedFragment() {
         // Required empty public constructor
     }
@@ -51,6 +55,7 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         collegeId = getArguments().getString("collegeId");
+
     }
 
     @Override
@@ -98,7 +103,7 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.msgTxt.setVisibility(View.GONE);
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(collegeId,"0");
+        Call<GetPostResponse> responseCall = api.getUserAllPost(collegeId, "0");
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {
@@ -137,9 +142,13 @@ public class UserFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             binding.progressBar.setVisibility(View.GONE);
             binding.msgTxt.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
+
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            FeedListAdapter adapter = new FeedListAdapter(UserFeedFragment.this, postArrayList);
+            FeedListAdapter adapter = new FeedListAdapter(UserFeedFragment.this, postArrayList,false);
             binding.recyclerView.setAdapter(adapter);
+
         }
     }
+
+
 }

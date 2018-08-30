@@ -113,6 +113,7 @@ public class JoinBoardListAdapter extends RecyclerView.Adapter<JoinBoardListAdap
                 String boardId = list.get(holder.getAdapterPosition()).getBoardId();
                 intent.putExtra("board_id", boardId);
                 intent.putExtra("is_admin", false);
+                intent.putExtra("BoardName",list.get(holder.getAdapterPosition()).getBoardName());
                 context.startActivity(intent);
             }
         });

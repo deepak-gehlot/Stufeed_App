@@ -27,10 +27,10 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tool_bar_height"
             android:background="@color/topheader"
+            android:elevation="@dimen/dimen_4dp"
             app:navigationIcon="@drawable/back_icon"
             app:title="Post"
-            app:titleTextColor="@color/topheader_text"
-            android:elevation="@dimen/dimen_4dp"/>
+            app:titleTextColor="@color/topheader_text" />
 
 
         <!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -61,26 +61,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="5dp">
+                        android:padding="7dp"
+                        android:clipToPadding="false">
 
-                        <RelativeLayout
+                        <android.support.v7.widget.CardView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="23dp"
+                            app:cardElevation="10dp">
 
-                            <ProgressBar
-                                style="?android:progressBarStyleSmall"
+                            <RelativeLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true" />
+                                android:layout_height="wrap_content">
 
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="55dp"
-                                android:layout_height="55dp"
-                                android:elevation="@dimen/dimen_3dp"
-                                app:civ_border_color="@color/bg_gray"
-                                app:civ_border_width="2dp"
-                                app:profileImageUrl="@{model.profilePic}" />
-                        </RelativeLayout>
+                                <ProgressBar
+                                    style="?android:progressBarStyleSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true" />
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:layout_width="45dp"
+                                    android:layout_height="45dp"
+                                    app:civ_border_color="@color/bg_gray"
+                                    app:civ_border_width="2dp"
+                                    app:profileImageUrl="@{model.profilePic}" />
+
+
+                            </RelativeLayout>
+                        </android.support.v7.widget.CardView>
+
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -114,12 +124,12 @@
                         </LinearLayout>
 
                         <ImageView
-                            android:visibility="gone"
                             android:id="@+id/userTypeIcon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:src="@drawable/ic_verified_user" />
+                            android:src="@drawable/ic_verified_user"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/actionIcon"
@@ -133,8 +143,8 @@
 
                     <com.stufeed.android.customui.TriangleShapeView
                         android:id="@+id/userTypeView"
-                        android:layout_width="@dimen/dimen_50dp"
-                        android:layout_height="@dimen/dimen_50dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentEnd="true" />
                 </RelativeLayout>
                 <!--    Title Layout End  -->
@@ -156,13 +166,14 @@
                     android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen_10dp"
                     android:layout_marginStart="10dp"
                     android:text="@{model.title}"
                     android:textColor="@color/text_color"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <com.stufeed.android.customui.TextViewExpandableAnimation xmlns:app="http://schemas.android.com/apk/res-auto"
+                <TextView
                     android:id="@+id/tv_expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -170,7 +181,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
                     app:tvea_expandBitmap="@drawable/icon_green_arrow_down"
-                    app:tvea_expandLines="3"
+                    app:tvea_expandLines="15"
                     app:tvea_shrinkBitmap="@drawable/icon_green_arrow_up"
                     app:tvea_textContentColor="@color/text_color"
                     app:tvea_textContentSize="14sp"
@@ -182,7 +193,7 @@
                 <RelativeLayout
                     android:id="@+id/imageLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="wrap_content"
                     android:visibility="gone">
 
                     <ProgressBar
@@ -193,7 +204,8 @@
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="250dp"
                         android:onClick="@{()->activity.onImageClick(model)}"
                         android:scaleType="centerCrop" />
 
@@ -401,8 +413,10 @@
                     android:id="@+id/documentLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="@dimen/dimen_5dp"
+                    android:layout_marginEnd="@dimen/dimen_10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/dimen_5dp"
                     android:background="@drawable/borderstyle1"
                     android:gravity="center_vertical"
                     android:onClick="@{()->activity.onArticleClick(model)}"
@@ -434,6 +448,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
+                    android:visibility="gone"
                     android:paddingEnd="@dimen/dimen_10dp">
 
                     <TextView
@@ -477,19 +492,41 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:onClick="@{()->activity.onLikeClick(model)}"
                         android:padding="10dp"
                         android:src="@drawable/favorite_border_icon" />
+
+                    <TextView
+                        android:id="@+id/totalLike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/imgLike"
+                        android:drawablePadding="5dp"
+                        android:lines="1"
+                        android:padding="10dp"
+                        android:text="@{model.totalLike}"
+                        android:textColor="@color/text_color"
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/imgComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_toEndOf="@+id/imgLike"
-                        android:onClick="@{()->activity.onCommentBtnClick(model)}"
+                        android:layout_toEndOf="@+id/totalLike"
                         android:padding="10dp"
                         android:src="@drawable/comment_border_icon" />
+
+                    <TextView
+                        android:id="@+id/totalComment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/imgComment"
+                        android:drawablePadding="5dp"
+                        android:lines="1"
+                        android:padding="10dp"
+                        android:text="@{model.totalComment}"
+                        android:textColor="@color/text_color"
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/imgRepost"
@@ -499,7 +536,8 @@
                         android:layout_toEndOf="@+id/imgComment"
                         android:onClick="@{()->activity.onRePostBtnClick(model)}"
                         android:padding="10dp"
-                        android:src="@drawable/repost_icon" />
+                        android:src="@drawable/repost_icon"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/imgSave"
@@ -551,9 +589,9 @@
             android:id="@+id/dividerView"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:visibility="gone"
             android:layout_above="@+id/commentLayout"
-            android:background="@color/divider" />
+            android:background="@color/divider"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/commentLayout"
@@ -576,11 +614,11 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="5"
                 android:minLines="1"
-                android:textSize="15sp"
-                android:singleLine="false"
                 android:padding="12dp"
                 android:scrollbars="vertical"
-                android:textColor="@color/text_color"/>
+                android:singleLine="false"
+                android:textColor="@color/text_color"
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/btnSendComment"

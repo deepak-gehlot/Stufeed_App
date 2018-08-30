@@ -39,7 +39,7 @@
                 android:layout_gravity="end"
                 android:onClick="@{()->activity.saveAchievement(model)}"
                 android:text="save"
-                android:textStyle="bold"
+                android:textSize="@dimen/dimen_16sp"
                 android:textColor="@color/topheader_text" />
 
         </android.support.v7.widget.Toolbar>
@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:clipToPadding="true"
+            android:backgroundTint="@color/common_color"
             app:cardUseCompatPadding="true">
 
             <LinearLayout

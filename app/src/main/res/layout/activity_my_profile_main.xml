@@ -29,7 +29,8 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/topheader"
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
@@ -55,7 +56,7 @@
                         android:id="@+id/topPanel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
+                        android:layout_marginTop="@dimen/dimen_100dp"
                         android:visibility="visible">
 
                         <android.support.v7.widget.CardView
@@ -376,7 +377,6 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_margin="@dimen/dimen_5dp"
-                                        android:text="About Me"
                                         android:textColor="@color/text_color"
                                         android:textSize="14sp" />
                                 </LinearLayout>
@@ -385,35 +385,47 @@
 
                     </RelativeLayout>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profilePic"
-                        android:layout_width="125dp"
-                        android:layout_height="125dp"
+                    <android.support.v7.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_margin="@dimen/dimen_5dp"
-                        app:civ_border_color="@color/common_color"
-                        app:civ_border_width="3dp"
+                        app:cardCornerRadius="63dp"
+                        android:layout_marginTop="@dimen/dimen_50dp"
+                        app:cardElevation="10dp">
 
-                        android:shadowColor="@color/icon_color"
-                        app:profileImageUrl="@{model.profilePic}" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profilePic"
+                            android:layout_width="125dp"
+                            android:layout_height="125dp"
+                            android:shadowColor="@color/icon_color"
+                            app:civ_border_color="@color/common_color"
+                            app:civ_border_width="3dp"
+                            android:src="@mipmap/ic_launcher"
+                            app:profileImageUrl="@{model.profilePic}" />
+                    </android.support.v7.widget.CardView>
                 </RelativeLayout>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/tab_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="@dimen/dimen_46dp"
                     android:layout_gravity="top"
                     android:layout_marginBottom="48dp"
+                    android:background="@color/topheader"
+                    android:theme="@style/AppTheme.AppBarOverlay"
                     app:layout_collapseMode="pin"
-                    app:navigationIcon="@drawable/back_icon"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                    app:navigationIcon="@drawable/back_icon" />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="35dp"
                     android:layout_gravity="bottom"
-                    app:tabGravity="fill" />
+                    android:background="@color/white"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/transparent_black"
+                    app:tabMode="fixed"
+                    app:tabTextAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
 

@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dimen_5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/round_button"
+                    android:background="@drawable/outline_board_button"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Archive Board"
@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/round_button"
+                    android:background="@drawable/outline_board_button"
                     android:gravity="center"
                     android:padding="10dp"
                     android:text="Delete Board"
@@ -201,7 +201,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight=".5" />
 
                 <Button
                     android:id="@+id/done_board"

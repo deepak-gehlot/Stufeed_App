@@ -9,6 +9,7 @@ import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
+import com.stufeed.android.api.response.GetAllLikes;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetArchiveBoardListResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
@@ -16,6 +17,7 @@ import com.stufeed.android.api.response.GetBoardMemberListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetEdukitResponse;
 import com.stufeed.android.api.response.GetFollowerListResponse;
+import com.stufeed.android.api.response.GetFollowingListResponse;
 import com.stufeed.android.api.response.GetInstituteRegistrationResponse;
 import com.stufeed.android.api.response.GetJoinBoardListResponse;
 import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
@@ -123,6 +125,9 @@ public interface Api {
     Call<GetAllCommentResponse> getAllComment(@Field("postid") String postId);
 
     @FormUrlEncoded
+    @POST("getPostLikeUserList")
+    Call<GetAllLikes> getPostLikeUserList(@Field("postid") String postId);
+    @FormUrlEncoded
     @POST("likepost")
     Call<LikeResponse> likePost(@Field("userid") String userId,
                                 @Field("postid") String postId,
@@ -155,11 +160,12 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("getuserfollowers")
-    Call<GetFollowerListResponse> getUserFollowers(@Field("userid") String userId);
+    Call<GetFollowerListResponse> getUserFollowers(@Field("userid") String userId,
+                                                   @Field("loginUserid") String loginUserid);
 
     @FormUrlEncoded
     @POST("getuserfollowing")
-    Call<Response> getUserFollowing(@Field("userid") String userId);
+    Call<GetFollowingListResponse> getUserFollowing(@Field("userid") String userId);
 
     @FormUrlEncoded
     @POST("addpollanswer")
@@ -215,6 +221,12 @@ public interface Api {
     Call<JoinBoardResponse> requestJoinBoard(@Field("userid") String userId,
                                              @Field("boardid") String boardId,
                                              @Field("joinerid") String joinUserId);
+    @FormUrlEncoded
+    @POST("removeRequest")
+    Call<JoinBoardResponse> cancelRequestJoinBoard(@Field("userid") String userId,
+                                             @Field("boardid") String boardId,
+                                             @Field("joinerid") String joinUserId);
+
 
     @FormUrlEncoded
     @POST("removeJoinBoardUser")

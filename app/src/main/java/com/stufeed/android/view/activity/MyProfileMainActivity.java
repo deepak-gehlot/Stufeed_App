@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -21,7 +18,6 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetBoardListResponse;
-import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.api.response.UserDetail;
@@ -29,7 +25,6 @@ import com.stufeed.android.databinding.ActivityMyProfileMainBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
-import com.stufeed.android.view.adapter.BoardPostCombineAdapter;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
 import com.stufeed.android.view.fragment.UserFeedFragment;
 import com.stufeed.android.view.fragment.connect.academy.AcademyBoardListFragment;
@@ -54,6 +49,7 @@ public class MyProfileMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_profile_main);
         setSupportActionBar(binding.tabToolbar);
+
 
         mLoginUserId = Utility.getLoginUserId(this);
 
@@ -103,7 +99,7 @@ public class MyProfileMainActivity extends AppCompatActivity {
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(MyProfileMainActivity.this, FolloweListActivity.class);
+        Intent intent = new Intent(MyProfileMainActivity.this, UserFollowingActivity.class);
         intent.putExtra("user_id", mLoginUserId);
         startActivity(intent);
     }
@@ -146,9 +142,9 @@ public class MyProfileMainActivity extends AppCompatActivity {
             collegeId = Utility.getLoginUserDetail(MyProfileMainActivity.this).getUserInstituteId();
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(EduKitFragment.newInstance(), "EDUKIT");
-        adapter.addFragment(UserFeedFragment.newInstance(collegeId), "POST");
-        adapter.addFragment(AcademyBoardListFragment.newInstance(), "BOARD");
+        adapter.addFragment(EduKitFragment.newInstance(), "Edukit");
+        adapter.addFragment(UserFeedFragment.newInstance(collegeId), "Post");
+        adapter.addFragment(AcademyBoardListFragment.newInstance(), "Board");
         viewPager.setAdapter(adapter);
     }
 
@@ -184,6 +180,7 @@ public class MyProfileMainActivity extends AppCompatActivity {
                 String description = userDetailsResponse.getAllDetails().getAbout();
                 // binding.textAboutMeData.setText(description);
                 binding.txtUserName.setText(userDetailsResponse.getAllDetails().getFullName());
+                binding.tabToolbar.setTitle(userDetailsResponse.getAllDetails().getFullName());
                 String allSkills = response.getAllDetails().getSkills();
                 String skills[] = allSkills.split(",");
                 for (int i = 0; i < skills.length; i++) {
@@ -249,7 +246,7 @@ public class MyProfileMainActivity extends AppCompatActivity {
 
     private void getAllPost() {
         Api api = APIClient.getClient().create(Api.class);
-        Call<GetPostResponse> responseCall = api.getUserAllPost(mLoginUserId,"1");
+        Call<GetPostResponse> responseCall = api.getUserAllPost(mLoginUserId, "1");
         responseCall.enqueue(new Callback<GetPostResponse>() {
             @Override
             public void onResponse(Call<GetPostResponse> call, Response<GetPostResponse> response) {

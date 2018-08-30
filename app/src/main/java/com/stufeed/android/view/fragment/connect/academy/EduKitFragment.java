@@ -48,26 +48,45 @@ public class EduKitFragment extends Fragment {
 
     public void onItemClick(int positoin) {
         String id = "";
+        String name = "";
         switch (positoin) {
             case 1:
+                name = "Schedule";
                 break;
             case 2:
+                name = "Campus Calender";
                 break;
             case 3:
+                name = "Time Table";
                 break;
             case 4:
+                name = "Result";
                 break;
             case 5:
+                name = "Document";
                 break;
             case 6:
+                name = "Syllabus";
                 break;
             case 7:
+                name = "Study Material";
+                break;
+            case 8:
+                name = "Events";
+                break;
+            case 9:
+                name = "Question Paper";
+                break;
+            case 10:
+                name = "Others";
                 break;
         }
-
         Intent intent = new Intent(getActivity(), EdukitPostActivity.class);
-        intent.putExtra("edukit_id", "" +positoin);
+        intent.putExtra("edukit_id", "" + positoin);
+        intent.putExtra("Name", name);
         startActivity(intent);
+
+
     }
 
 }

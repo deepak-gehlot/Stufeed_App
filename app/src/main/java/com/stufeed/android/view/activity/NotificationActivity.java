@@ -13,13 +13,10 @@ import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
-import com.stufeed.android.api.response.GetJoinBoardRequestResponse;
 import com.stufeed.android.api.response.GetNotificationResponse;
-import com.stufeed.android.api.response.Response;
 import com.stufeed.android.databinding.ActivityNotificationBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.adapter.NotificationListAdapter;
 import com.stufeed.android.view.adapter.NotificationListItemAdapter;
 
 import java.util.ArrayList;
@@ -64,6 +61,12 @@ public class NotificationActivity extends AppCompatActivity {
                 onVerifyClick();
             }
         });
+
+        if (Utility.getLoginUserDetail(this).getUserType().equals("4")) {
+            binding.layoutVerifyRequest.setVisibility(View.VISIBLE);
+        } else {
+            binding.layoutVerifyRequest.setVisibility(View.GONE);
+        }
 
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();

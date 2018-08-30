@@ -1,6 +1,5 @@
 package com.stufeed.android.view.activity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -21,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.stufeed.android.R;
@@ -34,13 +34,11 @@ import com.stufeed.android.databinding.ActivityHomeBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.listener.OnItemClickListener;
 import com.stufeed.android.util.PreferenceConnector;
-import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.adapter.DrawrAdapter;
 import com.stufeed.android.view.fragment.BoardFragment;
 import com.stufeed.android.view.fragment.ConnectFragment;
 import com.stufeed.android.view.fragment.FeedFragment;
-import com.stufeed.android.view.fragment.YouFragment;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -51,7 +49,7 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private ActivityHomeBinding binding;
+    public ActivityHomeBinding binding;
     private int searchType = 0;
     private String userType = "";
 
@@ -60,9 +58,13 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         if (Utility.getLoginUserDetail(HomeActivity.this) != null) {
             handleIntent();
-
-            MobileAds.initialize(this, getString(R.string.ad_mob_id));
             binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+
+            MobileAds.initialize(this,
+                    getString(R.string.ad_mob_id));
+            AdRequest adRequest = new AdRequest.Builder().build();
+            binding.adView.loadAd(adRequest);
+
             disableShiftMode(binding.bottomNavigation);
             binding.bottomNavigation.setOnNavigationItemSelectedListener(this);
             setSupportActionBar(binding.toolBar);
@@ -181,7 +183,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         int selectedId = binding.bottomNavigation.getSelectedItemId();
         switch (selectedId) {
             case R.id.navigation_connect:
-            /*case R.id.navigation_person:*/
+                /*case R.id.navigation_person:*/
             case R.id.navigation_post:
             case R.id.navigation_board:
                 binding.bottomNavigation.setSelectedItemId(R.id.navigation_feed);
@@ -341,7 +343,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             public void onClick(int position, Object obj) {
                 switch (position) {
                     case 0:
-                        Intent intent = new Intent(HomeActivity.this, UserFollowingActivity.class);
+                        Intent intent = new Intent(HomeActivity.this, FolloweListActivity.class);
                         intent.putExtra("user_id", Utility.getLoginUserId(HomeActivity.this));
                         startActivity(intent);
                         break;
@@ -406,7 +408,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         drawerItems.add(drawerItem2);
         drawerItems.add(drawerItem3);
         drawerItems.add(drawerItem4);
-      //  drawerItems.add(drawerItem5);
+        //  drawerItems.add(drawerItem5);
         drawerItems.add(drawerItem6);
         drawerItems.add(drawerItem7);
         return drawerItems;
@@ -435,5 +437,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             PreferenceConnector.writeString(HomeActivity.this, PreferenceConnector.USER_SETTING, strSetting);
         }
     }
+
+
+
 }
 

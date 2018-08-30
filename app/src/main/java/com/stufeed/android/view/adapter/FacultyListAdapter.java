@@ -65,6 +65,12 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
             holder.rowBinding.txtFollow.setText(context.getString(R.string.follow));
         }
 
+        if (user.getVerifyStatus().equals("1")) {
+            holder.rowBinding.verifyStatus.setVisibility(View.VISIBLE);
+        } else {
+            holder.rowBinding.verifyStatus.setVisibility(View.GONE);
+        }
+
         if (TextUtils.isEmpty(user.getProfilePic())) {
             aQuery.id(holder.rowBinding.imageView).image(R.mipmap.ic_launcher_round);
         } else {

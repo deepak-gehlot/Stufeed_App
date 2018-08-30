@@ -31,9 +31,8 @@ import com.stufeed.android.databinding.FragmentYouBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
-import com.stufeed.android.view.activity.FolloweListActivity;
 import com.stufeed.android.view.activity.HomeActivity;
-import com.stufeed.android.view.activity.MyProfileActivity;
+import com.stufeed.android.view.activity.UserFollowingActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 import com.stufeed.android.view.activity.ViewFullProfileActivity;
@@ -41,8 +40,6 @@ import com.stufeed.android.view.adapter.AchivementFragmentListAdapter;
 import com.stufeed.android.view.adapter.BoardListAdapter;
 import com.stufeed.android.view.adapter.FeedListAdapter;
 import com.stufeed.android.view.adapter.ViewPagerAdapter;
-import com.stufeed.android.view.fragment.board.CreateBoardFragment;
-import com.stufeed.android.view.fragment.board.JoinBoardFragment;
 import com.stufeed.android.view.fragment.connect.academy.AcademyBoardListFragment;
 import com.stufeed.android.view.fragment.connect.academy.EduKitFragment;
 
@@ -116,7 +113,7 @@ public class YouFragment extends Fragment {
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(getActivity(), FolloweListActivity.class);
+        Intent intent = new Intent(getActivity(), UserFollowingActivity.class);
         intent.putExtra("user_id", mLoginUserId);
         startActivity(intent);
     }
@@ -452,7 +449,7 @@ public class YouFragment extends Fragment {
         binding.progressBar.setVisibility(View.GONE);
         binding.recyclerViewPost.setVisibility(View.VISIBLE);
         binding.recyclerViewPost.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FeedListAdapter adapter = new FeedListAdapter(YouFragment.this, postArrayList);
+        FeedListAdapter adapter = new FeedListAdapter(YouFragment.this, postArrayList,false);
         binding.recyclerViewPost.setAdapter(adapter);
     }
 }

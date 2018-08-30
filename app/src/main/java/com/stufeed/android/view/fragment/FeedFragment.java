@@ -9,10 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
@@ -35,6 +38,9 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private FragmentFeedBinding binding;
     private String userId = "";
+    private static final int HIDE_THRESHOLD = 20;
+    private int scrolledDistance = 0;
+    private boolean controlsVisible = true;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -52,6 +58,8 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userId = getArguments().getString("userId");
+
+
     }
 
     @Override
@@ -59,15 +67,18 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_feed, container, false);
         return binding.getRoot();
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getAllPost();
+
         binding.pullToRefresh.setOnRefreshListener(this);
 
         ((HomeActivity) getActivity()).showHideSearchIcon(0, false);
+        recyclerPosition();
+
     }
 
     @Override
@@ -147,8 +158,47 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             binding.msgTxt.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            FeedListAdapter adapter = new FeedListAdapter(FeedFragment.this, postArrayList);
+            FeedListAdapter adapter = new FeedListAdapter(FeedFragment.this, postArrayList, true);
             binding.recyclerView.setAdapter(adapter);
         }
+    }
+
+    private void recyclerPosition() {
+        binding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (scrolledDistance > HIDE_THRESHOLD && controlsVisible) {
+                    //hide
+                    ((HomeActivity) getActivity()).binding.bottomNavigation.setVisibility(View.INVISIBLE);
+                    ((HomeActivity) getActivity()).binding.adView.setVisibility(View.VISIBLE);
+                    controlsVisible = false;
+                    scrolledDistance = 0;
+                } else if (scrolledDistance < -HIDE_THRESHOLD && !controlsVisible) {
+                    //show
+                    ((HomeActivity) getActivity()).binding.bottomNavigation.setVisibility(View.VISIBLE);
+                    ((HomeActivity) getActivity()).binding.adView.setVisibility(View.INVISIBLE);
+                    controlsVisible = true;
+                    scrolledDistance = 0;
+                }
+
+                if ((controlsVisible && dy > 0) || (!controlsVisible && dy < 0)) {
+                    scrolledDistance += dy;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getAllPost();
     }
 }

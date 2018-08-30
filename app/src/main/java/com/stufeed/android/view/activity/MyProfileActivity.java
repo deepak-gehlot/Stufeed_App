@@ -8,12 +8,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.cunoraz.tagview.Tag;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -26,16 +22,13 @@ import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
 import com.stufeed.android.databinding.ActivityMyProfileBinding;
-import com.stufeed.android.databinding.ActivityUserProfileBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.adapter.BoardPostCombineAdapter;
 import com.stufeed.android.view.adapter.MyBoardPostCombineAdapter;
 import com.stufeed.android.view.adapter.UserBoardListAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,7 +95,7 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(MyProfileActivity.this, FolloweListActivity.class);
+        Intent intent = new Intent(MyProfileActivity.this, UserFollowingActivity.class);
         intent.putExtra("user_id", user.getUserId());
         startActivity(intent);
     }
@@ -228,6 +221,7 @@ public class MyProfileActivity extends AppCompatActivity {
             if (response.getResponseCode().equals(Api.SUCCESS)) {
                 userDetailsResponse = response;
                 mBinding.container.setModel(response.getAllDetails());
+                mBinding.toolbar.setTitle(userDetailsResponse.getAllDetails().getFullName());
             }
         }
         getBoardList();

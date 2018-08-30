@@ -77,6 +77,7 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
                 Intent intent = new Intent(context, BoardDetailsMainActivity.class);
                 String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
                 intent.putExtra("board_id", boardId);
+                intent.putExtra("BoardName",boardArrayList.get(holder.getAdapterPosition()).getBoardName());
                 context.startActivity(intent);
             }
         });
@@ -117,7 +118,7 @@ public class ArchiveBoardListAdapter extends RecyclerView.Adapter<ArchiveBoardLi
 
         dialogBinding.edtNameBoard.setText(board.getBoardName());
         dialogBinding.edtDescriptionBoard.setText(board.getBoardDescription());
-        dialogBinding.textViewArchiveBoard.setText("Move To Profile");
+        dialogBinding.textViewArchiveBoard.setText("Unarchive");
 
         if (board.getIsPrivate().equals("1")) {
             dialogBinding.switchPrivate.setChecked(true);

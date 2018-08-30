@@ -52,6 +52,7 @@ public class GetFollowerListResponse {
         private String email = "";
         @SerializedName("profilepic")
         private String profilePic = "";
+        private String isFollow = "";
 
         public String getFollowUserid() {
             return followUserid;
@@ -99,6 +100,14 @@ public class GetFollowerListResponse {
 
         public void setProfilePic(String profilePic) {
             this.profilePic = profilePic;
+        }
+
+        public String getIsFollow() {
+            return isFollow;
+        }
+
+        public void setIsFollow(String isFollow) {
+            this.isFollow = isFollow;
         }
     }
 }

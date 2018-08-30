@@ -142,7 +142,7 @@ public class PostListFragment extends Fragment {
             mBinding.msgTxt.setVisibility(View.GONE);
             mBinding.recyclerView.setVisibility(View.VISIBLE);
             mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            FeedListAdapter adapter = new FeedListAdapter(PostListFragment.this, postArrayList);
+            FeedListAdapter adapter = new FeedListAdapter(PostListFragment.this, postArrayList,false);
             mBinding.recyclerView.setAdapter(adapter);
         }
     }

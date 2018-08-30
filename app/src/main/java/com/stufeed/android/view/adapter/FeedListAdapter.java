@@ -37,18 +37,25 @@ import com.stufeed.android.api.response.SavePostResponse;
 import com.stufeed.android.customui.TextViewExpandableAnimation;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.listener.DialogListener;
+import com.stufeed.android.util.MyDownloader;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.activity.BoardDetailsMainActivity;
 import com.stufeed.android.view.activity.BoardSelectionActivity;
 import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.activity.EditPostActivity;
 import com.stufeed.android.view.activity.FullImageActivity;
+import com.stufeed.android.view.activity.TotalCommentsListActivity;
+import com.stufeed.android.view.activity.TotalLikeActivity;
 import com.stufeed.android.view.activity.UserProfileActivity;
+import com.stufeed.android.view.activity.ViewPostActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
 import org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,14 +65,22 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Fragment context;
     private ArrayList<GetPostResponse.Post> postArrayList;
+    private ArrayList<Integer> imagesList = new ArrayList<>();
     private String loginUserId;
     private AQuery aQuery;
     private static final int TYPE_AD = 1;
     private static final int TYPE_VIEW = 2;
 
-    public FeedListAdapter(Fragment context, ArrayList<GetPostResponse.Post> postArrayList) {
+    private static int currentPage = 0;
+    private static int NUM_PAGES = 0;
+    boolean isShowHeader = false;
+    private static final int[] images = {R.drawable.camera_icon, R.drawable.bookmark_icon, R.drawable.attachment_icon};
+
+
+    public FeedListAdapter(Fragment context, ArrayList<GetPostResponse.Post> postArrayList, boolean isShowHeader) {
         this.context = context;
         this.postArrayList = postArrayList;
+        this.isShowHeader = isShowHeader;
         loginUserId = Utility.getLoginUserDetail(context.getActivity()).getUserId();
         aQuery = new AQuery(context.getActivity());
     }
@@ -85,211 +100,274 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
+
         if (postArrayList.get(position) == null) {
             return TYPE_AD;
+
         } else {
             return TYPE_VIEW;
         }
+
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder rowHolder, int position) {
-
         if (getItemViewType(position) == TYPE_AD) {
 
         } else {
             final ViewHolder holder = (ViewHolder) rowHolder;
-            GetPostResponse.Post post = postArrayList.get(position);
-            holder.rowBinding.setModel(post);
-            holder.rowBinding.setAdapter(this);
-            holder.rowBinding.documentLayout.setVisibility(View.GONE);
-            holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
-            holder.rowBinding.pollLayout.setVisibility(View.GONE);
-            holder.rowBinding.imageLayout.setVisibility(View.GONE);
-            holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
+            holder.rowBinding.viewpager.setVisibility(View.GONE);
+            holder.rowBinding.cardMain.setVisibility(View.VISIBLE);
 
-            holder.rowBinding.tvExpand.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
-                @Override
-                public void onStateChange(boolean isShrink) {
-                    GetPostResponse.Post post = postArrayList.get(holder.getAdapterPosition());
-                    post.setShirnk(isShrink);
-                    postArrayList.set(holder.getAdapterPosition(), post);
+            if (position == 0 && isShowHeader) {
+
+                holder.rowBinding.cardMain.setVisibility(View.GONE);
+                holder.rowBinding.documentLayout.setVisibility(View.GONE);
+                holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
+                holder.rowBinding.pollLayout.setVisibility(View.GONE);
+                holder.rowBinding.imageLayout.setVisibility(View.GONE);
+                holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
+                holder.rowBinding.viewpager.setVisibility(View.VISIBLE);
+                holder.rowBinding.viewpager.setAdapter(new PagerSlidingAdapter(images, context.getActivity()));
+                holder.rowBinding.circleIndicator.setViewPager(holder.rowBinding.viewpager);
+
+                NUM_PAGES = images.length;
+                // Auto start of viewpager
+                final Handler handler = new Handler();
+                final Runnable update = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (currentPage == NUM_PAGES) {
+                            currentPage = 0;
+                        }
+                        holder.rowBinding.viewpager.setCurrentItem(currentPage++, true);
+                    }
+                };
+                Timer swipeTimer = new Timer();
+                swipeTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(update);
+                    }
+                }, 10000, 10000);
+
+
+            } else {
+
+                final GetPostResponse.Post post = postArrayList.get(position);
+                holder.rowBinding.setModel(post);
+                holder.rowBinding.setAdapter(this);
+                holder.rowBinding.documentLayout.setVisibility(View.GONE);
+                holder.rowBinding.audioCardLayout.setVisibility(View.GONE);
+                holder.rowBinding.pollLayout.setVisibility(View.GONE);
+                holder.rowBinding.imageLayout.setVisibility(View.GONE);
+                holder.rowBinding.audioVideoImgLayout.setVisibility(View.GONE);
+
+               /* holder.rowBinding.tvExpand.setOnStateChangeListener(new TextViewExpandableAnimation.OnStateChangeListener() {
+                    @Override
+                    public void onStateChange(boolean isShrink) {
+                        GetPostResponse.Post post = postArrayList.get(holder.getAdapterPosition());
+                        post.setShirnk(isShrink);
+                        postArrayList.set(holder.getAdapterPosition(), post);
+                    }
+                });
+                holder.rowBinding.tvExpand.setText(post.getDescription());
+                //important! reset its state as where it left
+                holder.rowBinding.tvExpand.resetState(post.isShirnk());
+*/
+                holder.rowBinding.tvExpand.setText(post.getDescription());
+                holder.rowBinding.tvExpand.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int lines = holder.rowBinding.tvExpand.getLineCount();
+                        if (lines > 5) {
+                            holder.rowBinding.tvMore.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.rowBinding.tvMore.setVisibility(View.GONE);
+                        }
+                    }
+                });
+
+                holder.rowBinding.tvExpand.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context.getActivity(), ViewPostActivity.class);
+                        intent.putExtra("post_id", post.getPostId());
+                        intent.putExtra("for", "comment");
+                        context.startActivity(intent);
+                    }
+                });
+
+                Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeView);
+
+                if (!TextUtils.isEmpty(post.getBoardId())) {
+                    holder.rowBinding.boardName.setVisibility(View.VISIBLE);
+                } else {
+                    holder.rowBinding.boardName.setVisibility(View.GONE);
                 }
-            });
-            holder.rowBinding.tvExpand.setText(post.getDescription());
-            //important! reset its state as where it left
-            holder.rowBinding.tvExpand.resetState(post.isShirnk());
 
+                if (!TextUtils.isEmpty(post.getTitle())) {
+                    holder.rowBinding.txtTitle.setVisibility(View.VISIBLE);
+                } else {
+                    holder.rowBinding.txtTitle.setVisibility(View.GONE);
+                }
 
-            Utility.setUserTypeIconColor(context.getActivity(), post.getUserType(), holder.rowBinding.userTypeView);
-
-            if (!TextUtils.isEmpty(post.getBoardId())) {
-                holder.rowBinding.boardName.setVisibility(View.VISIBLE);
-            } else {
-                holder.rowBinding.boardName.setVisibility(View.GONE);
-            }
-
-            if (!TextUtils.isEmpty(post.getTitle())) {
-                holder.rowBinding.txtTitle.setVisibility(View.VISIBLE);
-            } else {
-                holder.rowBinding.txtTitle.setVisibility(View.GONE);
-            }
-
-            if (!TextUtils.isEmpty(post.getIsLike())) {
-                if (post.getIsLike().equals("0")) {
+                if (!TextUtils.isEmpty(post.getIsLike())) {
+                    if (post.getIsLike().equals("0")) {
+                        holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
+                    } else {
+                        holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_icon);
+                    }
+                } else {
                     holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
-                } else {
-                    holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_icon);
                 }
-            } else {
-                holder.rowBinding.imgLike.setImageResource(R.drawable.favorite_border_icon);
-            }
 
-            if (!TextUtils.isEmpty(post.getIsBookmark())) {
-                if (post.getIsBookmark().equals("0")) {
+                if (!TextUtils.isEmpty(post.getIsBookmark())) {
+                    if (post.getIsBookmark().equals("0")) {
+                        holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
+                    } else {
+                        holder.rowBinding.imgSave.setImageResource(R.drawable.bookmark_icon);
+                    }
+                } else {
                     holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
-                } else {
-                    holder.rowBinding.imgSave.setImageResource(R.drawable.bookmark_icon);
                 }
-            } else {
-                holder.rowBinding.imgSave.setImageResource(R.drawable.ic_bookmark_border);
-            }
 
-            switch (post.getPostType()) {
-                case "1":
+                switch (post.getPostType()) {
+                    case "1":
 
-                    holder.rowBinding.documentLayout.setVisibility(View.VISIBLE);
+                        holder.rowBinding.documentLayout.setVisibility(View.VISIBLE);
                 /*aQuery.id(holder.rowBinding.audioVideoImg).image(
                         post.getFilePath() + post.getFile(), true, true, 200, R.drawable.user_default);
                 */
-                    String ext = FilenameUtils.getExtension(post.getFile());
-                    setFileAsExtension(holder, ext);
-                    holder.rowBinding.doctextAVUrl.setText(post.getFile());
-                    break;
-                case "2": // aartical url
-                    holder.rowBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
+                        String ext = FilenameUtils.getExtension(post.getFile());
+                        setFileAsExtension(holder, ext);
+                        holder.rowBinding.doctextAVUrl.setText(post.getFile());
+                        break;
+                    case "2": // aartical url
+                        holder.rowBinding.audioVideoImgLayout.setVisibility(View.VISIBLE);
 /*
                 Glide.with(context)
                         .load(post.getArticleThumbUrl())
                         .into(holder.rowBinding.audioVideoImg);
 */
 
-                    aQuery.id(holder.rowBinding.audioVideoImg).image(
-                            post.getArticleThumbUrl(), true, true, 160, R.drawable.image_placeholder);
+                        aQuery.id(holder.rowBinding.audioVideoImg).image(
+                                post.getArticleThumbUrl(), true, true, 160, R.drawable.image_placeholder);
 
-                    holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
-                    holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
+                        holder.rowBinding.textAVTitle.setText(post.getArticleTitle());
+                        holder.rowBinding.textAVUrl.setText(post.getVideoUrl());
 
-                    break;
-                case "5":  // for audio
-                    holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
-                    // String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
-                    //holder.rowBinding.audioText.setText(fileName);
-                    break;
-                case "4":  // for poll
-                    holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
-                    holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
+                        break;
+                    case "5":  // for audio
+                        holder.rowBinding.audioCardLayout.setVisibility(View.VISIBLE);
+                        // String fileName = URLUtil.guessFileName(post.getFilePath() + post.getImage(), null, null);
+                        //holder.rowBinding.audioText.setText(fileName);
+                        break;
+                    case "4":  // for poll
+                        holder.rowBinding.pollLayout.setVisibility(View.VISIBLE);
+                        holder.rowBinding.txtPollQuestion.setText(post.getQuestion());
 
-                    holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
-                    holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
-                    for (int i = 0; i < post.getOptionArrayList().size(); i++) {
+                        holder.rowBinding.option1.setText(post.getOptionArrayList().get(0).getOptionValue());
+                        holder.rowBinding.option2.setText(post.getOptionArrayList().get(1).getOptionValue());
+                        for (int i = 0; i < post.getOptionArrayList().size(); i++) {
 
-                        if (!TextUtils.isEmpty(post.getSelectedId())) {
-                            String id = post.getOptionArrayList().get(i).getId();
-                            if (post.getSelectedId().equals(id)) {
-                                post.getOptionArrayList().get(i).setIsSelect("1");
+                            if (!TextUtils.isEmpty(post.getSelectedId())) {
+                                String id = post.getOptionArrayList().get(i).getId();
+                                if (post.getSelectedId().equals(id)) {
+                                    post.getOptionArrayList().get(i).setIsSelect("1");
+                                }
+                            }
+
+                            String select = post.getOptionArrayList().get(i).getIsSelect();
+                            if (i == 0) {
+                                if (!TextUtils.isEmpty(select) && select.equals("1")) {
+                                    holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                            .ic_radio_button_checked, 0, 0, 0);
+                                    holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                            .ic_radio_button_unchecked, 0, 0, 0);
+                                } else {
+                                    holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                            .ic_radio_button_unchecked, 0, 0, 0);
+                                }
+
+                                int firstValue = 0, secondValue = 0;
+                                int total = 0;
+                                if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                                    firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                                }
+
+                                if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                                    secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                                }
+                                total = firstValue + secondValue;
+                                int firstPer = 0;
+                                if (total != 0) {
+                                    firstPer = (firstValue / total) * 100;
+                                }
+                                holder.rowBinding.totalCount1.setText("" + firstPer + " %");
+                            } else if (i == 1) {
+                                if (!TextUtils.isEmpty(select) && select.equals("1")) {
+                                    holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                            .ic_radio_button_unchecked, 0, 0, 0);
+                                    holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                            .ic_radio_button_checked, 0, 0, 0);
+                                } else {
+                                    holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
+                                            .ic_radio_button_unchecked, 0, 0, 0);
+                                }
+                                int firstValue = 0, secondValue = 0;
+                                int total = 0;
+                                if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
+                                    firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
+                                }
+
+                                if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
+                                    secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
+                                }
+                                total = firstValue + secondValue;
+                                int firstPer = 0;
+                                if (total != 0) {
+                                    firstPer = (secondValue / total) * 100;
+                                }
+                                holder.rowBinding.totalCount2.setText("" + firstPer + " %");
                             }
                         }
 
-                        String select = post.getOptionArrayList().get(i).getIsSelect();
-                        if (i == 0) {
-                            if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                                holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                        .ic_radio_button_checked, 0, 0, 0);
-                                holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                        .ic_radio_button_unchecked, 0, 0, 0);
-                            } else {
-                                holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                        .ic_radio_button_unchecked, 0, 0, 0);
-                            }
+                        break;
+                    case "3":
+                        holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
+                        imageOrVideoRow(holder, post);
+                        break;
+                }
 
-                            int firstValue = 0, secondValue = 0;
-                            int total = 0;
-                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
-                                firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
-                            }
-
-                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
-                                secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
-                            }
-                            total = firstValue + secondValue;
-                            int firstPer = 0;
-                            if (total != 0) {
-                                firstPer = (firstValue / total) * 100;
-                            }
-                            holder.rowBinding.totalCount1.setText("" + firstPer + " %");
-                        } else if (i == 1) {
-                            if (!TextUtils.isEmpty(select) && select.equals("1")) {
-                                holder.rowBinding.option1.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                        .ic_radio_button_unchecked, 0, 0, 0);
-                                holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                        .ic_radio_button_checked, 0, 0, 0);
-                            } else {
-                                holder.rowBinding.option2.setCompoundDrawablesWithIntrinsicBounds(R.drawable
-                                        .ic_radio_button_unchecked, 0, 0, 0);
-                            }
-                            int firstValue = 0, secondValue = 0;
-                            int total = 0;
-                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(0).getTotalVote())) {
-                                firstValue = Integer.parseInt(post.getOptionArrayList().get(0).getTotalVote());
-                            }
-
-                            if (!TextUtils.isEmpty(post.getOptionArrayList().get(1).getTotalVote())) {
-                                secondValue = Integer.parseInt(post.getOptionArrayList().get(1).getTotalVote());
-                            }
-                            total = firstValue + secondValue;
-                            int firstPer = 0;
-                            if (total != 0) {
-                                firstPer = (secondValue / total) * 100;
-                            }
-                            holder.rowBinding.totalCount2.setText("" + firstPer + " %");
-                        }
+                if (!TextUtils.isEmpty(post.getAllowRePost())) {
+                    if (post.getAllowRePost().equals("1")) {
+                        holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.rowBinding.imgRepost.setVisibility(View.INVISIBLE);
                     }
-
-                    break;
-                case "3":
-                    holder.rowBinding.imageLayout.setVisibility(View.VISIBLE);
-                    imageOrVideoRow(holder, post);
-                    break;
-            }
-
-            if (!TextUtils.isEmpty(post.getAllowRePost())) {
-                if (post.getAllowRePost().equals("1")) {
+                } else {
                     holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
-                } else {
-                    holder.rowBinding.imgRepost.setVisibility(View.INVISIBLE);
                 }
-            } else {
-                holder.rowBinding.imgRepost.setVisibility(View.VISIBLE);
-            }
 
-            if (!TextUtils.isEmpty(post.getAllowComment())) {
-                if (post.getAllowComment().equals("1")) {
+                if (!TextUtils.isEmpty(post.getAllowComment())) {
+                    if (post.getAllowComment().equals("1")) {
+                        holder.rowBinding.imgComment.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.rowBinding.imgComment.setVisibility(View.INVISIBLE);
+                    }
+                } else {
                     holder.rowBinding.imgComment.setVisibility(View.VISIBLE);
-                } else {
-                    holder.rowBinding.imgComment.setVisibility(View.INVISIBLE);
                 }
-            } else {
-                holder.rowBinding.imgComment.setVisibility(View.VISIBLE);
-            }
 
-            holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
-                            .rowBinding.actionIcon);
-                }
-            });
+                holder.rowBinding.actionIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showActionMenu(postArrayList.get(holder.getAdapterPosition()), holder.getAdapterPosition(), holder
+                                .rowBinding.actionIcon);
+                    }
+                });
+            }
         }
     }
 
@@ -320,7 +398,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private void imageOrVideoRow(final ViewHolder holder, GetPostResponse.Post post) {
         holder.rowBinding.playBtn.setVisibility(View.GONE);
         aQuery.id(holder.rowBinding.image).image(
-                post.getFilePath() + post.getImage(), true, true, 160, R.drawable.image_placeholder);
+                post.getFilePath() + post.getImage(), true, true, 300, R.drawable.image_placeholder);
     }
 
     //http://techslides.com/demos/sample-videos/small.mp4
@@ -366,11 +444,15 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void onArticleClick(GetPostResponse.Post post) {
         if (post.getPostType().equals("1")) {
-            String url = post.getFilePath() + post.getFile();
+            String url = post.getFilePath() + post.getFile();/*
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setToolbarColor(ContextCompat.getColor(context.getActivity(), R.color.colorPrimary));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context.getActivity(), Uri.parse(url));
+            customTabsIntent.launchUrl(context.getActivity(), Uri.parse(url));*/
+
+            MyDownloader myDownloader = new MyDownloader();
+            myDownloader.downloadFile(context.getActivity(), url, post.getFile());
+            Utility.showToast(context.getActivity(), "Downloading started...");
         } else {
             String url = post.getVideoUrl();
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
@@ -449,17 +531,51 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void onCommentBtnClick(GetPostResponse.Post post) {
-        Intent intent = new Intent(context.getActivity(), CommentPostActivity.class);
+       /* Intent intent = new Intent(context.getActivity(), CommentPostActivity.class);
         intent.putExtra(CommentPostActivity.TAG_POST, post);
         intent.putExtra(CommentPostActivity.TAG_POSITION, postArrayList.indexOf(post));
-        context.startActivityForResult(intent, 114);
+        context.startActivityForResult(intent, 114);*/
+        Intent intent = new Intent(context.getActivity(), ViewPostActivity.class);
+        intent.putExtra("post_id", post.getPostId());
+        intent.putExtra("for", "comment");
+        context.startActivity(intent);
     }
+
+    public void onTotalLikeClick(GetPostResponse.Post post) {
+        Intent intent = new Intent(context.getActivity(), TotalLikeActivity.class);
+        intent.putExtra(TotalLikeActivity.TAG_POST, post);
+        intent.putExtra(TotalLikeActivity.TAG_POSITION, postArrayList);
+        context.startActivity(intent);
+    }
+
+    public void onTotalCommentsClick(GetPostResponse.Post post) {
+        Intent intent = new Intent(context.getActivity(), TotalCommentsListActivity.class);
+        intent.putExtra(TotalLikeActivity.TAG_POST, post);
+        intent.putExtra(TotalLikeActivity.TAG_POSITION, postArrayList);
+        context.startActivity(intent);
+    }
+
 
     public void refreshItem(int position, GetPostResponse.Post post) {
         if (position != -1) {
             postArrayList.set(position, post);
             notifyItemChanged(position);
         }
+    }
+
+    public void onClickBoardName(GetPostResponse.Post post) {
+        String boardId = post.getBoardId();
+        String boardName = post.getBoardName();
+        if (!boardId.equals("0")) {
+            Intent intent = new Intent(context.getActivity(), BoardDetailsMainActivity.class);
+
+            intent.putExtra("board_id", boardId);
+            intent.putExtra("BoardName", boardName);
+            intent.putExtra("is_admin", true);
+            context.startActivity(intent);
+        }
+
+
     }
 
 

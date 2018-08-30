@@ -2,6 +2,7 @@ package com.stufeed.android.view.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -86,6 +87,7 @@ public class SkillsActivity extends AppCompatActivity {
                 Tag tag = new Tag(skills);
                 tag.isDeletable = true;
                 mBinding.tagGroup.addTag(tag);
+                tag.layoutColor= ContextCompat.getColor(SkillsActivity.this,R.color.topheader);
                 mBinding.editTextSkill.getText().clear();
             }
         }
@@ -162,6 +164,8 @@ public class SkillsActivity extends AppCompatActivity {
                     tagsList.add(skills[i]);
                     Tag tag = new Tag(skills[i]);
                     tag.isDeletable = true;
+                    tag.layoutColor= ContextCompat.getColor(SkillsActivity.this,R.color.topheader);
+                   // tag.tagTextColor = getColor(R.color.topheader);
                     tagsListTags.add(tag);
                 }
                 mBinding.tagGroup.addTags(tagsListTags);

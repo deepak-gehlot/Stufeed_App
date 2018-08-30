@@ -7,7 +7,7 @@
     android:drawablePadding="16dp"
     android:padding="10dp"
     android:text="@string/people_you_follow"
-    android:textColor="@color/button_color"
+    android:textColor="@color/text_color"
     android:textSize="14sp"
     android:textStyle="bold" />
 

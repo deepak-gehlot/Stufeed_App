@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,12 +24,11 @@ import com.stufeed.android.api.response.GetBoardListResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
 import com.stufeed.android.api.response.GetPostResponse;
 import com.stufeed.android.api.response.GetUserDetailsResponse;
-import com.stufeed.android.databinding.RowBoardPostCombineBinding;
 import com.stufeed.android.databinding.RowMyBoardPostCombineBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.EditProfileActivity;
-import com.stufeed.android.view.activity.FolloweListActivity;
+import com.stufeed.android.view.activity.UserFollowingActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
 
@@ -97,6 +97,13 @@ public class MyBoardPostCombineAdapter extends RecyclerView.Adapter<MyBoardPostC
                 holder.binding.setActivity(this);
                 setUserType(holder, userDetailsResponse.getUserType());
                 String description = userDetailsResponse.getAbout();
+                if (TextUtils.isEmpty(description)) {
+                    holder.binding.textAboutMe.setVisibility(View.INVISIBLE);
+                } else {
+                    holder.binding.textAboutMe.setVisibility(View.VISIBLE);
+                    holder.binding.textAboutMeData.setText(description);
+
+                }
                 holder.binding.textAboutMeData.setText(description);
                 holder.binding.txtUserName.setText(userDetailsResponse.getFullName());
                 String allSkills = userDetailsResponse.getSkills();
@@ -105,6 +112,7 @@ public class MyBoardPostCombineAdapter extends RecyclerView.Adapter<MyBoardPostC
                 for (int i = 0; i < skills.length; i++) {
                     if (!TextUtils.isEmpty(skills[i])) {
                         Tag tag = new Tag(skills[i]);
+                        tag.layoutColor= ContextCompat.getColor(context,R.color.topheader);
                         tagList.add(tag);
                     }
                 }
@@ -215,7 +223,7 @@ public class MyBoardPostCombineAdapter extends RecyclerView.Adapter<MyBoardPostC
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(context, FolloweListActivity.class);
+        Intent intent = new Intent(context, UserFollowingActivity.class);
         intent.putExtra("user_id", user.getUserId());
         context.startActivity(intent);
     }

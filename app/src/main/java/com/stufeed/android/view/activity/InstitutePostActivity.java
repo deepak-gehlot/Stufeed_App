@@ -346,7 +346,7 @@ public class InstitutePostActivity extends AppCompatActivity {
      * validate post
      */
     public boolean validate(EdukitPostModel edukitPostModel) {
-        if (TextUtils.isEmpty(edukitPostModel.getTitle()) || TextUtils.isEmpty(edukitPostModel.getDescription()) ||
+        if (TextUtils.isEmpty(edukitPostModel.getTitle()) ||
                 TextUtils.isEmpty(edukitPostModel.getPostValue())) {
             Utility.showToast(InstitutePostActivity.this, "All required");
             return false;

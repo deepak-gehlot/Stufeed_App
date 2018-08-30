@@ -34,8 +34,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:padding="7dp"
+                    android:clipToPadding="false">
 
+                    <android.support.v7.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        app:cardCornerRadius="28dp"
+                        app:cardElevation="10dp">
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
@@ -49,10 +56,9 @@
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="55dp"
                             android:layout_height="55dp"
-                            android:elevation="@dimen/dimen_3dp"
                             app:profileImageUrl="@{model.profilePic}" />
                     </RelativeLayout>
-
+                    </android.support.v7.widget.CardView>
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -103,8 +109,8 @@
 
                 <com.stufeed.android.customui.TriangleShapeView
                     android:id="@+id/userTypeView"
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="end" />
             </RelativeLayout>
@@ -127,10 +133,11 @@
                 android:id="@+id/txtTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_16dp"
+                android:layout_marginStart="@dimen/dimen_10dp"
                 android:text="@{model.title}"
                 android:textColor="@color/text_color"
-                android:textSize="22sp"
+                android:textSize="20sp"
+                android:layout_marginEnd="@dimen/dimen_10dp"
                 android:layout_marginTop="@dimen/dimen_10dp"
                 android:textStyle="bold" />
 
@@ -139,15 +146,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:layout_marginEnd="@dimen/dimen_16dp"
-                android:layout_marginStart="@dimen/dimen_16dp"
-                app:tvea_expandLines="5"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:layout_marginStart="@dimen/dimen_10dp"
+                app:tvea_expandLines="15"
                 contentPaddingBottom="@dimen/dimen_10dp"
                 app:tvea_textContentColor="@color/text_color"
                 app:tvea_textContentSize="@dimen/dimen_16sp"
                 app:tvea_textExpand="@string/expand"
                 app:tvea_textShrink="@string/shrink"
-                app:tvea_textStateColor="@color/red" />
+                app:tvea_textStateColor="@color/colorPrimary" />
 
             <!--    Image Layout Start  -->
             <RelativeLayout
@@ -320,7 +327,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/borderstyle1"
                 android:onClick="@{()->adapter.onArticleClick(model)}"
-                android:visibility="visible">
+                android:visibility="gone">
 
 
                 <LinearLayout
@@ -384,6 +391,7 @@
                     android:layout_width="@dimen/dimen_70dp"
                     android:layout_height="match_parent"
                     android:padding="5dp"
+                    android:tint="@color/icon_color"
                     android:src="@drawable/icon_file_doc" />
 
                 <TextView
@@ -391,7 +399,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_5dp"
-                    android:gravity="center|right"
+                    android:gravity="center|start"
                     android:lines="2"
                     android:textColor="@color/text_color"
                     android:textSize="14sp" />
@@ -406,6 +414,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:visibility="gone"
                 android:paddingEnd="@dimen/dimen_10dp">
 
                 <TextView
@@ -442,6 +451,7 @@
             <!--    Like Comment Re post Start  -->
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:gravity="center_vertical"
                 android:layout_height="wrap_content">
 
                 <ImageView
@@ -453,25 +463,50 @@
                     android:padding="10dp"
                     android:src="@drawable/favorite_border_icon" />
 
+                <TextView
+                    android:id="@+id/totalLike"
+                    android:layout_toEndOf="@+id/imgLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:onClick="@{()->adapter.onTotalLikeClick(model)}"
+                    android:padding="10dp"
+                    android:text="@{model.totalLike}"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp" />
+
                 <ImageView
                     android:id="@+id/imgComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_toEndOf="@+id/imgLike"
+                    android:layout_toEndOf="@+id/totalLike"
                     android:onClick="@{()->adapter.onCommentBtnClick(model)}"
                     android:padding="10dp"
                     android:src="@drawable/comment_border_icon" />
+
+                <TextView
+                    android:id="@+id/totalComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/imgComment"
+                    android:lines="1"
+                    android:onClick="@{()->adapter.onTotalCommentsClick(model)}"
+                    android:padding="10dp"
+                    android:text="@{model.totalComment}"
+                    android:textColor="@color/text_color"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:id="@+id/imgRepost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_toEndOf="@+id/imgComment"
+                    android:layout_toEndOf="@+id/totalComment"
                     android:onClick="@{()->adapter.onRePostBtnClick(model)}"
                     android:padding="10dp"
-                    android:src="@drawable/repost_icon" />
+                    android:src="@drawable/repost_icon"
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/imgSave"

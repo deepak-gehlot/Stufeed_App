@@ -58,16 +58,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="50dp"
+                        android:clipToPadding="false"
                         android:visibility="visible">
 
                         <android.support.v7.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:clipToPadding="false"
                             app:cardUseCompatPadding="true">
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:clipToPadding="false"
                                 android:padding="5dp">
 
                                 <ImageView
@@ -93,7 +96,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="42dp"
+                                    android:layout_marginTop="60dp"
                                     android:background="@drawable/button"
                                     android:ellipsize="end"
                                     android:lines="1"
@@ -187,7 +190,8 @@
                                             android:maxLines="1"
                                             android:text="@{model.postCount}"
                                             android:textColor="@color/text_color"
-                                            android:textSize="13sp" />
+                                            android:textSize="20sp"
+                                            android:textStyle="bold" />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -198,7 +202,8 @@
                                             android:maxLines="1"
                                             android:text="@string/post"
                                             android:textColor="@color/text_color"
-                                            android:textSize="13sp" />
+                                            android:textSize="12sp"
+                                            android:textStyle="bold" />
 
                                     </LinearLayout>
 
@@ -227,7 +232,8 @@
                                             android:maxLines="1"
                                             android:text="@{model.followerCount}"
                                             android:textColor="@color/text_color"
-                                            android:textSize="13sp" />
+                                            android:textSize="20sp"
+                                            android:textStyle="bold" />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -238,7 +244,8 @@
                                             android:maxLines="1"
                                             android:text="@string/followers"
                                             android:textColor="@color/text_color"
-                                            android:textSize="13sp" />
+                                            android:textSize="13sp"
+                                            android:textStyle="bold" />
 
                                     </LinearLayout>
 
@@ -267,7 +274,8 @@
                                             android:maxLines="1"
                                             android:text="@{model.joinCount}"
                                             android:textColor="@color/text_color"
-                                            android:textSize="13sp" />
+                                            android:textSize="20sp"
+                                            android:textStyle="bold" />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -280,7 +288,8 @@
                                             android:maxLines="1"
                                             android:text="@string/join_board"
                                             android:textColor="@color/text_color"
-                                            android:textSize="13sp" />
+                                            android:textSize="13sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                 </LinearLayout>
@@ -377,16 +386,24 @@
 
                     </RelativeLayout>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profilePic"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                    <android.support.v7.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="3dp"
-                        app:civ_border_color="@color/colorPrimary"
-                        app:civ_border_width="0.05dp"
-                        app:profileImageUrl="@{model.profilePic}" />
+                        android:layout_marginTop="5dp"
+                        app:cardElevation="@dimen/dimen_10dp"
+                        app:cardCornerRadius="51dp">
 
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profilePic"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="@dimen/dimen_3dp"
+                            android:src="@mipmap/ic_launcher"
+                            app:civ_border_color="@color/colorPrimary"
+                            app:civ_border_width="0.05dp"
+                            app:profileImageUrl="@{model.profilePic}" />
+                    </android.support.v7.widget.CardView>
                     <!-- <LinearLayout
                          android:id="@+id/mainContent"
                          android:layout_width="match_parent"
@@ -409,9 +426,12 @@
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_30dp"
-                    android:background="@color/white"
                     android:layout_gravity="bottom"
-                    app:tabGravity="fill">
+                    android:background="@color/white"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/transparent_black"
+                    app:tabMode="fixed"
+                    app:tabTextAppearance="@style/Base.TextAppearance.AppCompat.Small">
 
                     <android.support.design.widget.TabItem
                         android:layout_width="wrap_content"
@@ -426,6 +446,7 @@
                     <android.support.design.widget.TabItem
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:text="Board" />
                 </android.support.design.widget.TabLayout>
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -435,18 +456,20 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="visible"
             android:layout_below="@+id/tabLayout"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <TextView
             android:id="@+id/textNotRegister"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/dimen_30dp"
             android:gravity="center"
-            android:text="Your institute is not premium user."
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/dimen_30dp" />
+            android:text="Your Institute is not our Premium User."
+            android:textColor="@color/text_color"
+            android:textStyle="bold"
+            android:textSize="30sp" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>

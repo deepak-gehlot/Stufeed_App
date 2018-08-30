@@ -45,6 +45,8 @@ import com.stufeed.android.view.activity.BoardSelectionActivity;
 import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.activity.EditPostActivity;
 import com.stufeed.android.view.activity.FullImageActivity;
+import com.stufeed.android.view.activity.TotalCommentsListActivity;
+import com.stufeed.android.view.activity.TotalLikeActivity;
 import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
@@ -354,6 +356,20 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(context, Uri.parse(url));
         }
+    }
+
+    public void onTotalLikeClick(GetSavedPostResponse.Post post) {
+        Intent intent = new Intent(context, TotalLikeActivity.class);
+        intent.putExtra(TotalLikeActivity.TAG_POST, post);
+        intent.putExtra(TotalLikeActivity.TAG_POSITION, postArrayList);
+        context.startActivity(intent);
+    }
+
+    public void onTotalCommentsClick(GetSavedPostResponse.Post post) {
+        Intent intent = new Intent(context, TotalCommentsListActivity.class);
+        intent.putExtra(TotalLikeActivity.TAG_POST, post);
+        intent.putExtra(TotalLikeActivity.TAG_POSITION, postArrayList);
+        context.startActivity(intent);
     }
 
     private void showActionMenu(final GetSavedPostResponse.Post post, int position, View view) {
@@ -757,6 +773,7 @@ public class SavedFeedListAdapter extends RecyclerView.Adapter<RecyclerView.View
             AdView mAdView = view.findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
+
         }
     }
 }

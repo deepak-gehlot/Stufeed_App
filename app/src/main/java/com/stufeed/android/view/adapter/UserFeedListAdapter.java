@@ -38,11 +38,14 @@ import com.stufeed.android.customui.TextViewExpandableAnimation;
 import com.stufeed.android.databinding.RowFeedBinding;
 import com.stufeed.android.databinding.RowUserFeedBinding;
 import com.stufeed.android.listener.DialogListener;
+import com.stufeed.android.util.MyDownloader;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.BoardSelectionActivity;
 import com.stufeed.android.view.activity.CommentPostActivity;
 import com.stufeed.android.view.activity.FullImageActivity;
+import com.stufeed.android.view.activity.TotalCommentsListActivity;
+import com.stufeed.android.view.activity.TotalLikeActivity;
 import com.stufeed.android.view.activity.UserProfileActivity;
 import com.stufeed.android.view.fragment.audioplayer.PlayerDialogFragment;
 
@@ -277,6 +280,20 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
         }
     }
 
+    public void onTotalLikeClick(GetPostResponse.Post post) {
+        Intent intent = new Intent(context, TotalLikeActivity.class);
+        intent.putExtra(TotalLikeActivity.TAG_POST, post);
+        intent.putExtra(TotalLikeActivity.TAG_POSITION, postArrayList);
+        context.startActivity(intent);
+    }
+
+    public void onTotalCommentsClick(GetPostResponse.Post post) {
+        Intent intent = new Intent(context, TotalCommentsListActivity.class);
+        intent.putExtra(TotalLikeActivity.TAG_POST, post);
+        intent.putExtra(TotalLikeActivity.TAG_POSITION, postArrayList);
+        context.startActivity(intent);
+    }
+
     private void imageOrVideoRow(ViewHolder holder, GetPostResponse.Post post) {
         holder.rowBinding.playBtn.setVisibility(View.GONE);
         aQuery.id(holder.rowBinding.image).image(
@@ -325,10 +342,13 @@ public class UserFeedListAdapter extends RecyclerView.Adapter<UserFeedListAdapte
     public void onArticleClick(GetPostResponse.Post post) {
         if (post.getPostType().equals("1")) {
             String url = post.getFilePath() + post.getFile();
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            /*CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(context, Uri.parse(url));
+            customTabsIntent.launchUrl(context, Uri.parse(url));*/
+            MyDownloader myDownloader = new MyDownloader();
+            myDownloader.downloadFile(context, url, post.getFile());
+            Utility.showToast(context, "Downloading started...");
         } else {
             String url = post.getVideoUrl();
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();

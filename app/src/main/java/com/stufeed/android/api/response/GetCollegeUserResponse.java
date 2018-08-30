@@ -55,6 +55,7 @@ public class GetCollegeUserResponse {
         private String profilePic = "";
         @SerializedName("is_follow")
         private String isFollow = "";
+        private String verifyStatus = "";
 
         public String getUserId() {
             return userId;
@@ -104,6 +105,14 @@ public class GetCollegeUserResponse {
             this.collegeName = collegeName;
         }
 
+        public String getVerifyStatus() {
+            return verifyStatus;
+        }
+
+        public void setVerifyStatus(String verifyStatus) {
+            this.verifyStatus = verifyStatus;
+        }
+
         public User() {
         }
 
@@ -120,6 +129,7 @@ public class GetCollegeUserResponse {
             dest.writeString(this.fullName);
             dest.writeString(this.profilePic);
             dest.writeString(this.isFollow);
+            dest.writeString(this.verifyStatus);
         }
 
         protected User(Parcel in) {
@@ -129,6 +139,7 @@ public class GetCollegeUserResponse {
             this.fullName = in.readString();
             this.profilePic = in.readString();
             this.isFollow = in.readString();
+            this.verifyStatus = in.readString();
         }
 
         public static final Creator<User> CREATOR = new Creator<User>() {
