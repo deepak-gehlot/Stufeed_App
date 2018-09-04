@@ -25,8 +25,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_path"/>
+                android:resource="@xml/file_path" />
         </provider>
+
         <activity
             android:name=".view.activity.SplashActivity"
             android:screenOrientation="portrait">
@@ -253,9 +254,13 @@
         <activity android:name=".view.activity.TotalLikeActivity" />
         <activity android:name=".view.activity.TotalCommentsListActivity" />
         <activity android:name=".view.activity.UserTypeActivity" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".view.activity.SelectMyInstitueActivity" />
+        <activity android:name=".view.activity.InstituteFollowerListActivity"/>
     </application>
 
 </manifest>

@@ -1,5 +1,8 @@
 package com.stufeed.android.api.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -39,7 +42,7 @@ public class GetAllCollegeResponse {
         this.collegeArrayList = collegeArrayList;
     }
 
-    public static class College {
+    public static class College implements Parcelable {
 
         private String followerCount = "";
         private String collegeId = "";
@@ -218,5 +221,69 @@ public class GetAllCollegeResponse {
         public void setInstituteCode(String instituteCode) {
             this.instituteCode = instituteCode;
         }
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.followerCount);
+            dest.writeString(this.collegeId);
+            dest.writeString(this.collegeName);
+            dest.writeString(this.institutionType);
+            dest.writeString(this.instituteCode);
+            dest.writeString(this.address);
+            dest.writeString(this.affiliationNo);
+            dest.writeString(this.collegeType);
+            dest.writeString(this.district);
+            dest.writeString(this.location);
+            dest.writeString(this.management);
+            dest.writeString(this.specialisedIn);
+            dest.writeString(this.state);
+            dest.writeString(this.universityName);
+            dest.writeString(this.universityType);
+            dest.writeString(this.uploadYear);
+            dest.writeString(this.website);
+            dest.writeString(this.yearOfEstablishment);
+        }
+
+        public College() {
+        }
+
+        protected College(Parcel in) {
+            this.followerCount = in.readString();
+            this.collegeId = in.readString();
+            this.collegeName = in.readString();
+            this.institutionType = in.readString();
+            this.instituteCode = in.readString();
+            this.address = in.readString();
+            this.affiliationNo = in.readString();
+            this.collegeType = in.readString();
+            this.district = in.readString();
+            this.location = in.readString();
+            this.management = in.readString();
+            this.specialisedIn = in.readString();
+            this.state = in.readString();
+            this.universityName = in.readString();
+            this.universityType = in.readString();
+            this.uploadYear = in.readString();
+            this.website = in.readString();
+            this.yearOfEstablishment = in.readString();
+        }
+
+        public static final Parcelable.Creator<College> CREATOR = new Parcelable.Creator<College>() {
+            @Override
+            public College createFromParcel(Parcel source) {
+                return new College(source);
+            }
+
+            @Override
+            public College[] newArray(int size) {
+                return new College[size];
+            }
+        };
     }
 }

@@ -120,7 +120,8 @@
                                     android:textColor="@color/text_color"
                                     android:textSize="16sp"
                                     android:textStyle="bold"
-                                    app:setTextValue="@{model.fullName}" />
+                                    app:setTextValue="@{model.fullName}"
+                                    android:visibility="gone"/>
 
                                 <TextView
                                     android:id="@+id/txtCourse"
@@ -133,7 +134,8 @@
                                     android:maxLines="1"
                                     android:textColor="@color/text_color"
                                     android:textSize="13sp"
-                                    app:setTextValue="@{model.degree}" />
+                                    app:setTextValue="@{model.degree}"
+                                    android:visibility="gone"/>
 
                                 <TextView
                                     android:id="@+id/txtBranch"
@@ -146,7 +148,8 @@
                                     android:maxLines="1"
                                     android:textColor="@color/text_color"
                                     android:textSize="13sp"
-                                    app:setTextValue="@{model.branch}" />
+                                    app:setTextValue="@{model.branch}"
+                                    android:visibility="gone"/>
 
                                 <TextView
                                     android:id="@+id/txtCollageName"
@@ -161,7 +164,7 @@
                                     android:textColor="@color/button_color"
                                     android:textSize="14sp"
                                     android:textStyle="bold"
-                                    app:setTextValue="@{model.collegeName}" />
+                                    android:visibility="gone"/>
 
                                 <LinearLayout
                                     android:id="@+id/countLayout"
@@ -391,8 +394,8 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
-                        app:cardElevation="@dimen/dimen_10dp"
-                        app:cardCornerRadius="51dp">
+                        app:cardCornerRadius="51dp"
+                        app:cardElevation="@dimen/dimen_10dp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profilePic"
@@ -456,8 +459,8 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
             android:layout_below="@+id/tabLayout"
+            android:visibility="visible"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <TextView
@@ -469,7 +472,7 @@
             android:gravity="center"
             android:text="Your Institute is not our Premium User."
             android:textColor="@color/text_color"
-            android:textStyle="bold"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </android.support.design.widget.CoordinatorLayout>
 </layout>

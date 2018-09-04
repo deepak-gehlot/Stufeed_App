@@ -533,7 +533,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_toEndOf="@+id/imgComment"
+                        android:layout_toEndOf="@+id/totalComment"
                         android:onClick="@{()->activity.onRePostBtnClick(model)}"
                         android:padding="10dp"
                         android:src="@drawable/repost_icon"

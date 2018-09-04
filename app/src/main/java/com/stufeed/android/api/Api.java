@@ -9,6 +9,7 @@ import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetAchievementListResponse;
 import com.stufeed.android.api.response.GetAllCollegeResponse;
 import com.stufeed.android.api.response.GetAllCommentResponse;
+import com.stufeed.android.api.response.GetAllInstituteFollowersListResponse;
 import com.stufeed.android.api.response.GetAllLikes;
 import com.stufeed.android.api.response.GetAllSkillsResponse;
 import com.stufeed.android.api.response.GetArchiveBoardListResponse;
@@ -127,6 +128,7 @@ public interface Api {
     @FormUrlEncoded
     @POST("getPostLikeUserList")
     Call<GetAllLikes> getPostLikeUserList(@Field("postid") String postId);
+
     @FormUrlEncoded
     @POST("likepost")
     Call<LikeResponse> likePost(@Field("userid") String userId,
@@ -221,11 +223,12 @@ public interface Api {
     Call<JoinBoardResponse> requestJoinBoard(@Field("userid") String userId,
                                              @Field("boardid") String boardId,
                                              @Field("joinerid") String joinUserId);
+
     @FormUrlEncoded
     @POST("removeRequest")
     Call<JoinBoardResponse> cancelRequestJoinBoard(@Field("userid") String userId,
-                                             @Field("boardid") String boardId,
-                                             @Field("joinerid") String joinUserId);
+                                                   @Field("boardid") String boardId,
+                                                   @Field("joinerid") String joinUserId);
 
 
     @FormUrlEncoded
@@ -495,4 +498,9 @@ public interface Api {
     @FormUrlEncoded
     @POST("getLoginUserDetails")
     Call<LoginResponse> getLoginUserDetails(@Field("userid") String userId);
+
+    @FormUrlEncoded
+    @POST("showinstitudefollower")
+    Call<GetAllInstituteFollowersListResponse> getInstituteFollower(@Field("user_instituteId") String userInsituteId);
+
 }

@@ -220,7 +220,9 @@ public class AcademyFragment extends Fragment {
 
                 String description = response.getAllDetails().getAbout();
                 binding.textAboutMe.setText(description);
-                binding.txtUserName.setText(binding.getModel().getFullName());
+             //   binding.txtUserName.setVisibility(View.GONE);
+                //binding.txtUserName.setText(binding.getModel().getFullName());
+
                 String allSkills = response.getAllDetails().getSkills();
                 String skills[] = allSkills.split(",");
                 for (int i = 0; i < skills.length; i++) {

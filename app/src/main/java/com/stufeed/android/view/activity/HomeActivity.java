@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     private int searchType = 0;
     private String userType = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -343,9 +344,18 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             public void onClick(int position, Object obj) {
                 switch (position) {
                     case 0:
-                        Intent intent = new Intent(HomeActivity.this, FolloweListActivity.class);
-                        intent.putExtra("user_id", Utility.getLoginUserId(HomeActivity.this));
-                        startActivity(intent);
+                        if (userType.equals("4")) {
+                            Intent intent = new Intent(HomeActivity.this, InstituteFollowerListActivity.class);
+                            String instituteId=Utility.getLoginUserDetail(HomeActivity.this).getUserInstituteId();
+                            intent.putExtra("instituteId", instituteId);
+                            startActivity(intent);
+
+                        } else {
+                            Intent intent = new Intent(HomeActivity.this, FolloweListActivity.class);
+                            intent.putExtra("user_id", Utility.getLoginUserId(HomeActivity.this));
+                            startActivity(intent);
+                        }
+
                         break;
                     case 1:
                         startActivity(new Intent(HomeActivity.this, MyBookmarkListActivity.class));
@@ -437,7 +447,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             PreferenceConnector.writeString(HomeActivity.this, PreferenceConnector.USER_SETTING, strSetting);
         }
     }
-
 
 
 }
