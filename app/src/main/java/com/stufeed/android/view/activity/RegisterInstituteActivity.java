@@ -103,6 +103,37 @@ public class RegisterInstituteActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 311 && resultCode == RESULT_OK) {
+            college = data.getParcelableExtra("college");
+            mBinding.mainContent.searchCollegeEdt.setText(college.getCollegeName());
+            registerInstituteModel.setAddress(college.getAddress());
+            registerInstituteModel.setInstituteId(college.getAffiliationNo());
+            registerInstituteModel.setCollegeId(college.getCollegeId());
+            registerInstituteModel.setCollegeName(college.getCollegeName());
+            registerInstituteModel.setInstitutionType(college.getCollegeType());
+            registerInstituteModel.setCity(college.getDistrict());
+            registerInstituteModel.setInstitutionType(college.getInstitutionType());
+            registerInstituteModel.setLocation(college.getLocation());
+            registerInstituteModel.setManagedBy(college.getManagement());
+            registerInstituteModel.setSpecialisedIn(college.getSpecialisedIn());
+            registerInstituteModel.setState(college.getState());
+            registerInstituteModel.setUniversityName(college.getUniversityName());
+            registerInstituteModel.setWebsite(college.getWebsite());
+            registerInstituteModel.setYearOfEstablishment(college.getYearOfEstablishment());
+            mBinding.mainContent.setModel(registerInstituteModel);
+        } else {
+            Utility.showToast(RegisterInstituteActivity.this, "Canceled.");
+        }
+    }
+
+    public void onClickExistingCollage() {
+        Intent intent = new Intent(RegisterInstituteActivity.this, SelectMyInstitueActivity.class);
+        startActivityForResult(intent, 311);
+    }
+
     public void onClickYearOfEstablishment() {
         final NumberPicker numberPicker;
         final Dialog graduation_dialog = new Dialog(RegisterInstituteActivity.this);

@@ -45,6 +45,12 @@ public class FcmService extends FirebaseMessagingService {
                     intent.putExtra("post_id", postIdComment);
                     intent.putExtra("for", "like");
                     break;
+                case "new_type":
+                    String postId = data.get("postId");
+                    intent = new Intent(FcmService.this, ViewPostActivity.class);
+                    intent.putExtra("post_id", postId);
+                    intent.putExtra("for", "like");
+                    break;
                 case "follow":
                 case "add_board":
                 case "board":
