@@ -14,7 +14,7 @@
             android:layout_height="@dimen/tool_bar_height"
             android:background="@color/topheader"
             app:navigationIcon="@drawable/back_icon"
-            app:title="Followers"
+            app:title="People You Follow"
             app:titleTextColor="@color/topheader_text"
             android:elevation="@dimen/dimen_4dp"/>
 

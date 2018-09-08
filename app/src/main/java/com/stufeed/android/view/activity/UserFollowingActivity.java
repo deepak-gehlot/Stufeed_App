@@ -12,9 +12,11 @@ import com.google.android.gms.ads.MobileAds;
 import com.stufeed.android.R;
 import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
+import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.api.response.GetFollowingListResponse;
 import com.stufeed.android.databinding.ActivityUserFollowingBinding;
 import com.stufeed.android.util.Utility;
+import com.stufeed.android.view.adapter.FollowerListAdapter;
 import com.stufeed.android.view.adapter.UserFollowingListAdapter;
 
 import java.util.ArrayList;
@@ -34,7 +36,8 @@ public class UserFollowingActivity extends AppCompatActivity {
         MobileAds.initialize(this,
                 getString(R.string.ad_mob_id));
         getDatFromBundle();
-        getFollowingList();
+        getFollowerList();
+       // getFollowingList();
 
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -67,17 +70,17 @@ public class UserFollowingActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GetFollowingListResponse> call, retrofit2.Response<GetFollowingListResponse>
                     response) {
-                handleResponse(response.body());
+                handleResponses(response.body());
             }
 
             @Override
             public void onFailure(Call<GetFollowingListResponse> call, Throwable t) {
-                handleResponse(null);
+                handleResponses(null);
             }
         });
     }
 
-    private void handleResponse(GetFollowingListResponse response) {
+    private void handleResponses(GetFollowingListResponse response) {
         if (response == null) {
             Utility.showToast(UserFollowingActivity.this, getString(R.string.wrong));
             finish();
@@ -101,6 +104,44 @@ public class UserFollowingActivity extends AppCompatActivity {
         mBinding.recyclerView.setLayoutManager(new GridLayoutManager(UserFollowingActivity.this, 3));
         UserFollowingListAdapter adapter = new UserFollowingListAdapter(UserFollowingActivity.this, userArrayList,
                 userId);
+        mBinding.recyclerView.setAdapter(adapter);
+    }
+
+
+    private void getFollowerList() {
+        Api api = APIClient.getClient().create(Api.class);
+        String loginUserid = Utility.getLoginUserId(UserFollowingActivity.this);
+        Call<GetFollowerListResponse> responseCall = api.getUserFollowers(userId, loginUserid);
+        responseCall.enqueue(new Callback<GetFollowerListResponse>() {
+            @Override
+            public void onResponse(Call<GetFollowerListResponse> call, retrofit2.Response<GetFollowerListResponse>
+                    response) {
+                handleResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetFollowerListResponse> call, Throwable t) {
+                handleResponse(null);
+            }
+        });
+
+    }
+
+    private void handleResponse(GetFollowerListResponse getFollowerListResponse) {
+        mBinding.recyclerView.setVisibility(View.VISIBLE);
+        mBinding.progressBar.setVisibility(View.GONE);
+        if (getFollowerListResponse == null) {
+            Utility.showErrorMsg(UserFollowingActivity.this);
+        } else if (getFollowerListResponse.getResponseCode().equals(Api.SUCCESS)) {
+            setRecyclerViews(getFollowerListResponse.getUserArrayList());
+        } else {
+            Utility.showErrorMsg(UserFollowingActivity.this);
+        }
+    }
+
+    private void setRecyclerViews(ArrayList<GetFollowerListResponse.User> userArrayList) {
+        mBinding.recyclerView.setLayoutManager(new GridLayoutManager(UserFollowingActivity.this, 3));
+        FollowerListAdapter adapter = new FollowerListAdapter(UserFollowingActivity.this, userArrayList);
         mBinding.recyclerView.setAdapter(adapter);
     }
 }

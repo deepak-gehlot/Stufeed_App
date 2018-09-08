@@ -67,6 +67,7 @@
                     android:background="@drawable/button2"
                     android:gravity="center"
                     android:paddingEnd="5dp"
+                    android:onClick="@{()->adapter.onClickUnFollow(instituteFollower)}"
                     android:paddingStart="5dp"
                     android:text="@string/un_follow"
                     android:textColor="@color/white"

@@ -22,9 +22,7 @@ import com.stufeed.android.databinding.DialogEditBoardBinding;
 import com.stufeed.android.databinding.RowMyBoardBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
-import com.stufeed.android.view.activity.BlockedUserListActivity;
 import com.stufeed.android.view.activity.BoardDetailsMainActivity;
-import com.stufeed.android.view.activity.HomeActivity;
 import com.stufeed.android.view.activity.InstitutePostActivity;
 import com.stufeed.android.view.activity.PostActivity;
 import com.stufeed.android.view.fragment.BoardFragment;
@@ -59,7 +57,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        GetBoardListResponse.Board board = boardArrayList.get(position);
+        final GetBoardListResponse.Board board = boardArrayList.get(position);
         holder.rowBoardBinding.setModel(boardArrayList.get(position));
         holder.rowBoardBinding.setAdapter(this);
 
@@ -113,13 +111,26 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         holder.rowBoardBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, BoardDetailsMainActivity.class);
-                String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
-                String boardName=boardArrayList.get(holder.getAdapterPosition()).getBoardName();
-                intent.putExtra("board_id", boardId);
-                intent.putExtra("is_admin", true);
-                intent.putExtra("BoardName",boardName);
-                context.startActivity(intent);
+     String userType=Utility.getLoginUserDetail(context).getUserType();
+                if (!TextUtils.isEmpty(board.getJoinType())
+                        && board.getJoinType().equals("1")) {
+                    Intent intent = new Intent(context, BoardDetailsMainActivity.class);
+                    String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
+                    String boardName = boardArrayList.get(holder.getAdapterPosition()).getBoardName();
+                    intent.putExtra("board_id", boardId);
+                    intent.putExtra("is_admin", true);
+                    intent.putExtra("BoardName", boardName);
+                    context.startActivity(intent);
+                } else if (board.getUserId().equals(mLoginUserId)) {
+                    Intent intent = new Intent(context, BoardDetailsMainActivity.class);
+                    String boardId = boardArrayList.get(holder.getAdapterPosition()).getBoardId();
+                    String boardName = boardArrayList.get(holder.getAdapterPosition()).getBoardName();
+                    intent.putExtra("board_id", boardId);
+                    intent.putExtra("is_admin", true);
+                    intent.putExtra("BoardName", boardName);
+                    context.startActivity(intent);
+                }
+
             }
         });
     }

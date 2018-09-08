@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_horizontal"
-                ads:adSize="SMART_BANNER"
+                ads:adSize="BANNER"
                 android:backgroundTint="@color/bg_color"
                 ads:adUnitId="@string/ad_unit_id"
                 app:layout_constraintBottom_toBottomOf="parent"
