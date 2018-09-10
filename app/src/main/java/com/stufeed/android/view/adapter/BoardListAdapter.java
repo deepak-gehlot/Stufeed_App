@@ -111,7 +111,7 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
         holder.rowBoardBinding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-     String userType=Utility.getLoginUserDetail(context).getUserType();
+                String userType = Utility.getLoginUserDetail(context).getUserType();
                 if (!TextUtils.isEmpty(board.getJoinType())
                         && board.getJoinType().equals("1")) {
                     Intent intent = new Intent(context, BoardDetailsMainActivity.class);
@@ -163,10 +163,42 @@ public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.View
                 context.startActivity(new Intent(context, PostActivity.class));
             }
         } else if (board.getIsPrivate().equals("1")) {  // private board
-            requestJoinBoard(board);
+            if (!board.getJoinType().equals("2")) {
+                requestJoinBoard(board);                // request join
+            } else {
+                cancelRequestJoinBoard(board);          // cancel request join
+            }
         } else {  // public board
             joinBoard(board);
         }
+    }
+
+    /**
+     * Request private board join
+     */
+    private void cancelRequestJoinBoard(final GetBoardListResponse.Board board) {
+        ProgressDialog.getInstance().showProgressDialog(context);
+        Api api = APIClient.getClient().create(Api.class);
+        Call<JoinBoardResponse> responseCall = api.cancelRequestJoinBoard(board.getUserId(), board.getBoardId(), mLoginUserId);
+        responseCall.enqueue(new Callback<JoinBoardResponse>() {
+            @Override
+            public void onResponse(Call<JoinBoardResponse> call, Response<JoinBoardResponse> response) {
+                int position = boardArrayList.indexOf(board);
+                if (board.getJoinType().equals("2") || board.getJoinType().equals("1")) {
+                    board.setJoinType("0");
+                } else {
+                    board.setJoinType("2");
+                }
+                boardArrayList.set(position, board);
+                notifyItemChanged(position);
+                ProgressDialog.getInstance().dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<JoinBoardResponse> call, Throwable t) {
+                ProgressDialog.getInstance().dismissDialog();
+            }
+        });
     }
 
     /**

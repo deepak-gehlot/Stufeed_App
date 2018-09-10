@@ -13,7 +13,6 @@ import com.stufeed.android.api.APIClient;
 import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.FollowResponse;
 import com.stufeed.android.api.response.GetCollegeUserResponse;
-import com.stufeed.android.api.response.GetFollowerListResponse;
 import com.stufeed.android.api.response.GetFollowingListResponse;
 import com.stufeed.android.databinding.RowFollowingBinding;
 import com.stufeed.android.util.Utility;
