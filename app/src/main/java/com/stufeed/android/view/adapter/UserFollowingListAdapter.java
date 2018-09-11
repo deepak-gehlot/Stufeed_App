@@ -97,7 +97,7 @@ public class UserFollowingListAdapter extends RecyclerView.Adapter<UserFollowing
      */
     private void unFollowRequest(String followUserId) {
         Api api = APIClient.getClient().create(Api.class);
-        Call<FollowResponse> responseCall = api.follow(userId, followUserId);
+        Call<FollowResponse> responseCall = api.follow(followUserId, userId);
         responseCall.enqueue(new Callback<FollowResponse>() {
             @Override
             public void onResponse(Call<FollowResponse> call, Response<FollowResponse> response) {

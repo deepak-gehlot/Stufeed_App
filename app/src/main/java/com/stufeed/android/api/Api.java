@@ -166,6 +166,11 @@ public interface Api {
                                                    @Field("loginUserid") String loginUserid);
 
     @FormUrlEncoded
+    @POST("getLoginuserfollowers")
+    Call<GetFollowerListResponse> getLoginuserfollowers(@Field("userid") String userId,
+                                                   @Field("loginUserid") String loginUserid);
+
+    @FormUrlEncoded
     @POST("getuserfollowing")
     Call<GetFollowingListResponse> getUserFollowing(@Field("userid") String userId);
 

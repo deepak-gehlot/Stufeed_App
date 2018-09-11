@@ -28,6 +28,7 @@ public class UserFollowingActivity extends AppCompatActivity {
 
     private String userId = "";
     private ActivityUserFollowingBinding mBinding;
+    String loginUserid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +37,13 @@ public class UserFollowingActivity extends AppCompatActivity {
         MobileAds.initialize(this,
                 getString(R.string.ad_mob_id));
         getDatFromBundle();
-        getFollowerList();
-       // getFollowingList();
+        loginUserid = Utility.getLoginUserId(UserFollowingActivity.this);
+        if (userId.equals(loginUserid)) {
+            getLoginFollowerList();
+        } else {
+            getFollowerList();
+        }
+        // getFollowingList();
 
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -110,8 +116,25 @@ public class UserFollowingActivity extends AppCompatActivity {
 
     private void getFollowerList() {
         Api api = APIClient.getClient().create(Api.class);
-        String loginUserid = Utility.getLoginUserId(UserFollowingActivity.this);
         Call<GetFollowerListResponse> responseCall = api.getUserFollowers(userId, loginUserid);
+        responseCall.enqueue(new Callback<GetFollowerListResponse>() {
+            @Override
+            public void onResponse(Call<GetFollowerListResponse> call, retrofit2.Response<GetFollowerListResponse>
+                    response) {
+                handleResponse(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<GetFollowerListResponse> call, Throwable t) {
+                handleResponse(null);
+            }
+        });
+
+    }
+
+    private void getLoginFollowerList() {
+        Api api = APIClient.getClient().create(Api.class);
+        Call<GetFollowerListResponse> responseCall = api.getLoginuserfollowers(userId, loginUserid);
         responseCall.enqueue(new Callback<GetFollowerListResponse>() {
             @Override
             public void onResponse(Call<GetFollowerListResponse> call, retrofit2.Response<GetFollowerListResponse>
