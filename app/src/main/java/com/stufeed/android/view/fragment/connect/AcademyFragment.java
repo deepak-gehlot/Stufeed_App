@@ -24,6 +24,7 @@ import com.stufeed.android.databinding.FragmentAcademyBinding;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.HomeActivity;
+import com.stufeed.android.view.activity.InstituteFollowerListActivity;
 import com.stufeed.android.view.activity.UserFollowingActivity;
 import com.stufeed.android.view.activity.UserJoinBoardActivity;
 import com.stufeed.android.view.activity.UsersPostActivity;
@@ -121,8 +122,9 @@ public class AcademyFragment extends Fragment {
     }
 
     public void onFollowerCountClick() {
-        Intent intent = new Intent(getActivity(), UserFollowingActivity.class);
-        intent.putExtra("user_id", mLoginUserId);
+        Intent intent = new Intent(getActivity(), InstituteFollowerListActivity.class);
+        String instituteId = Utility.getLoginUserDetail(getActivity()).getUserInstituteId();
+        intent.putExtra("instituteId", instituteId);
         startActivity(intent);
     }
 
@@ -220,7 +222,7 @@ public class AcademyFragment extends Fragment {
 
                 String description = response.getAllDetails().getAbout();
                 binding.textAboutMe.setText(description);
-             //   binding.txtUserName.setVisibility(View.GONE);
+                //   binding.txtUserName.setVisibility(View.GONE);
                 //binding.txtUserName.setText(binding.getModel().getFullName());
 
                 String allSkills = response.getAllDetails().getSkills();

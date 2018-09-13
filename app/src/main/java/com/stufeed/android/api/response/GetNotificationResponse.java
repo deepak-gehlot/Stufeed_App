@@ -45,6 +45,7 @@ public class GetNotificationResponse {
     }
 
     public class NotiItem {
+        private String fullname;
         @SerializedName("un_id")
         private String unId = "";
         @SerializedName("user_id")
@@ -63,6 +64,14 @@ public class GetNotificationResponse {
         private String unPostId = "";
         @SerializedName("profilepic")
         private String profilePic = "";
+
+        public String getFullname() {
+            return fullname;
+        }
+
+        public void setFullname(String fullname) {
+            this.fullname = fullname;
+        }
 
         public String getUnId() {
             return unId;

@@ -113,7 +113,6 @@ public class UserFollowingActivity extends AppCompatActivity {
         mBinding.recyclerView.setAdapter(adapter);
     }
 
-
     private void getFollowerList() {
         Api api = APIClient.getClient().create(Api.class);
         Call<GetFollowerListResponse> responseCall = api.getUserFollowers(userId, loginUserid);

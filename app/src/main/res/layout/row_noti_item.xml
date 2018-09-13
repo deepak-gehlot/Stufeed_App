@@ -17,13 +17,11 @@
         android:orientation="vertical"
         app:cardCornerRadius="3dp">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/dimen_3dp">
-
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="55dp"
@@ -34,33 +32,44 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_marginStart="@dimen/dimen_5dp"
+                android:layout_marginTop="@dimen/dimen_3dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/textViewName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:text="@{model.fullname}"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/dimen_16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:padding="@dimen/dimen_5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center|left"
+                    android:padding="@dimen/dimen_5dp"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/dimen_14sp" />
 
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="@dimen/dimen_0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/dimen_5dp"
-                    android:layout_marginTop="@dimen/dimen_5dp"
-                    android:gravity="top|end"
-                    android:singleLine="true"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/dimen_10sp"
-                    app:times="@{model.unDate}" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dimen_5dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_weight="1"
+                android:gravity="top|end"
+                android:singleLine="true"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/dimen_10sp"
+                app:times="@{model.unDate}" />
         </LinearLayout>
 
 
