@@ -18,6 +18,7 @@ import com.stufeed.android.databinding.RowCommentBinding;
 import com.stufeed.android.listener.DialogListener;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.activity.CommentPostActivity;
+import com.stufeed.android.view.activity.ViewPostActivity;
 
 import java.util.ArrayList;
 
@@ -95,7 +96,12 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                     @Override
                     public void onPositive(DialogInterface dialog) {
                         dialog.dismiss();
-                        ((CommentPostActivity) context).manageCount();
+
+                        if (context instanceof CommentPostActivity) {
+                            ((CommentPostActivity) context).manageCount();
+                        } /*else if (context instanceof ViewPostActivity) {
+                            ((ViewPostActivity) context).manageCount();
+                        }*/
                         commentArrayList.remove(position);
                         notifyItemRemoved(position);
                         deleteComment(commentId, postId);
@@ -109,7 +115,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         call.enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
-                Log.d("ERROR",response.message());
+                Log.d("ERROR", response.message());
             }
 
             @Override

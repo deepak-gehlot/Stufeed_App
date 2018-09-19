@@ -12,7 +12,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.RadioGroup;
@@ -29,13 +32,18 @@ import com.stufeed.android.api.Api;
 import com.stufeed.android.api.response.CollegeDetails;
 import com.stufeed.android.api.response.UpdateProfileResponse;
 import com.stufeed.android.api.response.UserDetail;
+import com.stufeed.android.bean.City;
+import com.stufeed.android.bean.Degree;
+import com.stufeed.android.bean.State;
 import com.stufeed.android.databinding.ActivityEditInstituteBinding;
+import com.stufeed.android.util.AssetsUtil;
 import com.stufeed.android.util.PreferenceConnector;
 import com.stufeed.android.util.ProgressDialog;
 import com.stufeed.android.util.Utility;
 import com.stufeed.android.view.viewmodel.EditInstituteModel;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +64,9 @@ public class EditInstituteActivity extends AppCompatActivity {
     private AQuery aQuery;
     private String loginUserId = "", collageId = "";
     Context context;
+
+    private ArrayList<String> cityList = new ArrayList<>();
+    private ArrayList<String> stateList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,21 +115,69 @@ public class EditInstituteActivity extends AppCompatActivity {
 
 
         getCollegeDetails();
+        getCityList();
+        getStateList();
+    }
+
+    private void getCityList() {
+        String json = AssetsUtil.ReadFromfile("city.json", EditInstituteActivity.this);
+        City[] degrees = new Gson().fromJson(json, City[].class);
+        for (City degree : degrees) {
+            cityList.add(degree.getDistrict());
+        }
+        Log.e("tes", "");
+
+        ArrayAdapter<String> adapterBranch = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, cityList);
+        mBinding.autocompleteCity.setAdapter(adapterBranch);
+        mBinding.autocompleteCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mBinding.getModel().setCity(mBinding.autocompleteCity.getText().toString().trim());
+            }
+        });
+    }
+
+    private void getStateList() {
+        String json = AssetsUtil.ReadFromfile("state.json", EditInstituteActivity.this);
+        State[] degrees = new Gson().fromJson(json, State[].class);
+        for (State degree : degrees) {
+            stateList.add(degree.getState());
+        }
+        Log.e("tes", "");
+
+        ArrayAdapter<String> adapterBranch = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, stateList);
+        mBinding.autocompleteState.setAdapter(adapterBranch);
+        mBinding.autocompleteState.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mBinding.getModel().setState(mBinding.autocompleteState.getText().toString().trim());
+            }
+        });
     }
 
     public void setInstituteTypeRadioGroup() {
         switch (mBinding.getModel().getInstitutionType()) {
             case "1":
                 mBinding.collegeRadio.setChecked(true);
+                mBinding.getModel().setInstitutionType("1");
+                mBinding.autocompleUniversity.setVisibility(View.VISIBLE);
                 break;
             case "2":
                 mBinding.schoolRadio.setChecked(true);
+                mBinding.getModel().setInstitutionType("2");
+                mBinding.autocompleUniversity.setVisibility(View.GONE);
                 break;
             case "3":
                 mBinding.universityRadio.setChecked(true);
+                mBinding.getModel().setInstitutionType("3");
+                mBinding.autocompleUniversity.setVisibility(View.GONE);
                 break;
             case "4":
-                mBinding.collegeRadio.setChecked(true);
+                mBinding.coachingRadio.setChecked(true);
+                mBinding.getModel().setInstitutionType("4");
+                mBinding.autocompleUniversity.setVisibility(View.GONE);
                 break;
         }
 
@@ -132,7 +191,7 @@ public class EditInstituteActivity extends AppCompatActivity {
                         break;
                     case R.id.school_radio:
                         mBinding.getModel().setInstitutionType("2");
-                        mBinding.autocompleUniversity.setVisibility(View.VISIBLE);
+                        mBinding.autocompleUniversity.setVisibility(View.GONE);
                         break;
                     case R.id.university_radio:
                         mBinding.getModel().setInstitutionType("3");
@@ -140,7 +199,7 @@ public class EditInstituteActivity extends AppCompatActivity {
                         break;
                     case R.id.coaching_radio:
                         mBinding.getModel().setInstitutionType("4");
-                        mBinding.autocompleUniversity.setVisibility(View.VISIBLE);
+                        mBinding.autocompleUniversity.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -174,8 +233,6 @@ public class EditInstituteActivity extends AppCompatActivity {
     }
 
     private void setLocationRadio() {
-
-
         switch (mBinding.getModel().getLocation()) {
             case "Urban":
                 mBinding.urban.setChecked(true);
@@ -302,7 +359,6 @@ public class EditInstituteActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void handleCollegeDetailsResponse(CollegeDetails details) {
         ProgressDialog.getInstance().dismissDialog();

@@ -59,7 +59,6 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onCreate(savedInstanceState);
         userId = getArguments().getString("userId");
 
-
     }
 
     @Override
@@ -168,8 +167,6 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-
             }
 
             @Override

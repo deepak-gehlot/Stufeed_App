@@ -234,7 +234,7 @@
                             android:orientation="horizontal"
                             android:weightSum="2">
 
-                            <EditText
+                            <AutoCompleteTextView
                                 android:id="@+id/autocomplete_city"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -252,7 +252,7 @@
                                 android:textColor="@color/text_color"
                                 android:textSize="14sp" />
 
-                            <EditText
+                            <AutoCompleteTextView
                                 android:id="@+id/autocomplete_state"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"

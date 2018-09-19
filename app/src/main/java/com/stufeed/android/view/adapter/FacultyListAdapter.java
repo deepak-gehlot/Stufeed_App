@@ -150,7 +150,7 @@ public class FacultyListAdapter extends RecyclerView.Adapter<FacultyListAdapter.
         notifyItemChanged(position);
 
         Api api = APIClient.getClient().create(Api.class);
-        Call<FollowResponse> responseCall = api.follow(loginUserId, user.getUserId());
+        Call<FollowResponse> responseCall = api.follow(user.getUserId(), loginUserId);
         responseCall.enqueue(new Callback<FollowResponse>() {
             @Override
             public void onResponse(Call<FollowResponse> call, Response<FollowResponse> response) {
